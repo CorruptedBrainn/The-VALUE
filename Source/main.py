@@ -14,8 +14,8 @@ class window(QtW.QMainWindow):
         # Central Widget
         self.grapics = QtW.QGraphicsScene()
         self.grapics.addText("The VALUE")
-        self.startButton = QtW.QPushButton()
-
+        self.startButton = QtW.QPushButton("Start")
+        self.grapics.addWidget(self.startButton)
         self.view = QtW.QGraphicsView(self.grapics)
         self.setCentralWidget(self.view)
 

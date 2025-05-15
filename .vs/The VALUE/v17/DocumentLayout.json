@@ -70,8 +70,7 @@
               "RelativeToolTip": "Source\\main_menu.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-05-14T23:30:48.491Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-14T23:30:48.491Z"
             },
             {
               "$type": "Document",
@@ -83,8 +82,7 @@
               "RelativeToolTip": "Source\\main_game.py",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-05-14T23:30:46.244Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-14T23:30:46.244Z"
             },
             {
               "$type": "Document",
@@ -110,6 +108,10 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2025-05-14T10:45:34.334Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Bookmark",

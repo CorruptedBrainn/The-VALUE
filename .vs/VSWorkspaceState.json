@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Source"
+    "\\Local settings (.vs)",
+    "\\Source",
+    "\\Source\\__pycache__"
   ],
   "SelectedNode": "\\Source\\main.py",
   "PreviewInSolutionExplorer": false

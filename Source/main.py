@@ -8,7 +8,7 @@ from PySide6 import QtWidgets as QtW
 from PySide6 import QtCore as QtC
 
 class window(QtW.QMainWindow):
-    def __init__(self, parent: QtW.QMainWindow = None):
+    def __init__(self, parent = None):
         super().__init__(parent)
         
         # Central Widget

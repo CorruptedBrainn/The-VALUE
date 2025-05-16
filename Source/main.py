@@ -1,8 +1,6 @@
 import sys
 
-import main_menu as mainMenu
-import main_game as mainGame
-import main_editor as mainEditor
+from window_classes import *
 
 from PySide6.QtWidgets import QApplication
 

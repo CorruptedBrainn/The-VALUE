@@ -14,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -49,29 +49,25 @@
               "Name": "ST:5:0:{08a1bf1d-7967-4afc-8253-1790862ab8c9}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "main.py",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\main.py",
-              "RelativeDocumentMoniker": "Source\\main.py",
-              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\main.py",
-              "RelativeToolTip": "Source\\main.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-05-15T21:33:49.2Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.py",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\main.py",
+              "RelativeDocumentMoniker": "Source\\main.py",
+              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\main.py*",
+              "RelativeToolTip": "Source\\main.py*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-05-15T21:33:49.2Z",
+              "EditorCaption": ""
             }
           ]
         }

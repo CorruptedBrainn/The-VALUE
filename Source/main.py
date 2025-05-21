@@ -1,26 +1,52 @@
 import sys
 
-from PySide6.QtWidgets import QApplication, QWidget
-from PySide6.QtDesigner import QFormBuilder
-from PySide6.QtCore import QFile, QIODeviceBase, Qt
+from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtUiTools import QUiLoader
+from PySide6.QtCore import QFile, QIODeviceBase, Qt, Slot
+from PySide6.QtGui import QAction
 
+@Slot()
 def quit():
     return sys.exit(0)
 
+@Slot()
+def newSave():
+    pass
+
+@Slot()
+def findSave():
+    pass
+
+@Slot()
+def settings():
+    pass
+
 def openApplication():
     app = QApplication(sys.argv)
-    builder = QFormBuilder()
+    loader = QUiLoader()
 
-    mainWindow = QWidget()
+    windowFile = QFile("UI Widgets/MainWindow.ui")
+    windowFile.open(QIODeviceBase.OpenModeFlag.ReadOnly)
+    mainWindow:QMainWindow = loader.load(windowFile)
+    windowFile.close()
+
+
+
+    quitButton:QAction = mainWindow.findChild(QAction, "actionQuit")
+    quitButton.triggered.connect(quit)
+
+    settingsButton:QAction = mainWindow.findChild(QAction, "actionSettings")
+    settingsButton.triggered.connect(settings)
+
+    loadSaveButton:QAction = mainWindow.findChild(QAction, "actionLoad_Save")
+    loadSaveButton.triggered.connect(findSave)
+
+    newSaveButton:QAction = mainWindow.findChild(QAction, "actionNew_Save")
+    newSaveButton.triggered.connect(newSave)
+
     mainWindow.setWindowState(Qt.WindowState.WindowFullScreen)
 
-    homepageFile = QFile("UI Widgets/Homepage.ui")
-    homepageFile.open(QIODeviceBase.OpenModeFlag.ReadOnly)
-    homepage = builder.load(homepageFile, mainWindow)
-    homepageFile.close()
-
     mainWindow.show()
-    homepage.show()
     return app.exec()
 
 def main():

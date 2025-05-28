@@ -1,15 +1,24 @@
+import json
+
 from PySide6.QtCore import Slot
 
 currentSave = 0
 
-@Slot(int)
-def doSomething(result):
-    print("Saved some settings!")
-    print(result)
-    # SAVE FILES FOR LATERs
+def updateSettings(filepath, settings, result):
+    if (result != 1): return
+    with open(filepath, "w") as file:
+        text = json.dumps(settings)
+        file.write(text)
     return
 
-@Slot(int)
+def loadSettings(filepath):
+    temp = open(filepath, "a")
+    temp.close()
+    with open(filepath, "r") as file:
+        text = file.read()
+        settings = json.loads(text)
+    return settings
+
 def loadSomething(fileidx):
     global currentSave
     if fileidx == currentSave: return

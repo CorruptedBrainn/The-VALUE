@@ -39,6 +39,8 @@ class filepathStorage():
     unitinfoDialog = fleets + "Unitinfo_DIALOG.ui"
     editor = ui + "Editor/"
     editorPage = editor + "Editor_PAGE.ui"
+    data = "Data/"
+    settingsFile = data + "gen_set.tvsf"
 
 '''
     A class with functions to allow me to change
@@ -48,6 +50,19 @@ class pageManager():
     loader = QUiLoader()
     filepath = filepathStorage()
     past = None
+    defaultSettings = {
+        "Gameplay": {
+            "Debugger": False
+            },
+        "Audio": {
+            "Music": 50,
+            "Sounds": 50,
+            "Ambiance": 50
+            },
+        "Graphics": {
+            "Theme": "Default"
+            }
+        }
 
     '''
         Allows me to schedule deletion for a widget's children
@@ -122,9 +137,14 @@ class pageManager():
         self.settingsDialog:QDialog = self.loader.load(file) # type: ignore
         file.close()
 
+        storedSettings = fm.loadSettings(self.filepath.settingsFile)
+        storedSettings = self.defaultSettings
+
         self.settingsButtonBox:QDialogButtonBox = self.settingsDialog.findChild(QDialogButtonBox, "buttonBox") # type: ignore
 
-        self.settingsDialog.finished.connect(fm.doSomething)
+        self.settingsDialog.finished.connect(partial(fm.updateSettings, self.filepath.settingsFile, storedSettings))
+        
+        # TODO: RESTORE DEFAULTS
 
         self.settingsDialog.open()
         return

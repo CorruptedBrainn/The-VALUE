@@ -3,19 +3,15 @@ from functools import partial
 
 from PySide6.QtCore import (
     Slot,
-    Signal,
     Qt
     )
 from PySide6.QtWidgets import (
     QApplication,
-    QHBoxLayout,
-    QLabel,
-    QMainWindow,
-    QPushButton,
     QStackedLayout,
     QStackedWidget,
-    QVBoxLayout,
-    QWidget,
+    QMainWindow,
+    QPushButton,
+    QDialog,
     )
 from PySide6.QtGui import (
     QAction,
@@ -23,9 +19,11 @@ from PySide6.QtGui import (
 
 from home_container import TVHomeContainer
 from game_container import TVGameContainer
+from dialog_container import TVSettingsDialog
 from widget_helper import (
     loadWidget,
     changeScreen,
+    showDialog,
     )
 
 @Slot()
@@ -38,6 +36,7 @@ if __name__ == "__main__":
     mainLayout = QStackedLayout()
     homeContainer = TVHomeContainer(mainLayout)
     gameContainer = TVGameContainer(mainLayout)
+    settingsDialog = TVSettingsDialog()
     mainLayout.addWidget(homeContainer)
     mainLayout.addWidget(gameContainer)
     window.centralWidget().setLayout(mainLayout)
@@ -47,6 +46,8 @@ if __name__ == "__main__":
     actionMain_Menu.triggered.connect(partial(changeScreen, mainLayout, 0, 0))
     actionLoad_Save:QAction = window.findChild(QAction, "actionLoad_Save") # type: ignore
     actionLoad_Save.triggered.connect(partial(changeScreen, mainLayout, 0, 1))
+    actionSettings:QAction = window.findChild(QAction, "actionOptions") # type: ignore
+    actionSettings.triggered.connect(partial(showDialog, settingsDialog.layout()))
     window.setWindowState(Qt.WindowState.WindowFullScreen)
     window.show()
     sys.exit(app.exec())

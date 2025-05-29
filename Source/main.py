@@ -1,8 +1,10 @@
 import sys
+from functools import partial
 
 from PySide6.QtCore import (
     Slot,
-    Signal
+    Signal,
+    Qt
     )
 from PySide6.QtWidgets import (
     QApplication,
@@ -14,17 +16,29 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
     )
+from PySide6.QtGui import (
+    QAction,
+    )
 
 from home_container import TVHomeContainer
+from game_container import TVGameContainer
 from widget_helper import loadWidget
 
-widgetPath = "Widget/"
+@Slot()
+def quitApp():
+    return sys.exit(0)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window:QMainWindow = loadWidget(widgetPath + "main_window.ui") # type: ignore
+    window:QMainWindow = loadWidget("main_window.ui") # type: ignore
     homeContainer = TVHomeContainer()
-    # Create other container
-    window.setCentralWidget(homeContainer)
+    gameContainer = TVGameContainer()
+    mainLayout = QStackedLayout()
+    mainLayout.addWidget(homeContainer)
+    mainLayout.addWidget(gameContainer)
+    window.centralWidget().setLayout(mainLayout)
+    quitButton:QAction = window.findChild(QAction, "actionQuit") # type: ignore
+    quitButton.triggered.connect(quitApp)
+    window.setWindowState(Qt.WindowState.WindowFullScreen)
     window.show()
     sys.exit(app.exec())

@@ -2,15 +2,17 @@ from functools import partial
 
 from PySide6.QtWidgets import (
     QStackedWidget,
-    QWidget,
     QPushButton,
     QStackedLayout,
-    QLabel
+    QLabel,
+    QGridLayout,
+    QVBoxLayout,
+    QDialog,
     )
 
 from widget_helper import loadWidget, changeScreen
 
-class TVGameContainer(QStackedWidget):
-    def __init__(self, parent):
-        super().__init__()
-        
+class TVSettingsDialog():
+    def __init__(self):
+        self = loadWidget("settings_dialog.ui")
+        self.show()

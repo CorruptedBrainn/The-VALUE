@@ -27,6 +27,7 @@
     <Compile Include="home_container.py" />
     <Compile Include="main.py" />
     <Compile Include="file_helper.py" />
+    <Compile Include="dialog_container.py" />
     <Compile Include="widget_helper.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

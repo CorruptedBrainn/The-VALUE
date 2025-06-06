@@ -36,7 +36,7 @@ if __name__ == "__main__":
     mainLayout = QStackedLayout()
     homeContainer = TVHomeContainer(mainLayout)
     gameContainer = TVGameContainer(mainLayout)
-    settingsDialog = TVSettingsDialog()
+    settingsDialog = TVSettingsDialog(loadWidget("settings_dialog.ui"))
     mainLayout.addWidget(homeContainer)
     mainLayout.addWidget(gameContainer)
     window.centralWidget().setLayout(mainLayout)
@@ -47,7 +47,7 @@ if __name__ == "__main__":
     actionLoad_Save:QAction = window.findChild(QAction, "actionLoad_Save") # type: ignore
     actionLoad_Save.triggered.connect(partial(changeScreen, mainLayout, 0, 1))
     actionSettings:QAction = window.findChild(QAction, "actionOptions") # type: ignore
-    actionSettings.triggered.connect(partial(showDialog, settingsDialog.layout()))
+    actionSettings.triggered.connect(partial(showDialog, settingsDialog))
     window.setWindowState(Qt.WindowState.WindowFullScreen)
     window.show()
     sys.exit(app.exec())

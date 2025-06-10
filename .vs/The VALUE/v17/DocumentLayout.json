@@ -7,8 +7,28 @@
       "RelativeMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|solutionrelative:Source\\main.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\filemanager.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|solutionrelative:Source\\filemanager.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\widget_helper.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|solutionrelative:Source\\widget_helper.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\dialog_container.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|solutionrelative:Source\\dialog_container.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\file_helper.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|solutionrelative:Source\\file_helper.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\global_storage.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|solutionrelative:Source\\global_storage.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\game_container.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|solutionrelative:Source\\game_container.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\home_container.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|Source\\Source.pyproj|solutionrelative:Source\\home_container.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,29 +82,93 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "dialog_container.py",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\dialog_container.py",
+              "RelativeDocumentMoniker": "Source\\dialog_container.py",
+              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\dialog_container.py",
+              "RelativeToolTip": "Source\\dialog_container.py",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAEcAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-06-05T03:06:31.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "file_helper.py",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\file_helper.py",
+              "RelativeDocumentMoniker": "Source\\file_helper.py",
+              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\file_helper.py",
+              "RelativeToolTip": "Source\\file_helper.py",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAAAgAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-05-29T12:29:27.048Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "main.py",
               "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\main.py",
               "RelativeDocumentMoniker": "Source\\main.py",
               "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\main.py",
               "RelativeToolTip": "Source\\main.py",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAAAFAAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAAAIwDIAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-05-28T06:56:57.727Z",
+              "WhenOpened": "2025-05-29T10:37:08.765Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "filemanager.py",
-              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\filemanager.py",
-              "RelativeDocumentMoniker": "Source\\filemanager.py",
-              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\filemanager.py",
-              "RelativeToolTip": "Source\\filemanager.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAWAAAAAAAAAA==",
+              "Title": "widget_helper.py",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\widget_helper.py",
+              "RelativeDocumentMoniker": "Source\\widget_helper.py",
+              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\widget_helper.py*",
+              "RelativeToolTip": "Source\\widget_helper.py*",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAEYAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2025-05-28T06:56:47.426Z",
+              "WhenOpened": "2025-05-29T12:04:19.757Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "global_storage.py",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\global_storage.py",
+              "RelativeDocumentMoniker": "Source\\global_storage.py",
+              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\global_storage.py",
+              "RelativeToolTip": "Source\\global_storage.py",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAACUAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-05-29T12:31:45.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "game_container.py",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\game_container.py",
+              "RelativeDocumentMoniker": "Source\\game_container.py",
+              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\game_container.py",
+              "RelativeToolTip": "Source\\game_container.py",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAC0AAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-05-29T11:16:55.328Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "home_container.py",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\home_container.py",
+              "RelativeDocumentMoniker": "Source\\home_container.py",
+              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\Source\\home_container.py",
+              "RelativeToolTip": "Source\\home_container.py",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAAB4AAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-05-29T10:45:46.297Z"
             }
           ]
         }

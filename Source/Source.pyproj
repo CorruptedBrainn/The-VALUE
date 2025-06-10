@@ -22,11 +22,13 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="filemanager.py" />
+    <Compile Include="game_container.py" />
+    <Compile Include="global_storage.py" />
+    <Compile Include="home_container.py" />
     <Compile Include="main.py" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="MainWindow.ui" />
+    <Compile Include="file_helper.py" />
+    <Compile Include="dialog_container.py" />
+    <Compile Include="widget_helper.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

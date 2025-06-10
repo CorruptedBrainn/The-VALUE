@@ -35,9 +35,10 @@ class TVGameContainer(QStackedWidget):
         ButtonA:QPushButton = page0.findChild(QPushButton, "GenericButton1") # type: ignore
         ButtonB:QPushButton = page0.findChild(QPushButton, "GenericButton2") # type: ignore
         ButtonC:QPushButton = page0.findChild(QPushButton, "GenericButton3") # type: ignore
-        ButtonA.clicked.connect(partial(changeMainScreen, mainGameLayout, ButtonA, 'A'))
-        ButtonB.clicked.connect(partial(changeMainScreen, mainGameLayout, ButtonB, 'B'))
-        ButtonC.clicked.connect(partial(changeMainScreen, mainGameLayout, ButtonC, 'C'))
+        buttonList = [ButtonA, ButtonB, ButtonC]
+        ButtonA.clicked.connect(partial(changeMainScreen, mainGameLayout, buttonList, 0))
+        ButtonB.clicked.connect(partial(changeMainScreen, mainGameLayout, buttonList, 1))
+        ButtonC.clicked.connect(partial(changeMainScreen, mainGameLayout, buttonList, 2))
 
         editorButton:QPushButton = theFleetControl.findChild(QPushButton, "EditorButton") # type: ignore
         editorButton.clicked.connect(partial(changeScreen, parent, 1, 1))

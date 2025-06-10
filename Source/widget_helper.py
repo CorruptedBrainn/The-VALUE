@@ -31,19 +31,18 @@ def showDialog(dialog:QDialog):
     dialog.show()
     return
 
-@Slot(QStackedLayout, QPushButton, str)
-def changeMainScreen(layout:QStackedLayout, button:QPushButton, buttonIdx:str):
-    # Needs a revamp / rewrite
-    if (gs.mainCurrentPage == 0): button.setText("The Expanse")
-    if (gs.mainCurrentPage == 1): button.setText("Journal")
-    if (gs.mainCurrentPage == 2): button.setText("Technology Tree")
-    if (gs.mainCurrentPage == 3): button.setText("Fleet Control")
-    if (buttonIdx == 'A'): gs.mainCurrentPage, gs.buttonA = gs.buttonA, gs.mainCurrentPage
-    if (buttonIdx == 'B'): gs.mainCurrentPage, gs.buttonB = gs.buttonB, gs.mainCurrentPage
-    if (buttonIdx == 'C'): gs.mainCurrentPage, gs.buttonC = gs.buttonC, gs.mainCurrentPage
+@Slot(QStackedLayout, list, int)
+def changeMainScreen(layout:QStackedLayout, buttonList:list, buttonIdx:int):
+    buttonList[0].setText("Journal")
+    buttonList[1].setText("Technology Tree")
+    buttonList[2].setText("Fleet Control")
+    if (gs.mainCurrentPage == buttonIdx + 1): gs.mainCurrentPage = 0
+    else: gs.mainCurrentPage = buttonIdx + 1
+    if (gs.mainCurrentPage != 0):
+        buttonList[buttonIdx].setText("The Expanse")
     changeScreen(layout, gs.mainCurrentPage)
     return
-
+    
 @Slot(QDialog)
 def showSettings(settings:QDialog):
     loadSettingValues(settings)

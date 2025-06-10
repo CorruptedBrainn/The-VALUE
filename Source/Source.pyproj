@@ -5,8 +5,7 @@
     <ProjectGuid>c91b8e29-d69e-473d-99ad-f6aa4ccf56c7</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <StartupFile>main.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <SearchPath>..\..\..\..\..\AppData\Local\Programs\Python\Python312\Lib\site-packages</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>Source</Name>

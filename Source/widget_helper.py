@@ -51,7 +51,7 @@ def showSettings(settings:QDialog):
     return
 
 @Slot(QDialog)
-def loadSettingValues(obj:QDialog):
+def loadSettingValues(obj):
     deep = copy.deepcopy(gs.settingData)
 
     obj.DebuggingModeComboBox.setCurrentText(deep["GPSet"]["InfoUtils"]["Mode"])
@@ -77,4 +77,31 @@ def loadSettingValues(obj:QDialog):
     obj.UnitThemeList.setCurrentItem(arr[0])
     arr:list = obj.EnvironmentThemeList.findItems(deep["GraSet"]["Themes"]["Env"], Qt.MatchFlag.MatchExactly)
     obj.EnvironmentThemeList.setCurrentItem(arr[0])
+    return
+
+@Slot(QWidget, int)
+def updateMainStats(obj, index:int):
+    if (index != 0): return
+    deep = copy.deepcopy(gs.saveData)
+
+    gameDifficulty = ""
+    if (deep["Difficulty"] == 0): gameDifficulty = "Easy"
+    elif (deep["Difficulty"] == 1): gameDifficulty = "Normal"
+    elif (deep["Difficulty"] == 2): gameDifficulty = "Advanced"
+    elif (deep["Difficulty"] == 3): gameDifficulty = "Experienced"
+
+    obj.characterName.setText(deep["Name"])
+    obj.gameDifficulty.setText(gameDifficulty)
+
+    obj.scrapMetals.setText(str(deep["Resources"]["SM"]) + " Units")
+    obj.preciousMetals.setText(str(deep["Resources"]["PM"]) + " Units")
+    obj.plasma.setText(str(deep["Resources"]["PL"]) + " Units")
+    return
+
+@Slot(QWidget, int)
+def updateSaveStats(obj, saveIndex:int):
+    from file_helper import updateSaveLoad
+
+    updateSaveLoad(saveIndex)
+    updateMainStats(obj, 0)
     return

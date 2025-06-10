@@ -8,10 +8,7 @@ from PySide6.QtCore import (
 from PySide6.QtWidgets import (
     QApplication,
     QStackedLayout,
-    QStackedWidget,
     QMainWindow,
-    QPushButton,
-    QDialog,
     )
 from PySide6.QtGui import (
     QAction,

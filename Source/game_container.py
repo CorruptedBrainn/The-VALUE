@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
     )
 
 from widget_helper import loadWidget, changeScreen, changeMainScreen
-import global_storage
+import global_storage as gs
 
 class TVGameContainer(QStackedWidget):
     def __init__(self, parent:QStackedLayout):

@@ -23,8 +23,9 @@ from dialog_container import TVSettingsDialog
 from widget_helper import (
     loadWidget,
     changeScreen,
-    showDialog,
+    showSettings,
     )
+from file_helper import setupWorkspace
 
 @Slot()
 def quitApp():
@@ -32,6 +33,7 @@ def quitApp():
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    setupWorkspace()
     window:QMainWindow = loadWidget("main_window.ui") # type: ignore
     mainLayout = QStackedLayout()
     homeContainer = TVHomeContainer(mainLayout)
@@ -47,7 +49,7 @@ if __name__ == "__main__":
     actionLoad_Save:QAction = window.findChild(QAction, "actionLoad_Save") # type: ignore
     actionLoad_Save.triggered.connect(partial(changeScreen, mainLayout, 0, 1))
     actionSettings:QAction = window.findChild(QAction, "actionOptions") # type: ignore
-    actionSettings.triggered.connect(partial(showDialog, settingsDialog))
+    actionSettings.triggered.connect(partial(showSettings, settingsDialog))
     window.setWindowState(Qt.WindowState.WindowFullScreen)
     window.show()
     sys.exit(app.exec())

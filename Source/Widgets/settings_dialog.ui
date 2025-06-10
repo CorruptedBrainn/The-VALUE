@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>Dialog</class>
  <widget class="QDialog" name="Dialog">
+  <property name="windowModality">
+   <enum>Qt::WindowModality::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,11 +16,14 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QGridLayout" name="gridLayout" rowstretch="3,2,2,2,3" columnstretch="1,2,1">
@@ -167,7 +173,7 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_2">
           <item row="1" column="2">
-           <widget class="QComboBox" name="comboBox_2">
+           <widget class="QComboBox" name="UnitDataComboBox">
             <item>
              <property name="text">
               <string>None</string>
@@ -196,7 +202,7 @@
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QComboBox" name="comboBox">
+           <widget class="QComboBox" name="DebuggingModeComboBox">
             <item>
              <property name="text">
               <string>None</string>
@@ -242,7 +248,7 @@
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QComboBox" name="comboBox_3">
+           <widget class="QComboBox" name="FoeDataComboBox">
             <item>
              <property name="text">
               <string>None</string>
@@ -320,7 +326,7 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_3">
           <item row="1" column="2">
-           <widget class="QSlider" name="horizontalSlider_2">
+           <widget class="QSlider" name="EffectsSlider">
             <property name="maximum">
              <number>100</number>
             </property>
@@ -333,7 +339,7 @@
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QSlider" name="horizontalSlider">
+           <widget class="QSlider" name="MusicSlider">
             <property name="maximum">
              <number>100</number>
             </property>
@@ -383,7 +389,7 @@
            </widget>
           </item>
           <item row="2" column="2">
-           <widget class="QSlider" name="horizontalSlider_3">
+           <widget class="QSlider" name="BackgroundSlider">
             <property name="maximum">
              <number>100</number>
             </property>
@@ -396,7 +402,7 @@
            </widget>
           </item>
           <item row="0" column="3">
-           <widget class="QSpinBox" name="spinBox">
+           <widget class="QSpinBox" name="MusicSpinBox">
             <property name="maximum">
              <number>100</number>
             </property>
@@ -406,7 +412,7 @@
            </widget>
           </item>
           <item row="1" column="3">
-           <widget class="QSpinBox" name="spinBox_2">
+           <widget class="QSpinBox" name="EffectsSpinBox">
             <property name="maximum">
              <number>100</number>
             </property>
@@ -416,7 +422,7 @@
            </widget>
           </item>
           <item row="2" column="3">
-           <widget class="QSpinBox" name="spinBox_3">
+           <widget class="QSpinBox" name="BackgroundSpinBox">
             <property name="maximum">
              <number>100</number>
             </property>
@@ -465,7 +471,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="listWidget">
+           <widget class="QListWidget" name="GameMusicList">
             <property name="layoutDirection">
              <enum>Qt::LayoutDirection::RightToLeft</enum>
             </property>
@@ -507,7 +513,23 @@
             </property>
             <item>
              <property name="text">
-              <string>Default</string>
+              <string>Pack Name 1</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Pack Name 2</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Pack Name 3</string>
              </property>
              <property name="textAlignment">
               <set>AlignCenter</set>
@@ -526,7 +548,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="listWidget_2">
+           <widget class="QListWidget" name="SoundEffectsList">
             <property name="layoutDirection">
              <enum>Qt::LayoutDirection::RightToLeft</enum>
             </property>
@@ -568,7 +590,23 @@
             </property>
             <item>
              <property name="text">
-              <string>Default</string>
+              <string>Pack Name 1</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Pack Name 2</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Pack Name 3</string>
              </property>
              <property name="textAlignment">
               <set>AlignCenter</set>
@@ -587,7 +625,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="listWidget_3">
+           <widget class="QListWidget" name="AmbientList">
             <property name="layoutDirection">
              <enum>Qt::LayoutDirection::RightToLeft</enum>
             </property>
@@ -629,7 +667,23 @@
             </property>
             <item>
              <property name="text">
-              <string>Default</string>
+              <string>Pack Name 1</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Pack Name 2</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Pack Name 3</string>
              </property>
              <property name="textAlignment">
               <set>AlignCenter</set>
@@ -707,7 +761,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="listWidget_4">
+           <widget class="QListWidget" name="InterfaceThemeList">
             <property name="alternatingRowColors">
              <bool>true</bool>
             </property>
@@ -716,7 +770,23 @@
             </property>
             <item>
              <property name="text">
-              <string>Default</string>
+              <string>Theme Name 1</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Theme Name 2</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Theme Name 3</string>
              </property>
              <property name="textAlignment">
               <set>AlignCenter</set>
@@ -735,7 +805,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="listWidget_5">
+           <widget class="QListWidget" name="UnitThemeList">
             <property name="alternatingRowColors">
              <bool>true</bool>
             </property>
@@ -744,7 +814,23 @@
             </property>
             <item>
              <property name="text">
-              <string>Default</string>
+              <string>Theme Name 1</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Theme Name 2</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Theme Name 3</string>
              </property>
              <property name="textAlignment">
               <set>AlignCenter</set>
@@ -763,7 +849,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="listWidget_6">
+           <widget class="QListWidget" name="EnvironmentThemeList">
             <property name="alternatingRowColors">
              <bool>true</bool>
             </property>
@@ -772,7 +858,23 @@
             </property>
             <item>
              <property name="text">
-              <string>Default</string>
+              <string>Theme Name 1</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Theme Name 2</string>
+             </property>
+             <property name="textAlignment">
+              <set>AlignCenter</set>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Theme Name 3</string>
              </property>
              <property name="textAlignment">
               <set>AlignCenter</set>
@@ -850,6 +952,102 @@
     <hint type="destinationlabel">
      <x>249</x>
      <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MusicSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MusicSpinBox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>251</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>96</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MusicSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MusicSlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>435</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>251</x>
+     <y>96</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>EffectsSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>EffectsSlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>435</x>
+     <y>126</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>251</x>
+     <y>126</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>EffectsSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>EffectsSpinBox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>251</x>
+     <y>126</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>126</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BackgroundSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>BackgroundSpinBox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>251</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>156</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BackgroundSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>BackgroundSlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>435</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>251</x>
+     <y>156</y>
     </hint>
    </hints>
   </connection>

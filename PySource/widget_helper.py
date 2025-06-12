@@ -31,19 +31,18 @@ def showDialog(dialog:QDialog):
     dialog.show()
     return
 
-@Slot(QStackedLayout, QPushButton, str)
-def changeMainScreen(layout:QStackedLayout, button:QPushButton, buttonIdx:str):
-    # Needs a revamp / rewrite
-    if (gs.mainCurrentPage == 0): button.setText("The Expanse")
-    if (gs.mainCurrentPage == 1): button.setText("Journal")
-    if (gs.mainCurrentPage == 2): button.setText("Technology Tree")
-    if (gs.mainCurrentPage == 3): button.setText("Fleet Control")
-    if (buttonIdx == 'A'): gs.mainCurrentPage, gs.buttonA = gs.buttonA, gs.mainCurrentPage
-    if (buttonIdx == 'B'): gs.mainCurrentPage, gs.buttonB = gs.buttonB, gs.mainCurrentPage
-    if (buttonIdx == 'C'): gs.mainCurrentPage, gs.buttonC = gs.buttonC, gs.mainCurrentPage
+@Slot(QStackedLayout, list, int)
+def changeMainScreen(layout:QStackedLayout, buttonList:list, buttonIdx:int):
+    buttonList[0].setText("Journal")
+    buttonList[1].setText("Technology Tree")
+    buttonList[2].setText("Fleet Control")
+    if (gs.mainCurrentPage == buttonIdx + 1): gs.mainCurrentPage = 0
+    else: gs.mainCurrentPage = buttonIdx + 1
+    if (gs.mainCurrentPage != 0):
+        buttonList[buttonIdx].setText("The Expanse")
     changeScreen(layout, gs.mainCurrentPage)
     return
-
+    
 @Slot(QDialog)
 def showSettings(settings:QDialog):
     loadSettingValues(settings)
@@ -51,7 +50,7 @@ def showSettings(settings:QDialog):
     return
 
 @Slot(QDialog)
-def loadSettingValues(obj:QDialog):
+def loadSettingValues(obj):
     deep = copy.deepcopy(gs.settingData)
 
     obj.DebuggingModeComboBox.setCurrentText(deep["GPSet"]["InfoUtils"]["Mode"])
@@ -77,4 +76,31 @@ def loadSettingValues(obj:QDialog):
     obj.UnitThemeList.setCurrentItem(arr[0])
     arr:list = obj.EnvironmentThemeList.findItems(deep["GraSet"]["Themes"]["Env"], Qt.MatchFlag.MatchExactly)
     obj.EnvironmentThemeList.setCurrentItem(arr[0])
+    return
+
+@Slot(QWidget, int)
+def updateMainStats(obj, index:int):
+    if (index != 0): return
+    deep = copy.deepcopy(gs.saveData)
+
+    gameDifficulty = ""
+    if (deep["Difficulty"] == 0): gameDifficulty = "Easy"
+    elif (deep["Difficulty"] == 1): gameDifficulty = "Normal"
+    elif (deep["Difficulty"] == 2): gameDifficulty = "Advanced"
+    elif (deep["Difficulty"] == 3): gameDifficulty = "Experienced"
+
+    obj.characterName.setText(deep["Name"])
+    obj.gameDifficulty.setText(gameDifficulty)
+
+    obj.scrapMetals.setText(str(deep["Resources"]["SM"]) + " Units")
+    obj.preciousMetals.setText(str(deep["Resources"]["PM"]) + " Units")
+    obj.plasma.setText(str(deep["Resources"]["PL"]) + " Units")
+    return
+
+@Slot(QWidget, int)
+def updateSaveStats(obj, saveIndex:int):
+    from file_helper import updateSaveLoad
+
+    updateSaveLoad(saveIndex)
+    updateMainStats(obj, 0)
     return

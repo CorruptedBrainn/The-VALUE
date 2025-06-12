@@ -3,15 +3,23 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>c91b8e29-d69e-473d-99ad-f6aa4ccf56c7</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
+    <ProjectHome>
+    </ProjectHome>
     <StartupFile>main.py</StartupFile>
-    <SearchPath>
-    </SearchPath>
+    <SearchPath>..\..\..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <Name>Source</Name>
+    <Name>PythonSource</Name>
     <RootNamespace>Source</RootNamespace>
     <IsWindowsApplication>False</IsWindowsApplication>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
+    <TestFramework>none</TestFramework>
+    <UnitTestPattern>test*.py</UnitTestPattern>
+    <UnitTestRootDirectory>.</UnitTestRootDirectory>
+    <InterpreterId>Global|PythonCore|3.13</InterpreterId>
+    <InterpreterArguments>
+    </InterpreterArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,7 +36,19 @@
     <Compile Include="main.py" />
     <Compile Include="file_helper.py" />
     <Compile Include="dialog_container.py" />
+    <Compile Include="valuescript_wrapper.py" />
     <Compile Include="widget_helper.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CppSource\CppSource.vcxproj">
+      <Name>ValuescriptSource</Name>
+      <Project>{8a087f8f-3a90-4112-842c-dac4885e69c0}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.13" />
+    <InterpreterReference Include="Global|PythonCore|3.13t" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

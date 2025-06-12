@@ -63,6 +63,9 @@
       </item>
       <item>
        <layout class="QFormLayout" name="formLayout">
+        <property name="labelAlignment">
+         <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+        </property>
         <item row="0" column="0">
          <widget class="QLabel" name="label_3">
           <property name="text">
@@ -71,9 +74,72 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="characterName">
           <property name="text">
            <string>EEPY</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Difficulty:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="gameDifficulty">
+          <property name="text">
+           <string>Whattttttt</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Scrap Metals:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="scrapMetals">
+          <property name="text">
+           <string>0 Units</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>Precious Metals:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLabel" name="preciousMetals">
+          <property name="text">
+           <string>0 Units</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Plasma:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLabel" name="plasma">
+          <property name="text">
+           <string>0 Units</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="2">
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
          </widget>
         </item>

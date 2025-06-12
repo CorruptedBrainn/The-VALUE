@@ -1,11 +1,6 @@
 import copy
 
-saveIndex = -1
-
 mainCurrentPage = 0
-buttonA = 1
-buttonB = 2
-buttonC = 3
 
 settingDefault = {
     "GPSet": {
@@ -36,3 +31,16 @@ settingDefault = {
         }
     }
 settingData = copy.deepcopy(settingDefault)
+
+savePlaceholders = {
+    "Name": "New Save",
+    "Difficulty": -1,
+    "Index": 0,
+    "Resources": {
+        "PL": 0,
+        "SM": 0,
+        "PM": 0,
+        },
+    }
+
+saveData = copy.deepcopy(savePlaceholders)

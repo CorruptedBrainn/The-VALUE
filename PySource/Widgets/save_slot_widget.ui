@@ -34,7 +34,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="saveName">
+    <widget class="QLabel" name="characterName">
      <property name="text">
       <string>YOUR SAVE NAME</string>
      </property>
@@ -102,6 +102,48 @@
        <widget class="QLabel" name="gameDifficulty">
         <property name="text">
          <string>Uhhh baby mode</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Scrap Metals:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLabel" name="scrapMetals">
+        <property name="text">
+         <string>0 Units</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Precious Metals:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Plasma:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLabel" name="plasma">
+        <property name="text">
+         <string>0 Units</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="preciousMetals">
+        <property name="text">
+         <string>0 Units</string>
         </property>
        </widget>
       </item>

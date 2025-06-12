@@ -12,7 +12,7 @@ from PySide6.QtWidgets import (
     QGridLayout,
     )
 
-from widget_helper import loadWidget, changeScreen
+from widget_helper import loadWidget, changeScreen, updateSaveStats
 from file_helper import updateSaveLoad, deleteSave
 
 @Slot()
@@ -38,12 +38,14 @@ class TVHomeContainer(QStackedWidget):
 
         for i in range(3):
             saveWidgets.append(loadWidget("save_slot_widget.ui"))
+            updateSaveStats(saveWidgets[i], i + 1)
             page1Layout.addWidget(saveWidgets[i], 1, i + 1)
             saveButtons.append(saveWidgets[i].findChild(QPushButton, "saveLoadButton"))
-            saveButtons[i].clicked.connect(partial(updateSaveLoad, i))
+            # Add something for new saves
+            saveButtons[i].clicked.connect(partial(updateSaveLoad, i + 1))
             saveButtons[i].clicked.connect(partial(changeScreen, parent, 1, 0))
             saveDeletes.append(saveWidgets[i].findChild(QPushButton, "saveDeleteButton"))
-            saveDeletes[i].clicked.connect(partial(deleteSave, i))
+            saveDeletes[i].clicked.connect(partial(deleteSave, i + 1))
             saveDeletes[i].clicked.connect(partial(changeScreen, parent, 0, 1))
             saveNumbers.append(saveWidgets[i].findChild(QLabel, "saveNumber"))
             saveNumbers[i].setText("Save " + str(i + 1))

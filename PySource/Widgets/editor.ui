@@ -19,17 +19,82 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="page">
+     <widget class="QWidget" name="currentPropertiesPage">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
         <width>57</width>
-        <height>213</height>
+        <height>63</height>
        </rect>
       </property>
       <attribute name="label">
-       <string>page</string>
+       <string>NAME Properties</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="unitPropertiesPage">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>98</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>Unit Properties</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="environmentPropertiesPage">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>98</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>Environment Properties</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="currentFunctionsPage">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>98</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>NAME Functions</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="unitFunctionsPage">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>98</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>Unit Functions</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="environmentFunctionsPage">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>98</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>Environment Functions</string>
       </attribute>
      </widget>
     </widget>
@@ -81,7 +146,7 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QTextEdit" name="textEdit"/>
+    <widget class="QTextEdit" name="codeEditor"/>
    </item>
    <item row="1" column="0" colspan="3">
     <widget class="Line" name="line">

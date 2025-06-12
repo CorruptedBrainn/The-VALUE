@@ -1,17 +1,23 @@
+import code
 from functools import partial
 
+from PySide6.QtCore import Slot
 from PySide6.QtWidgets import (
     QStackedWidget,
     QWidget,
     QPushButton,
     QStackedLayout,
     QVBoxLayout,
+    QTextEdit,
     )
 
 from widget_helper import loadWidget, changeScreen, changeMainScreen
 import global_storage as gs
+from valuescript_wrapper import VScompiler
 
 class TVGameContainer(QStackedWidget):
+    compiler = VScompiler()
+
     def __init__(self, parent:QStackedLayout):
         super().__init__()
         page0 = loadWidget("main_game.ui")
@@ -43,5 +49,11 @@ class TVGameContainer(QStackedWidget):
         editorButton:QPushButton = theFleetControl.findChild(QPushButton, "EditorButton") # type: ignore
         editorButton.clicked.connect(partial(changeScreen, parent, 1, 1))
 
+        codeEditor:QTextEdit = page1.findChild(QTextEdit, "codeEditor") # type: ignore
         mainExpanseButton:QPushButton = page1.findChild(QPushButton, "BackButton") # type: ignore
-        mainExpanseButton.clicked.connect(partial(changeScreen, parent, 1, 0))
+        mainExpanseButton.clicked.connect(partial(self.parseValuescript, codeEditor, parent))
+
+    @Slot(QTextEdit, QStackedLayout)
+    def parseValuescript(self, codeEditor:QTextEdit, parent:QStackedLayout):
+        compileStatus = self.compiler.compile(codeEditor.toPlainText())
+        if compileStatus: return changeScreen(parent, 1, 0)

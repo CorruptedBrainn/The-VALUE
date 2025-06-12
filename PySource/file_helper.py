@@ -7,14 +7,17 @@ from PySide6.QtWidgets import QDialog
 
 import global_storage as gs
 
-dataFolder = "Data/"
+dataFolder = "../Data/"
 settingsFile = dataFolder + "Global.tvsf"
 saveAFolder = dataFolder + "I/"
 saveAData = saveAFolder + "Standard.andf"
+saveAUnits = saveAFolder + "Units/"
 saveBFolder = dataFolder + "II/"
 saveBData = saveBFolder + "Standard.andf"
+saveBUnits = saveBFolder + "Units/"
 saveCFolder = dataFolder + "III/"
 saveCData = saveCFolder + "Standard.andf"
+saveCUnits = saveCFolder + "Units/"
 
 def setupWorkspace():
     if (os.path.exists(dataFolder) == False): os.makedirs(dataFolder)
@@ -27,16 +30,19 @@ def setupWorkspace():
         with open(saveAData, "x") as file:
             text = json.dumps(gs.savePlaceholders)
             file.write(text)
+    if (os.path.exists(saveAUnits) == False): os.makedirs(saveAUnits)
     if (os.path.exists(saveBFolder) == False): os.makedirs(saveBFolder)
     if (os.path.exists(saveBData) == False):
         with open(saveBData, "x") as file:
             text = json.dumps(gs.savePlaceholders)
             file.write(text)
+    if (os.path.exists(saveBUnits) == False): os.makedirs(saveBUnits)
     if (os.path.exists(saveCFolder) == False): os.makedirs(saveCFolder)
     if (os.path.exists(saveCData) == False):
         with open(saveCData, "x") as file:
             text = json.dumps(gs.savePlaceholders)
             file.write(text)
+    if (os.path.exists(saveCUnits) == False): os.makedirs(saveCUnits)
     loadSettings()
 
 @Slot(int)

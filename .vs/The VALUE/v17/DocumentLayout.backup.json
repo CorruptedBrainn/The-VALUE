@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|PySource\\PythonSource.pyproj|C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\valuescript_wrapper.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|PySource\\PythonSource.pyproj|solutionrelative:PySource\\valuescript_wrapper.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,6 +51,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "valuescript_wrapper.py",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\valuescript_wrapper.py",
+              "RelativeDocumentMoniker": "PySource\\valuescript_wrapper.py",
+              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\valuescript_wrapper.py",
+              "RelativeToolTip": "PySource\\valuescript_wrapper.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-06-12T19:55:48.462Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",

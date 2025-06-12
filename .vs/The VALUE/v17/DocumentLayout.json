@@ -1,7 +1,24 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8A087F8F-3A90-4112-842C-DAC4885E69C0}|CppSource\\CppSource.vcxproj|C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\CppSource\\valuescript.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{8A087F8F-3A90-4112-842C-DAC4885E69C0}|CppSource\\CppSource.vcxproj|solutionrelative:CppSource\\valuescript.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|PySource\\PythonSource.pyproj|C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\valuescript_wrapper.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|PySource\\PythonSource.pyproj|solutionrelative:PySource\\valuescript_wrapper.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|PySource\\PythonSource.pyproj|C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\game_container.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|PySource\\PythonSource.pyproj|solutionrelative:PySource\\game_container.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|PySource\\PythonSource.pyproj|C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\main.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{C91B8E29-D69E-473D-99AD-F6AA4CCF56C7}|PySource\\PythonSource.pyproj|solutionrelative:PySource\\main.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Bookmark",
@@ -45,15 +62,63 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "valuescript.cpp",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\CppSource\\valuescript.cpp",
+              "RelativeDocumentMoniker": "CppSource\\valuescript.cpp",
+              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\CppSource\\valuescript.cpp*",
+              "RelativeToolTip": "CppSource\\valuescript.cpp*",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABIAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-06-11T07:33:11.283Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "game_container.py",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\game_container.py",
+              "RelativeDocumentMoniker": "PySource\\game_container.py",
+              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\game_container.py",
+              "RelativeToolTip": "PySource\\game_container.py",
+              "ViewState": "AgIAACoAAAAAAAAAAADwvzkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-06-11T23:37:33.368Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "main.py",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\main.py",
+              "RelativeDocumentMoniker": "PySource\\main.py",
+              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\main.py",
+              "RelativeToolTip": "PySource\\main.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-06-11T22:20:37.998Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "valuescript_wrapper.py",
+              "DocumentMoniker": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\valuescript_wrapper.py",
+              "RelativeDocumentMoniker": "PySource\\valuescript_wrapper.py",
+              "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\valuescript_wrapper.py",
+              "RelativeToolTip": "PySource\\valuescript_wrapper.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2025-06-11T22:18:55.631Z",
+              "EditorCaption": ""
             }
           ]
         }

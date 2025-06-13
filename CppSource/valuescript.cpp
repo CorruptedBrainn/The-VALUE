@@ -1,47 +1,68 @@
-#include <string>
-#include <vector>
-#include <iostream>
-#include <algorithm>
-#include <queue>
-#include <unordered_map>
-#include <functional>
-#include <variant>
+#include "valuescript.h"
 
-#define DLL_FUNCTION __declspec(dllexport)
+std::ostream& VS::operator<<(std::ostream& os, const VS::RETURN& obj)
+{
+	std::cout << "\n------------------------------\n";
+	std::cout << "Function: " << obj.name << "\nResult: " << obj.result << "\nReturn Value: ";
+	std::visit([](auto&& arg) {std::wcout << arg; }, obj.value);
+	std::cout << "\n------------------------------\n";
+	return os;
+}
 
-using namespace std;
-using namespace std::placeholders;
+VS::RETURN VS::CALL(VS::CALLABLE& obj)
+{
+	return VS::DEFINITIONS[obj.function](obj.args);
+}
 
-class valuescriptTranslation {
-private:
-	static void VSPrint(wstring string) { wcout << string; return; }
-	static int genFive() { return 5; }
-public:
-	inline static unordered_map<wstring, variant<function<void(wstring)>, function<int()>>> functions;
-	valuescriptTranslation() {
-		functions[L"print"] = bind(VSPrint, _1);
-		functions[L"gen"] = genFive;
+std::queue<VS::CALLABLE> VS::COMPILE(std::wstring& contents)
+{
+	// TODO: REWRITE
+	std::queue<VS::CALLABLE> commands;
+	int keywordStart = 0;
+	VS::CALLABLE line;
+	for (int i = 0; i < contents.size(); i++) {
+		if (contents[i] == L';') {
+			commands.push(line);
+			keywordStart = i + 1;
+		}
+		else if (contents[i] == L'(') {
+			line.function = contents.substr(keywordStart, i - keywordStart);
+			keywordStart = i + 1;
+		}
+		else if (contents[i] == L')') {
+			if (i == keywordStart) line.args = {};
+			else line.args = { contents.substr(keywordStart, i - keywordStart) };
+		}
 	}
-};
+	return commands;
+}
 
-class compiler {
-private:
-	valuescriptTranslation VS_T;
+VS::RETURN VS::FUNCTIONS::PRINT(VS::param& args)
+{
+	std::wcout << std::any_cast<std::wstring>(args[0]);
+	return VS::RETURN("Print(string)", 0, VS::VS_NULL);
+}
 
-public:
-    bool compile(wstring fileContents) {
-		
-        return 1;
-    }
-};
+VS::RETURN VS::TYPES::INT(VS::param& args)
+{
+	// TODO: IMPLEMENT
+	return VS::RETURN("Integer()", 0, VS::VS_VARIABLE);
+}
 
-extern "C" {
-	DLL_FUNCTION
-	compiler* createCompiler() {
-        return new compiler;
-    }
-	DLL_FUNCTION
-	bool compile(compiler* object, wchar_t* paramA) {
-        return object->compile(paramA);
-    }
+VS::RETURN VS::TYPES::DOUBLE(VS::param& args)
+{
+	// TODO: IMPLEMENT
+	return VS::RETURN("Double()", 0, VS::VS_VARIABLE);
+}
+
+VS::RETURN VS::TYPES::BOOLEAN(VS::param& args)
+{
+	// TODO: IMPLEMENT
+	return VS::RETURN("Boolean()", 0, VS::VS_VARIABLE);
+}
+
+VS::RETURN VS::TYPES::STRING(VS::param& args)
+{
+	// TODO: IMPLEMENT
+	return VS::RETURN("String()", 0, VS::VS_VARIABLE);
 }

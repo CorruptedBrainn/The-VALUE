@@ -14,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -49,6 +49,10 @@
               "Name": "ST:5:0:{08a1bf1d-7967-4afc-8253-1790862ab8c9}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "valuescript_wrapper.py",
@@ -56,7 +60,7 @@
               "RelativeDocumentMoniker": "PySource\\valuescript_wrapper.py",
               "ToolTip": "C:\\Users\\User\\OneDrive - Lynfield College\\Documents\\Technology Scholarship 2025\\The VALUE\\PySource\\valuescript_wrapper.py",
               "RelativeToolTip": "PySource\\valuescript_wrapper.py",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2025-06-12T19:55:48.462Z",
               "EditorCaption": ""

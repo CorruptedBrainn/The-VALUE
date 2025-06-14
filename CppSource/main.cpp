@@ -6,20 +6,22 @@
 using namespace std;
 
 class compiler {
+private:
+	inline static queue<VS::CALLABLE> commands;
+	inline static VS::COMPILE_ERROR errorObject;
+	friend queue<VS::CALLABLE> VS::COMPILE(wstring& contents, VS::COMPILE_ERROR& err);
 public:
     int compile(wstring fileContents) {
-		// INPUT: A string formatted such that a command is ended with a semicolon
-		// The idea is that we iterate through the contents of a line -- dictated by space between semicolons
-		// For now, assume format function(arguments)
-		queue<VS::CALLABLE> commands = VS::COMPILE(fileContents);
-		while (!commands.empty()) {
-			VS::CALLABLE command = commands.front();
-			commands.pop();
-			VS::RETURN ret = VS::CALL(command);
-			cout << ret << "\n";
+		commands = VS::COMPILE(fileContents, errorObject);
+		if (commands.empty()) {
+			return -1;
 		}
 		return 0;
     }
+	wchar_t* showError() {
+		cout << errorObject;
+		return &errorObject.message[0];
+	}
 };
 
 /// <summary>
@@ -27,11 +29,15 @@ public:
 /// </summary>
 extern "C" {
 	DLL_FUNCTION
-	compiler* createCompiler() {
+		compiler* createCompiler() {
         return new compiler;
     }
 	DLL_FUNCTION
-	int compile(compiler* object, wchar_t* paramA) {
+		int compile(compiler* object, wchar_t* paramA) {
         return object->compile(paramA);
     }
+	DLL_FUNCTION
+		wchar_t* showError(compiler* object) {
+		return object->showError();
+	}
 }

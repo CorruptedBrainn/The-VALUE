@@ -10,9 +10,12 @@ class VScompiler(object):
 
     def __init__(self):
         self.obj = self.script.createCompiler()
-        self.script.compile(self.obj, "print(HELLO);print(Hello, World!);print(EEPY);int();str();bool();double();")
+        # TEMP
+        help = self.script.compile(self.obj, "re print(HELLO);\nprint(Hello, World!);print(EEPY);int();str();bool();double();")
+        if help == -1: self.script.showError(self.obj)
         return
     
     def compile(self, fileContents:str) -> int:
         help = self.script.compile(self.obj, fileContents)
+        if help == -1: self.script.showError(self.obj)
         return help

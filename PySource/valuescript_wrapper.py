@@ -1,29 +1,30 @@
 import os
 from ctypes import CDLL
+from random import sample
 
 pythonpath = str(os.environ.get("PYTHONPATH"))
 splitpaths = pythonpath.split(os.pathsep)
 searchpaths = [path for path in splitpaths if "x64\\Debug" in path or "x64\\Release" in path]
 
-sampleCodeA = """int temp;
-bool notTemp = false;
-static const double pi = 3.14;
-  array <int  >
-  name = {
-  2,3 , 9
-  ,6};
- print;
-"""
-
-sampleCodeB = """print("Hi");
-print("He said \"Bye!\"");
-"""
-
-sampleInitialiseBasic = """int x;
-int y = 10;
-int z = 20;
-x = 5;
-z = 30;
+sampleDijkstra = """
+create<array<array<pair<int, int>>>> adj;
+create<int> n = 0;
+create<array<int>> distances(n, 100000);
+create<priority_queue<pair<int, int>>> next;
+create<int> current = 0;
+distances[current] = 0;
+next.push({0, current});
+while(!next.empty()) {
+    current = next.top().second;
+    next.pop();
+    for (int i = 0; i < adj[current].size(); i = i + 1) {
+        create<pair<int, int>> node = adj[current][i];
+        if (distances[current] + node.second < distances[node.first]) {
+            distances[node.first] = distances[current] + node.second;
+            next.push({distances[node.first * -1, node.first]});
+        }
+    }
+}
 """
 
 class VScompiler(object):
@@ -31,12 +32,11 @@ class VScompiler(object):
 
     def __init__(self):
         self.obj = self.script.createCompiler()
-        # TEMP
-        help = self.script.compile(self.obj, sampleInitialiseBasic)
-        if help == -1: self.script.showError(self.obj)
+        # Do add something to test parsing temporarily
+        self.script.translate(self.obj, sampleDijkstra)
         return
     
     def compile(self, fileContents:str) -> int:
         help = self.script.compile(self.obj, fileContents)
-        if help == -1: self.script.showError(self.obj)
+        # Error stuff
         return help

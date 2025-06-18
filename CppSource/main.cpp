@@ -21,13 +21,12 @@ public:
         wcstombs(buffer, paramA.c_str(), len);
         string fileContents(buffer);
         delete[] buffer;
+        cout << fileContents << "\n\n";
 
         LEXER::token_list tokenstream = LEXER::lex(fileContents);
-        while (!tokenstream.empty()) {
-            pair<string, LEXER::token> lexme = tokenstream.front();
-            tokenstream.pop();
-            int underlying = to_underlying(lexme.second);
-            cout << "[" << lexme.first << ", " << underlying << "]\n";
+        for (LEXER::lexpair x : tokenstream) {
+            int underlying = to_underlying(x.second);
+            cout << "[" << x.first << ", " << underlying << "]\n";
         }
         return 1;
     }

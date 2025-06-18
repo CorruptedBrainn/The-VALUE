@@ -23,6 +23,8 @@ namespace LEXER {
 		arithmatic, // Arithmatic Operators
 		assignment, // Any assignment operator
 		keyword, // Any important keyword (ie "if" or "while")
+		comparison, // == or != or && or ||
+		// DON'T FORGET BOOLEAN OPERATORS FOR LATER WHEN I CAN BE BOTHERED
 		oparen, // (
 		cparen, // )
 		obrace, // {
@@ -33,7 +35,6 @@ namespace LEXER {
 		cbracket, // ]
 		period, // .
 		endline // ;
-		// NEED SUPPORT FOR CONDITIONAL AND LOGICAL OPERATORS I think
 	};
 
 	// The data type used to store a token list
@@ -42,7 +43,8 @@ namespace LEXER {
 	//
 	namespace {
 		const unordered_set<char> arithmatics = { '+', '-', '*', '/', '%' };
-		const unordered_set<string> keywords = { "if", "else", "while", "for" };
+		const unordered_set<string> keywords = { "if", "else", "while", "for" , "true", "false"};
+		const unordered_set<string> comparitors = { "&&", "||", "==", "!=" };
 	}
 
 	token_list lex(string sourceCode);

@@ -7,7 +7,6 @@ token_list LEXER::lex(string sourceCode) {
 	for (int i = 0; i < sourceCode.size(); i++) {
 		char character = sourceCode[i];
 		if (character == ';') tokenstream.push({ ";", token::endline });
-		else if (character == '=') tokenstream.push({ "=", token::assignment });
 		else if (character == '(') tokenstream.push({ "(", token::oparen });
 		else if (character == ')') tokenstream.push({ ")", token::cparen });
 		else if (character == '{') tokenstream.push({ "{", token::obrace });
@@ -54,9 +53,20 @@ token_list LEXER::lex(string sourceCode) {
 			lexme += character;
 			if (sourceCode[i + 1] == '=') {
 				lexme += '=';
+				i++;
 				tokenstream.push({ lexme, token::assignment });
 			}
 			else tokenstream.push({ lexme, token::arithmatic });
+		}
+		else if (character == '&' || character == '=' || character == '|' || character == '!') {
+			string lexme = "";
+			lexme += character;
+			lexme += sourceCode[i + 1];
+			if (comparitors.contains(lexme)) {
+				i++;
+				tokenstream.push({ lexme, token::comparison });
+			}
+			else if (character == '=') tokenstream.push({ "=", token::assignment });
 		}
 	}
 	return tokenstream;

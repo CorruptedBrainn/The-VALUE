@@ -16,43 +16,45 @@ namespace LEXER {
 	
 	// The types of each token
 	enum class token {
-		oparen,
-		cparen,
-		ocurly,
-		ccurly,
-		obrack,
-		cbrack,
-		oangle,
-		cangle,
-		binary,
-		compar,
-		unaryo,
-		logico,
-		assign,
-		endcmd,
-		eofcmd,
-		colong,
-		commag,
-		period,
-		string,
-		number,
-		identf,
-		variab,
-		funcin,
-		classi,
-		ifthis,
-		elseth,
-		statdc,
-		constd,
-		truthy,
-		falsey,
+		oparen, // (
+		cparen, // )
+		ocurly, // {
+		ccurly, // }
+		obrack, // [
+		cbrack, // ]
+		oangle, // <
+		cangle, // >
+		addito, // Any additive operator (eg '+')
+		multio, // Any multiplicative operator (eg '%')
+		binary, // Any binary operator (eg '&')
+		compar, // Any comparison operator (eg '<=')
+		unaryo, // Any operator that has one component (eg '!')
+		boolea, // Any boolean operator (like 'and' / '&&')
+		assign, // Any assignment operator (eg '=')
+		endcmd, // ;
+		eofcmd, // The end of file token (Written as "EOF")
+		colong, // :
+		commag, // ,
+		period, // .
+		string, // Any string literal (surrounded in ")
+		number, // Any numeric literal
+		identf, // Any custom non-keyword string (such as int)
+		variab, // The "var" keyword
+		funcin, // The "func" keyword
+		classi, // The "class" keyword
+		ifthis, // The "if" keyword
+		elseth, // The "else" keyword
+		statdc, // The "static" keyword
+		constd, // The "const" keyword
+		truthy, // The "true" keyword
+		falsey, // The "false" keyword
 	};
 
 	// The data type used to store a token list
 	typedef pair<string, token> lexpair;
-	typedef vector<lexpair> token_list;
+	typedef queue<lexpair> token_list;
 
-	// A private namespace
+	// A private namespace to keep this list strictly bound to Lexer.cpp
 	namespace {
 		inline static unordered_map<char, token> singlePairings = {
 			{'(', token::oparen},
@@ -61,11 +63,11 @@ namespace LEXER {
 			{'}', token::ccurly},
 			{'[', token::obrack},
 			{']', token::cbrack},
-			{'+', token::binary},
-			{'-', token::binary},
-			{'*', token::binary},
-			{'/', token::binary},
-			{'%', token::binary},
+			{'+', token::addito},
+			{'-', token::addito},
+			{'*', token::multio},
+			{'/', token::multio},
+			{'%', token::multio},
 			{'&', token::binary},
 			{'|', token::binary},
 			{'^', token::binary},
@@ -83,8 +85,8 @@ namespace LEXER {
 			{"<=", token::compar},
 			{">=", token::compar},
 			{"!=", token::compar},
-			{"&&", token::logico},
-			{"||", token::logico},
+			{"&&", token::boolea},
+			{"||", token::boolea},
 			{"+=", token::assign},
 			{"-=", token::assign},
 			{"*=", token::assign},
@@ -101,7 +103,6 @@ namespace LEXER {
 		};
 	}
 
-	// The function to start the lexing process
 	token_list lex(string sourceCode);
 }
 

@@ -4,14 +4,13 @@
 #include <iostream>
 #include <utility>
 #include "Lexer.h"
+#include "Parser.h"
 
 #define DLL_FUNCTION __declspec(dllexport)
 
 using namespace std;
 
 class translator {
-private:
-	
 public:
     int translate (wstring paramA) {
         // Do some cleanup to convert the text from Python's wstring to C++'s string
@@ -24,10 +23,13 @@ public:
         cout << fileContents << "\n\n";
 
         LEXER::token_list tokenstream = LEXER::lex(fileContents);
-        for (LEXER::lexpair x : tokenstream) {
+        while (!tokenstream.empty()) {
+            LEXER::lexpair x = tokenstream.front();
+            tokenstream.pop();
             int underlying = to_underlying(x.second);
             cout << "[" << x.first << ", " << underlying << "]\n";
         }
+        vector<PARSER::AST_Node> AbstractSyntaxTree = PARSER::parse(tokenstream);
         return 1;
     }
 };

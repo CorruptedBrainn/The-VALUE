@@ -147,10 +147,6 @@ static AST_Node parseFunctionDeclaration(LEXER::token_list& tokenstream) {
 static AST_Node parseClassDeclaration(LEXER::token_list& tokenstream) {
 	moveFront(tokenstream);
 	LEXER::lexpair current = moveFront(tokenstream);
-	if (moveFront(tokenstream).second != LEXER::token::cparen) {
-		// Throw an error
-		throw 0;
-	}
 	vector<AST_Node> body = parseExecutionBlock(tokenstream);
 	return AST_Node(command::ClassDeclaration, {
 		{"name", current.first},

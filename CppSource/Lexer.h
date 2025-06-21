@@ -39,15 +39,13 @@ namespace LEXER {
 		string, // Any string literal (surrounded in ")
 		number, // Any numeric literal
 		identf, // Any custom non-keyword string (such as int)
-		variab, // The "var" keyword
+		vardec, // The "var" keyword
 		funcin, // The "func" keyword
 		classi, // The "class" keyword
 		ifthis, // The "if" keyword
 		elseth, // The "else" keyword
 		statdc, // The "static" keyword
 		constd, // The "const" keyword
-		truthy, // The "true" keyword
-		falsey, // The "false" keyword
 	};
 
 	// The data type used to store a token list
@@ -92,14 +90,12 @@ namespace LEXER {
 			{"*=", token::assign},
 			{"/=", token::assign},
 			{"%=", token::assign},
-			{"var", token::variab},
+			{"var", token::vardec},
 			{"func", token::funcin},
 			{"class", token::classi},
 			{"if", token::ifthis},
 			{"else", token::elseth},
-			{"static", token::statdc},
-			{"true", token::truthy},
-			{"faslse", token::falsey}
+			{"static", token::statdc}
 		};
 	}
 

@@ -25,7 +25,14 @@ namespace PARSER {
 		MultiplicativeExpression,
 		AdditiveExpression,
 		ComparisonExpression,
-		BooleanExpression
+		BooleanExpression,
+		AssignmentExpression,
+		IfStatement,
+		ClassDeclaration,
+		FunctionDeclaration,
+		VariableDeclaration,
+		TypenameExpression,
+		UndefinedLiteral
 	};
 
 	// The class to store a node within the Abstract Syntax Tree

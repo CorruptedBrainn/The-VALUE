@@ -2,11 +2,11 @@ from functools import partial
 from turtle import back
 import unittest
 
-from PySide6.QtCore import (
+from PySide6.QtCore import ( # type: ignore
     Qt,
     Slot,
     )
-from PySide6.QtWidgets import (
+from PySide6.QtWidgets import ( # type: ignore
     QStackedWidget,
     QPushButton,
     QDialogButtonBox,

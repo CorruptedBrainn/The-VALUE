@@ -5,14 +5,17 @@ using namespace ENVIRONMENT;
 environment* environment::lookup(string variable) {
 	if (variables.contains(variable)) return this;
 	if (parent == nullptr) {
-		// Throw an error
-		throw 0;
+		throw exception("Variable does not exist within any known scope.");
 	}
 	return parent->lookup(variable);
 }
 
 environment::environment(environment* parent) {
 	this->parent = parent;
+}
+
+environment::~environment() {
+	delete parent;
 }
 
 any environment::declareVariable(string name, any value, bool constant, bool staticvar) {
@@ -29,8 +32,7 @@ any environment::declareVariable(string name, any value, bool constant, bool sta
 any environment::assignVariable(string name, any value) {
 	environment* env = lookup(name);
 	if (env->constants.contains(name)) {
-		// Throw an error
-		throw 0;
+		throw exception("Cannot modify the value of a constant.");
 	}
 	env->variables[name] = value;
 	return value;

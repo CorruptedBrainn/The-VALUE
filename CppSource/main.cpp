@@ -5,14 +5,17 @@
 #include <utility>
 #include "Lexer.h"
 #include "Parser.h"
+#include "Environment.h"
 
 #define DLL_FUNCTION __declspec(dllexport)
 
 using namespace std;
 
-class translator {
+class program {
+private:
+    inline static vector<PARSER::AST_Node> AbstractSyntaxTree;
 public:
-    int translate (wstring paramA) {
+    int analyse(wstring paramA) {
         // Do some cleanup to convert the text from Python's wstring to C++'s string
         // The full compilation is below
         size_t len = wcstombs(nullptr, paramA.c_str(), 0) + 1;
@@ -22,15 +25,21 @@ public:
         delete[] buffer;
         cout << fileContents << "\n\n";
 
-        LEXER::token_list tokenstream = LEXER::lex(fileContents);
-        while (!tokenstream.empty()) {
-            LEXER::lexpair x = tokenstream.front();
-            tokenstream.pop();
-            int underlying = to_underlying(x.second);
-            cout << "[" << x.first << ", " << underlying << "]\n";
+        try {
+            LEXER::token_list tokenstream = LEXER::lex(fileContents);
+            /*while (!tokenstream.empty()) {
+                LEXER::lexpair x = tokenstream.front();
+                tokenstream.pop();
+                int underlying = to_underlying(x.second);
+                cout << "[" << x.first << ", " << underlying << "]\n";
+            }*/
+            AbstractSyntaxTree = PARSER::parse(tokenstream);
         }
-        vector<PARSER::AST_Node> AbstractSyntaxTree = PARSER::parse(tokenstream);
-        return 1;
+        catch (exception& e) {
+            cout << "Exception Caught: " << e.what() << endl;
+            return 1;
+        }
+        return 0;
     }
 };
 
@@ -39,11 +48,11 @@ public:
 /// </summary>
 extern "C" {
 	DLL_FUNCTION
-        translator* createCompiler() {
-        return new translator;
+        program* createProgram() {
+        return new program;
     }
 	DLL_FUNCTION
-		int translate(translator* object, wchar_t* paramA) {
-        return object->translate(paramA);
+		int analyse(program* object, wchar_t* paramA) {
+        return object->analyse(paramA);
     }
 }

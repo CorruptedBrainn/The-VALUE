@@ -1,8 +1,14 @@
 import copy
 
-from PySide6.QtCore import QFile, QIODeviceBase, Slot, Qt
-from PySide6.QtWidgets import QWidget, QStackedLayout, QStackedWidget, QDialog, QPushButton
-from PySide6.QtUiTools import QUiLoader
+from PySide6.QtCore import ( # type: ignore
+    QFile, QIODeviceBase, Slot, Qt
+    )
+from PySide6.QtWidgets import ( # type: ignore
+    QWidget, QStackedLayout, QStackedWidget, QDialog, QPushButton
+    )
+from PySide6.QtUiTools import ( # type: ignore
+    QUiLoader
+    )
 
 import global_storage as gs
 

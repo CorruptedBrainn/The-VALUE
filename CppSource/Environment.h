@@ -21,6 +21,7 @@ namespace ENVIRONMENT {
 		environment* lookup(string variable);
 	public:
 		environment(environment* parent = nullptr);
+		~environment();
 
 		any declareVariable(string name, any value, bool constant, bool staticvar);
 		any assignVariable(string name, any value);

@@ -1,5 +1,10 @@
+// Code from my achievement standard
+// Using this because it was open and I am lazy
+// It is bugged and unfinished :/
+
 #include "Parser.h"
 #include <vector>
+#include <exception>
 
 using namespace PARSER;
 
@@ -39,15 +44,13 @@ static LEXER::lexpair moveFront(LEXER::token_list& tokenstream) {
 static AST_Node parseVariableDeclaration(LEXER::token_list& tokenstream) {
 	moveFront(tokenstream);
 	if (moveFront(tokenstream).second != LEXER::token::oangle) {
-		// Throw an error
-		throw 0;
+		throw exception("Open Angle Bracket expected in variable declaration.");
 	}
 	AST_Node type = parseTypenames(tokenstream);
 	LEXER::lexpair current = moveFront(tokenstream);
 	AST_Node value(command::UndefinedLiteral, {});
 	if (current.second != LEXER::token::identf) {
-		// Throw an error
-		throw 0;
+		throw exception("Identifier expected in variable declaration.");
 	}
 	if (grabFront(tokenstream).second == LEXER::token::assign) {
 		moveFront(tokenstream);
@@ -66,8 +69,7 @@ static AST_Node parseDecorationDeclaration(LEXER::token_list& tokenstream) {
 	LEXER::lexpair current = moveFront(tokenstream);
 	AST_Node object = parseStatement(tokenstream);
 	if (object.type != command::VariableDeclaration && object.type != command::FunctionDeclaration) {
-		// Throw an error
-		throw 0;
+		throw exception("Variable or Function Declaration expected after decoration.");
 	}
 	if (current.second == LEXER::token::statdc) {
 		object.data["static"] = true;
@@ -76,8 +78,7 @@ static AST_Node parseDecorationDeclaration(LEXER::token_list& tokenstream) {
 		object.data["const"] = true;
 		if (object.type == command::VariableDeclaration) {
 			if (any_cast<AST_Node>(object.data["value"]).type == command::UndefinedLiteral) {
-				// Throw an error
-				throw 0;
+				throw exception("Unassigned value with constant variable declaration.");
 			}
 		}
 	}
@@ -90,17 +91,34 @@ static AST_Node parseTypenames(LEXER::token_list& tokenstream) {
 		{"type", current.first},
 		{"child", vector<AST_Node>{}}
 		});
-	if (grabFront(tokenstream).second == LEXER::token::oangle) {
+	if (current.second != LEXER::token::identf && current.second != LEXER::token::vardec) {
+		throw exception("Cannot have empty typename in typename declaration.");
+	}
+	/*if (grabFront(tokenstream).second == LEXER::token::oangle) {
 		moveFront(tokenstream);
 		any_cast<vector<AST_Node>>(object.data["child"]).push_back(parseTypenames(tokenstream));
 		while (grabFront(tokenstream).second == LEXER::token::commag) {
 			moveFront(tokenstream);
 			any_cast<vector<AST_Node>>(object.data["child"]).push_back(parseTypenames(tokenstream));
 		}
+		if (moveFront(tokenstream).second != LEXER::token::cangle) {
+			throw exception("Closed angle bracket expected in typename declaration.");
+		}
+	}
+	current = grabFront(tokenstream);
+	if (current.second != LEXER::token::oangle && moveFront(tokenstream).second != LEXER::token::cangle && grabFront(tokenstream).second != LEXER::token::commag) {
+		throw exception("Cannot have empty typename in typename declaration.");
+	}*/
+	// Expect either < or > or ,
+	// < should call recursively, after which we will end on a >
+	// , should call iteratively, after which we will land on a >
+	// > should return and move forward
+	while (grabFront(tokenstream).second == LEXER::token::oangle || grabFront(tokenstream).second == LEXER::token::commag) {
+		moveFront(tokenstream);
+		any_cast<vector<AST_Node>>(object.data["child"]).push_back(parseTypenames(tokenstream));
 	}
 	if (moveFront(tokenstream).second != LEXER::token::cangle) {
-		// Throw an error
-		throw 0;
+		throw exception("Closed angle bracket expected in typename declaration.");
 	}
 	return object;
 }
@@ -108,18 +126,15 @@ static AST_Node parseTypenames(LEXER::token_list& tokenstream) {
 static AST_Node parseFunctionDeclaration(LEXER::token_list& tokenstream) {
 	moveFront(tokenstream);
 	if (moveFront(tokenstream).second != LEXER::token::oangle) {
-		// Throw an error
-		throw 0;
+		throw exception("Open angle bracket expected in function declaration.");
 	}
 	AST_Node type = parseTypenames(tokenstream);
 	LEXER::lexpair current = moveFront(tokenstream);
 	if (current.second != LEXER::token::identf) {
-		// Throw an error
-		throw 0;
+		throw exception("Identifier expected in function declaration.");
 	}
 	if (moveFront(tokenstream).second != LEXER::token::oparen) {
-		// Throw an error
-		throw 0;
+		throw exception("Open parentheses expected in function declaration.");
 	}
 	vector<AST_Node> parameters;
 	if (grabFront(tokenstream).second != LEXER::token::cparen) {
@@ -130,8 +145,7 @@ static AST_Node parseFunctionDeclaration(LEXER::token_list& tokenstream) {
 		}
 	}
 	if (moveFront(tokenstream).second != LEXER::token::cparen) {
-		// Throw an error
-		throw 0;
+		throw exception("Closed parentheses expected in function declaration.");
 	}
 	vector<AST_Node> body = parseExecutionBlock(tokenstream);
 	return AST_Node(command::FunctionDeclaration, {
@@ -157,17 +171,14 @@ static AST_Node parseClassDeclaration(LEXER::token_list& tokenstream) {
 static AST_Node parseIfStatement(LEXER::token_list& tokenstream) {
 	moveFront(tokenstream);
 	if (moveFront(tokenstream).second != LEXER::token::oparen) {
-		// Throw an error
-		throw 0;
+		throw exception("Open parentheses expected in if statement.");
 	}
 	if (grabFront(tokenstream).second == LEXER::token::cparen) {
-		// Throw an error
-		throw 0;
+		throw exception("Conditional expected in if statement.");
 	}
 	AST_Node condition = parseExpression(tokenstream);
 	if (moveFront(tokenstream).second != LEXER::token::cparen) {
-		// Throw an error
-		throw 0;
+		throw exception("Closed parentheses expected in if statement.");
 	}
 	vector<AST_Node> truthyBody = parseExecutionBlock(tokenstream);
 	vector<AST_Node> falseyBody;
@@ -187,12 +198,10 @@ static AST_Node parseIfStatement(LEXER::token_list& tokenstream) {
 
 static vector<AST_Node> parseExecutionBlock(LEXER::token_list& tokenstream) {
 	if (moveFront(tokenstream).second != LEXER::token::ocurly) {
-		// Throw an error
-		throw 0;
+		throw exception("Open curly brace expected in execution block.");
 	}
 	if (grabFront(tokenstream).second == LEXER::token::ccurly) {
-		// Throw an error
-		throw 0;
+		throw exception("Statements expected in execution block.");
 	}
 	LEXER::lexpair current = grabFront(tokenstream);
 	vector<AST_Node> statements;
@@ -201,8 +210,7 @@ static vector<AST_Node> parseExecutionBlock(LEXER::token_list& tokenstream) {
 		current = grabFront(tokenstream);
 	}
 	if (grabFront(tokenstream).second != LEXER::token::ccurly) {
-		// Throw an error
-		throw 0;
+		throw exception("Closed curly brace expected in execution block.");
 	}
 	return statements;
 }
@@ -312,8 +320,7 @@ static AST_Node parseFunctionCalls(LEXER::token_list& tokenstream) {
 			} while (moveFront(tokenstream).second == LEXER::token::commag);
 		}
 		if (moveFront(tokenstream).second != LEXER::token::cparen) {
-			// Throw an error
-			throw 0;
+			throw exception("Closed parentheses expected in function call.");
 		}
 		object = AST_Node(command::CallExpression, {
 			{"caller", object},
@@ -329,8 +336,7 @@ static AST_Node parseObjectMember(LEXER::token_list& tokenstream) {
 		moveFront(tokenstream);
 		AST_Node member = parsePrimary(tokenstream);
 		if (member.type != command::Identifier) {
-			// Throw an error
-			throw 0;
+			throw exception("Identifier expected in object member call.");
 		}
 		object = AST_Node(command::MemberExpression, {
 			{"object", object},
@@ -366,15 +372,13 @@ static AST_Node parsePrimary(LEXER::token_list& tokenstream) {
 		AST_Node object = parseExpression(tokenstream);
 		current = moveFront(tokenstream);
 		if (moveFront(tokenstream).second != LEXER::token::cparen) {
-			// Throw an error
-			throw 0;
+			throw exception("Closed parentheses expected with open parentheses.");
 		}
 		return object;
 	}
 	default:
 	{
-		// Throw an error
-		throw 0;
+		throw exception("Unknown token type.");
 	}
 	}
 }

@@ -1,8 +1,10 @@
 import code
 from functools import partial
 
-from PySide6.QtCore import Slot
-from PySide6.QtWidgets import (
+from PySide6.QtCore import ( # type: ignore
+    Slot
+    )
+from PySide6.QtWidgets import ( # type: ignore
     QStackedWidget,
     QWidget,
     QPushButton,

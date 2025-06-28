@@ -30,13 +30,19 @@ while(!next.empty()) {
 class VScompiler(object):
     script = CDLL(searchpaths[0] + '\\valuescript.dll', winmode=0)
 
+    # Rewrite it so we go:
+    # VScompiler (rename it) -> init, to create the overall management system
+    # Make each file tied to a unique object stored within the compiler
+    # Can have references to the thingy because why not
+    # Then within the overall compiler trigger a run command to manage threads from there
+
     def __init__(self):
-        self.obj = self.script.createCompiler()
+        self.obj = self.script.createProgram()
         # Do add something to test parsing temporarily
-        self.script.translate(self.obj, sampleDijkstra)
+        self.script.analyse(self.obj, sampleDijkstra)
         return
     
     def compile(self, fileContents:str) -> int:
-        help = self.script.compile(self.obj, fileContents)
+        help = self.script.analyse(self.obj, fileContents)
         # Error stuff
         return help

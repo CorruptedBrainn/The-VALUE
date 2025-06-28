@@ -15,24 +15,24 @@ namespace PARSER {
 
 	// The types of each command
 	enum class command {
-		Identifier,
-		NumericLiteral,
-		StringLiteral,
-		MemberExpression,
-		CallExpression,
-		UnaryExpression,
-		BinaryExpression,
-		MultiplicativeExpression,
-		AdditiveExpression,
-		ComparisonExpression,
-		BooleanExpression,
-		AssignmentExpression,
-		IfStatement,
-		ClassDeclaration,
-		FunctionDeclaration,
-		VariableDeclaration,
-		TypenameExpression,
-		UndefinedLiteral
+		Identifier, // Any user defined (or language defined) identifiers
+		NumericLiteral, // Any numeric value
+		StringLiteral, // Any string value
+		MemberExpression, // Any member value (eg list.size())
+		CallExpression, // Calling a function
+		UnaryExpression, // Any expression with a single operand (such as !true)
+		BinaryExpression, // Should be called BitwiseExpression
+		MultiplicativeExpression, // For any multiplication expressions
+		AdditiveExpression, // Any addition expressions
+		ComparisonExpression, // Comparisons such as equality
+		BooleanExpression, // Boolean logical operators
+		AssignmentExpression, // variable = value
+		IfStatement, // if this then that
+		ClassDeclaration, // Declaring a class
+		FunctionDeclaration, // Declaring a function
+		VariableDeclaration, // Declaring a variable
+		TypenameExpression, // Declaring a type
+		UndefinedLiteral // UNDEFINED / NULL / some non-existant value
 	};
 
 	// The class to store a node within the Abstract Syntax Tree

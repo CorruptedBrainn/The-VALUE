@@ -2,8 +2,12 @@ import os
 import json
 import copy
 
-from PySide6.QtCore import Slot
-from PySide6.QtWidgets import QDialog
+from PySide6.QtCore import ( # type: ignore
+    Slot
+    )
+from PySide6.QtWidgets import ( # type: ignore
+    QDialog
+    )
 
 import global_storage as gs
 

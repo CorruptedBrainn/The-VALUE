@@ -1,18 +1,16 @@
-from multiprocessing import Value
 import sys
-import os
 from functools import partial
 
-from PySide6.QtCore import (
+from PySide6.QtCore import ( # type: ignore
     Slot,
     Qt
     )
-from PySide6.QtWidgets import (
+from PySide6.QtWidgets import ( # type: ignore
     QApplication,
     QStackedLayout,
     QMainWindow,
     )
-from PySide6.QtGui import (
+from PySide6.QtGui import ( # type: ignore
     QAction,
     )
 

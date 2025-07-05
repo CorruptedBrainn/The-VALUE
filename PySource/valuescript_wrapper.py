@@ -1,4 +1,4 @@
-import os
+"""import os
 from ctypes import CDLL
 from random import sample
 
@@ -6,7 +6,7 @@ pythonpath = str(os.environ.get("PYTHONPATH"))
 splitpaths = pythonpath.split(os.pathsep)
 searchpaths = [path for path in splitpaths if "x64\\Debug" in path or "x64\\Release" in path]
 
-sampleDijkstra = """
+sampleDijkstra = """"""
 var<array<array<pair<int, int>>>> adj;
 var<int> n = 0;
 var<array<int>> distances(n, 100000);
@@ -25,7 +25,7 @@ while(!next.empty()) {
         }
     }
 }
-"""
+""""""
 
 class VScompiler(object):
     script = CDLL(searchpaths[0] + '\\valuescript.dll', winmode=0)
@@ -45,4 +45,4 @@ class VScompiler(object):
     def compile(self, fileContents:str) -> int:
         help = self.script.analyse(self.obj, fileContents)
         # Error stuff
-        return help
+        return help"""

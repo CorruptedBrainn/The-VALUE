@@ -40,13 +40,6 @@
     <Compile Include="widget_helper.py" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CppSource\CppSource.vcxproj">
-      <Name>ValuescriptSource</Name>
-      <Project>{8a087f8f-3a90-4112-842c-dac4885e69c0}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.13" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />

@@ -15,10 +15,10 @@ from PySide6.QtWidgets import ( # type: ignore
 
 from widget_helper import loadWidget, changeScreen, changeMainScreen
 import global_storage as gs
-from valuescript_wrapper import VScompiler
+#from valuescript_wrapper import VScompiler
 
 class TVGameContainer(QStackedWidget):
-    compiler = VScompiler()
+    #compiler = VScompiler()
 
     def __init__(self, parent:QStackedLayout):
         super().__init__()
@@ -57,5 +57,6 @@ class TVGameContainer(QStackedWidget):
 
     @Slot(QTextEdit, QStackedLayout)
     def parseValuescript(self, codeEditor:QTextEdit, parent:QStackedLayout):
-        compileStatus = self.compiler.compile(codeEditor.toPlainText())
-        if compileStatus: return changeScreen(parent, 1, 0)
+        #compileStatus = self.compiler.compile(codeEditor.toPlainText())
+        #if compileStatus: return changeScreen(parent, 1, 0)
+        pass # temp

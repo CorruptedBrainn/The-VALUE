@@ -15,10 +15,12 @@ from PySide6.QtWidgets import ( # type: ignore
 
 from widget_helper import loadWidget, changeScreen, changeMainScreen
 import global_storage as gs
-#from valuescript_wrapper import VScompiler
+from valuescript_wrapper import VSProgramObject
 
 class TVGameContainer(QStackedWidget):
-    #compiler = VScompiler()
+    programs = VSProgramObject()
+    programs.add("main", "var x->int = 8 * 9;")
+    programs.run();
 
     def __init__(self, parent:QStackedLayout):
         super().__init__()

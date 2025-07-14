@@ -25,7 +25,39 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual std::any visitStatement(ValuescriptParser::StatementContext *ctx) override {
+  virtual std::any visitStatementvardecl(ValuescriptParser::StatementvardeclContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitStatementfuncdecl(ValuescriptParser::StatementfuncdeclContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitStatementclassdecl(ValuescriptParser::StatementclassdeclContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitStatementif(ValuescriptParser::StatementifContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitStatementwhile(ValuescriptParser::StatementwhileContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitStatementdo(ValuescriptParser::StatementdoContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitStatementfor(ValuescriptParser::StatementforContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitStatementexpr(ValuescriptParser::StatementexprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitStatementret(ValuescriptParser::StatementretContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -49,7 +81,27 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual std::any visitTypenameexpression(ValuescriptParser::TypenameexpressionContext *ctx) override {
+  virtual std::any visitTyinteger(ValuescriptParser::TyintegerContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTydouble(ValuescriptParser::TydoubleContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTystring(ValuescriptParser::TystringContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTyboolean(ValuescriptParser::TybooleanContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTyident(ValuescriptParser::TyidentContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTynested(ValuescriptParser::TynestedContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -65,7 +117,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual std::any visitForstatement(ValuescriptParser::ForstatementContext *ctx) override {
+  virtual std::any visitRangefor(ValuescriptParser::RangeforContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitItemfor(ValuescriptParser::ItemforContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -73,27 +129,143 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual std::any visitExpression(ValuescriptParser::ExpressionContext *ctx) override {
+  virtual std::any visitNotexpr(ValuescriptParser::NotexprContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitAssignmentoperator(ValuescriptParser::AssignmentoperatorContext *ctx) override {
+  virtual std::any visitCompexpr(ValuescriptParser::CompexprContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitBooleanoperator(ValuescriptParser::BooleanoperatorContext *ctx) override {
+  virtual std::any visitAddexpr(ValuescriptParser::AddexprContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitComparisonoperator(ValuescriptParser::ComparisonoperatorContext *ctx) override {
+  virtual std::any visitMembexpr(ValuescriptParser::MembexprContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitAdditiveoperator(ValuescriptParser::AdditiveoperatorContext *ctx) override {
+  virtual std::any visitAssignexpr(ValuescriptParser::AssignexprContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitMultiplicativeoperator(ValuescriptParser::MultiplicativeoperatorContext *ctx) override {
+  virtual std::any visitBoolexpr(ValuescriptParser::BoolexprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitAccessexpr(ValuescriptParser::AccessexprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitBinexpr(ValuescriptParser::BinexprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitMultexpr(ValuescriptParser::MultexprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitIncexpr(ValuescriptParser::IncexprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitObjexpr(ValuescriptParser::ObjexprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitPrimexpr(ValuescriptParser::PrimexprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitParenexpr(ValuescriptParser::ParenexprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitAsseql(ValuescriptParser::AsseqlContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitAssadd(ValuescriptParser::AssaddContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitAsssub(ValuescriptParser::AsssubContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitAssmul(ValuescriptParser::AssmulContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitAssdiv(ValuescriptParser::AssdivContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitAssmod(ValuescriptParser::AssmodContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitBitand(ValuescriptParser::BitandContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitBitor(ValuescriptParser::BitorContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitBitxor(ValuescriptParser::BitxorContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitBooland(ValuescriptParser::BoolandContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitBoolor(ValuescriptParser::BoolorContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitCompeql(ValuescriptParser::CompeqlContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitCompnon(ValuescriptParser::CompnonContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitCompgoe(ValuescriptParser::CompgoeContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitComploe(ValuescriptParser::ComploeContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitComplss(ValuescriptParser::ComplssContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitCompgre(ValuescriptParser::CompgreContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitPlus(ValuescriptParser::PlusContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitMinus(ValuescriptParser::MinusContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTimes(ValuescriptParser::TimesContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitDivide(ValuescriptParser::DivideContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitModulo(ValuescriptParser::ModuloContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -101,11 +273,39 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual std::any visitIncrementaloperator(ValuescriptParser::IncrementaloperatorContext *ctx) override {
+  virtual std::any visitPlusplus(ValuescriptParser::PlusplusContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual std::any visitPrimaryexpression(ValuescriptParser::PrimaryexpressionContext *ctx) override {
+  virtual std::any visitMinusminus(ValuescriptParser::MinusminusContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitIdent(ValuescriptParser::IdentContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitDecimal(ValuescriptParser::DecimalContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitNumber(ValuescriptParser::NumberContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTrue(ValuescriptParser::TrueContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitFalse(ValuescriptParser::FalseContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitString(ValuescriptParser::StringContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitOrder(ValuescriptParser::OrderContext *ctx) override {
     return visitChildren(ctx);
   }
 

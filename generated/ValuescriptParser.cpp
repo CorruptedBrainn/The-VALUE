@@ -2,7 +2,6 @@
 // Generated from ../ValuescriptParser.g4 by ANTLR 4.13.2
 
 
-#include "ValuescriptParserListener.h"
 #include "ValuescriptParserVisitor.h"
 
 #include "ValuescriptParser.h"
@@ -63,17 +62,17 @@ void valuescriptparserParserInitialize() {
       "file", "extra", "statement", "variabledeclaration", "functiondeclaration", 
       "functionparameters", "classdeclaration", "templatedeclaration", "typenameexpression", 
       "ifstatement", "whilestatement", "dostatement", "forstatement", "codeblock", 
-      "expression", "assignmentoperator", "booleanoperator", "comparisonoperator", 
-      "additiveoperator", "multiplicativeoperator", "notoperator", "incrementaloperator", 
-      "primaryexpression"
+      "expression", "assignmentoperator", "binaryoperator", "booleanoperator", 
+      "comparisonoperator", "additiveoperator", "multiplicativeoperator", 
+      "notoperator", "incrementaloperator", "primaryexpression"
     },
     std::vector<std::string>{
       "", "'static'", "'const'", "'var'", "'func'", "'class'", "'return'", 
       "'typenames'", "'import'", "'as'", "'int'", "'double'", "'bool'", 
       "'str'", "'void'", "'true'", "'false'", "'if'", "'else'", "'do'", 
       "'while'", "'for'", "'('", "')'", "'{'", "'}'", "'<'", "'>'", "'['", 
-      "']'", "'.'", "','", "'@'", "':'", "';'", "'!'", "'->'", "'&'", "'&&'", 
-      "'|'", "'||'", "'^'", "'+'", "'-'", "'*'", "'/'", "'%'", "'++'", "'--'", 
+      "']'", "'.'", "','", "':'", "';'", "'!'", "'->'", "'&'", "'&&'", "'|'", 
+      "'||'", "'^'", "'+'", "'-'", "'*'", "'/'", "'%'", "'++'", "'--'", 
       "'='", "'+='", "'-='", "'*='", "'/='", "'%='", "'=='", "'!='", "'>='", 
       "'<='"
     },
@@ -83,131 +82,144 @@ void valuescriptparserParserInitialize() {
       "VOID", "TRUE", "FALSE", "IF", "ELSE", "DO", "WHILE", "FOR", "OPEN_PARENTHESES", 
       "CLOSED_PARENTHESES", "OPEN_CURLY_BRACE", "CLOSED_CURLY_BRACE", "OPEN_ANGLE_BRACKET", 
       "CLOSED_ANGLE_BRACKET", "OPEN_SQUARE", "CLOSED_SQUARE", "PERIOD", 
-      "COMMA", "AT_SYMBOL", "COLON", "SEMICOLON", "EXCLAMATION_POINT", "ARROW_OPERATOR", 
+      "COMMA", "COLON", "SEMICOLON", "EXCLAMATION_POINT", "ARROW_OPERATOR", 
       "BITWISE_AND", "BOOLEAN_AND", "BITWISE_OR", "BOOLEAN_OR", "BITWISE_XOR", 
       "ADDITION", "SUBTRACTION", "MULTIPLICATION", "DIVISION", "MODULUS", 
       "INCREMENT", "DECREMENT", "ASSIGNMENT_GENERIC", "ASSIGNMENT_ADD", 
       "ASSIGNMENT_SUB", "ASSIGNMENT_MULTI", "ASSIGNMENT_DIV", "ASSIGNMENT_MOD", 
       "EQUALITY", "NON_EQUALITY", "GREATER_OR_EQUAL", "LESS_OR_EQUAL", "SINGLE_LINE_COMMENT", 
-      "MULTI_LINE_COMMENT", "WHITESPACE", "INTEGER_LITERAL", "STRING_LITERAL", 
-      "IDENTIFIER"
+      "MULTI_LINE_COMMENT", "WHITESPACE", "FLOATING_LITERAL", "INTEGER_LITERAL", 
+      "STRING_LITERAL", "IDENTIFIER", "LETTER", "ESCAPE"
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,64,338,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
+  	4,1,66,368,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
   	7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,
   	14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,
-  	21,2,22,7,22,1,0,5,0,48,8,0,10,0,12,0,51,9,0,1,0,4,0,54,8,0,11,0,12,0,
-  	55,1,0,1,0,1,1,1,1,1,1,1,1,3,1,64,8,1,1,1,1,1,1,2,1,2,1,2,1,2,1,2,1,2,
-  	1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,3,2,84,8,2,1,3,5,3,87,8,3,10,
-  	3,12,3,90,9,3,1,3,1,3,1,3,1,3,5,3,96,8,3,10,3,12,3,99,9,3,1,3,1,3,1,3,
-  	1,3,1,3,1,3,3,3,107,8,3,1,4,3,4,110,8,4,1,4,3,4,113,8,4,1,4,1,4,1,4,1,
-  	4,1,4,1,4,1,5,1,5,3,5,123,8,5,1,5,1,5,5,5,127,8,5,10,5,12,5,130,9,5,1,
-  	5,1,5,1,6,3,6,135,8,6,1,6,3,6,138,8,6,1,6,1,6,1,6,1,7,1,7,1,7,1,7,1,7,
-  	1,7,5,7,149,8,7,10,7,12,7,152,9,7,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,1,8,
-  	1,8,5,8,164,8,8,10,8,12,8,167,9,8,1,8,1,8,3,8,171,8,8,1,9,1,9,1,9,1,9,
-  	1,9,1,9,1,9,1,9,3,9,181,8,9,3,9,183,8,9,1,10,1,10,1,10,1,10,1,10,1,10,
-  	1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,12,1,12,1,12,1,12,1,12,5,12,203,
-  	8,12,10,12,12,12,206,9,12,1,12,1,12,1,12,1,12,1,12,1,12,5,12,214,8,12,
-  	10,12,12,12,217,9,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,
-  	1,12,3,12,230,8,12,1,13,1,13,4,13,234,8,13,11,13,12,13,235,1,13,1,13,
-  	1,13,3,13,241,8,13,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,5,14,
-  	252,8,14,10,14,12,14,255,9,14,3,14,257,8,14,1,14,3,14,260,8,14,1,14,1,
-  	14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,
-  	14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,5,14,290,
-  	8,14,10,14,12,14,293,9,14,3,14,295,8,14,1,14,1,14,1,14,1,14,1,14,1,14,
-  	1,14,1,14,5,14,305,8,14,10,14,12,14,308,9,14,1,15,1,15,1,16,1,16,1,17,
-  	1,17,1,18,1,18,1,19,1,19,1,20,1,20,1,21,1,21,1,22,1,22,1,22,1,22,1,22,
-  	1,22,1,22,1,22,1,22,1,22,1,22,1,22,3,22,336,8,22,1,22,0,1,28,23,0,2,4,
-  	6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,0,8,2,0,1,1,
-  	3,3,1,0,1,3,1,0,49,54,2,0,38,38,40,40,2,0,26,27,55,58,1,0,42,43,1,0,44,
-  	46,1,0,47,48,369,0,49,1,0,0,0,2,59,1,0,0,0,4,83,1,0,0,0,6,106,1,0,0,0,
-  	8,109,1,0,0,0,10,120,1,0,0,0,12,134,1,0,0,0,14,142,1,0,0,0,16,170,1,0,
-  	0,0,18,172,1,0,0,0,20,184,1,0,0,0,22,190,1,0,0,0,24,229,1,0,0,0,26,240,
-  	1,0,0,0,28,259,1,0,0,0,30,309,1,0,0,0,32,311,1,0,0,0,34,313,1,0,0,0,36,
-  	315,1,0,0,0,38,317,1,0,0,0,40,319,1,0,0,0,42,321,1,0,0,0,44,335,1,0,0,
-  	0,46,48,3,2,1,0,47,46,1,0,0,0,48,51,1,0,0,0,49,47,1,0,0,0,49,50,1,0,0,
-  	0,50,53,1,0,0,0,51,49,1,0,0,0,52,54,3,4,2,0,53,52,1,0,0,0,54,55,1,0,0,
-  	0,55,53,1,0,0,0,55,56,1,0,0,0,56,57,1,0,0,0,57,58,5,0,0,1,58,1,1,0,0,
-  	0,59,60,5,8,0,0,60,63,5,64,0,0,61,62,5,9,0,0,62,64,5,64,0,0,63,61,1,0,
-  	0,0,63,64,1,0,0,0,64,65,1,0,0,0,65,66,5,34,0,0,66,3,1,0,0,0,67,68,3,6,
-  	3,0,68,69,5,34,0,0,69,84,1,0,0,0,70,84,3,8,4,0,71,84,3,12,6,0,72,84,3,
-  	18,9,0,73,84,3,20,10,0,74,84,3,22,11,0,75,84,3,24,12,0,76,77,5,6,0,0,
-  	77,78,3,28,14,0,78,79,5,34,0,0,79,84,1,0,0,0,80,81,3,28,14,0,81,82,5,
-  	34,0,0,82,84,1,0,0,0,83,67,1,0,0,0,83,70,1,0,0,0,83,71,1,0,0,0,83,72,
-  	1,0,0,0,83,73,1,0,0,0,83,74,1,0,0,0,83,75,1,0,0,0,83,76,1,0,0,0,83,80,
-  	1,0,0,0,84,5,1,0,0,0,85,87,7,0,0,0,86,85,1,0,0,0,87,90,1,0,0,0,88,86,
-  	1,0,0,0,88,89,1,0,0,0,89,91,1,0,0,0,90,88,1,0,0,0,91,92,5,64,0,0,92,93,
-  	5,36,0,0,93,107,3,16,8,0,94,96,7,1,0,0,95,94,1,0,0,0,96,99,1,0,0,0,97,
-  	95,1,0,0,0,97,98,1,0,0,0,98,100,1,0,0,0,99,97,1,0,0,0,100,101,5,64,0,
-  	0,101,102,5,36,0,0,102,103,3,16,8,0,103,104,5,49,0,0,104,105,3,28,14,
-  	0,105,107,1,0,0,0,106,88,1,0,0,0,106,97,1,0,0,0,107,7,1,0,0,0,108,110,
-  	3,14,7,0,109,108,1,0,0,0,109,110,1,0,0,0,110,112,1,0,0,0,111,113,5,4,
-  	0,0,112,111,1,0,0,0,112,113,1,0,0,0,113,114,1,0,0,0,114,115,5,64,0,0,
-  	115,116,3,10,5,0,116,117,5,36,0,0,117,118,3,16,8,0,118,119,3,26,13,0,
-  	119,9,1,0,0,0,120,122,5,22,0,0,121,123,3,6,3,0,122,121,1,0,0,0,122,123,
-  	1,0,0,0,123,128,1,0,0,0,124,125,5,31,0,0,125,127,3,6,3,0,126,124,1,0,
-  	0,0,127,130,1,0,0,0,128,126,1,0,0,0,128,129,1,0,0,0,129,131,1,0,0,0,130,
-  	128,1,0,0,0,131,132,5,23,0,0,132,11,1,0,0,0,133,135,3,14,7,0,134,133,
-  	1,0,0,0,134,135,1,0,0,0,135,137,1,0,0,0,136,138,5,5,0,0,137,136,1,0,0,
-  	0,137,138,1,0,0,0,138,139,1,0,0,0,139,140,5,64,0,0,140,141,3,26,13,0,
-  	141,13,1,0,0,0,142,143,5,32,0,0,143,144,5,7,0,0,144,145,5,33,0,0,145,
-  	150,5,64,0,0,146,147,5,31,0,0,147,149,5,64,0,0,148,146,1,0,0,0,149,152,
-  	1,0,0,0,150,148,1,0,0,0,150,151,1,0,0,0,151,15,1,0,0,0,152,150,1,0,0,
-  	0,153,171,5,10,0,0,154,171,5,11,0,0,155,171,5,13,0,0,156,171,5,12,0,0,
-  	157,171,5,64,0,0,158,159,5,64,0,0,159,160,5,26,0,0,160,165,3,16,8,0,161,
-  	162,5,31,0,0,162,164,3,16,8,0,163,161,1,0,0,0,164,167,1,0,0,0,165,163,
-  	1,0,0,0,165,166,1,0,0,0,166,168,1,0,0,0,167,165,1,0,0,0,168,169,5,27,
-  	0,0,169,171,1,0,0,0,170,153,1,0,0,0,170,154,1,0,0,0,170,155,1,0,0,0,170,
-  	156,1,0,0,0,170,157,1,0,0,0,170,158,1,0,0,0,171,17,1,0,0,0,172,173,5,
-  	17,0,0,173,174,5,22,0,0,174,175,3,28,14,0,175,176,5,23,0,0,176,182,3,
-  	26,13,0,177,180,5,18,0,0,178,181,3,26,13,0,179,181,3,18,9,0,180,178,1,
-  	0,0,0,180,179,1,0,0,0,181,183,1,0,0,0,182,177,1,0,0,0,182,183,1,0,0,0,
-  	183,19,1,0,0,0,184,185,5,20,0,0,185,186,5,22,0,0,186,187,3,28,14,0,187,
-  	188,5,23,0,0,188,189,3,26,13,0,189,21,1,0,0,0,190,191,5,19,0,0,191,192,
-  	3,26,13,0,192,193,5,20,0,0,193,194,5,22,0,0,194,195,3,28,14,0,195,196,
-  	5,23,0,0,196,23,1,0,0,0,197,198,5,21,0,0,198,199,5,22,0,0,199,204,3,6,
-  	3,0,200,201,5,31,0,0,201,203,3,6,3,0,202,200,1,0,0,0,203,206,1,0,0,0,
-  	204,202,1,0,0,0,204,205,1,0,0,0,205,207,1,0,0,0,206,204,1,0,0,0,207,208,
-  	5,34,0,0,208,209,3,28,14,0,209,210,5,34,0,0,210,215,3,28,14,0,211,212,
-  	5,31,0,0,212,214,3,28,14,0,213,211,1,0,0,0,214,217,1,0,0,0,215,213,1,
-  	0,0,0,215,216,1,0,0,0,216,218,1,0,0,0,217,215,1,0,0,0,218,219,5,23,0,
-  	0,219,220,3,26,13,0,220,230,1,0,0,0,221,222,5,21,0,0,222,223,5,22,0,0,
-  	223,224,3,6,3,0,224,225,5,33,0,0,225,226,3,28,14,0,226,227,5,23,0,0,227,
-  	228,3,26,13,0,228,230,1,0,0,0,229,197,1,0,0,0,229,221,1,0,0,0,230,25,
-  	1,0,0,0,231,233,5,24,0,0,232,234,3,4,2,0,233,232,1,0,0,0,234,235,1,0,
-  	0,0,235,233,1,0,0,0,235,236,1,0,0,0,236,237,1,0,0,0,237,238,5,25,0,0,
-  	238,241,1,0,0,0,239,241,3,4,2,0,240,231,1,0,0,0,240,239,1,0,0,0,241,27,
-  	1,0,0,0,242,243,6,14,-1,0,243,260,3,44,22,0,244,245,3,40,20,0,245,246,
-  	3,28,14,7,246,260,1,0,0,0,247,256,5,24,0,0,248,253,3,28,14,0,249,250,
-  	5,31,0,0,250,252,3,28,14,0,251,249,1,0,0,0,252,255,1,0,0,0,253,251,1,
-  	0,0,0,253,254,1,0,0,0,254,257,1,0,0,0,255,253,1,0,0,0,256,248,1,0,0,0,
-  	256,257,1,0,0,0,257,258,1,0,0,0,258,260,5,25,0,0,259,242,1,0,0,0,259,
-  	244,1,0,0,0,259,247,1,0,0,0,260,306,1,0,0,0,261,262,10,11,0,0,262,263,
-  	5,30,0,0,263,305,3,28,14,12,264,265,10,6,0,0,265,266,3,38,19,0,266,267,
-  	3,28,14,7,267,305,1,0,0,0,268,269,10,5,0,0,269,270,3,36,18,0,270,271,
-  	3,28,14,6,271,305,1,0,0,0,272,273,10,4,0,0,273,274,3,34,17,0,274,275,
-  	3,28,14,5,275,305,1,0,0,0,276,277,10,3,0,0,277,278,3,32,16,0,278,279,
-  	3,28,14,4,279,305,1,0,0,0,280,281,10,1,0,0,281,282,3,30,15,0,282,283,
-  	3,28,14,2,283,305,1,0,0,0,284,285,10,10,0,0,285,294,5,22,0,0,286,291,
-  	3,28,14,0,287,288,5,31,0,0,288,290,3,28,14,0,289,287,1,0,0,0,290,293,
-  	1,0,0,0,291,289,1,0,0,0,291,292,1,0,0,0,292,295,1,0,0,0,293,291,1,0,0,
-  	0,294,286,1,0,0,0,294,295,1,0,0,0,295,296,1,0,0,0,296,305,5,23,0,0,297,
-  	298,10,9,0,0,298,299,5,28,0,0,299,300,3,28,14,0,300,301,5,29,0,0,301,
-  	305,1,0,0,0,302,303,10,8,0,0,303,305,3,42,21,0,304,261,1,0,0,0,304,264,
-  	1,0,0,0,304,268,1,0,0,0,304,272,1,0,0,0,304,276,1,0,0,0,304,280,1,0,0,
-  	0,304,284,1,0,0,0,304,297,1,0,0,0,304,302,1,0,0,0,305,308,1,0,0,0,306,
-  	304,1,0,0,0,306,307,1,0,0,0,307,29,1,0,0,0,308,306,1,0,0,0,309,310,7,
-  	2,0,0,310,31,1,0,0,0,311,312,7,3,0,0,312,33,1,0,0,0,313,314,7,4,0,0,314,
-  	35,1,0,0,0,315,316,7,5,0,0,316,37,1,0,0,0,317,318,7,6,0,0,318,39,1,0,
-  	0,0,319,320,5,35,0,0,320,41,1,0,0,0,321,322,7,7,0,0,322,43,1,0,0,0,323,
-  	336,5,64,0,0,324,325,5,62,0,0,325,326,5,30,0,0,326,336,5,62,0,0,327,336,
-  	5,62,0,0,328,336,5,15,0,0,329,336,5,16,0,0,330,336,5,63,0,0,331,332,5,
-  	22,0,0,332,333,3,28,14,0,333,334,5,23,0,0,334,336,1,0,0,0,335,323,1,0,
-  	0,0,335,324,1,0,0,0,335,327,1,0,0,0,335,328,1,0,0,0,335,329,1,0,0,0,335,
-  	330,1,0,0,0,335,331,1,0,0,0,336,45,1,0,0,0,31,49,55,63,83,88,97,106,109,
-  	112,122,128,134,137,150,165,170,180,182,204,215,229,235,240,253,256,259,
-  	291,294,304,306,335
+  	21,2,22,7,22,2,23,7,23,1,0,5,0,50,8,0,10,0,12,0,53,9,0,1,0,4,0,56,8,0,
+  	11,0,12,0,57,1,0,1,0,1,1,1,1,1,1,1,1,3,1,66,8,1,1,1,1,1,1,2,1,2,1,2,1,
+  	2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,3,2,84,8,2,1,2,3,2,87,8,2,1,
+  	3,5,3,90,8,3,10,3,12,3,93,9,3,1,3,1,3,1,3,1,3,5,3,99,8,3,10,3,12,3,102,
+  	9,3,1,3,1,3,1,3,1,3,1,3,1,3,3,3,110,8,3,1,4,3,4,113,8,4,1,4,3,4,116,8,
+  	4,1,4,1,4,1,4,1,4,1,4,1,4,1,5,1,5,3,5,126,8,5,1,5,1,5,5,5,130,8,5,10,
+  	5,12,5,133,9,5,1,5,1,5,1,6,3,6,138,8,6,1,6,3,6,141,8,6,1,6,1,6,1,6,1,
+  	7,1,7,1,7,1,7,1,7,5,7,151,8,7,10,7,12,7,154,9,7,1,8,1,8,1,8,1,8,1,8,1,
+  	8,1,8,1,8,1,8,1,8,5,8,166,8,8,10,8,12,8,169,9,8,1,8,1,8,3,8,173,8,8,1,
+  	9,1,9,1,9,1,9,1,9,1,9,1,9,1,9,3,9,183,8,9,3,9,185,8,9,1,10,1,10,1,10,
+  	1,10,1,10,1,10,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,12,1,12,1,12,1,12,
+  	1,12,5,12,205,8,12,10,12,12,12,208,9,12,1,12,1,12,1,12,1,12,1,12,1,12,
+  	5,12,216,8,12,10,12,12,12,219,9,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,
+  	1,12,1,12,1,12,1,12,3,12,232,8,12,1,13,1,13,4,13,236,8,13,11,13,12,13,
+  	237,1,13,1,13,1,13,3,13,243,8,13,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,
+  	14,1,14,5,14,254,8,14,10,14,12,14,257,9,14,3,14,259,8,14,1,14,3,14,262,
+  	8,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,
+  	1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,
+  	1,14,1,14,1,14,1,14,1,14,5,14,296,8,14,10,14,12,14,299,9,14,3,14,301,
+  	8,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,5,14,311,8,14,10,14,12,14,
+  	314,9,14,1,15,1,15,1,15,1,15,1,15,1,15,3,15,322,8,15,1,16,1,16,1,16,3,
+  	16,327,8,16,1,17,1,17,3,17,331,8,17,1,18,1,18,1,18,1,18,1,18,1,18,3,18,
+  	339,8,18,1,19,1,19,3,19,343,8,19,1,20,1,20,1,20,3,20,348,8,20,1,21,1,
+  	21,1,22,1,22,3,22,354,8,22,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,
+  	23,1,23,3,23,366,8,23,1,23,0,1,28,24,0,2,4,6,8,10,12,14,16,18,20,22,24,
+  	26,28,30,32,34,36,38,40,42,44,46,0,2,2,0,1,1,3,3,1,0,1,3,417,0,51,1,0,
+  	0,0,2,61,1,0,0,0,4,86,1,0,0,0,6,109,1,0,0,0,8,112,1,0,0,0,10,123,1,0,
+  	0,0,12,137,1,0,0,0,14,145,1,0,0,0,16,172,1,0,0,0,18,174,1,0,0,0,20,186,
+  	1,0,0,0,22,192,1,0,0,0,24,231,1,0,0,0,26,242,1,0,0,0,28,261,1,0,0,0,30,
+  	321,1,0,0,0,32,326,1,0,0,0,34,330,1,0,0,0,36,338,1,0,0,0,38,342,1,0,0,
+  	0,40,347,1,0,0,0,42,349,1,0,0,0,44,353,1,0,0,0,46,365,1,0,0,0,48,50,3,
+  	2,1,0,49,48,1,0,0,0,50,53,1,0,0,0,51,49,1,0,0,0,51,52,1,0,0,0,52,55,1,
+  	0,0,0,53,51,1,0,0,0,54,56,3,4,2,0,55,54,1,0,0,0,56,57,1,0,0,0,57,55,1,
+  	0,0,0,57,58,1,0,0,0,58,59,1,0,0,0,59,60,5,0,0,1,60,1,1,0,0,0,61,62,5,
+  	8,0,0,62,65,5,64,0,0,63,64,5,9,0,0,64,66,5,64,0,0,65,63,1,0,0,0,65,66,
+  	1,0,0,0,66,67,1,0,0,0,67,68,5,33,0,0,68,3,1,0,0,0,69,70,3,6,3,0,70,71,
+  	5,33,0,0,71,87,1,0,0,0,72,87,3,8,4,0,73,87,3,12,6,0,74,87,3,18,9,0,75,
+  	87,3,20,10,0,76,87,3,22,11,0,77,87,3,24,12,0,78,79,3,28,14,0,79,80,5,
+  	33,0,0,80,87,1,0,0,0,81,83,5,6,0,0,82,84,3,28,14,0,83,82,1,0,0,0,83,84,
+  	1,0,0,0,84,85,1,0,0,0,85,87,5,33,0,0,86,69,1,0,0,0,86,72,1,0,0,0,86,73,
+  	1,0,0,0,86,74,1,0,0,0,86,75,1,0,0,0,86,76,1,0,0,0,86,77,1,0,0,0,86,78,
+  	1,0,0,0,86,81,1,0,0,0,87,5,1,0,0,0,88,90,7,0,0,0,89,88,1,0,0,0,90,93,
+  	1,0,0,0,91,89,1,0,0,0,91,92,1,0,0,0,92,94,1,0,0,0,93,91,1,0,0,0,94,95,
+  	5,64,0,0,95,96,5,35,0,0,96,110,3,16,8,0,97,99,7,1,0,0,98,97,1,0,0,0,99,
+  	102,1,0,0,0,100,98,1,0,0,0,100,101,1,0,0,0,101,103,1,0,0,0,102,100,1,
+  	0,0,0,103,104,5,64,0,0,104,105,5,35,0,0,105,106,3,16,8,0,106,107,5,48,
+  	0,0,107,108,3,28,14,0,108,110,1,0,0,0,109,91,1,0,0,0,109,100,1,0,0,0,
+  	110,7,1,0,0,0,111,113,3,14,7,0,112,111,1,0,0,0,112,113,1,0,0,0,113,115,
+  	1,0,0,0,114,116,5,4,0,0,115,114,1,0,0,0,115,116,1,0,0,0,116,117,1,0,0,
+  	0,117,118,5,64,0,0,118,119,3,10,5,0,119,120,5,35,0,0,120,121,3,16,8,0,
+  	121,122,3,26,13,0,122,9,1,0,0,0,123,125,5,22,0,0,124,126,3,6,3,0,125,
+  	124,1,0,0,0,125,126,1,0,0,0,126,131,1,0,0,0,127,128,5,31,0,0,128,130,
+  	3,6,3,0,129,127,1,0,0,0,130,133,1,0,0,0,131,129,1,0,0,0,131,132,1,0,0,
+  	0,132,134,1,0,0,0,133,131,1,0,0,0,134,135,5,23,0,0,135,11,1,0,0,0,136,
+  	138,3,14,7,0,137,136,1,0,0,0,137,138,1,0,0,0,138,140,1,0,0,0,139,141,
+  	5,5,0,0,140,139,1,0,0,0,140,141,1,0,0,0,141,142,1,0,0,0,142,143,5,64,
+  	0,0,143,144,3,26,13,0,144,13,1,0,0,0,145,146,5,7,0,0,146,147,5,32,0,0,
+  	147,152,5,64,0,0,148,149,5,31,0,0,149,151,5,64,0,0,150,148,1,0,0,0,151,
+  	154,1,0,0,0,152,150,1,0,0,0,152,153,1,0,0,0,153,15,1,0,0,0,154,152,1,
+  	0,0,0,155,173,5,10,0,0,156,173,5,11,0,0,157,173,5,13,0,0,158,173,5,12,
+  	0,0,159,173,5,64,0,0,160,161,5,64,0,0,161,162,5,26,0,0,162,167,3,16,8,
+  	0,163,164,5,31,0,0,164,166,3,16,8,0,165,163,1,0,0,0,166,169,1,0,0,0,167,
+  	165,1,0,0,0,167,168,1,0,0,0,168,170,1,0,0,0,169,167,1,0,0,0,170,171,5,
+  	27,0,0,171,173,1,0,0,0,172,155,1,0,0,0,172,156,1,0,0,0,172,157,1,0,0,
+  	0,172,158,1,0,0,0,172,159,1,0,0,0,172,160,1,0,0,0,173,17,1,0,0,0,174,
+  	175,5,17,0,0,175,176,5,22,0,0,176,177,3,28,14,0,177,178,5,23,0,0,178,
+  	184,3,26,13,0,179,182,5,18,0,0,180,183,3,26,13,0,181,183,3,18,9,0,182,
+  	180,1,0,0,0,182,181,1,0,0,0,183,185,1,0,0,0,184,179,1,0,0,0,184,185,1,
+  	0,0,0,185,19,1,0,0,0,186,187,5,20,0,0,187,188,5,22,0,0,188,189,3,28,14,
+  	0,189,190,5,23,0,0,190,191,3,26,13,0,191,21,1,0,0,0,192,193,5,19,0,0,
+  	193,194,3,26,13,0,194,195,5,20,0,0,195,196,5,22,0,0,196,197,3,28,14,0,
+  	197,198,5,23,0,0,198,23,1,0,0,0,199,200,5,21,0,0,200,201,5,22,0,0,201,
+  	206,3,6,3,0,202,203,5,31,0,0,203,205,3,6,3,0,204,202,1,0,0,0,205,208,
+  	1,0,0,0,206,204,1,0,0,0,206,207,1,0,0,0,207,209,1,0,0,0,208,206,1,0,0,
+  	0,209,210,5,33,0,0,210,211,3,28,14,0,211,212,5,33,0,0,212,217,3,28,14,
+  	0,213,214,5,31,0,0,214,216,3,28,14,0,215,213,1,0,0,0,216,219,1,0,0,0,
+  	217,215,1,0,0,0,217,218,1,0,0,0,218,220,1,0,0,0,219,217,1,0,0,0,220,221,
+  	5,23,0,0,221,222,3,26,13,0,222,232,1,0,0,0,223,224,5,21,0,0,224,225,5,
+  	22,0,0,225,226,3,6,3,0,226,227,5,32,0,0,227,228,3,28,14,0,228,229,5,23,
+  	0,0,229,230,3,26,13,0,230,232,1,0,0,0,231,199,1,0,0,0,231,223,1,0,0,0,
+  	232,25,1,0,0,0,233,235,5,24,0,0,234,236,3,4,2,0,235,234,1,0,0,0,236,237,
+  	1,0,0,0,237,235,1,0,0,0,237,238,1,0,0,0,238,239,1,0,0,0,239,240,5,25,
+  	0,0,240,243,1,0,0,0,241,243,3,4,2,0,242,233,1,0,0,0,242,241,1,0,0,0,243,
+  	27,1,0,0,0,244,245,6,14,-1,0,245,262,3,46,23,0,246,247,3,42,21,0,247,
+  	248,3,28,14,8,248,262,1,0,0,0,249,258,5,24,0,0,250,255,3,28,14,0,251,
+  	252,5,31,0,0,252,254,3,28,14,0,253,251,1,0,0,0,254,257,1,0,0,0,255,253,
+  	1,0,0,0,255,256,1,0,0,0,256,259,1,0,0,0,257,255,1,0,0,0,258,250,1,0,0,
+  	0,258,259,1,0,0,0,259,260,1,0,0,0,260,262,5,25,0,0,261,244,1,0,0,0,261,
+  	246,1,0,0,0,261,249,1,0,0,0,262,312,1,0,0,0,263,264,10,12,0,0,264,265,
+  	5,30,0,0,265,311,3,28,14,13,266,267,10,7,0,0,267,268,3,40,20,0,268,269,
+  	3,28,14,8,269,311,1,0,0,0,270,271,10,6,0,0,271,272,3,38,19,0,272,273,
+  	3,28,14,7,273,311,1,0,0,0,274,275,10,5,0,0,275,276,3,36,18,0,276,277,
+  	3,28,14,6,277,311,1,0,0,0,278,279,10,4,0,0,279,280,3,34,17,0,280,281,
+  	3,28,14,5,281,311,1,0,0,0,282,283,10,3,0,0,283,284,3,32,16,0,284,285,
+  	3,28,14,4,285,311,1,0,0,0,286,287,10,1,0,0,287,288,3,30,15,0,288,289,
+  	3,28,14,2,289,311,1,0,0,0,290,291,10,11,0,0,291,300,5,22,0,0,292,297,
+  	3,28,14,0,293,294,5,31,0,0,294,296,3,28,14,0,295,293,1,0,0,0,296,299,
+  	1,0,0,0,297,295,1,0,0,0,297,298,1,0,0,0,298,301,1,0,0,0,299,297,1,0,0,
+  	0,300,292,1,0,0,0,300,301,1,0,0,0,301,302,1,0,0,0,302,311,5,23,0,0,303,
+  	304,10,10,0,0,304,305,5,28,0,0,305,306,3,28,14,0,306,307,5,29,0,0,307,
+  	311,1,0,0,0,308,309,10,9,0,0,309,311,3,44,22,0,310,263,1,0,0,0,310,266,
+  	1,0,0,0,310,270,1,0,0,0,310,274,1,0,0,0,310,278,1,0,0,0,310,282,1,0,0,
+  	0,310,286,1,0,0,0,310,290,1,0,0,0,310,303,1,0,0,0,310,308,1,0,0,0,311,
+  	314,1,0,0,0,312,310,1,0,0,0,312,313,1,0,0,0,313,29,1,0,0,0,314,312,1,
+  	0,0,0,315,322,5,48,0,0,316,322,5,49,0,0,317,322,5,50,0,0,318,322,5,51,
+  	0,0,319,322,5,52,0,0,320,322,5,53,0,0,321,315,1,0,0,0,321,316,1,0,0,0,
+  	321,317,1,0,0,0,321,318,1,0,0,0,321,319,1,0,0,0,321,320,1,0,0,0,322,31,
+  	1,0,0,0,323,327,5,36,0,0,324,327,5,38,0,0,325,327,5,40,0,0,326,323,1,
+  	0,0,0,326,324,1,0,0,0,326,325,1,0,0,0,327,33,1,0,0,0,328,331,5,37,0,0,
+  	329,331,5,39,0,0,330,328,1,0,0,0,330,329,1,0,0,0,331,35,1,0,0,0,332,339,
+  	5,54,0,0,333,339,5,55,0,0,334,339,5,56,0,0,335,339,5,57,0,0,336,339,5,
+  	26,0,0,337,339,5,27,0,0,338,332,1,0,0,0,338,333,1,0,0,0,338,334,1,0,0,
+  	0,338,335,1,0,0,0,338,336,1,0,0,0,338,337,1,0,0,0,339,37,1,0,0,0,340,
+  	343,5,41,0,0,341,343,5,42,0,0,342,340,1,0,0,0,342,341,1,0,0,0,343,39,
+  	1,0,0,0,344,348,5,43,0,0,345,348,5,44,0,0,346,348,5,45,0,0,347,344,1,
+  	0,0,0,347,345,1,0,0,0,347,346,1,0,0,0,348,41,1,0,0,0,349,350,5,34,0,0,
+  	350,43,1,0,0,0,351,354,5,46,0,0,352,354,5,47,0,0,353,351,1,0,0,0,353,
+  	352,1,0,0,0,354,45,1,0,0,0,355,366,5,64,0,0,356,366,5,61,0,0,357,366,
+  	5,62,0,0,358,366,5,15,0,0,359,366,5,16,0,0,360,366,5,63,0,0,361,362,5,
+  	22,0,0,362,363,3,28,14,0,363,364,5,23,0,0,364,366,1,0,0,0,365,355,1,0,
+  	0,0,365,356,1,0,0,0,365,357,1,0,0,0,365,358,1,0,0,0,365,359,1,0,0,0,365,
+  	360,1,0,0,0,365,361,1,0,0,0,366,47,1,0,0,0,39,51,57,65,83,86,91,100,109,
+  	112,115,125,131,137,140,152,167,172,182,184,206,217,231,237,242,255,258,
+  	261,297,300,310,312,321,326,330,338,342,347,353,365
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
 
@@ -287,18 +299,6 @@ size_t ValuescriptParser::FileContext::getRuleIndex() const {
   return ValuescriptParser::RuleFile;
 }
 
-void ValuescriptParser::FileContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFile(this);
-}
-
-void ValuescriptParser::FileContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFile(this);
-}
-
 
 std::any ValuescriptParser::FileContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
@@ -321,28 +321,28 @@ ValuescriptParser::FileContext* ValuescriptParser::file() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(49);
+    setState(51);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == ValuescriptParser::IMPORT) {
-      setState(46);
+      setState(48);
       extra();
-      setState(51);
+      setState(53);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
-    setState(53); 
+    setState(55); 
     _errHandler->sync(this);
     _la = _input->LA(1);
     do {
-      setState(52);
+      setState(54);
       statement();
-      setState(55); 
+      setState(57); 
       _errHandler->sync(this);
       _la = _input->LA(1);
     } while (((((_la - 1) & ~ 0x3fULL) == 0) &&
-      ((1ULL << (_la - 1)) & -2305842989873905601) != 0));
-    setState(57);
+      ((1ULL << (_la - 1)) & -1152921496004476801) != 0));
+    setState(59);
     match(ValuescriptParser::EOF);
    
   }
@@ -386,18 +386,6 @@ size_t ValuescriptParser::ExtraContext::getRuleIndex() const {
   return ValuescriptParser::RuleExtra;
 }
 
-void ValuescriptParser::ExtraContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterExtra(this);
-}
-
-void ValuescriptParser::ExtraContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitExtra(this);
-}
-
 
 std::any ValuescriptParser::ExtraContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
@@ -420,21 +408,21 @@ ValuescriptParser::ExtraContext* ValuescriptParser::extra() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(59);
+    setState(61);
     match(ValuescriptParser::IMPORT);
-    setState(60);
+    setState(62);
     match(ValuescriptParser::IDENTIFIER);
-    setState(63);
+    setState(65);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == ValuescriptParser::AS) {
-      setState(61);
+      setState(63);
       match(ValuescriptParser::AS);
-      setState(62);
+      setState(64);
       match(ValuescriptParser::IDENTIFIER);
     }
-    setState(65);
+    setState(67);
     match(ValuescriptParser::SEMICOLON);
    
   }
@@ -453,74 +441,170 @@ ValuescriptParser::StatementContext::StatementContext(ParserRuleContext *parent,
   : ParserRuleContext(parent, invokingState) {
 }
 
-ValuescriptParser::VariabledeclarationContext* ValuescriptParser::StatementContext::variabledeclaration() {
-  return getRuleContext<ValuescriptParser::VariabledeclarationContext>(0);
-}
-
-tree::TerminalNode* ValuescriptParser::StatementContext::SEMICOLON() {
-  return getToken(ValuescriptParser::SEMICOLON, 0);
-}
-
-ValuescriptParser::FunctiondeclarationContext* ValuescriptParser::StatementContext::functiondeclaration() {
-  return getRuleContext<ValuescriptParser::FunctiondeclarationContext>(0);
-}
-
-ValuescriptParser::ClassdeclarationContext* ValuescriptParser::StatementContext::classdeclaration() {
-  return getRuleContext<ValuescriptParser::ClassdeclarationContext>(0);
-}
-
-ValuescriptParser::IfstatementContext* ValuescriptParser::StatementContext::ifstatement() {
-  return getRuleContext<ValuescriptParser::IfstatementContext>(0);
-}
-
-ValuescriptParser::WhilestatementContext* ValuescriptParser::StatementContext::whilestatement() {
-  return getRuleContext<ValuescriptParser::WhilestatementContext>(0);
-}
-
-ValuescriptParser::DostatementContext* ValuescriptParser::StatementContext::dostatement() {
-  return getRuleContext<ValuescriptParser::DostatementContext>(0);
-}
-
-ValuescriptParser::ForstatementContext* ValuescriptParser::StatementContext::forstatement() {
-  return getRuleContext<ValuescriptParser::ForstatementContext>(0);
-}
-
-tree::TerminalNode* ValuescriptParser::StatementContext::RETURN() {
-  return getToken(ValuescriptParser::RETURN, 0);
-}
-
-ValuescriptParser::ExpressionContext* ValuescriptParser::StatementContext::expression() {
-  return getRuleContext<ValuescriptParser::ExpressionContext>(0);
-}
-
 
 size_t ValuescriptParser::StatementContext::getRuleIndex() const {
   return ValuescriptParser::RuleStatement;
 }
 
-void ValuescriptParser::StatementContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterStatement(this);
+void ValuescriptParser::StatementContext::copyFrom(StatementContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-void ValuescriptParser::StatementContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitStatement(this);
+//----------------- StatementwhileContext ------------------------------------------------------------------
+
+ValuescriptParser::WhilestatementContext* ValuescriptParser::StatementwhileContext::whilestatement() {
+  return getRuleContext<ValuescriptParser::WhilestatementContext>(0);
 }
 
+ValuescriptParser::StatementwhileContext::StatementwhileContext(StatementContext *ctx) { copyFrom(ctx); }
 
-std::any ValuescriptParser::StatementContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any ValuescriptParser::StatementwhileContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
-    return parserVisitor->visitStatement(this);
+    return parserVisitor->visitStatementwhile(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- StatementclassdeclContext ------------------------------------------------------------------
 
+ValuescriptParser::ClassdeclarationContext* ValuescriptParser::StatementclassdeclContext::classdeclaration() {
+  return getRuleContext<ValuescriptParser::ClassdeclarationContext>(0);
+}
+
+ValuescriptParser::StatementclassdeclContext::StatementclassdeclContext(StatementContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::StatementclassdeclContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitStatementclassdecl(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- StatementexprContext ------------------------------------------------------------------
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::StatementexprContext::expression() {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(0);
+}
+
+tree::TerminalNode* ValuescriptParser::StatementexprContext::SEMICOLON() {
+  return getToken(ValuescriptParser::SEMICOLON, 0);
+}
+
+ValuescriptParser::StatementexprContext::StatementexprContext(StatementContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::StatementexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitStatementexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- StatementretContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::StatementretContext::RETURN() {
+  return getToken(ValuescriptParser::RETURN, 0);
+}
+
+tree::TerminalNode* ValuescriptParser::StatementretContext::SEMICOLON() {
+  return getToken(ValuescriptParser::SEMICOLON, 0);
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::StatementretContext::expression() {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(0);
+}
+
+ValuescriptParser::StatementretContext::StatementretContext(StatementContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::StatementretContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitStatementret(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- StatementvardeclContext ------------------------------------------------------------------
+
+ValuescriptParser::VariabledeclarationContext* ValuescriptParser::StatementvardeclContext::variabledeclaration() {
+  return getRuleContext<ValuescriptParser::VariabledeclarationContext>(0);
+}
+
+tree::TerminalNode* ValuescriptParser::StatementvardeclContext::SEMICOLON() {
+  return getToken(ValuescriptParser::SEMICOLON, 0);
+}
+
+ValuescriptParser::StatementvardeclContext::StatementvardeclContext(StatementContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::StatementvardeclContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitStatementvardecl(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- StatementdoContext ------------------------------------------------------------------
+
+ValuescriptParser::DostatementContext* ValuescriptParser::StatementdoContext::dostatement() {
+  return getRuleContext<ValuescriptParser::DostatementContext>(0);
+}
+
+ValuescriptParser::StatementdoContext::StatementdoContext(StatementContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::StatementdoContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitStatementdo(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- StatementforContext ------------------------------------------------------------------
+
+ValuescriptParser::ForstatementContext* ValuescriptParser::StatementforContext::forstatement() {
+  return getRuleContext<ValuescriptParser::ForstatementContext>(0);
+}
+
+ValuescriptParser::StatementforContext::StatementforContext(StatementContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::StatementforContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitStatementfor(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- StatementifContext ------------------------------------------------------------------
+
+ValuescriptParser::IfstatementContext* ValuescriptParser::StatementifContext::ifstatement() {
+  return getRuleContext<ValuescriptParser::IfstatementContext>(0);
+}
+
+ValuescriptParser::StatementifContext::StatementifContext(StatementContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::StatementifContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitStatementif(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- StatementfuncdeclContext ------------------------------------------------------------------
+
+ValuescriptParser::FunctiondeclarationContext* ValuescriptParser::StatementfuncdeclContext::functiondeclaration() {
+  return getRuleContext<ValuescriptParser::FunctiondeclarationContext>(0);
+}
+
+ValuescriptParser::StatementfuncdeclContext::StatementfuncdeclContext(StatementContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::StatementfuncdeclContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitStatementfuncdecl(this);
+  else
+    return visitor->visitChildren(this);
+}
 ValuescriptParser::StatementContext* ValuescriptParser::statement() {
   StatementContext *_localctx = _tracker.createInstance<StatementContext>(_ctx, getState());
   enterRule(_localctx, 4, ValuescriptParser::RuleStatement);
+  size_t _la = 0;
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -530,76 +614,92 @@ ValuescriptParser::StatementContext* ValuescriptParser::statement() {
     exitRule();
   });
   try {
-    setState(83);
+    setState(86);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 3, _ctx)) {
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx)) {
     case 1: {
+      _localctx = _tracker.createInstance<ValuescriptParser::StatementvardeclContext>(_localctx);
       enterOuterAlt(_localctx, 1);
-      setState(67);
+      setState(69);
       variabledeclaration();
-      setState(68);
+      setState(70);
       match(ValuescriptParser::SEMICOLON);
       break;
     }
 
     case 2: {
+      _localctx = _tracker.createInstance<ValuescriptParser::StatementfuncdeclContext>(_localctx);
       enterOuterAlt(_localctx, 2);
-      setState(70);
+      setState(72);
       functiondeclaration();
       break;
     }
 
     case 3: {
+      _localctx = _tracker.createInstance<ValuescriptParser::StatementclassdeclContext>(_localctx);
       enterOuterAlt(_localctx, 3);
-      setState(71);
+      setState(73);
       classdeclaration();
       break;
     }
 
     case 4: {
+      _localctx = _tracker.createInstance<ValuescriptParser::StatementifContext>(_localctx);
       enterOuterAlt(_localctx, 4);
-      setState(72);
+      setState(74);
       ifstatement();
       break;
     }
 
     case 5: {
+      _localctx = _tracker.createInstance<ValuescriptParser::StatementwhileContext>(_localctx);
       enterOuterAlt(_localctx, 5);
-      setState(73);
+      setState(75);
       whilestatement();
       break;
     }
 
     case 6: {
+      _localctx = _tracker.createInstance<ValuescriptParser::StatementdoContext>(_localctx);
       enterOuterAlt(_localctx, 6);
-      setState(74);
+      setState(76);
       dostatement();
       break;
     }
 
     case 7: {
+      _localctx = _tracker.createInstance<ValuescriptParser::StatementforContext>(_localctx);
       enterOuterAlt(_localctx, 7);
-      setState(75);
+      setState(77);
       forstatement();
       break;
     }
 
     case 8: {
+      _localctx = _tracker.createInstance<ValuescriptParser::StatementexprContext>(_localctx);
       enterOuterAlt(_localctx, 8);
-      setState(76);
-      match(ValuescriptParser::RETURN);
-      setState(77);
-      expression(0);
       setState(78);
+      expression(0);
+      setState(79);
       match(ValuescriptParser::SEMICOLON);
       break;
     }
 
     case 9: {
+      _localctx = _tracker.createInstance<ValuescriptParser::StatementretContext>(_localctx);
       enterOuterAlt(_localctx, 9);
-      setState(80);
-      expression(0);
       setState(81);
+      match(ValuescriptParser::RETURN);
+      setState(83);
+      _errHandler->sync(this);
+
+      _la = _input->LA(1);
+      if (((((_la - 15) & ~ 0x3fULL) == 0) &&
+        ((1ULL << (_la - 15)) & 1055531163189891) != 0)) {
+        setState(82);
+        expression(0);
+      }
+      setState(85);
       match(ValuescriptParser::SEMICOLON);
       break;
     }
@@ -673,18 +773,6 @@ size_t ValuescriptParser::VariabledeclarationContext::getRuleIndex() const {
   return ValuescriptParser::RuleVariabledeclaration;
 }
 
-void ValuescriptParser::VariabledeclarationContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterVariabledeclaration(this);
-}
-
-void ValuescriptParser::VariabledeclarationContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitVariabledeclaration(this);
-}
-
 
 std::any ValuescriptParser::VariabledeclarationContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
@@ -706,18 +794,18 @@ ValuescriptParser::VariabledeclarationContext* ValuescriptParser::variabledeclar
     exitRule();
   });
   try {
-    setState(106);
+    setState(109);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 6, _ctx)) {
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(88);
+      setState(91);
       _errHandler->sync(this);
       _la = _input->LA(1);
       while (_la == ValuescriptParser::STATIC
 
       || _la == ValuescriptParser::VARIABLE) {
-        setState(85);
+        setState(88);
         _la = _input->LA(1);
         if (!(_la == ValuescriptParser::STATIC
 
@@ -728,27 +816,27 @@ ValuescriptParser::VariabledeclarationContext* ValuescriptParser::variabledeclar
           _errHandler->reportMatch(this);
           consume();
         }
-        setState(90);
+        setState(93);
         _errHandler->sync(this);
         _la = _input->LA(1);
       }
-      setState(91);
+      setState(94);
       match(ValuescriptParser::IDENTIFIER);
-      setState(92);
+      setState(95);
       match(ValuescriptParser::ARROW_OPERATOR);
-      setState(93);
+      setState(96);
       typenameexpression();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(97);
+      setState(100);
       _errHandler->sync(this);
       _la = _input->LA(1);
       while ((((_la & ~ 0x3fULL) == 0) &&
         ((1ULL << _la) & 14) != 0)) {
-        setState(94);
+        setState(97);
         _la = _input->LA(1);
         if (!((((_la & ~ 0x3fULL) == 0) &&
           ((1ULL << _la) & 14) != 0))) {
@@ -758,19 +846,19 @@ ValuescriptParser::VariabledeclarationContext* ValuescriptParser::variabledeclar
           _errHandler->reportMatch(this);
           consume();
         }
-        setState(99);
+        setState(102);
         _errHandler->sync(this);
         _la = _input->LA(1);
       }
-      setState(100);
-      match(ValuescriptParser::IDENTIFIER);
-      setState(101);
-      match(ValuescriptParser::ARROW_OPERATOR);
-      setState(102);
-      typenameexpression();
       setState(103);
-      match(ValuescriptParser::ASSIGNMENT_GENERIC);
+      match(ValuescriptParser::IDENTIFIER);
       setState(104);
+      match(ValuescriptParser::ARROW_OPERATOR);
+      setState(105);
+      typenameexpression();
+      setState(106);
+      match(ValuescriptParser::ASSIGNMENT_GENERIC);
+      setState(107);
       expression(0);
       break;
     }
@@ -828,18 +916,6 @@ size_t ValuescriptParser::FunctiondeclarationContext::getRuleIndex() const {
   return ValuescriptParser::RuleFunctiondeclaration;
 }
 
-void ValuescriptParser::FunctiondeclarationContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunctiondeclaration(this);
-}
-
-void ValuescriptParser::FunctiondeclarationContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunctiondeclaration(this);
-}
-
 
 std::any ValuescriptParser::FunctiondeclarationContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
@@ -862,31 +938,31 @@ ValuescriptParser::FunctiondeclarationContext* ValuescriptParser::functiondeclar
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(109);
-    _errHandler->sync(this);
-
-    _la = _input->LA(1);
-    if (_la == ValuescriptParser::AT_SYMBOL) {
-      setState(108);
-      templatedeclaration();
-    }
     setState(112);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
-    if (_la == ValuescriptParser::FUNCTION) {
+    if (_la == ValuescriptParser::TYPENAMES) {
       setState(111);
+      templatedeclaration();
+    }
+    setState(115);
+    _errHandler->sync(this);
+
+    _la = _input->LA(1);
+    if (_la == ValuescriptParser::FUNCTION) {
+      setState(114);
       match(ValuescriptParser::FUNCTION);
     }
-    setState(114);
-    match(ValuescriptParser::IDENTIFIER);
-    setState(115);
-    functionparameters();
-    setState(116);
-    match(ValuescriptParser::ARROW_OPERATOR);
     setState(117);
-    typenameexpression();
+    match(ValuescriptParser::IDENTIFIER);
     setState(118);
+    functionparameters();
+    setState(119);
+    match(ValuescriptParser::ARROW_OPERATOR);
+    setState(120);
+    typenameexpression();
+    setState(121);
     codeblock();
    
   }
@@ -934,18 +1010,6 @@ size_t ValuescriptParser::FunctionparametersContext::getRuleIndex() const {
   return ValuescriptParser::RuleFunctionparameters;
 }
 
-void ValuescriptParser::FunctionparametersContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterFunctionparameters(this);
-}
-
-void ValuescriptParser::FunctionparametersContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitFunctionparameters(this);
-}
-
 
 std::any ValuescriptParser::FunctionparametersContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
@@ -968,30 +1032,30 @@ ValuescriptParser::FunctionparametersContext* ValuescriptParser::functionparamet
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(120);
+    setState(123);
     match(ValuescriptParser::OPEN_PARENTHESES);
-    setState(122);
+    setState(125);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (((((_la - 1) & ~ 0x3fULL) == 0) &&
       ((1ULL << (_la - 1)) & -9223372036854775801) != 0)) {
-      setState(121);
+      setState(124);
       variabledeclaration();
     }
-    setState(128);
+    setState(131);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == ValuescriptParser::COMMA) {
-      setState(124);
+      setState(127);
       match(ValuescriptParser::COMMA);
-      setState(125);
+      setState(128);
       variabledeclaration();
-      setState(130);
+      setState(133);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
-    setState(131);
+    setState(134);
     match(ValuescriptParser::CLOSED_PARENTHESES);
    
   }
@@ -1031,18 +1095,6 @@ size_t ValuescriptParser::ClassdeclarationContext::getRuleIndex() const {
   return ValuescriptParser::RuleClassdeclaration;
 }
 
-void ValuescriptParser::ClassdeclarationContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterClassdeclaration(this);
-}
-
-void ValuescriptParser::ClassdeclarationContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitClassdeclaration(this);
-}
-
 
 std::any ValuescriptParser::ClassdeclarationContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
@@ -1065,25 +1117,25 @@ ValuescriptParser::ClassdeclarationContext* ValuescriptParser::classdeclaration(
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(134);
-    _errHandler->sync(this);
-
-    _la = _input->LA(1);
-    if (_la == ValuescriptParser::AT_SYMBOL) {
-      setState(133);
-      templatedeclaration();
-    }
     setState(137);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
-    if (_la == ValuescriptParser::CLASS) {
+    if (_la == ValuescriptParser::TYPENAMES) {
       setState(136);
+      templatedeclaration();
+    }
+    setState(140);
+    _errHandler->sync(this);
+
+    _la = _input->LA(1);
+    if (_la == ValuescriptParser::CLASS) {
+      setState(139);
       match(ValuescriptParser::CLASS);
     }
-    setState(139);
+    setState(142);
     match(ValuescriptParser::IDENTIFIER);
-    setState(140);
+    setState(143);
     codeblock();
    
   }
@@ -1100,10 +1152,6 @@ ValuescriptParser::ClassdeclarationContext* ValuescriptParser::classdeclaration(
 
 ValuescriptParser::TemplatedeclarationContext::TemplatedeclarationContext(ParserRuleContext *parent, size_t invokingState)
   : ParserRuleContext(parent, invokingState) {
-}
-
-tree::TerminalNode* ValuescriptParser::TemplatedeclarationContext::AT_SYMBOL() {
-  return getToken(ValuescriptParser::AT_SYMBOL, 0);
 }
 
 tree::TerminalNode* ValuescriptParser::TemplatedeclarationContext::TYPENAMES() {
@@ -1135,18 +1183,6 @@ size_t ValuescriptParser::TemplatedeclarationContext::getRuleIndex() const {
   return ValuescriptParser::RuleTemplatedeclaration;
 }
 
-void ValuescriptParser::TemplatedeclarationContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterTemplatedeclaration(this);
-}
-
-void ValuescriptParser::TemplatedeclarationContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitTemplatedeclaration(this);
-}
-
 
 std::any ValuescriptParser::TemplatedeclarationContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
@@ -1169,23 +1205,21 @@ ValuescriptParser::TemplatedeclarationContext* ValuescriptParser::templatedeclar
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(142);
-    match(ValuescriptParser::AT_SYMBOL);
-    setState(143);
-    match(ValuescriptParser::TYPENAMES);
-    setState(144);
-    match(ValuescriptParser::COLON);
     setState(145);
+    match(ValuescriptParser::TYPENAMES);
+    setState(146);
+    match(ValuescriptParser::COLON);
+    setState(147);
     match(ValuescriptParser::IDENTIFIER);
-    setState(150);
+    setState(152);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == ValuescriptParser::COMMA) {
-      setState(146);
+      setState(148);
       match(ValuescriptParser::COMMA);
-      setState(147);
+      setState(149);
       match(ValuescriptParser::IDENTIFIER);
-      setState(152);
+      setState(154);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
@@ -1206,75 +1240,129 @@ ValuescriptParser::TypenameexpressionContext::TypenameexpressionContext(ParserRu
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* ValuescriptParser::TypenameexpressionContext::INTEGER() {
-  return getToken(ValuescriptParser::INTEGER, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::TypenameexpressionContext::DOUBLE() {
-  return getToken(ValuescriptParser::DOUBLE, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::TypenameexpressionContext::STRING() {
-  return getToken(ValuescriptParser::STRING, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::TypenameexpressionContext::BOOLEAN() {
-  return getToken(ValuescriptParser::BOOLEAN, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::TypenameexpressionContext::IDENTIFIER() {
-  return getToken(ValuescriptParser::IDENTIFIER, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::TypenameexpressionContext::OPEN_ANGLE_BRACKET() {
-  return getToken(ValuescriptParser::OPEN_ANGLE_BRACKET, 0);
-}
-
-std::vector<ValuescriptParser::TypenameexpressionContext *> ValuescriptParser::TypenameexpressionContext::typenameexpression() {
-  return getRuleContexts<ValuescriptParser::TypenameexpressionContext>();
-}
-
-ValuescriptParser::TypenameexpressionContext* ValuescriptParser::TypenameexpressionContext::typenameexpression(size_t i) {
-  return getRuleContext<ValuescriptParser::TypenameexpressionContext>(i);
-}
-
-tree::TerminalNode* ValuescriptParser::TypenameexpressionContext::CLOSED_ANGLE_BRACKET() {
-  return getToken(ValuescriptParser::CLOSED_ANGLE_BRACKET, 0);
-}
-
-std::vector<tree::TerminalNode *> ValuescriptParser::TypenameexpressionContext::COMMA() {
-  return getTokens(ValuescriptParser::COMMA);
-}
-
-tree::TerminalNode* ValuescriptParser::TypenameexpressionContext::COMMA(size_t i) {
-  return getToken(ValuescriptParser::COMMA, i);
-}
-
 
 size_t ValuescriptParser::TypenameexpressionContext::getRuleIndex() const {
   return ValuescriptParser::RuleTypenameexpression;
 }
 
-void ValuescriptParser::TypenameexpressionContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterTypenameexpression(this);
+void ValuescriptParser::TypenameexpressionContext::copyFrom(TypenameexpressionContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-void ValuescriptParser::TypenameexpressionContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitTypenameexpression(this);
+//----------------- TydoubleContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::TydoubleContext::DOUBLE() {
+  return getToken(ValuescriptParser::DOUBLE, 0);
 }
 
+ValuescriptParser::TydoubleContext::TydoubleContext(TypenameexpressionContext *ctx) { copyFrom(ctx); }
 
-std::any ValuescriptParser::TypenameexpressionContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any ValuescriptParser::TydoubleContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
-    return parserVisitor->visitTypenameexpression(this);
+    return parserVisitor->visitTydouble(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- TybooleanContext ------------------------------------------------------------------
 
+tree::TerminalNode* ValuescriptParser::TybooleanContext::BOOLEAN() {
+  return getToken(ValuescriptParser::BOOLEAN, 0);
+}
+
+ValuescriptParser::TybooleanContext::TybooleanContext(TypenameexpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::TybooleanContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitTyboolean(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- TyidentContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::TyidentContext::IDENTIFIER() {
+  return getToken(ValuescriptParser::IDENTIFIER, 0);
+}
+
+ValuescriptParser::TyidentContext::TyidentContext(TypenameexpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::TyidentContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitTyident(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- TynestedContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::TynestedContext::IDENTIFIER() {
+  return getToken(ValuescriptParser::IDENTIFIER, 0);
+}
+
+tree::TerminalNode* ValuescriptParser::TynestedContext::OPEN_ANGLE_BRACKET() {
+  return getToken(ValuescriptParser::OPEN_ANGLE_BRACKET, 0);
+}
+
+std::vector<ValuescriptParser::TypenameexpressionContext *> ValuescriptParser::TynestedContext::typenameexpression() {
+  return getRuleContexts<ValuescriptParser::TypenameexpressionContext>();
+}
+
+ValuescriptParser::TypenameexpressionContext* ValuescriptParser::TynestedContext::typenameexpression(size_t i) {
+  return getRuleContext<ValuescriptParser::TypenameexpressionContext>(i);
+}
+
+tree::TerminalNode* ValuescriptParser::TynestedContext::CLOSED_ANGLE_BRACKET() {
+  return getToken(ValuescriptParser::CLOSED_ANGLE_BRACKET, 0);
+}
+
+std::vector<tree::TerminalNode *> ValuescriptParser::TynestedContext::COMMA() {
+  return getTokens(ValuescriptParser::COMMA);
+}
+
+tree::TerminalNode* ValuescriptParser::TynestedContext::COMMA(size_t i) {
+  return getToken(ValuescriptParser::COMMA, i);
+}
+
+ValuescriptParser::TynestedContext::TynestedContext(TypenameexpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::TynestedContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitTynested(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- TystringContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::TystringContext::STRING() {
+  return getToken(ValuescriptParser::STRING, 0);
+}
+
+ValuescriptParser::TystringContext::TystringContext(TypenameexpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::TystringContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitTystring(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- TyintegerContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::TyintegerContext::INTEGER() {
+  return getToken(ValuescriptParser::INTEGER, 0);
+}
+
+ValuescriptParser::TyintegerContext::TyintegerContext(TypenameexpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::TyintegerContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitTyinteger(this);
+  else
+    return visitor->visitChildren(this);
+}
 ValuescriptParser::TypenameexpressionContext* ValuescriptParser::typenameexpression() {
   TypenameexpressionContext *_localctx = _tracker.createInstance<TypenameexpressionContext>(_ctx, getState());
   enterRule(_localctx, 16, ValuescriptParser::RuleTypenameexpression);
@@ -1288,65 +1376,71 @@ ValuescriptParser::TypenameexpressionContext* ValuescriptParser::typenameexpress
     exitRule();
   });
   try {
-    setState(170);
+    setState(172);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 15, _ctx)) {
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 16, _ctx)) {
     case 1: {
+      _localctx = _tracker.createInstance<ValuescriptParser::TyintegerContext>(_localctx);
       enterOuterAlt(_localctx, 1);
-      setState(153);
+      setState(155);
       match(ValuescriptParser::INTEGER);
       break;
     }
 
     case 2: {
+      _localctx = _tracker.createInstance<ValuescriptParser::TydoubleContext>(_localctx);
       enterOuterAlt(_localctx, 2);
-      setState(154);
+      setState(156);
       match(ValuescriptParser::DOUBLE);
       break;
     }
 
     case 3: {
+      _localctx = _tracker.createInstance<ValuescriptParser::TystringContext>(_localctx);
       enterOuterAlt(_localctx, 3);
-      setState(155);
+      setState(157);
       match(ValuescriptParser::STRING);
       break;
     }
 
     case 4: {
+      _localctx = _tracker.createInstance<ValuescriptParser::TybooleanContext>(_localctx);
       enterOuterAlt(_localctx, 4);
-      setState(156);
+      setState(158);
       match(ValuescriptParser::BOOLEAN);
       break;
     }
 
     case 5: {
+      _localctx = _tracker.createInstance<ValuescriptParser::TyidentContext>(_localctx);
       enterOuterAlt(_localctx, 5);
-      setState(157);
+      setState(159);
       match(ValuescriptParser::IDENTIFIER);
       break;
     }
 
     case 6: {
+      _localctx = _tracker.createInstance<ValuescriptParser::TynestedContext>(_localctx);
       enterOuterAlt(_localctx, 6);
-      setState(158);
-      match(ValuescriptParser::IDENTIFIER);
-      setState(159);
-      match(ValuescriptParser::OPEN_ANGLE_BRACKET);
       setState(160);
+      match(ValuescriptParser::IDENTIFIER);
+      setState(161);
+      match(ValuescriptParser::OPEN_ANGLE_BRACKET);
+      setState(162);
       typenameexpression();
-      setState(165);
+      setState(167);
       _errHandler->sync(this);
       _la = _input->LA(1);
       while (_la == ValuescriptParser::COMMA) {
-        setState(161);
+        setState(163);
         match(ValuescriptParser::COMMA);
-        setState(162);
+        setState(164);
         typenameexpression();
-        setState(167);
+        setState(169);
         _errHandler->sync(this);
         _la = _input->LA(1);
       }
-      setState(168);
+      setState(170);
       match(ValuescriptParser::CLOSED_ANGLE_BRACKET);
       break;
     }
@@ -1408,18 +1502,6 @@ size_t ValuescriptParser::IfstatementContext::getRuleIndex() const {
   return ValuescriptParser::RuleIfstatement;
 }
 
-void ValuescriptParser::IfstatementContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterIfstatement(this);
-}
-
-void ValuescriptParser::IfstatementContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitIfstatement(this);
-}
-
 
 std::any ValuescriptParser::IfstatementContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
@@ -1441,34 +1523,34 @@ ValuescriptParser::IfstatementContext* ValuescriptParser::ifstatement() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(172);
-    match(ValuescriptParser::IF);
-    setState(173);
-    match(ValuescriptParser::OPEN_PARENTHESES);
     setState(174);
-    expression(0);
+    match(ValuescriptParser::IF);
     setState(175);
-    match(ValuescriptParser::CLOSED_PARENTHESES);
+    match(ValuescriptParser::OPEN_PARENTHESES);
     setState(176);
+    expression(0);
+    setState(177);
+    match(ValuescriptParser::CLOSED_PARENTHESES);
+    setState(178);
     codeblock();
-    setState(182);
+    setState(184);
     _errHandler->sync(this);
 
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 17, _ctx)) {
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 18, _ctx)) {
     case 1: {
-      setState(177);
+      setState(179);
       match(ValuescriptParser::ELSE);
-      setState(180);
+      setState(182);
       _errHandler->sync(this);
-      switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 16, _ctx)) {
+      switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 17, _ctx)) {
       case 1: {
-        setState(178);
+        setState(180);
         codeblock();
         break;
       }
 
       case 2: {
-        setState(179);
+        setState(181);
         ifstatement();
         break;
       }
@@ -1524,18 +1606,6 @@ size_t ValuescriptParser::WhilestatementContext::getRuleIndex() const {
   return ValuescriptParser::RuleWhilestatement;
 }
 
-void ValuescriptParser::WhilestatementContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterWhilestatement(this);
-}
-
-void ValuescriptParser::WhilestatementContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitWhilestatement(this);
-}
-
 
 std::any ValuescriptParser::WhilestatementContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
@@ -1557,15 +1627,15 @@ ValuescriptParser::WhilestatementContext* ValuescriptParser::whilestatement() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(184);
-    match(ValuescriptParser::WHILE);
-    setState(185);
-    match(ValuescriptParser::OPEN_PARENTHESES);
     setState(186);
-    expression(0);
+    match(ValuescriptParser::WHILE);
     setState(187);
-    match(ValuescriptParser::CLOSED_PARENTHESES);
+    match(ValuescriptParser::OPEN_PARENTHESES);
     setState(188);
+    expression(0);
+    setState(189);
+    match(ValuescriptParser::CLOSED_PARENTHESES);
+    setState(190);
     codeblock();
    
   }
@@ -1613,18 +1683,6 @@ size_t ValuescriptParser::DostatementContext::getRuleIndex() const {
   return ValuescriptParser::RuleDostatement;
 }
 
-void ValuescriptParser::DostatementContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterDostatement(this);
-}
-
-void ValuescriptParser::DostatementContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitDostatement(this);
-}
-
 
 std::any ValuescriptParser::DostatementContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
@@ -1646,17 +1704,17 @@ ValuescriptParser::DostatementContext* ValuescriptParser::dostatement() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(190);
-    match(ValuescriptParser::DO);
-    setState(191);
-    codeblock();
     setState(192);
-    match(ValuescriptParser::WHILE);
+    match(ValuescriptParser::DO);
     setState(193);
-    match(ValuescriptParser::OPEN_PARENTHESES);
+    codeblock();
     setState(194);
-    expression(0);
+    match(ValuescriptParser::WHILE);
     setState(195);
+    match(ValuescriptParser::OPEN_PARENTHESES);
+    setState(196);
+    expression(0);
+    setState(197);
     match(ValuescriptParser::CLOSED_PARENTHESES);
    
   }
@@ -1675,83 +1733,113 @@ ValuescriptParser::ForstatementContext::ForstatementContext(ParserRuleContext *p
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* ValuescriptParser::ForstatementContext::FOR() {
-  return getToken(ValuescriptParser::FOR, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::ForstatementContext::OPEN_PARENTHESES() {
-  return getToken(ValuescriptParser::OPEN_PARENTHESES, 0);
-}
-
-std::vector<ValuescriptParser::VariabledeclarationContext *> ValuescriptParser::ForstatementContext::variabledeclaration() {
-  return getRuleContexts<ValuescriptParser::VariabledeclarationContext>();
-}
-
-ValuescriptParser::VariabledeclarationContext* ValuescriptParser::ForstatementContext::variabledeclaration(size_t i) {
-  return getRuleContext<ValuescriptParser::VariabledeclarationContext>(i);
-}
-
-std::vector<tree::TerminalNode *> ValuescriptParser::ForstatementContext::SEMICOLON() {
-  return getTokens(ValuescriptParser::SEMICOLON);
-}
-
-tree::TerminalNode* ValuescriptParser::ForstatementContext::SEMICOLON(size_t i) {
-  return getToken(ValuescriptParser::SEMICOLON, i);
-}
-
-std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::ForstatementContext::expression() {
-  return getRuleContexts<ValuescriptParser::ExpressionContext>();
-}
-
-ValuescriptParser::ExpressionContext* ValuescriptParser::ForstatementContext::expression(size_t i) {
-  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
-}
-
-tree::TerminalNode* ValuescriptParser::ForstatementContext::CLOSED_PARENTHESES() {
-  return getToken(ValuescriptParser::CLOSED_PARENTHESES, 0);
-}
-
-ValuescriptParser::CodeblockContext* ValuescriptParser::ForstatementContext::codeblock() {
-  return getRuleContext<ValuescriptParser::CodeblockContext>(0);
-}
-
-std::vector<tree::TerminalNode *> ValuescriptParser::ForstatementContext::COMMA() {
-  return getTokens(ValuescriptParser::COMMA);
-}
-
-tree::TerminalNode* ValuescriptParser::ForstatementContext::COMMA(size_t i) {
-  return getToken(ValuescriptParser::COMMA, i);
-}
-
-tree::TerminalNode* ValuescriptParser::ForstatementContext::COLON() {
-  return getToken(ValuescriptParser::COLON, 0);
-}
-
 
 size_t ValuescriptParser::ForstatementContext::getRuleIndex() const {
   return ValuescriptParser::RuleForstatement;
 }
 
-void ValuescriptParser::ForstatementContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterForstatement(this);
+void ValuescriptParser::ForstatementContext::copyFrom(ForstatementContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-void ValuescriptParser::ForstatementContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitForstatement(this);
+//----------------- ItemforContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::ItemforContext::FOR() {
+  return getToken(ValuescriptParser::FOR, 0);
 }
 
+tree::TerminalNode* ValuescriptParser::ItemforContext::OPEN_PARENTHESES() {
+  return getToken(ValuescriptParser::OPEN_PARENTHESES, 0);
+}
 
-std::any ValuescriptParser::ForstatementContext::accept(tree::ParseTreeVisitor *visitor) {
+ValuescriptParser::VariabledeclarationContext* ValuescriptParser::ItemforContext::variabledeclaration() {
+  return getRuleContext<ValuescriptParser::VariabledeclarationContext>(0);
+}
+
+tree::TerminalNode* ValuescriptParser::ItemforContext::COLON() {
+  return getToken(ValuescriptParser::COLON, 0);
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::ItemforContext::expression() {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(0);
+}
+
+tree::TerminalNode* ValuescriptParser::ItemforContext::CLOSED_PARENTHESES() {
+  return getToken(ValuescriptParser::CLOSED_PARENTHESES, 0);
+}
+
+ValuescriptParser::CodeblockContext* ValuescriptParser::ItemforContext::codeblock() {
+  return getRuleContext<ValuescriptParser::CodeblockContext>(0);
+}
+
+ValuescriptParser::ItemforContext::ItemforContext(ForstatementContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::ItemforContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
-    return parserVisitor->visitForstatement(this);
+    return parserVisitor->visitItemfor(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- RangeforContext ------------------------------------------------------------------
 
+tree::TerminalNode* ValuescriptParser::RangeforContext::FOR() {
+  return getToken(ValuescriptParser::FOR, 0);
+}
+
+tree::TerminalNode* ValuescriptParser::RangeforContext::OPEN_PARENTHESES() {
+  return getToken(ValuescriptParser::OPEN_PARENTHESES, 0);
+}
+
+std::vector<ValuescriptParser::VariabledeclarationContext *> ValuescriptParser::RangeforContext::variabledeclaration() {
+  return getRuleContexts<ValuescriptParser::VariabledeclarationContext>();
+}
+
+ValuescriptParser::VariabledeclarationContext* ValuescriptParser::RangeforContext::variabledeclaration(size_t i) {
+  return getRuleContext<ValuescriptParser::VariabledeclarationContext>(i);
+}
+
+std::vector<tree::TerminalNode *> ValuescriptParser::RangeforContext::SEMICOLON() {
+  return getTokens(ValuescriptParser::SEMICOLON);
+}
+
+tree::TerminalNode* ValuescriptParser::RangeforContext::SEMICOLON(size_t i) {
+  return getToken(ValuescriptParser::SEMICOLON, i);
+}
+
+std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::RangeforContext::expression() {
+  return getRuleContexts<ValuescriptParser::ExpressionContext>();
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::RangeforContext::expression(size_t i) {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
+}
+
+tree::TerminalNode* ValuescriptParser::RangeforContext::CLOSED_PARENTHESES() {
+  return getToken(ValuescriptParser::CLOSED_PARENTHESES, 0);
+}
+
+ValuescriptParser::CodeblockContext* ValuescriptParser::RangeforContext::codeblock() {
+  return getRuleContext<ValuescriptParser::CodeblockContext>(0);
+}
+
+std::vector<tree::TerminalNode *> ValuescriptParser::RangeforContext::COMMA() {
+  return getTokens(ValuescriptParser::COMMA);
+}
+
+tree::TerminalNode* ValuescriptParser::RangeforContext::COMMA(size_t i) {
+  return getToken(ValuescriptParser::COMMA, i);
+}
+
+ValuescriptParser::RangeforContext::RangeforContext(ForstatementContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::RangeforContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitRangefor(this);
+  else
+    return visitor->visitChildren(this);
+}
 ValuescriptParser::ForstatementContext* ValuescriptParser::forstatement() {
   ForstatementContext *_localctx = _tracker.createInstance<ForstatementContext>(_ctx, getState());
   enterRule(_localctx, 24, ValuescriptParser::RuleForstatement);
@@ -1765,71 +1853,73 @@ ValuescriptParser::ForstatementContext* ValuescriptParser::forstatement() {
     exitRule();
   });
   try {
-    setState(229);
+    setState(231);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 20, _ctx)) {
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 21, _ctx)) {
     case 1: {
+      _localctx = _tracker.createInstance<ValuescriptParser::RangeforContext>(_localctx);
       enterOuterAlt(_localctx, 1);
-      setState(197);
-      match(ValuescriptParser::FOR);
-      setState(198);
-      match(ValuescriptParser::OPEN_PARENTHESES);
       setState(199);
+      match(ValuescriptParser::FOR);
+      setState(200);
+      match(ValuescriptParser::OPEN_PARENTHESES);
+      setState(201);
       variabledeclaration();
-      setState(204);
+      setState(206);
       _errHandler->sync(this);
       _la = _input->LA(1);
       while (_la == ValuescriptParser::COMMA) {
-        setState(200);
+        setState(202);
         match(ValuescriptParser::COMMA);
-        setState(201);
+        setState(203);
         variabledeclaration();
-        setState(206);
+        setState(208);
         _errHandler->sync(this);
         _la = _input->LA(1);
       }
-      setState(207);
-      match(ValuescriptParser::SEMICOLON);
-      setState(208);
-      expression(0);
       setState(209);
       match(ValuescriptParser::SEMICOLON);
       setState(210);
       expression(0);
-      setState(215);
+      setState(211);
+      match(ValuescriptParser::SEMICOLON);
+      setState(212);
+      expression(0);
+      setState(217);
       _errHandler->sync(this);
       _la = _input->LA(1);
       while (_la == ValuescriptParser::COMMA) {
-        setState(211);
+        setState(213);
         match(ValuescriptParser::COMMA);
-        setState(212);
+        setState(214);
         expression(0);
-        setState(217);
+        setState(219);
         _errHandler->sync(this);
         _la = _input->LA(1);
       }
-      setState(218);
+      setState(220);
       match(ValuescriptParser::CLOSED_PARENTHESES);
-      setState(219);
+      setState(221);
       codeblock();
       break;
     }
 
     case 2: {
+      _localctx = _tracker.createInstance<ValuescriptParser::ItemforContext>(_localctx);
       enterOuterAlt(_localctx, 2);
-      setState(221);
-      match(ValuescriptParser::FOR);
-      setState(222);
-      match(ValuescriptParser::OPEN_PARENTHESES);
       setState(223);
-      variabledeclaration();
+      match(ValuescriptParser::FOR);
       setState(224);
-      match(ValuescriptParser::COLON);
+      match(ValuescriptParser::OPEN_PARENTHESES);
       setState(225);
-      expression(0);
+      variabledeclaration();
       setState(226);
-      match(ValuescriptParser::CLOSED_PARENTHESES);
+      match(ValuescriptParser::COLON);
       setState(227);
+      expression(0);
+      setState(228);
+      match(ValuescriptParser::CLOSED_PARENTHESES);
+      setState(229);
       codeblock();
       break;
     }
@@ -1875,18 +1965,6 @@ size_t ValuescriptParser::CodeblockContext::getRuleIndex() const {
   return ValuescriptParser::RuleCodeblock;
 }
 
-void ValuescriptParser::CodeblockContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterCodeblock(this);
-}
-
-void ValuescriptParser::CodeblockContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitCodeblock(this);
-}
-
 
 std::any ValuescriptParser::CodeblockContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
@@ -1908,32 +1986,32 @@ ValuescriptParser::CodeblockContext* ValuescriptParser::codeblock() {
     exitRule();
   });
   try {
-    setState(240);
+    setState(242);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 22, _ctx)) {
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 23, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(231);
+      setState(233);
       match(ValuescriptParser::OPEN_CURLY_BRACE);
-      setState(233); 
+      setState(235); 
       _errHandler->sync(this);
       _la = _input->LA(1);
       do {
-        setState(232);
+        setState(234);
         statement();
-        setState(235); 
+        setState(237); 
         _errHandler->sync(this);
         _la = _input->LA(1);
       } while (((((_la - 1) & ~ 0x3fULL) == 0) &&
-        ((1ULL << (_la - 1)) & -2305842989873905601) != 0));
-      setState(237);
+        ((1ULL << (_la - 1)) & -1152921496004476801) != 0));
+      setState(239);
       match(ValuescriptParser::CLOSED_CURLY_BRACE);
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(239);
+      setState(241);
       statement();
       break;
     }
@@ -1958,107 +2036,326 @@ ValuescriptParser::ExpressionContext::ExpressionContext(ParserRuleContext *paren
   : ParserRuleContext(parent, invokingState) {
 }
 
-ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::ExpressionContext::primaryexpression() {
-  return getRuleContext<ValuescriptParser::PrimaryexpressionContext>(0);
-}
-
-ValuescriptParser::NotoperatorContext* ValuescriptParser::ExpressionContext::notoperator() {
-  return getRuleContext<ValuescriptParser::NotoperatorContext>(0);
-}
-
-std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::ExpressionContext::expression() {
-  return getRuleContexts<ValuescriptParser::ExpressionContext>();
-}
-
-ValuescriptParser::ExpressionContext* ValuescriptParser::ExpressionContext::expression(size_t i) {
-  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
-}
-
-tree::TerminalNode* ValuescriptParser::ExpressionContext::OPEN_CURLY_BRACE() {
-  return getToken(ValuescriptParser::OPEN_CURLY_BRACE, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::ExpressionContext::CLOSED_CURLY_BRACE() {
-  return getToken(ValuescriptParser::CLOSED_CURLY_BRACE, 0);
-}
-
-std::vector<tree::TerminalNode *> ValuescriptParser::ExpressionContext::COMMA() {
-  return getTokens(ValuescriptParser::COMMA);
-}
-
-tree::TerminalNode* ValuescriptParser::ExpressionContext::COMMA(size_t i) {
-  return getToken(ValuescriptParser::COMMA, i);
-}
-
-tree::TerminalNode* ValuescriptParser::ExpressionContext::PERIOD() {
-  return getToken(ValuescriptParser::PERIOD, 0);
-}
-
-ValuescriptParser::MultiplicativeoperatorContext* ValuescriptParser::ExpressionContext::multiplicativeoperator() {
-  return getRuleContext<ValuescriptParser::MultiplicativeoperatorContext>(0);
-}
-
-ValuescriptParser::AdditiveoperatorContext* ValuescriptParser::ExpressionContext::additiveoperator() {
-  return getRuleContext<ValuescriptParser::AdditiveoperatorContext>(0);
-}
-
-ValuescriptParser::ComparisonoperatorContext* ValuescriptParser::ExpressionContext::comparisonoperator() {
-  return getRuleContext<ValuescriptParser::ComparisonoperatorContext>(0);
-}
-
-ValuescriptParser::BooleanoperatorContext* ValuescriptParser::ExpressionContext::booleanoperator() {
-  return getRuleContext<ValuescriptParser::BooleanoperatorContext>(0);
-}
-
-ValuescriptParser::AssignmentoperatorContext* ValuescriptParser::ExpressionContext::assignmentoperator() {
-  return getRuleContext<ValuescriptParser::AssignmentoperatorContext>(0);
-}
-
-tree::TerminalNode* ValuescriptParser::ExpressionContext::OPEN_PARENTHESES() {
-  return getToken(ValuescriptParser::OPEN_PARENTHESES, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::ExpressionContext::CLOSED_PARENTHESES() {
-  return getToken(ValuescriptParser::CLOSED_PARENTHESES, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::ExpressionContext::OPEN_SQUARE() {
-  return getToken(ValuescriptParser::OPEN_SQUARE, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::ExpressionContext::CLOSED_SQUARE() {
-  return getToken(ValuescriptParser::CLOSED_SQUARE, 0);
-}
-
-ValuescriptParser::IncrementaloperatorContext* ValuescriptParser::ExpressionContext::incrementaloperator() {
-  return getRuleContext<ValuescriptParser::IncrementaloperatorContext>(0);
-}
-
 
 size_t ValuescriptParser::ExpressionContext::getRuleIndex() const {
   return ValuescriptParser::RuleExpression;
 }
 
-void ValuescriptParser::ExpressionContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterExpression(this);
+void ValuescriptParser::ExpressionContext::copyFrom(ExpressionContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-void ValuescriptParser::ExpressionContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitExpression(this);
+//----------------- NotexprContext ------------------------------------------------------------------
+
+ValuescriptParser::NotoperatorContext* ValuescriptParser::NotexprContext::notoperator() {
+  return getRuleContext<ValuescriptParser::NotoperatorContext>(0);
 }
 
+ValuescriptParser::ExpressionContext* ValuescriptParser::NotexprContext::expression() {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(0);
+}
 
-std::any ValuescriptParser::ExpressionContext::accept(tree::ParseTreeVisitor *visitor) {
+ValuescriptParser::NotexprContext::NotexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::NotexprContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
-    return parserVisitor->visitExpression(this);
+    return parserVisitor->visitNotexpr(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- CompexprContext ------------------------------------------------------------------
 
+std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::CompexprContext::expression() {
+  return getRuleContexts<ValuescriptParser::ExpressionContext>();
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::CompexprContext::expression(size_t i) {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
+}
+
+ValuescriptParser::ComparisonoperatorContext* ValuescriptParser::CompexprContext::comparisonoperator() {
+  return getRuleContext<ValuescriptParser::ComparisonoperatorContext>(0);
+}
+
+ValuescriptParser::CompexprContext::CompexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::CompexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitCompexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- AddexprContext ------------------------------------------------------------------
+
+std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::AddexprContext::expression() {
+  return getRuleContexts<ValuescriptParser::ExpressionContext>();
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::AddexprContext::expression(size_t i) {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
+}
+
+ValuescriptParser::AdditiveoperatorContext* ValuescriptParser::AddexprContext::additiveoperator() {
+  return getRuleContext<ValuescriptParser::AdditiveoperatorContext>(0);
+}
+
+ValuescriptParser::AddexprContext::AddexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::AddexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitAddexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- MembexprContext ------------------------------------------------------------------
+
+std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::MembexprContext::expression() {
+  return getRuleContexts<ValuescriptParser::ExpressionContext>();
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::MembexprContext::expression(size_t i) {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
+}
+
+tree::TerminalNode* ValuescriptParser::MembexprContext::PERIOD() {
+  return getToken(ValuescriptParser::PERIOD, 0);
+}
+
+ValuescriptParser::MembexprContext::MembexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::MembexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitMembexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- AssignexprContext ------------------------------------------------------------------
+
+std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::AssignexprContext::expression() {
+  return getRuleContexts<ValuescriptParser::ExpressionContext>();
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::AssignexprContext::expression(size_t i) {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
+}
+
+ValuescriptParser::AssignmentoperatorContext* ValuescriptParser::AssignexprContext::assignmentoperator() {
+  return getRuleContext<ValuescriptParser::AssignmentoperatorContext>(0);
+}
+
+ValuescriptParser::AssignexprContext::AssignexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::AssignexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitAssignexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- BoolexprContext ------------------------------------------------------------------
+
+std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::BoolexprContext::expression() {
+  return getRuleContexts<ValuescriptParser::ExpressionContext>();
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::BoolexprContext::expression(size_t i) {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
+}
+
+ValuescriptParser::BooleanoperatorContext* ValuescriptParser::BoolexprContext::booleanoperator() {
+  return getRuleContext<ValuescriptParser::BooleanoperatorContext>(0);
+}
+
+ValuescriptParser::BoolexprContext::BoolexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::BoolexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitBoolexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- AccessexprContext ------------------------------------------------------------------
+
+std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::AccessexprContext::expression() {
+  return getRuleContexts<ValuescriptParser::ExpressionContext>();
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::AccessexprContext::expression(size_t i) {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
+}
+
+tree::TerminalNode* ValuescriptParser::AccessexprContext::OPEN_SQUARE() {
+  return getToken(ValuescriptParser::OPEN_SQUARE, 0);
+}
+
+tree::TerminalNode* ValuescriptParser::AccessexprContext::CLOSED_SQUARE() {
+  return getToken(ValuescriptParser::CLOSED_SQUARE, 0);
+}
+
+ValuescriptParser::AccessexprContext::AccessexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::AccessexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitAccessexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- BinexprContext ------------------------------------------------------------------
+
+std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::BinexprContext::expression() {
+  return getRuleContexts<ValuescriptParser::ExpressionContext>();
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::BinexprContext::expression(size_t i) {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
+}
+
+ValuescriptParser::BinaryoperatorContext* ValuescriptParser::BinexprContext::binaryoperator() {
+  return getRuleContext<ValuescriptParser::BinaryoperatorContext>(0);
+}
+
+ValuescriptParser::BinexprContext::BinexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::BinexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitBinexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- MultexprContext ------------------------------------------------------------------
+
+std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::MultexprContext::expression() {
+  return getRuleContexts<ValuescriptParser::ExpressionContext>();
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::MultexprContext::expression(size_t i) {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
+}
+
+ValuescriptParser::MultiplicativeoperatorContext* ValuescriptParser::MultexprContext::multiplicativeoperator() {
+  return getRuleContext<ValuescriptParser::MultiplicativeoperatorContext>(0);
+}
+
+ValuescriptParser::MultexprContext::MultexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::MultexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitMultexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- IncexprContext ------------------------------------------------------------------
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::IncexprContext::expression() {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(0);
+}
+
+ValuescriptParser::IncrementaloperatorContext* ValuescriptParser::IncexprContext::incrementaloperator() {
+  return getRuleContext<ValuescriptParser::IncrementaloperatorContext>(0);
+}
+
+ValuescriptParser::IncexprContext::IncexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::IncexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitIncexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- ObjexprContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::ObjexprContext::OPEN_CURLY_BRACE() {
+  return getToken(ValuescriptParser::OPEN_CURLY_BRACE, 0);
+}
+
+tree::TerminalNode* ValuescriptParser::ObjexprContext::CLOSED_CURLY_BRACE() {
+  return getToken(ValuescriptParser::CLOSED_CURLY_BRACE, 0);
+}
+
+std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::ObjexprContext::expression() {
+  return getRuleContexts<ValuescriptParser::ExpressionContext>();
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::ObjexprContext::expression(size_t i) {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
+}
+
+std::vector<tree::TerminalNode *> ValuescriptParser::ObjexprContext::COMMA() {
+  return getTokens(ValuescriptParser::COMMA);
+}
+
+tree::TerminalNode* ValuescriptParser::ObjexprContext::COMMA(size_t i) {
+  return getToken(ValuescriptParser::COMMA, i);
+}
+
+ValuescriptParser::ObjexprContext::ObjexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::ObjexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitObjexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- PrimexprContext ------------------------------------------------------------------
+
+ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::PrimexprContext::primaryexpression() {
+  return getRuleContext<ValuescriptParser::PrimaryexpressionContext>(0);
+}
+
+ValuescriptParser::PrimexprContext::PrimexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::PrimexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitPrimexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- ParenexprContext ------------------------------------------------------------------
+
+std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::ParenexprContext::expression() {
+  return getRuleContexts<ValuescriptParser::ExpressionContext>();
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::ParenexprContext::expression(size_t i) {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
+}
+
+tree::TerminalNode* ValuescriptParser::ParenexprContext::OPEN_PARENTHESES() {
+  return getToken(ValuescriptParser::OPEN_PARENTHESES, 0);
+}
+
+tree::TerminalNode* ValuescriptParser::ParenexprContext::CLOSED_PARENTHESES() {
+  return getToken(ValuescriptParser::CLOSED_PARENTHESES, 0);
+}
+
+std::vector<tree::TerminalNode *> ValuescriptParser::ParenexprContext::COMMA() {
+  return getTokens(ValuescriptParser::COMMA);
+}
+
+tree::TerminalNode* ValuescriptParser::ParenexprContext::COMMA(size_t i) {
+  return getToken(ValuescriptParser::COMMA, i);
+}
+
+ValuescriptParser::ParenexprContext::ParenexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::ParenexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitParenexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
 
 ValuescriptParser::ExpressionContext* ValuescriptParser::expression() {
    return expression(0);
@@ -2085,53 +2382,64 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(259);
+    setState(261);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case ValuescriptParser::TRUE:
       case ValuescriptParser::FALSE:
       case ValuescriptParser::OPEN_PARENTHESES:
+      case ValuescriptParser::FLOATING_LITERAL:
       case ValuescriptParser::INTEGER_LITERAL:
       case ValuescriptParser::STRING_LITERAL:
       case ValuescriptParser::IDENTIFIER: {
-        setState(243);
+        _localctx = _tracker.createInstance<PrimexprContext>(_localctx);
+        _ctx = _localctx;
+        previousContext = _localctx;
+
+        setState(245);
         primaryexpression();
         break;
       }
 
       case ValuescriptParser::EXCLAMATION_POINT: {
-        setState(244);
+        _localctx = _tracker.createInstance<NotexprContext>(_localctx);
+        _ctx = _localctx;
+        previousContext = _localctx;
+        setState(246);
         notoperator();
-        setState(245);
-        expression(7);
+        setState(247);
+        expression(8);
         break;
       }
 
       case ValuescriptParser::OPEN_CURLY_BRACE: {
-        setState(247);
+        _localctx = _tracker.createInstance<ObjexprContext>(_localctx);
+        _ctx = _localctx;
+        previousContext = _localctx;
+        setState(249);
         match(ValuescriptParser::OPEN_CURLY_BRACE);
-        setState(256);
+        setState(258);
         _errHandler->sync(this);
 
         _la = _input->LA(1);
         if (((((_la - 15) & ~ 0x3fULL) == 0) &&
-          ((1ULL << (_la - 15)) & 985162419536515) != 0)) {
-          setState(248);
+          ((1ULL << (_la - 15)) & 1055531163189891) != 0)) {
+          setState(250);
           expression(0);
-          setState(253);
+          setState(255);
           _errHandler->sync(this);
           _la = _input->LA(1);
           while (_la == ValuescriptParser::COMMA) {
-            setState(249);
+            setState(251);
             match(ValuescriptParser::COMMA);
-            setState(250);
+            setState(252);
             expression(0);
-            setState(255);
+            setState(257);
             _errHandler->sync(this);
             _la = _input->LA(1);
           }
         }
-        setState(258);
+        setState(260);
         match(ValuescriptParser::CLOSED_CURLY_BRACE);
         break;
       }
@@ -2140,151 +2448,174 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
       throw NoViableAltException(this);
     }
     _ctx->stop = _input->LT(-1);
-    setState(306);
+    setState(312);
     _errHandler->sync(this);
-    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 29, _ctx);
+    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 30, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
       if (alt == 1) {
         if (!_parseListeners.empty())
           triggerExitRuleEvent();
         previousContext = _localctx;
-        setState(304);
+        setState(310);
         _errHandler->sync(this);
-        switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 28, _ctx)) {
+        switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 29, _ctx)) {
         case 1: {
-          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpression);
-          setState(261);
-
-          if (!(precpred(_ctx, 11))) throw FailedPredicateException(this, "precpred(_ctx, 11)");
-          setState(262);
-          match(ValuescriptParser::PERIOD);
+          auto newContext = _tracker.createInstance<MembexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
+          _localctx = newContext;
+          pushNewRecursionContext(newContext, startState, RuleExpression);
           setState(263);
-          expression(12);
+
+          if (!(precpred(_ctx, 12))) throw FailedPredicateException(this, "precpred(_ctx, 12)");
+          setState(264);
+          match(ValuescriptParser::PERIOD);
+          setState(265);
+          expression(13);
           break;
         }
 
         case 2: {
-          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpression);
-          setState(264);
-
-          if (!(precpred(_ctx, 6))) throw FailedPredicateException(this, "precpred(_ctx, 6)");
-          setState(265);
-          multiplicativeoperator();
+          auto newContext = _tracker.createInstance<MultexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
+          _localctx = newContext;
+          pushNewRecursionContext(newContext, startState, RuleExpression);
           setState(266);
-          expression(7);
+
+          if (!(precpred(_ctx, 7))) throw FailedPredicateException(this, "precpred(_ctx, 7)");
+          setState(267);
+          multiplicativeoperator();
+          setState(268);
+          expression(8);
           break;
         }
 
         case 3: {
-          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpression);
-          setState(268);
-
-          if (!(precpred(_ctx, 5))) throw FailedPredicateException(this, "precpred(_ctx, 5)");
-          setState(269);
-          additiveoperator();
+          auto newContext = _tracker.createInstance<AddexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
+          _localctx = newContext;
+          pushNewRecursionContext(newContext, startState, RuleExpression);
           setState(270);
-          expression(6);
+
+          if (!(precpred(_ctx, 6))) throw FailedPredicateException(this, "precpred(_ctx, 6)");
+          setState(271);
+          additiveoperator();
+          setState(272);
+          expression(7);
           break;
         }
 
         case 4: {
-          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpression);
-          setState(272);
-
-          if (!(precpred(_ctx, 4))) throw FailedPredicateException(this, "precpred(_ctx, 4)");
-          setState(273);
-          comparisonoperator();
+          auto newContext = _tracker.createInstance<CompexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
+          _localctx = newContext;
+          pushNewRecursionContext(newContext, startState, RuleExpression);
           setState(274);
-          expression(5);
+
+          if (!(precpred(_ctx, 5))) throw FailedPredicateException(this, "precpred(_ctx, 5)");
+          setState(275);
+          comparisonoperator();
+          setState(276);
+          expression(6);
           break;
         }
 
         case 5: {
-          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpression);
-          setState(276);
-
-          if (!(precpred(_ctx, 3))) throw FailedPredicateException(this, "precpred(_ctx, 3)");
-          setState(277);
-          booleanoperator();
+          auto newContext = _tracker.createInstance<BoolexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
+          _localctx = newContext;
+          pushNewRecursionContext(newContext, startState, RuleExpression);
           setState(278);
-          expression(4);
+
+          if (!(precpred(_ctx, 4))) throw FailedPredicateException(this, "precpred(_ctx, 4)");
+          setState(279);
+          booleanoperator();
+          setState(280);
+          expression(5);
           break;
         }
 
         case 6: {
-          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpression);
-          setState(280);
-
-          if (!(precpred(_ctx, 1))) throw FailedPredicateException(this, "precpred(_ctx, 1)");
-          setState(281);
-          assignmentoperator();
+          auto newContext = _tracker.createInstance<BinexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
+          _localctx = newContext;
+          pushNewRecursionContext(newContext, startState, RuleExpression);
           setState(282);
-          expression(2);
+
+          if (!(precpred(_ctx, 3))) throw FailedPredicateException(this, "precpred(_ctx, 3)");
+          setState(283);
+          binaryoperator();
+          setState(284);
+          expression(4);
           break;
         }
 
         case 7: {
-          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpression);
-          setState(284);
+          auto newContext = _tracker.createInstance<AssignexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
+          _localctx = newContext;
+          pushNewRecursionContext(newContext, startState, RuleExpression);
+          setState(286);
 
-          if (!(precpred(_ctx, 10))) throw FailedPredicateException(this, "precpred(_ctx, 10)");
-          setState(285);
-          match(ValuescriptParser::OPEN_PARENTHESES);
-          setState(294);
-          _errHandler->sync(this);
-
-          _la = _input->LA(1);
-          if (((((_la - 15) & ~ 0x3fULL) == 0) &&
-            ((1ULL << (_la - 15)) & 985162419536515) != 0)) {
-            setState(286);
-            expression(0);
-            setState(291);
-            _errHandler->sync(this);
-            _la = _input->LA(1);
-            while (_la == ValuescriptParser::COMMA) {
-              setState(287);
-              match(ValuescriptParser::COMMA);
-              setState(288);
-              expression(0);
-              setState(293);
-              _errHandler->sync(this);
-              _la = _input->LA(1);
-            }
-          }
-          setState(296);
-          match(ValuescriptParser::CLOSED_PARENTHESES);
+          if (!(precpred(_ctx, 1))) throw FailedPredicateException(this, "precpred(_ctx, 1)");
+          setState(287);
+          assignmentoperator();
+          setState(288);
+          expression(2);
           break;
         }
 
         case 8: {
-          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpression);
-          setState(297);
+          auto newContext = _tracker.createInstance<ParenexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
+          _localctx = newContext;
+          pushNewRecursionContext(newContext, startState, RuleExpression);
+          setState(290);
 
-          if (!(precpred(_ctx, 9))) throw FailedPredicateException(this, "precpred(_ctx, 9)");
-          setState(298);
-          match(ValuescriptParser::OPEN_SQUARE);
-          setState(299);
-          expression(0);
+          if (!(precpred(_ctx, 11))) throw FailedPredicateException(this, "precpred(_ctx, 11)");
+          setState(291);
+          match(ValuescriptParser::OPEN_PARENTHESES);
           setState(300);
-          match(ValuescriptParser::CLOSED_SQUARE);
+          _errHandler->sync(this);
+
+          _la = _input->LA(1);
+          if (((((_la - 15) & ~ 0x3fULL) == 0) &&
+            ((1ULL << (_la - 15)) & 1055531163189891) != 0)) {
+            setState(292);
+            expression(0);
+            setState(297);
+            _errHandler->sync(this);
+            _la = _input->LA(1);
+            while (_la == ValuescriptParser::COMMA) {
+              setState(293);
+              match(ValuescriptParser::COMMA);
+              setState(294);
+              expression(0);
+              setState(299);
+              _errHandler->sync(this);
+              _la = _input->LA(1);
+            }
+          }
+          setState(302);
+          match(ValuescriptParser::CLOSED_PARENTHESES);
           break;
         }
 
         case 9: {
-          _localctx = _tracker.createInstance<ExpressionContext>(parentContext, parentState);
-          pushNewRecursionContext(_localctx, startState, RuleExpression);
-          setState(302);
-
-          if (!(precpred(_ctx, 8))) throw FailedPredicateException(this, "precpred(_ctx, 8)");
+          auto newContext = _tracker.createInstance<AccessexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
+          _localctx = newContext;
+          pushNewRecursionContext(newContext, startState, RuleExpression);
           setState(303);
+
+          if (!(precpred(_ctx, 10))) throw FailedPredicateException(this, "precpred(_ctx, 10)");
+          setState(304);
+          match(ValuescriptParser::OPEN_SQUARE);
+          setState(305);
+          expression(0);
+          setState(306);
+          match(ValuescriptParser::CLOSED_SQUARE);
+          break;
+        }
+
+        case 10: {
+          auto newContext = _tracker.createInstance<IncexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
+          _localctx = newContext;
+          pushNewRecursionContext(newContext, startState, RuleExpression);
+          setState(308);
+
+          if (!(precpred(_ctx, 9))) throw FailedPredicateException(this, "precpred(_ctx, 9)");
+          setState(309);
           incrementaloperator();
           break;
         }
@@ -2293,9 +2624,9 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
           break;
         } 
       }
-      setState(308);
+      setState(314);
       _errHandler->sync(this);
-      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 29, _ctx);
+      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 30, _ctx);
     }
   }
   catch (RecognitionException &e) {
@@ -2312,59 +2643,108 @@ ValuescriptParser::AssignmentoperatorContext::AssignmentoperatorContext(ParserRu
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* ValuescriptParser::AssignmentoperatorContext::ASSIGNMENT_GENERIC() {
-  return getToken(ValuescriptParser::ASSIGNMENT_GENERIC, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::AssignmentoperatorContext::ASSIGNMENT_ADD() {
-  return getToken(ValuescriptParser::ASSIGNMENT_ADD, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::AssignmentoperatorContext::ASSIGNMENT_SUB() {
-  return getToken(ValuescriptParser::ASSIGNMENT_SUB, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::AssignmentoperatorContext::ASSIGNMENT_MULTI() {
-  return getToken(ValuescriptParser::ASSIGNMENT_MULTI, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::AssignmentoperatorContext::ASSIGNMENT_DIV() {
-  return getToken(ValuescriptParser::ASSIGNMENT_DIV, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::AssignmentoperatorContext::ASSIGNMENT_MOD() {
-  return getToken(ValuescriptParser::ASSIGNMENT_MOD, 0);
-}
-
 
 size_t ValuescriptParser::AssignmentoperatorContext::getRuleIndex() const {
   return ValuescriptParser::RuleAssignmentoperator;
 }
 
-void ValuescriptParser::AssignmentoperatorContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterAssignmentoperator(this);
+void ValuescriptParser::AssignmentoperatorContext::copyFrom(AssignmentoperatorContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-void ValuescriptParser::AssignmentoperatorContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitAssignmentoperator(this);
+//----------------- AssaddContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::AssaddContext::ASSIGNMENT_ADD() {
+  return getToken(ValuescriptParser::ASSIGNMENT_ADD, 0);
 }
 
+ValuescriptParser::AssaddContext::AssaddContext(AssignmentoperatorContext *ctx) { copyFrom(ctx); }
 
-std::any ValuescriptParser::AssignmentoperatorContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any ValuescriptParser::AssaddContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
-    return parserVisitor->visitAssignmentoperator(this);
+    return parserVisitor->visitAssadd(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- AssdivContext ------------------------------------------------------------------
 
+tree::TerminalNode* ValuescriptParser::AssdivContext::ASSIGNMENT_DIV() {
+  return getToken(ValuescriptParser::ASSIGNMENT_DIV, 0);
+}
+
+ValuescriptParser::AssdivContext::AssdivContext(AssignmentoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::AssdivContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitAssdiv(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- AssmodContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::AssmodContext::ASSIGNMENT_MOD() {
+  return getToken(ValuescriptParser::ASSIGNMENT_MOD, 0);
+}
+
+ValuescriptParser::AssmodContext::AssmodContext(AssignmentoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::AssmodContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitAssmod(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- AssmulContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::AssmulContext::ASSIGNMENT_MULTI() {
+  return getToken(ValuescriptParser::ASSIGNMENT_MULTI, 0);
+}
+
+ValuescriptParser::AssmulContext::AssmulContext(AssignmentoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::AssmulContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitAssmul(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- AsseqlContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::AsseqlContext::ASSIGNMENT_GENERIC() {
+  return getToken(ValuescriptParser::ASSIGNMENT_GENERIC, 0);
+}
+
+ValuescriptParser::AsseqlContext::AsseqlContext(AssignmentoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::AsseqlContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitAsseql(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- AsssubContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::AsssubContext::ASSIGNMENT_SUB() {
+  return getToken(ValuescriptParser::ASSIGNMENT_SUB, 0);
+}
+
+ValuescriptParser::AsssubContext::AsssubContext(AssignmentoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::AsssubContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitAsssub(this);
+  else
+    return visitor->visitChildren(this);
+}
 ValuescriptParser::AssignmentoperatorContext* ValuescriptParser::assignmentoperator() {
   AssignmentoperatorContext *_localctx = _tracker.createInstance<AssignmentoperatorContext>(_ctx, getState());
   enterRule(_localctx, 30, ValuescriptParser::RuleAssignmentoperator);
-  size_t _la = 0;
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2374,16 +2754,172 @@ ValuescriptParser::AssignmentoperatorContext* ValuescriptParser::assignmentopera
     exitRule();
   });
   try {
-    enterOuterAlt(_localctx, 1);
-    setState(309);
-    _la = _input->LA(1);
-    if (!((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & 35465847065542656) != 0))) {
-    _errHandler->recoverInline(this);
+    setState(321);
+    _errHandler->sync(this);
+    switch (_input->LA(1)) {
+      case ValuescriptParser::ASSIGNMENT_GENERIC: {
+        _localctx = _tracker.createInstance<ValuescriptParser::AsseqlContext>(_localctx);
+        enterOuterAlt(_localctx, 1);
+        setState(315);
+        match(ValuescriptParser::ASSIGNMENT_GENERIC);
+        break;
+      }
+
+      case ValuescriptParser::ASSIGNMENT_ADD: {
+        _localctx = _tracker.createInstance<ValuescriptParser::AssaddContext>(_localctx);
+        enterOuterAlt(_localctx, 2);
+        setState(316);
+        match(ValuescriptParser::ASSIGNMENT_ADD);
+        break;
+      }
+
+      case ValuescriptParser::ASSIGNMENT_SUB: {
+        _localctx = _tracker.createInstance<ValuescriptParser::AsssubContext>(_localctx);
+        enterOuterAlt(_localctx, 3);
+        setState(317);
+        match(ValuescriptParser::ASSIGNMENT_SUB);
+        break;
+      }
+
+      case ValuescriptParser::ASSIGNMENT_MULTI: {
+        _localctx = _tracker.createInstance<ValuescriptParser::AssmulContext>(_localctx);
+        enterOuterAlt(_localctx, 4);
+        setState(318);
+        match(ValuescriptParser::ASSIGNMENT_MULTI);
+        break;
+      }
+
+      case ValuescriptParser::ASSIGNMENT_DIV: {
+        _localctx = _tracker.createInstance<ValuescriptParser::AssdivContext>(_localctx);
+        enterOuterAlt(_localctx, 5);
+        setState(319);
+        match(ValuescriptParser::ASSIGNMENT_DIV);
+        break;
+      }
+
+      case ValuescriptParser::ASSIGNMENT_MOD: {
+        _localctx = _tracker.createInstance<ValuescriptParser::AssmodContext>(_localctx);
+        enterOuterAlt(_localctx, 6);
+        setState(320);
+        match(ValuescriptParser::ASSIGNMENT_MOD);
+        break;
+      }
+
+    default:
+      throw NoViableAltException(this);
     }
-    else {
-      _errHandler->reportMatch(this);
-      consume();
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- BinaryoperatorContext ------------------------------------------------------------------
+
+ValuescriptParser::BinaryoperatorContext::BinaryoperatorContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+
+size_t ValuescriptParser::BinaryoperatorContext::getRuleIndex() const {
+  return ValuescriptParser::RuleBinaryoperator;
+}
+
+void ValuescriptParser::BinaryoperatorContext::copyFrom(BinaryoperatorContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
+}
+
+//----------------- BitandContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::BitandContext::BITWISE_AND() {
+  return getToken(ValuescriptParser::BITWISE_AND, 0);
+}
+
+ValuescriptParser::BitandContext::BitandContext(BinaryoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::BitandContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitBitand(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- BitorContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::BitorContext::BITWISE_OR() {
+  return getToken(ValuescriptParser::BITWISE_OR, 0);
+}
+
+ValuescriptParser::BitorContext::BitorContext(BinaryoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::BitorContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitBitor(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- BitxorContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::BitxorContext::BITWISE_XOR() {
+  return getToken(ValuescriptParser::BITWISE_XOR, 0);
+}
+
+ValuescriptParser::BitxorContext::BitxorContext(BinaryoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::BitxorContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitBitxor(this);
+  else
+    return visitor->visitChildren(this);
+}
+ValuescriptParser::BinaryoperatorContext* ValuescriptParser::binaryoperator() {
+  BinaryoperatorContext *_localctx = _tracker.createInstance<BinaryoperatorContext>(_ctx, getState());
+  enterRule(_localctx, 32, ValuescriptParser::RuleBinaryoperator);
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    setState(326);
+    _errHandler->sync(this);
+    switch (_input->LA(1)) {
+      case ValuescriptParser::BITWISE_AND: {
+        _localctx = _tracker.createInstance<ValuescriptParser::BitandContext>(_localctx);
+        enterOuterAlt(_localctx, 1);
+        setState(323);
+        match(ValuescriptParser::BITWISE_AND);
+        break;
+      }
+
+      case ValuescriptParser::BITWISE_OR: {
+        _localctx = _tracker.createInstance<ValuescriptParser::BitorContext>(_localctx);
+        enterOuterAlt(_localctx, 2);
+        setState(324);
+        match(ValuescriptParser::BITWISE_OR);
+        break;
+      }
+
+      case ValuescriptParser::BITWISE_XOR: {
+        _localctx = _tracker.createInstance<ValuescriptParser::BitxorContext>(_localctx);
+        enterOuterAlt(_localctx, 3);
+        setState(325);
+        match(ValuescriptParser::BITWISE_XOR);
+        break;
+      }
+
+    default:
+      throw NoViableAltException(this);
     }
    
   }
@@ -2402,43 +2938,48 @@ ValuescriptParser::BooleanoperatorContext::BooleanoperatorContext(ParserRuleCont
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* ValuescriptParser::BooleanoperatorContext::BOOLEAN_AND() {
-  return getToken(ValuescriptParser::BOOLEAN_AND, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::BooleanoperatorContext::BOOLEAN_OR() {
-  return getToken(ValuescriptParser::BOOLEAN_OR, 0);
-}
-
 
 size_t ValuescriptParser::BooleanoperatorContext::getRuleIndex() const {
   return ValuescriptParser::RuleBooleanoperator;
 }
 
-void ValuescriptParser::BooleanoperatorContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterBooleanoperator(this);
+void ValuescriptParser::BooleanoperatorContext::copyFrom(BooleanoperatorContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-void ValuescriptParser::BooleanoperatorContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitBooleanoperator(this);
+//----------------- BoolandContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::BoolandContext::BOOLEAN_AND() {
+  return getToken(ValuescriptParser::BOOLEAN_AND, 0);
 }
 
+ValuescriptParser::BoolandContext::BoolandContext(BooleanoperatorContext *ctx) { copyFrom(ctx); }
 
-std::any ValuescriptParser::BooleanoperatorContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any ValuescriptParser::BoolandContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
-    return parserVisitor->visitBooleanoperator(this);
+    return parserVisitor->visitBooland(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- BoolorContext ------------------------------------------------------------------
 
+tree::TerminalNode* ValuescriptParser::BoolorContext::BOOLEAN_OR() {
+  return getToken(ValuescriptParser::BOOLEAN_OR, 0);
+}
+
+ValuescriptParser::BoolorContext::BoolorContext(BooleanoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::BoolorContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitBoolor(this);
+  else
+    return visitor->visitChildren(this);
+}
 ValuescriptParser::BooleanoperatorContext* ValuescriptParser::booleanoperator() {
   BooleanoperatorContext *_localctx = _tracker.createInstance<BooleanoperatorContext>(_ctx, getState());
-  enterRule(_localctx, 32, ValuescriptParser::RuleBooleanoperator);
-  size_t _la = 0;
+  enterRule(_localctx, 34, ValuescriptParser::RuleBooleanoperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2448,17 +2989,27 @@ ValuescriptParser::BooleanoperatorContext* ValuescriptParser::booleanoperator() 
     exitRule();
   });
   try {
-    enterOuterAlt(_localctx, 1);
-    setState(311);
-    _la = _input->LA(1);
-    if (!(_la == ValuescriptParser::BOOLEAN_AND
+    setState(330);
+    _errHandler->sync(this);
+    switch (_input->LA(1)) {
+      case ValuescriptParser::BOOLEAN_AND: {
+        _localctx = _tracker.createInstance<ValuescriptParser::BoolandContext>(_localctx);
+        enterOuterAlt(_localctx, 1);
+        setState(328);
+        match(ValuescriptParser::BOOLEAN_AND);
+        break;
+      }
 
-    || _la == ValuescriptParser::BOOLEAN_OR)) {
-    _errHandler->recoverInline(this);
-    }
-    else {
-      _errHandler->reportMatch(this);
-      consume();
+      case ValuescriptParser::BOOLEAN_OR: {
+        _localctx = _tracker.createInstance<ValuescriptParser::BoolorContext>(_localctx);
+        enterOuterAlt(_localctx, 2);
+        setState(329);
+        match(ValuescriptParser::BOOLEAN_OR);
+        break;
+      }
+
+    default:
+      throw NoViableAltException(this);
     }
    
   }
@@ -2477,59 +3028,108 @@ ValuescriptParser::ComparisonoperatorContext::ComparisonoperatorContext(ParserRu
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* ValuescriptParser::ComparisonoperatorContext::EQUALITY() {
-  return getToken(ValuescriptParser::EQUALITY, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::ComparisonoperatorContext::NON_EQUALITY() {
-  return getToken(ValuescriptParser::NON_EQUALITY, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::ComparisonoperatorContext::GREATER_OR_EQUAL() {
-  return getToken(ValuescriptParser::GREATER_OR_EQUAL, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::ComparisonoperatorContext::LESS_OR_EQUAL() {
-  return getToken(ValuescriptParser::LESS_OR_EQUAL, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::ComparisonoperatorContext::OPEN_ANGLE_BRACKET() {
-  return getToken(ValuescriptParser::OPEN_ANGLE_BRACKET, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::ComparisonoperatorContext::CLOSED_ANGLE_BRACKET() {
-  return getToken(ValuescriptParser::CLOSED_ANGLE_BRACKET, 0);
-}
-
 
 size_t ValuescriptParser::ComparisonoperatorContext::getRuleIndex() const {
   return ValuescriptParser::RuleComparisonoperator;
 }
 
-void ValuescriptParser::ComparisonoperatorContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterComparisonoperator(this);
+void ValuescriptParser::ComparisonoperatorContext::copyFrom(ComparisonoperatorContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-void ValuescriptParser::ComparisonoperatorContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitComparisonoperator(this);
+//----------------- ComploeContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::ComploeContext::LESS_OR_EQUAL() {
+  return getToken(ValuescriptParser::LESS_OR_EQUAL, 0);
 }
 
+ValuescriptParser::ComploeContext::ComploeContext(ComparisonoperatorContext *ctx) { copyFrom(ctx); }
 
-std::any ValuescriptParser::ComparisonoperatorContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any ValuescriptParser::ComploeContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
-    return parserVisitor->visitComparisonoperator(this);
+    return parserVisitor->visitComploe(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- CompeqlContext ------------------------------------------------------------------
 
+tree::TerminalNode* ValuescriptParser::CompeqlContext::EQUALITY() {
+  return getToken(ValuescriptParser::EQUALITY, 0);
+}
+
+ValuescriptParser::CompeqlContext::CompeqlContext(ComparisonoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::CompeqlContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitCompeql(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- CompnonContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::CompnonContext::NON_EQUALITY() {
+  return getToken(ValuescriptParser::NON_EQUALITY, 0);
+}
+
+ValuescriptParser::CompnonContext::CompnonContext(ComparisonoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::CompnonContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitCompnon(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- CompgoeContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::CompgoeContext::GREATER_OR_EQUAL() {
+  return getToken(ValuescriptParser::GREATER_OR_EQUAL, 0);
+}
+
+ValuescriptParser::CompgoeContext::CompgoeContext(ComparisonoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::CompgoeContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitCompgoe(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- ComplssContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::ComplssContext::OPEN_ANGLE_BRACKET() {
+  return getToken(ValuescriptParser::OPEN_ANGLE_BRACKET, 0);
+}
+
+ValuescriptParser::ComplssContext::ComplssContext(ComparisonoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::ComplssContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitComplss(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- CompgreContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::CompgreContext::CLOSED_ANGLE_BRACKET() {
+  return getToken(ValuescriptParser::CLOSED_ANGLE_BRACKET, 0);
+}
+
+ValuescriptParser::CompgreContext::CompgreContext(ComparisonoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::CompgreContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitCompgre(this);
+  else
+    return visitor->visitChildren(this);
+}
 ValuescriptParser::ComparisonoperatorContext* ValuescriptParser::comparisonoperator() {
   ComparisonoperatorContext *_localctx = _tracker.createInstance<ComparisonoperatorContext>(_ctx, getState());
-  enterRule(_localctx, 34, ValuescriptParser::RuleComparisonoperator);
-  size_t _la = 0;
+  enterRule(_localctx, 36, ValuescriptParser::RuleComparisonoperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2539,16 +3139,59 @@ ValuescriptParser::ComparisonoperatorContext* ValuescriptParser::comparisonopera
     exitRule();
   });
   try {
-    enterOuterAlt(_localctx, 1);
-    setState(313);
-    _la = _input->LA(1);
-    if (!((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & 540431955485786112) != 0))) {
-    _errHandler->recoverInline(this);
-    }
-    else {
-      _errHandler->reportMatch(this);
-      consume();
+    setState(338);
+    _errHandler->sync(this);
+    switch (_input->LA(1)) {
+      case ValuescriptParser::EQUALITY: {
+        _localctx = _tracker.createInstance<ValuescriptParser::CompeqlContext>(_localctx);
+        enterOuterAlt(_localctx, 1);
+        setState(332);
+        match(ValuescriptParser::EQUALITY);
+        break;
+      }
+
+      case ValuescriptParser::NON_EQUALITY: {
+        _localctx = _tracker.createInstance<ValuescriptParser::CompnonContext>(_localctx);
+        enterOuterAlt(_localctx, 2);
+        setState(333);
+        match(ValuescriptParser::NON_EQUALITY);
+        break;
+      }
+
+      case ValuescriptParser::GREATER_OR_EQUAL: {
+        _localctx = _tracker.createInstance<ValuescriptParser::CompgoeContext>(_localctx);
+        enterOuterAlt(_localctx, 3);
+        setState(334);
+        match(ValuescriptParser::GREATER_OR_EQUAL);
+        break;
+      }
+
+      case ValuescriptParser::LESS_OR_EQUAL: {
+        _localctx = _tracker.createInstance<ValuescriptParser::ComploeContext>(_localctx);
+        enterOuterAlt(_localctx, 4);
+        setState(335);
+        match(ValuescriptParser::LESS_OR_EQUAL);
+        break;
+      }
+
+      case ValuescriptParser::OPEN_ANGLE_BRACKET: {
+        _localctx = _tracker.createInstance<ValuescriptParser::ComplssContext>(_localctx);
+        enterOuterAlt(_localctx, 5);
+        setState(336);
+        match(ValuescriptParser::OPEN_ANGLE_BRACKET);
+        break;
+      }
+
+      case ValuescriptParser::CLOSED_ANGLE_BRACKET: {
+        _localctx = _tracker.createInstance<ValuescriptParser::CompgreContext>(_localctx);
+        enterOuterAlt(_localctx, 6);
+        setState(337);
+        match(ValuescriptParser::CLOSED_ANGLE_BRACKET);
+        break;
+      }
+
+    default:
+      throw NoViableAltException(this);
     }
    
   }
@@ -2567,43 +3210,48 @@ ValuescriptParser::AdditiveoperatorContext::AdditiveoperatorContext(ParserRuleCo
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* ValuescriptParser::AdditiveoperatorContext::ADDITION() {
-  return getToken(ValuescriptParser::ADDITION, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::AdditiveoperatorContext::SUBTRACTION() {
-  return getToken(ValuescriptParser::SUBTRACTION, 0);
-}
-
 
 size_t ValuescriptParser::AdditiveoperatorContext::getRuleIndex() const {
   return ValuescriptParser::RuleAdditiveoperator;
 }
 
-void ValuescriptParser::AdditiveoperatorContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterAdditiveoperator(this);
+void ValuescriptParser::AdditiveoperatorContext::copyFrom(AdditiveoperatorContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-void ValuescriptParser::AdditiveoperatorContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitAdditiveoperator(this);
+//----------------- MinusContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::MinusContext::SUBTRACTION() {
+  return getToken(ValuescriptParser::SUBTRACTION, 0);
 }
 
+ValuescriptParser::MinusContext::MinusContext(AdditiveoperatorContext *ctx) { copyFrom(ctx); }
 
-std::any ValuescriptParser::AdditiveoperatorContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any ValuescriptParser::MinusContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
-    return parserVisitor->visitAdditiveoperator(this);
+    return parserVisitor->visitMinus(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- PlusContext ------------------------------------------------------------------
 
+tree::TerminalNode* ValuescriptParser::PlusContext::ADDITION() {
+  return getToken(ValuescriptParser::ADDITION, 0);
+}
+
+ValuescriptParser::PlusContext::PlusContext(AdditiveoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::PlusContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitPlus(this);
+  else
+    return visitor->visitChildren(this);
+}
 ValuescriptParser::AdditiveoperatorContext* ValuescriptParser::additiveoperator() {
   AdditiveoperatorContext *_localctx = _tracker.createInstance<AdditiveoperatorContext>(_ctx, getState());
-  enterRule(_localctx, 36, ValuescriptParser::RuleAdditiveoperator);
-  size_t _la = 0;
+  enterRule(_localctx, 38, ValuescriptParser::RuleAdditiveoperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2613,17 +3261,27 @@ ValuescriptParser::AdditiveoperatorContext* ValuescriptParser::additiveoperator(
     exitRule();
   });
   try {
-    enterOuterAlt(_localctx, 1);
-    setState(315);
-    _la = _input->LA(1);
-    if (!(_la == ValuescriptParser::ADDITION
+    setState(342);
+    _errHandler->sync(this);
+    switch (_input->LA(1)) {
+      case ValuescriptParser::ADDITION: {
+        _localctx = _tracker.createInstance<ValuescriptParser::PlusContext>(_localctx);
+        enterOuterAlt(_localctx, 1);
+        setState(340);
+        match(ValuescriptParser::ADDITION);
+        break;
+      }
 
-    || _la == ValuescriptParser::SUBTRACTION)) {
-    _errHandler->recoverInline(this);
-    }
-    else {
-      _errHandler->reportMatch(this);
-      consume();
+      case ValuescriptParser::SUBTRACTION: {
+        _localctx = _tracker.createInstance<ValuescriptParser::MinusContext>(_localctx);
+        enterOuterAlt(_localctx, 2);
+        setState(341);
+        match(ValuescriptParser::SUBTRACTION);
+        break;
+      }
+
+    default:
+      throw NoViableAltException(this);
     }
    
   }
@@ -2642,47 +3300,63 @@ ValuescriptParser::MultiplicativeoperatorContext::MultiplicativeoperatorContext(
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* ValuescriptParser::MultiplicativeoperatorContext::MULTIPLICATION() {
-  return getToken(ValuescriptParser::MULTIPLICATION, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::MultiplicativeoperatorContext::DIVISION() {
-  return getToken(ValuescriptParser::DIVISION, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::MultiplicativeoperatorContext::MODULUS() {
-  return getToken(ValuescriptParser::MODULUS, 0);
-}
-
 
 size_t ValuescriptParser::MultiplicativeoperatorContext::getRuleIndex() const {
   return ValuescriptParser::RuleMultiplicativeoperator;
 }
 
-void ValuescriptParser::MultiplicativeoperatorContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterMultiplicativeoperator(this);
+void ValuescriptParser::MultiplicativeoperatorContext::copyFrom(MultiplicativeoperatorContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-void ValuescriptParser::MultiplicativeoperatorContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitMultiplicativeoperator(this);
+//----------------- TimesContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::TimesContext::MULTIPLICATION() {
+  return getToken(ValuescriptParser::MULTIPLICATION, 0);
 }
 
+ValuescriptParser::TimesContext::TimesContext(MultiplicativeoperatorContext *ctx) { copyFrom(ctx); }
 
-std::any ValuescriptParser::MultiplicativeoperatorContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any ValuescriptParser::TimesContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
-    return parserVisitor->visitMultiplicativeoperator(this);
+    return parserVisitor->visitTimes(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- DivideContext ------------------------------------------------------------------
 
+tree::TerminalNode* ValuescriptParser::DivideContext::DIVISION() {
+  return getToken(ValuescriptParser::DIVISION, 0);
+}
+
+ValuescriptParser::DivideContext::DivideContext(MultiplicativeoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::DivideContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitDivide(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- ModuloContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::ModuloContext::MODULUS() {
+  return getToken(ValuescriptParser::MODULUS, 0);
+}
+
+ValuescriptParser::ModuloContext::ModuloContext(MultiplicativeoperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::ModuloContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitModulo(this);
+  else
+    return visitor->visitChildren(this);
+}
 ValuescriptParser::MultiplicativeoperatorContext* ValuescriptParser::multiplicativeoperator() {
   MultiplicativeoperatorContext *_localctx = _tracker.createInstance<MultiplicativeoperatorContext>(_ctx, getState());
-  enterRule(_localctx, 38, ValuescriptParser::RuleMultiplicativeoperator);
-  size_t _la = 0;
+  enterRule(_localctx, 40, ValuescriptParser::RuleMultiplicativeoperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2692,16 +3366,35 @@ ValuescriptParser::MultiplicativeoperatorContext* ValuescriptParser::multiplicat
     exitRule();
   });
   try {
-    enterOuterAlt(_localctx, 1);
-    setState(317);
-    _la = _input->LA(1);
-    if (!((((_la & ~ 0x3fULL) == 0) &&
-      ((1ULL << _la) & 123145302310912) != 0))) {
-    _errHandler->recoverInline(this);
-    }
-    else {
-      _errHandler->reportMatch(this);
-      consume();
+    setState(347);
+    _errHandler->sync(this);
+    switch (_input->LA(1)) {
+      case ValuescriptParser::MULTIPLICATION: {
+        _localctx = _tracker.createInstance<ValuescriptParser::TimesContext>(_localctx);
+        enterOuterAlt(_localctx, 1);
+        setState(344);
+        match(ValuescriptParser::MULTIPLICATION);
+        break;
+      }
+
+      case ValuescriptParser::DIVISION: {
+        _localctx = _tracker.createInstance<ValuescriptParser::DivideContext>(_localctx);
+        enterOuterAlt(_localctx, 2);
+        setState(345);
+        match(ValuescriptParser::DIVISION);
+        break;
+      }
+
+      case ValuescriptParser::MODULUS: {
+        _localctx = _tracker.createInstance<ValuescriptParser::ModuloContext>(_localctx);
+        enterOuterAlt(_localctx, 3);
+        setState(346);
+        match(ValuescriptParser::MODULUS);
+        break;
+      }
+
+    default:
+      throw NoViableAltException(this);
     }
    
   }
@@ -2729,18 +3422,6 @@ size_t ValuescriptParser::NotoperatorContext::getRuleIndex() const {
   return ValuescriptParser::RuleNotoperator;
 }
 
-void ValuescriptParser::NotoperatorContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterNotoperator(this);
-}
-
-void ValuescriptParser::NotoperatorContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitNotoperator(this);
-}
-
 
 std::any ValuescriptParser::NotoperatorContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
@@ -2751,7 +3432,7 @@ std::any ValuescriptParser::NotoperatorContext::accept(tree::ParseTreeVisitor *v
 
 ValuescriptParser::NotoperatorContext* ValuescriptParser::notoperator() {
   NotoperatorContext *_localctx = _tracker.createInstance<NotoperatorContext>(_ctx, getState());
-  enterRule(_localctx, 40, ValuescriptParser::RuleNotoperator);
+  enterRule(_localctx, 42, ValuescriptParser::RuleNotoperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2762,7 +3443,7 @@ ValuescriptParser::NotoperatorContext* ValuescriptParser::notoperator() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(319);
+    setState(349);
     match(ValuescriptParser::EXCLAMATION_POINT);
    
   }
@@ -2781,43 +3462,48 @@ ValuescriptParser::IncrementaloperatorContext::IncrementaloperatorContext(Parser
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* ValuescriptParser::IncrementaloperatorContext::INCREMENT() {
-  return getToken(ValuescriptParser::INCREMENT, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::IncrementaloperatorContext::DECREMENT() {
-  return getToken(ValuescriptParser::DECREMENT, 0);
-}
-
 
 size_t ValuescriptParser::IncrementaloperatorContext::getRuleIndex() const {
   return ValuescriptParser::RuleIncrementaloperator;
 }
 
-void ValuescriptParser::IncrementaloperatorContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterIncrementaloperator(this);
+void ValuescriptParser::IncrementaloperatorContext::copyFrom(IncrementaloperatorContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-void ValuescriptParser::IncrementaloperatorContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitIncrementaloperator(this);
+//----------------- PlusplusContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::PlusplusContext::INCREMENT() {
+  return getToken(ValuescriptParser::INCREMENT, 0);
 }
 
+ValuescriptParser::PlusplusContext::PlusplusContext(IncrementaloperatorContext *ctx) { copyFrom(ctx); }
 
-std::any ValuescriptParser::IncrementaloperatorContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any ValuescriptParser::PlusplusContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
-    return parserVisitor->visitIncrementaloperator(this);
+    return parserVisitor->visitPlusplus(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- MinusminusContext ------------------------------------------------------------------
 
+tree::TerminalNode* ValuescriptParser::MinusminusContext::DECREMENT() {
+  return getToken(ValuescriptParser::DECREMENT, 0);
+}
+
+ValuescriptParser::MinusminusContext::MinusminusContext(IncrementaloperatorContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::MinusminusContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitMinusminus(this);
+  else
+    return visitor->visitChildren(this);
+}
 ValuescriptParser::IncrementaloperatorContext* ValuescriptParser::incrementaloperator() {
   IncrementaloperatorContext *_localctx = _tracker.createInstance<IncrementaloperatorContext>(_ctx, getState());
-  enterRule(_localctx, 42, ValuescriptParser::RuleIncrementaloperator);
-  size_t _la = 0;
+  enterRule(_localctx, 44, ValuescriptParser::RuleIncrementaloperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2827,17 +3513,27 @@ ValuescriptParser::IncrementaloperatorContext* ValuescriptParser::incrementalope
     exitRule();
   });
   try {
-    enterOuterAlt(_localctx, 1);
-    setState(321);
-    _la = _input->LA(1);
-    if (!(_la == ValuescriptParser::INCREMENT
+    setState(353);
+    _errHandler->sync(this);
+    switch (_input->LA(1)) {
+      case ValuescriptParser::INCREMENT: {
+        _localctx = _tracker.createInstance<ValuescriptParser::PlusplusContext>(_localctx);
+        enterOuterAlt(_localctx, 1);
+        setState(351);
+        match(ValuescriptParser::INCREMENT);
+        break;
+      }
 
-    || _la == ValuescriptParser::DECREMENT)) {
-    _errHandler->recoverInline(this);
-    }
-    else {
-      _errHandler->reportMatch(this);
-      consume();
+      case ValuescriptParser::DECREMENT: {
+        _localctx = _tracker.createInstance<ValuescriptParser::MinusminusContext>(_localctx);
+        enterOuterAlt(_localctx, 2);
+        setState(352);
+        match(ValuescriptParser::DECREMENT);
+        break;
+      }
+
+    default:
+      throw NoViableAltException(this);
     }
    
   }
@@ -2856,74 +3552,131 @@ ValuescriptParser::PrimaryexpressionContext::PrimaryexpressionContext(ParserRule
   : ParserRuleContext(parent, invokingState) {
 }
 
-tree::TerminalNode* ValuescriptParser::PrimaryexpressionContext::IDENTIFIER() {
-  return getToken(ValuescriptParser::IDENTIFIER, 0);
-}
-
-std::vector<tree::TerminalNode *> ValuescriptParser::PrimaryexpressionContext::INTEGER_LITERAL() {
-  return getTokens(ValuescriptParser::INTEGER_LITERAL);
-}
-
-tree::TerminalNode* ValuescriptParser::PrimaryexpressionContext::INTEGER_LITERAL(size_t i) {
-  return getToken(ValuescriptParser::INTEGER_LITERAL, i);
-}
-
-tree::TerminalNode* ValuescriptParser::PrimaryexpressionContext::PERIOD() {
-  return getToken(ValuescriptParser::PERIOD, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::PrimaryexpressionContext::TRUE() {
-  return getToken(ValuescriptParser::TRUE, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::PrimaryexpressionContext::FALSE() {
-  return getToken(ValuescriptParser::FALSE, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::PrimaryexpressionContext::STRING_LITERAL() {
-  return getToken(ValuescriptParser::STRING_LITERAL, 0);
-}
-
-tree::TerminalNode* ValuescriptParser::PrimaryexpressionContext::OPEN_PARENTHESES() {
-  return getToken(ValuescriptParser::OPEN_PARENTHESES, 0);
-}
-
-ValuescriptParser::ExpressionContext* ValuescriptParser::PrimaryexpressionContext::expression() {
-  return getRuleContext<ValuescriptParser::ExpressionContext>(0);
-}
-
-tree::TerminalNode* ValuescriptParser::PrimaryexpressionContext::CLOSED_PARENTHESES() {
-  return getToken(ValuescriptParser::CLOSED_PARENTHESES, 0);
-}
-
 
 size_t ValuescriptParser::PrimaryexpressionContext::getRuleIndex() const {
   return ValuescriptParser::RulePrimaryexpression;
 }
 
-void ValuescriptParser::PrimaryexpressionContext::enterRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->enterPrimaryexpression(this);
+void ValuescriptParser::PrimaryexpressionContext::copyFrom(PrimaryexpressionContext *ctx) {
+  ParserRuleContext::copyFrom(ctx);
 }
 
-void ValuescriptParser::PrimaryexpressionContext::exitRule(tree::ParseTreeListener *listener) {
-  auto parserListener = dynamic_cast<ValuescriptParserListener *>(listener);
-  if (parserListener != nullptr)
-    parserListener->exitPrimaryexpression(this);
+//----------------- NumberContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::NumberContext::INTEGER_LITERAL() {
+  return getToken(ValuescriptParser::INTEGER_LITERAL, 0);
 }
 
+ValuescriptParser::NumberContext::NumberContext(PrimaryexpressionContext *ctx) { copyFrom(ctx); }
 
-std::any ValuescriptParser::PrimaryexpressionContext::accept(tree::ParseTreeVisitor *visitor) {
+
+std::any ValuescriptParser::NumberContext::accept(tree::ParseTreeVisitor *visitor) {
   if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
-    return parserVisitor->visitPrimaryexpression(this);
+    return parserVisitor->visitNumber(this);
   else
     return visitor->visitChildren(this);
 }
+//----------------- StringContext ------------------------------------------------------------------
 
+tree::TerminalNode* ValuescriptParser::StringContext::STRING_LITERAL() {
+  return getToken(ValuescriptParser::STRING_LITERAL, 0);
+}
+
+ValuescriptParser::StringContext::StringContext(PrimaryexpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::StringContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitString(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- IdentContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::IdentContext::IDENTIFIER() {
+  return getToken(ValuescriptParser::IDENTIFIER, 0);
+}
+
+ValuescriptParser::IdentContext::IdentContext(PrimaryexpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::IdentContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitIdent(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- TrueContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::TrueContext::TRUE() {
+  return getToken(ValuescriptParser::TRUE, 0);
+}
+
+ValuescriptParser::TrueContext::TrueContext(PrimaryexpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::TrueContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitTrue(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- FalseContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::FalseContext::FALSE() {
+  return getToken(ValuescriptParser::FALSE, 0);
+}
+
+ValuescriptParser::FalseContext::FalseContext(PrimaryexpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::FalseContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitFalse(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- DecimalContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::DecimalContext::FLOATING_LITERAL() {
+  return getToken(ValuescriptParser::FLOATING_LITERAL, 0);
+}
+
+ValuescriptParser::DecimalContext::DecimalContext(PrimaryexpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::DecimalContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitDecimal(this);
+  else
+    return visitor->visitChildren(this);
+}
+//----------------- OrderContext ------------------------------------------------------------------
+
+tree::TerminalNode* ValuescriptParser::OrderContext::OPEN_PARENTHESES() {
+  return getToken(ValuescriptParser::OPEN_PARENTHESES, 0);
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::OrderContext::expression() {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(0);
+}
+
+tree::TerminalNode* ValuescriptParser::OrderContext::CLOSED_PARENTHESES() {
+  return getToken(ValuescriptParser::CLOSED_PARENTHESES, 0);
+}
+
+ValuescriptParser::OrderContext::OrderContext(PrimaryexpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::OrderContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitOrder(this);
+  else
+    return visitor->visitChildren(this);
+}
 ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::primaryexpression() {
   PrimaryexpressionContext *_localctx = _tracker.createInstance<PrimaryexpressionContext>(_ctx, getState());
-  enterRule(_localctx, 44, ValuescriptParser::RulePrimaryexpression);
+  enterRule(_localctx, 46, ValuescriptParser::RulePrimaryexpression);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2933,68 +3686,71 @@ ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::primaryexpressio
     exitRule();
   });
   try {
-    setState(335);
+    setState(365);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 30, _ctx)) {
-    case 1: {
-      enterOuterAlt(_localctx, 1);
-      setState(323);
-      match(ValuescriptParser::IDENTIFIER);
-      break;
-    }
+    switch (_input->LA(1)) {
+      case ValuescriptParser::IDENTIFIER: {
+        _localctx = _tracker.createInstance<ValuescriptParser::IdentContext>(_localctx);
+        enterOuterAlt(_localctx, 1);
+        setState(355);
+        match(ValuescriptParser::IDENTIFIER);
+        break;
+      }
 
-    case 2: {
-      enterOuterAlt(_localctx, 2);
-      setState(324);
-      match(ValuescriptParser::INTEGER_LITERAL);
-      setState(325);
-      match(ValuescriptParser::PERIOD);
-      setState(326);
-      match(ValuescriptParser::INTEGER_LITERAL);
-      break;
-    }
+      case ValuescriptParser::FLOATING_LITERAL: {
+        _localctx = _tracker.createInstance<ValuescriptParser::DecimalContext>(_localctx);
+        enterOuterAlt(_localctx, 2);
+        setState(356);
+        match(ValuescriptParser::FLOATING_LITERAL);
+        break;
+      }
 
-    case 3: {
-      enterOuterAlt(_localctx, 3);
-      setState(327);
-      match(ValuescriptParser::INTEGER_LITERAL);
-      break;
-    }
+      case ValuescriptParser::INTEGER_LITERAL: {
+        _localctx = _tracker.createInstance<ValuescriptParser::NumberContext>(_localctx);
+        enterOuterAlt(_localctx, 3);
+        setState(357);
+        match(ValuescriptParser::INTEGER_LITERAL);
+        break;
+      }
 
-    case 4: {
-      enterOuterAlt(_localctx, 4);
-      setState(328);
-      match(ValuescriptParser::TRUE);
-      break;
-    }
+      case ValuescriptParser::TRUE: {
+        _localctx = _tracker.createInstance<ValuescriptParser::TrueContext>(_localctx);
+        enterOuterAlt(_localctx, 4);
+        setState(358);
+        match(ValuescriptParser::TRUE);
+        break;
+      }
 
-    case 5: {
-      enterOuterAlt(_localctx, 5);
-      setState(329);
-      match(ValuescriptParser::FALSE);
-      break;
-    }
+      case ValuescriptParser::FALSE: {
+        _localctx = _tracker.createInstance<ValuescriptParser::FalseContext>(_localctx);
+        enterOuterAlt(_localctx, 5);
+        setState(359);
+        match(ValuescriptParser::FALSE);
+        break;
+      }
 
-    case 6: {
-      enterOuterAlt(_localctx, 6);
-      setState(330);
-      match(ValuescriptParser::STRING_LITERAL);
-      break;
-    }
+      case ValuescriptParser::STRING_LITERAL: {
+        _localctx = _tracker.createInstance<ValuescriptParser::StringContext>(_localctx);
+        enterOuterAlt(_localctx, 6);
+        setState(360);
+        match(ValuescriptParser::STRING_LITERAL);
+        break;
+      }
 
-    case 7: {
-      enterOuterAlt(_localctx, 7);
-      setState(331);
-      match(ValuescriptParser::OPEN_PARENTHESES);
-      setState(332);
-      expression(0);
-      setState(333);
-      match(ValuescriptParser::CLOSED_PARENTHESES);
-      break;
-    }
+      case ValuescriptParser::OPEN_PARENTHESES: {
+        _localctx = _tracker.createInstance<ValuescriptParser::OrderContext>(_localctx);
+        enterOuterAlt(_localctx, 7);
+        setState(361);
+        match(ValuescriptParser::OPEN_PARENTHESES);
+        setState(362);
+        expression(0);
+        setState(363);
+        match(ValuescriptParser::CLOSED_PARENTHESES);
+        break;
+      }
 
     default:
-      break;
+      throw NoViableAltException(this);
     }
    
   }
@@ -3019,15 +3775,16 @@ bool ValuescriptParser::sempred(RuleContext *context, size_t ruleIndex, size_t p
 
 bool ValuescriptParser::expressionSempred(ExpressionContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 0: return precpred(_ctx, 11);
-    case 1: return precpred(_ctx, 6);
-    case 2: return precpred(_ctx, 5);
-    case 3: return precpred(_ctx, 4);
-    case 4: return precpred(_ctx, 3);
-    case 5: return precpred(_ctx, 1);
-    case 6: return precpred(_ctx, 10);
-    case 7: return precpred(_ctx, 9);
-    case 8: return precpred(_ctx, 8);
+    case 0: return precpred(_ctx, 12);
+    case 1: return precpred(_ctx, 7);
+    case 2: return precpred(_ctx, 6);
+    case 3: return precpred(_ctx, 5);
+    case 4: return precpred(_ctx, 4);
+    case 5: return precpred(_ctx, 3);
+    case 6: return precpred(_ctx, 1);
+    case 7: return precpred(_ctx, 11);
+    case 8: return precpred(_ctx, 10);
+    case 9: return precpred(_ctx, 9);
 
   default:
     break;

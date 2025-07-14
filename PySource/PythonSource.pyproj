@@ -6,7 +6,7 @@
     <ProjectHome>
     </ProjectHome>
     <StartupFile>main.py</StartupFile>
-    <SearchPath>..\..\..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages</SearchPath>
+    <SearchPath>..\..\..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages;..\bin\vs-2022\x64\Debug DLL</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>PythonSource</Name>
@@ -18,8 +18,9 @@
     <UnitTestPattern>test*.py</UnitTestPattern>
     <UnitTestRootDirectory>.</UnitTestRootDirectory>
     <InterpreterId>Global|PythonCore|3.13</InterpreterId>
-    <InterpreterArguments>
-    </InterpreterArguments>
+    <InterpreterArguments>-i</InterpreterArguments>
+    <InterpreterPath>
+    </InterpreterPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,6 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.13" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ANTLR4_GENERATION\ANTLR4_GENERATION.vcxproj">
+      <Name>ANTLR4_GENERATION</Name>
+      <Project>{24ec5104-7402-4c76-b66b-27adbe062d68}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

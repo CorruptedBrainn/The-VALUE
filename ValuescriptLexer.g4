@@ -47,7 +47,6 @@ CLOSED_SQUARE			:	']'	;
 
 PERIOD				:	'.'		;
 COMMA               :   ','     ;
-AT_SYMBOL			:	'@'		;
 COLON				:	':'		;
 SEMICOLON			:	';'		;
 EXCLAMATION_POINT	:	'!'		;
@@ -84,6 +83,10 @@ SINGLE_LINE_COMMENT	:	'//' .*? '\r'? '\n'	->	skip	;
 MULTI_LINE_COMMENT	:	'/*' .*? '*/'		->	skip	;
 WHITESPACE			:	[ \t\n\r]			->	skip	;
 
-INTEGER_LITERAL			:	[0-9]+		;
-STRING_LITERAL			:	'"' .*? '"'	;
-IDENTIFIER				:	[a-zA-Z_]+	;
+FLOATING_LITERAL        :   [0-9]+ '.' [0-9]*       
+                        |          '.' [0-9]+       ;
+INTEGER_LITERAL			:	[0-9]+		            ;
+STRING_LITERAL			:	'"' (ESCAPE|.)*? '"'	;
+IDENTIFIER              : LETTER (LETTER | [0-9])*  ;
+LETTER                  : 'a'..'z'|'A'..'Z'|'_'     ;
+ESCAPE                  :   '\\"' | '\\\\'          ;

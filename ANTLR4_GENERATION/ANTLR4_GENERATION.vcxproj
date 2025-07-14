@@ -141,6 +141,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)bin\vs-2022\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)obj\$(PlatformTarget)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Static|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -231,20 +232,21 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)generated;$(SolutionDir)ANTLR4_RUNTIME\src;$(SolutionDir)ANTLR4_RUNTIME\src\atn;$(SolutionDir)ANTLR4_RUNTIME\src\dfa;$(SolutionDir)ANTLR4_RUNTIME\src\misc;$(SolutionDir)ANTLR4_RUNTIME\src\support;$(SolutionDir)ANTLR4_RUNTIME\src\tree;$(SolutionDir)ANTLR4_RUNTIME\src\tree\xpath;$(SolutionDir)ANTLR4_RUNTIME\src\tree\pattern;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)generated;$(SolutionDir)ANTLR4_RUNTIME\src;$(SolutionDir)ANTLR4_RUNTIME\src\atn;$(SolutionDir)ANTLR4_RUNTIME\src\dfa;$(SolutionDir)ANTLR4_RUNTIME\src\misc;$(SolutionDir)ANTLR4_RUNTIME\src\support;$(SolutionDir)ANTLR4_RUNTIME\src\tree;$(SolutionDir)ANTLR4_RUNTIME\src\tree\xpath;$(SolutionDir)ANTLR4_RUNTIME\src\tree\pattern;C:\Users\User\AppData\Local\Programs\Python\Python313\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>
       </ForcedIncludeFiles>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp23</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\User\AppData\Local\Programs\Python\Python313\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>antlr4 -Dlanguage=Cpp -listener -visitor -o ../generated/ -package valuescriptantlrgeneration ../ValuescriptLexer.g4 ../ValuescriptParser.g4</Command>
+      <Command>antlr4 -Dlanguage=Cpp -no-listener -visitor -o ../generated/ -package valuescriptantlrgeneration ../ValuescriptLexer.g4 ../ValuescriptParser.g4</Command>
     </PreBuildEvent>
     <PreBuildEvent>
       <Message>Recompile the grammar files using antlr4</Message>
@@ -345,9 +347,9 @@
   <ItemGroup>
     <ClCompile Include="..\generated\ValuescriptLexer.cpp" />
     <ClCompile Include="..\generated\ValuescriptParser.cpp" />
-    <ClCompile Include="..\generated\ValuescriptParserBaseListener.cpp" />
-    <ClCompile Include="..\generated\ValuescriptParserListener.cpp" />
-    <ClCompile Include="Listener.cpp" />
+    <ClCompile Include="..\generated\ValuescriptParserBaseVisitor.cpp" />
+    <ClCompile Include="..\generated\ValuescriptParserVisitor.cpp" />
+    <ClCompile Include="ValuescriptRuntime.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -358,9 +360,8 @@
   <ItemGroup>
     <ClInclude Include="..\generated\ValuescriptLexer.h" />
     <ClInclude Include="..\generated\ValuescriptParser.h" />
-    <ClInclude Include="..\generated\ValuescriptParserBaseListener.h" />
-    <ClInclude Include="..\generated\ValuescriptParserListener.h" />
-    <ClInclude Include="Listener.h" />
+    <ClInclude Include="..\generated\ValuescriptParserBaseVisitor.h" />
+    <ClInclude Include="..\generated\ValuescriptParserVisitor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\generated\ValuescriptLexer.interp" />
@@ -369,6 +370,7 @@
     <None Include="..\generated\ValuescriptParser.tokens" />
     <None Include="..\ValuescriptLexer.g4" />
     <None Include="..\ValuescriptParser.g4" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

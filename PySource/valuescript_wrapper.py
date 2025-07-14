@@ -1,48 +1,23 @@
-"""import os
-from ctypes import CDLL
-from random import sample
+import os
+from ctypes import CDLL, pointer
 
 pythonpath = str(os.environ.get("PYTHONPATH"))
 splitpaths = pythonpath.split(os.pathsep)
-searchpaths = [path for path in splitpaths if "x64\\Debug" in path or "x64\\Release" in path]
+searchpaths = [path for path in splitpaths if "vs-2022\\x64\\Debug DLL" in path or "vs-2022\\x64\\Release DLL" in path]
 
-sampleDijkstra = """"""
-var<array<array<pair<int, int>>>> adj;
-var<int> n = 0;
-var<array<int>> distances(n, 100000);
-var<priority_queue<pair<int, int>>> next;
-var<int> current = 0;
-distances[current] = 0;
-next.push({0, current});
-while(!next.empty()) {
-    current = next.top().second;
-    next.pop();
-    for (int i = 0; i < adj[current].size(); i = i + 1) {
-        var<pair<int, int>> node = adj[current][i];
-        if (distances[current] + node.second < distances[node.first]) {
-            distances[node.first] = distances[current] + node.second;
-            next.push({distances[node.first * -1, node.first]});
-        }
-    }
-}
-""""""
-
-class VScompiler(object):
-    script = CDLL(searchpaths[0] + '\\valuescript.dll', winmode=0)
-
-    # Rewrite it so we go:
-    # VScompiler (rename it) -> init, to create the overall management system
-    # Make each file tied to a unique object stored within the compiler
-    # Can have references to the thingy because why not
-    # Then within the overall compiler trigger a run command to manage threads from there
+class VSProgramObject(object):
+    dep = CDLL(searchpaths[0] + "\\antlr4-runtime.dll", winmode=0)
+    script = CDLL(searchpaths[0] + "\\ANTLR4_GENERATION.dll", winmode=0)
 
     def __init__(self):
-        self.obj = self.script.createProgram()
-        # Do add something to test parsing temporarily
-        self.script.analyse(self.obj, sampleDijkstra)
+        self.obj = self.script.createStorage()
         return
-    
-    def compile(self, fileContents:str) -> int:
-        help = self.script.analyse(self.obj, fileContents)
-        # Error stuff
-        return help"""
+
+    def add(self, name: str, text: str):
+        return self.script.addProgram(self.obj, name, text);
+
+    def remove(self, name: str):
+        return self.script.removeProgram(self.obj, name);
+
+    def run(self):
+        return self.script.executePrograms(self.obj);

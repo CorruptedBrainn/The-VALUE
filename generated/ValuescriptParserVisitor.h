@@ -38,6 +38,8 @@ public:
 
     virtual std::any visitStatementfor(ValuescriptParser::StatementforContext *context) = 0;
 
+    virtual std::any visitStatementprint(ValuescriptParser::StatementprintContext *context) = 0;
+
     virtual std::any visitStatementexpr(ValuescriptParser::StatementexprContext *context) = 0;
 
     virtual std::any visitStatementret(ValuescriptParser::StatementretContext *context) = 0;
@@ -61,6 +63,26 @@ public:
     virtual std::any visitTystring(ValuescriptParser::TystringContext *context) = 0;
 
     virtual std::any visitTyboolean(ValuescriptParser::TybooleanContext *context) = 0;
+
+    virtual std::any visitTypair(ValuescriptParser::TypairContext *context) = 0;
+
+    virtual std::any visitTyarray(ValuescriptParser::TyarrayContext *context) = 0;
+
+    virtual std::any visitTyset(ValuescriptParser::TysetContext *context) = 0;
+
+    virtual std::any visitTymap(ValuescriptParser::TymapContext *context) = 0;
+
+    virtual std::any visitTyuset(ValuescriptParser::TyusetContext *context) = 0;
+
+    virtual std::any visitTyumap(ValuescriptParser::TyumapContext *context) = 0;
+
+    virtual std::any visitTystack(ValuescriptParser::TystackContext *context) = 0;
+
+    virtual std::any visitTyqueue(ValuescriptParser::TyqueueContext *context) = 0;
+
+    virtual std::any visitTydeque(ValuescriptParser::TydequeContext *context) = 0;
+
+    virtual std::any visitTyprior(ValuescriptParser::TypriorContext *context) = 0;
 
     virtual std::any visitTyident(ValuescriptParser::TyidentContext *context) = 0;
 

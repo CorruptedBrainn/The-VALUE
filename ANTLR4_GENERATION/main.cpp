@@ -38,13 +38,14 @@ private:
 	ValuescriptParser* parser;
 	tree::ParseTree* tree;
 	ValuescriptPreVisitor preprocess;
-	ValuescriptVisitor executionist;
+	ValuescriptVisitor* executionist;
 public:
 	ValuescriptProgram(string file) {
 		input = new ANTLRInputStream(file);
 		lexer = new ValuescriptLexer(input);
 		tokens = new CommonTokenStream(lexer);
 		parser = new ValuescriptParser(tokens);
+		executionist = new ValuescriptVisitor(&preprocess);
 		tree = parser->file();
 		preprocess.visit(tree);
 	}
@@ -54,11 +55,12 @@ public:
 		delete[] lexer;
 		delete[] tokens;
 		delete[] parser;
+		delete[] executionist;
 	}
 
 	void execute(stop_token killswitch) {
 		while (!killswitch.stop_requested()) {
-			executionist.visit(tree);
+			executionist->visit(tree);
 		}
 		return;
 	}
@@ -85,7 +87,7 @@ public:
 		for (auto it = scripts.begin(); it != scripts.end(); it++) {
 			threads.emplace_back(jthread(&ValuescriptProgram::execute, &(*it).second, killswitch.get_token()));
 		}
-		this_thread::sleep_for(1000000000ms); // Let this thread move on to environment tasks
+		this_thread::sleep_for(1000ms); // Let this thread move on to environment tasks
 		killswitch.request_stop();
 		for (int i = 0; i < threads.size(); i++) {
 			threads[i].join();

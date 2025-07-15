@@ -11,22 +11,32 @@ lexer grammar ValuescriptLexer;
 
 // BEGIN GRAMMAR HERE
 
-STATIC		:	'static'	;
-CONSTANT	:	'const'		;
-VARIABLE	:	'var'		;
-FUNCTION	:	'func'		;
-CLASS		:	'class'		;
-RETURN		:	'return'	;
-TYPENAMES   :   'typenames' ;
-TEMPLATE    :   'template'  ;
-IMPORT      :   'import'    ;
-AS          :   'as'        ;
+STATIC		:	'static'	    ;
+CONSTANT	:	'const'		    ;
+VARIABLE	:	'var'		    ;
+FUNCTION	:	'func'		    ;
+CLASS		:	'class'		    ;
+RETURN		:	'return'	    ;
+TYPENAMES   :   'typenames'     ;
+TEMPLATE    :   'template'      ;
+IMPORT      :   'import'        ;
+DBGOUT      :   'console_out'   ;
 
-INTEGER		:	'int'		;
-DOUBLE		:	'double'	;
-BOOLEAN		:	'bool'		;
-STRING		:	'str'		;
-VOID        :   'void'      ;
+INTEGER		:	'int'           ;
+DOUBLE		:	'double'	    ;
+BOOLEAN		:	'bool'          ;
+STRING		:	'str'		    ;
+VOID        :   'void'          ;
+PAIR        :   'pair'          ;
+ARRAY       :   'array'         ;
+ORD_LIST    :   'list'          ;
+ORD_MAP     :   'map'           ;
+HASH_LIST   :   'hash_list'     ;
+HASH_MAP    :   'hash_map'      ;
+STACK       :   'stack'         ;
+QUEUE       :   'queue'         ;
+DEQUE       :   'deque'         ;
+PRIOR_QUE   :   'prior_queue'   ;
 
 TRUE	:	'true'	;
 FALSE	:	'false'	;
@@ -84,9 +94,9 @@ SINGLE_LINE_COMMENT	:	'//' .*? '\r'? '\n'	->	skip	;
 MULTI_LINE_COMMENT	:	'/*' .*? '*/'		->	skip	;
 WHITESPACE			:	[ \t\n\r]			->	skip	;
 
-FLOATING_LITERAL        :   [0-9]+ '.' [0-9]*       
+FLOATING_LITERAL        :   '-'? [0-9]+ '.' [0-9]*       
                         |          '.' [0-9]+       ;
-INTEGER_LITERAL			:	[0-9]+		            ;
+INTEGER_LITERAL			:	'-'? [0-9]+		        ;
 STRING_LITERAL			:	'"' (ESCAPE|.)*? '"'	;
 IDENTIFIER              : LETTER (LETTER | [0-9])*  ;
 LETTER                  : 'a'..'z'|'A'..'Z'|'_'     ;

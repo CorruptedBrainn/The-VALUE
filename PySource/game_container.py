@@ -17,9 +17,18 @@ from widget_helper import loadWidget, changeScreen, changeMainScreen
 import global_storage as gs
 from valuescript_wrapper import VSProgramObject
 
+testvar = """
+import debugger
+static counter->int = -1;
+counter++;
+const res->int = fib(counter);
+console_out(res);
+return res;
+"""
+
 class TVGameContainer(QStackedWidget):
     programs = VSProgramObject()
-    programs.add("main", "var x->int = 8 * 9;")
+    programs.add("main", testvar)
     programs.run();
 
     def __init__(self, parent:QStackedLayout):

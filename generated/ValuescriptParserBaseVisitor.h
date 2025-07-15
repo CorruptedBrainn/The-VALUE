@@ -53,6 +53,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitStatementprint(ValuescriptParser::StatementprintContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitStatementexpr(ValuescriptParser::StatementexprContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -98,6 +102,46 @@ public:
   }
 
   virtual std::any visitTyboolean(ValuescriptParser::TybooleanContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTypair(ValuescriptParser::TypairContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTyarray(ValuescriptParser::TyarrayContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTyset(ValuescriptParser::TysetContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTymap(ValuescriptParser::TymapContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTyuset(ValuescriptParser::TyusetContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTyumap(ValuescriptParser::TyumapContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTystack(ValuescriptParser::TystackContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTyqueue(ValuescriptParser::TyqueueContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTydeque(ValuescriptParser::TydequeContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTyprior(ValuescriptParser::TypriorContext *ctx) override {
     return visitChildren(ctx);
   }
 

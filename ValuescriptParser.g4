@@ -17,16 +17,17 @@ options {
 // BEGIN GRAMMAR HERE
 
 file						:	extra* statement+ EOF ;
-extra						:	IMPORT IDENTIFIER (AS IDENTIFIER)? SEMICOLON ;
-statement					:	variabledeclaration SEMICOLON	# statementvardecl
-							|	functiondeclaration				# statementfuncdecl
-							|	classdeclaration				# statementclassdecl
-							|	ifstatement						# statementif
-							|	whilestatement					# statementwhile
-							|	dostatement						# statementdo
-							|	forstatement					# statementfor
-							|	expression SEMICOLON			# statementexpr
-							|	RETURN expression? SEMICOLON	# statementret
+extra						:	IMPORT IDENTIFIER SEMICOLON? ;
+statement					:	variabledeclaration SEMICOLON									# statementvardecl
+							|	functiondeclaration												# statementfuncdecl
+							|	classdeclaration												# statementclassdecl
+							|	ifstatement														# statementif
+							|	whilestatement													# statementwhile
+							|	dostatement														# statementdo
+							|	forstatement													# statementfor
+							|	DBGOUT OPEN_PARENTHESES expression CLOSED_PARENTHESES SEMICOLON	# statementprint
+							|	expression SEMICOLON											# statementexpr
+							|	RETURN expression? SEMICOLON									# statementret
 							;
 variabledeclaration			:	(STATIC | VARIABLE)* IDENTIFIER ARROW_OPERATOR typenameexpression
 							|	(STATIC | VARIABLE | CONSTANT)* IDENTIFIER ARROW_OPERATOR typenameexpression ASSIGNMENT_GENERIC expression
@@ -34,12 +35,22 @@ variabledeclaration			:	(STATIC | VARIABLE)* IDENTIFIER ARROW_OPERATOR typenamee
 functiondeclaration			:	templatedeclaration? FUNCTION? IDENTIFIER functionparameters ARROW_OPERATOR typenameexpression codeblock ;
 functionparameters			:	OPEN_PARENTHESES variabledeclaration? (COMMA variabledeclaration)* CLOSED_PARENTHESES ;
 classdeclaration			:	templatedeclaration? CLASS? IDENTIFIER codeblock;
-templateexpression			:	TEMPLATE ARROW_OPERATOR typenameexpression (COMMA typenameexpression)* SEMICOLON ;
+templateexpression			:	TEMPLATE ARROW_OPERATOR typenameexpression (COMMA typenameexpression)* SEMICOLON? ;
 templatedeclaration			:	TYPENAMES COLON IDENTIFIER (COMMA IDENTIFIER)* ;
 typenameexpression			:	INTEGER																								# tyinteger
 							|	DOUBLE																								# tydouble
 							|	STRING																								# tystring
 							|	BOOLEAN																								# tyboolean
+							|	PAIR OPEN_ANGLE_BRACKET typenameexpression COMMA typenameexpression CLOSED_ANGLE_BRACKET			# typair
+							|	ARRAY OPEN_ANGLE_BRACKET typenameexpression CLOSED_ANGLE_BRACKET									# tyarray
+							|	ORD_LIST OPEN_ANGLE_BRACKET typenameexpression CLOSED_ANGLE_BRACKET									# tyset
+							|	ORD_MAP OPEN_ANGLE_BRACKET typenameexpression COMMA typenameexpression CLOSED_ANGLE_BRACKET			# tymap
+							|	HASH_LIST OPEN_ANGLE_BRACKET typenameexpression CLOSED_ANGLE_BRACKET								# tyuset
+							|	HASH_MAP OPEN_ANGLE_BRACKET templateexpression COMMA typenameexpression CLOSED_ANGLE_BRACKET		# tyumap
+							|	STACK OPEN_ANGLE_BRACKET typenameexpression CLOSED_ANGLE_BRACKET									# tystack
+							|	QUEUE OPEN_ANGLE_BRACKET typenameexpression CLOSED_ANGLE_BRACKET									# tyqueue
+							|	DEQUE OPEN_ANGLE_BRACKET typenameexpression CLOSED_ANGLE_BRACKET									# tydeque
+							|	PRIOR_QUE OPEN_ANGLE_BRACKET typenameexpression CLOSED_ANGLE_BRACKET								# typrior
 							|	IDENTIFIER																							# tyident
 							|	IDENTIFIER OPEN_ANGLE_BRACKET typenameexpression (COMMA typenameexpression)* CLOSED_ANGLE_BRACKET	# tynested
 							;

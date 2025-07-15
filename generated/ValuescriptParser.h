@@ -20,20 +20,22 @@ class  ValuescriptParser : public antlr4::Parser {
 public:
   enum {
     STATIC = 1, CONSTANT = 2, VARIABLE = 3, FUNCTION = 4, CLASS = 5, RETURN = 6, 
-    TYPENAMES = 7, TEMPLATE = 8, IMPORT = 9, AS = 10, INTEGER = 11, DOUBLE = 12, 
-    BOOLEAN = 13, STRING = 14, VOID = 15, TRUE = 16, FALSE = 17, IF = 18, 
-    ELSE = 19, DO = 20, WHILE = 21, FOR = 22, OPEN_PARENTHESES = 23, CLOSED_PARENTHESES = 24, 
-    OPEN_CURLY_BRACE = 25, CLOSED_CURLY_BRACE = 26, OPEN_ANGLE_BRACKET = 27, 
-    CLOSED_ANGLE_BRACKET = 28, OPEN_SQUARE = 29, CLOSED_SQUARE = 30, PERIOD = 31, 
-    COMMA = 32, COLON = 33, SEMICOLON = 34, EXCLAMATION_POINT = 35, ARROW_OPERATOR = 36, 
-    BITWISE_AND = 37, BOOLEAN_AND = 38, BITWISE_OR = 39, BOOLEAN_OR = 40, 
-    BITWISE_XOR = 41, ADDITION = 42, SUBTRACTION = 43, MULTIPLICATION = 44, 
-    DIVISION = 45, MODULUS = 46, INCREMENT = 47, DECREMENT = 48, ASSIGNMENT_GENERIC = 49, 
-    ASSIGNMENT_ADD = 50, ASSIGNMENT_SUB = 51, ASSIGNMENT_MULTI = 52, ASSIGNMENT_DIV = 53, 
-    ASSIGNMENT_MOD = 54, EQUALITY = 55, NON_EQUALITY = 56, GREATER_OR_EQUAL = 57, 
-    LESS_OR_EQUAL = 58, SINGLE_LINE_COMMENT = 59, MULTI_LINE_COMMENT = 60, 
-    WHITESPACE = 61, FLOATING_LITERAL = 62, INTEGER_LITERAL = 63, STRING_LITERAL = 64, 
-    IDENTIFIER = 65, LETTER = 66, ESCAPE = 67
+    TYPENAMES = 7, TEMPLATE = 8, IMPORT = 9, DBGOUT = 10, INTEGER = 11, 
+    DOUBLE = 12, BOOLEAN = 13, STRING = 14, VOID = 15, PAIR = 16, ARRAY = 17, 
+    ORD_LIST = 18, ORD_MAP = 19, HASH_LIST = 20, HASH_MAP = 21, STACK = 22, 
+    QUEUE = 23, DEQUE = 24, PRIOR_QUE = 25, TRUE = 26, FALSE = 27, IF = 28, 
+    ELSE = 29, DO = 30, WHILE = 31, FOR = 32, OPEN_PARENTHESES = 33, CLOSED_PARENTHESES = 34, 
+    OPEN_CURLY_BRACE = 35, CLOSED_CURLY_BRACE = 36, OPEN_ANGLE_BRACKET = 37, 
+    CLOSED_ANGLE_BRACKET = 38, OPEN_SQUARE = 39, CLOSED_SQUARE = 40, PERIOD = 41, 
+    COMMA = 42, COLON = 43, SEMICOLON = 44, EXCLAMATION_POINT = 45, ARROW_OPERATOR = 46, 
+    BITWISE_AND = 47, BOOLEAN_AND = 48, BITWISE_OR = 49, BOOLEAN_OR = 50, 
+    BITWISE_XOR = 51, ADDITION = 52, SUBTRACTION = 53, MULTIPLICATION = 54, 
+    DIVISION = 55, MODULUS = 56, INCREMENT = 57, DECREMENT = 58, ASSIGNMENT_GENERIC = 59, 
+    ASSIGNMENT_ADD = 60, ASSIGNMENT_SUB = 61, ASSIGNMENT_MULTI = 62, ASSIGNMENT_DIV = 63, 
+    ASSIGNMENT_MOD = 64, EQUALITY = 65, NON_EQUALITY = 66, GREATER_OR_EQUAL = 67, 
+    LESS_OR_EQUAL = 68, SINGLE_LINE_COMMENT = 69, MULTI_LINE_COMMENT = 70, 
+    WHITESPACE = 71, FLOATING_LITERAL = 72, INTEGER_LITERAL = 73, STRING_LITERAL = 74, 
+    IDENTIFIER = 75, LETTER = 76, ESCAPE = 77
   };
 
   enum {
@@ -112,10 +114,8 @@ public:
     ExtraContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *IMPORT();
-    std::vector<antlr4::tree::TerminalNode *> IDENTIFIER();
-    antlr4::tree::TerminalNode* IDENTIFIER(size_t i);
+    antlr4::tree::TerminalNode *IDENTIFIER();
     antlr4::tree::TerminalNode *SEMICOLON();
-    antlr4::tree::TerminalNode *AS();
 
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -200,6 +200,19 @@ public:
     StatementforContext(StatementContext *ctx);
 
     ForstatementContext *forstatement();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  StatementprintContext : public StatementContext {
+  public:
+    StatementprintContext(StatementContext *ctx);
+
+    antlr4::tree::TerminalNode *DBGOUT();
+    antlr4::tree::TerminalNode *OPEN_PARENTHESES();
+    ExpressionContext *expression();
+    antlr4::tree::TerminalNode *CLOSED_PARENTHESES();
+    antlr4::tree::TerminalNode *SEMICOLON();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
@@ -308,9 +321,9 @@ public:
     antlr4::tree::TerminalNode *ARROW_OPERATOR();
     std::vector<TypenameexpressionContext *> typenameexpression();
     TypenameexpressionContext* typenameexpression(size_t i);
-    antlr4::tree::TerminalNode *SEMICOLON();
     std::vector<antlr4::tree::TerminalNode *> COMMA();
     antlr4::tree::TerminalNode* COMMA(size_t i);
+    antlr4::tree::TerminalNode *SEMICOLON();
 
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -348,6 +361,42 @@ public:
     virtual size_t getRuleIndex() const override;
 
    
+  };
+
+  class  TyusetContext : public TypenameexpressionContext {
+  public:
+    TyusetContext(TypenameexpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *HASH_LIST();
+    antlr4::tree::TerminalNode *OPEN_ANGLE_BRACKET();
+    TypenameexpressionContext *typenameexpression();
+    antlr4::tree::TerminalNode *CLOSED_ANGLE_BRACKET();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  TydequeContext : public TypenameexpressionContext {
+  public:
+    TydequeContext(TypenameexpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *DEQUE();
+    antlr4::tree::TerminalNode *OPEN_ANGLE_BRACKET();
+    TypenameexpressionContext *typenameexpression();
+    antlr4::tree::TerminalNode *CLOSED_ANGLE_BRACKET();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  TysetContext : public TypenameexpressionContext {
+  public:
+    TysetContext(TypenameexpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *ORD_LIST();
+    antlr4::tree::TerminalNode *OPEN_ANGLE_BRACKET();
+    TypenameexpressionContext *typenameexpression();
+    antlr4::tree::TerminalNode *CLOSED_ANGLE_BRACKET();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
   class  TydoubleContext : public TypenameexpressionContext {
@@ -392,11 +441,101 @@ public:
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
+  class  TypriorContext : public TypenameexpressionContext {
+  public:
+    TypriorContext(TypenameexpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *PRIOR_QUE();
+    antlr4::tree::TerminalNode *OPEN_ANGLE_BRACKET();
+    TypenameexpressionContext *typenameexpression();
+    antlr4::tree::TerminalNode *CLOSED_ANGLE_BRACKET();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  TymapContext : public TypenameexpressionContext {
+  public:
+    TymapContext(TypenameexpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *ORD_MAP();
+    antlr4::tree::TerminalNode *OPEN_ANGLE_BRACKET();
+    std::vector<TypenameexpressionContext *> typenameexpression();
+    TypenameexpressionContext* typenameexpression(size_t i);
+    antlr4::tree::TerminalNode *COMMA();
+    antlr4::tree::TerminalNode *CLOSED_ANGLE_BRACKET();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  TyarrayContext : public TypenameexpressionContext {
+  public:
+    TyarrayContext(TypenameexpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *ARRAY();
+    antlr4::tree::TerminalNode *OPEN_ANGLE_BRACKET();
+    TypenameexpressionContext *typenameexpression();
+    antlr4::tree::TerminalNode *CLOSED_ANGLE_BRACKET();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  TypairContext : public TypenameexpressionContext {
+  public:
+    TypairContext(TypenameexpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *PAIR();
+    antlr4::tree::TerminalNode *OPEN_ANGLE_BRACKET();
+    std::vector<TypenameexpressionContext *> typenameexpression();
+    TypenameexpressionContext* typenameexpression(size_t i);
+    antlr4::tree::TerminalNode *COMMA();
+    antlr4::tree::TerminalNode *CLOSED_ANGLE_BRACKET();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  TyqueueContext : public TypenameexpressionContext {
+  public:
+    TyqueueContext(TypenameexpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *QUEUE();
+    antlr4::tree::TerminalNode *OPEN_ANGLE_BRACKET();
+    TypenameexpressionContext *typenameexpression();
+    antlr4::tree::TerminalNode *CLOSED_ANGLE_BRACKET();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  TystackContext : public TypenameexpressionContext {
+  public:
+    TystackContext(TypenameexpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *STACK();
+    antlr4::tree::TerminalNode *OPEN_ANGLE_BRACKET();
+    TypenameexpressionContext *typenameexpression();
+    antlr4::tree::TerminalNode *CLOSED_ANGLE_BRACKET();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
   class  TystringContext : public TypenameexpressionContext {
   public:
     TystringContext(TypenameexpressionContext *ctx);
 
     antlr4::tree::TerminalNode *STRING();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  TyumapContext : public TypenameexpressionContext {
+  public:
+    TyumapContext(TypenameexpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *HASH_MAP();
+    antlr4::tree::TerminalNode *OPEN_ANGLE_BRACKET();
+    TemplateexpressionContext *templateexpression();
+    antlr4::tree::TerminalNode *COMMA();
+    TypenameexpressionContext *typenameexpression();
+    antlr4::tree::TerminalNode *CLOSED_ANGLE_BRACKET();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };

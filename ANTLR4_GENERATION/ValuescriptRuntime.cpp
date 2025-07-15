@@ -2,11 +2,16 @@
 #include <vector>
 #include <unordered_map>
 #include <stack>
-#include <any>
+#include <fstream>
 
+#include "..\generated\ValuescriptLexer.h"
+#include "..\generated\ValuescriptParser.h"
 #include "ValuescriptParserBaseVisitor.h"
 
+#pragma warning (disable : 6398)
+
 using namespace valuescriptantlrgeneration;
+using namespace antlr4;
 using namespace std;
 
 struct VSType {
@@ -38,6 +43,30 @@ inline bool operator!=(const VSType& lhs, const VSType& rhs) {
 	return !(lhs == rhs);
 }
 
+class VSImporter {
+private:
+	ANTLRInputStream* input;
+	ValuescriptLexer* lexer;
+	CommonTokenStream* tokens;
+	ValuescriptParser* parser;
+public:
+	tree::ParseTree* tree;
+	VSImporter(string file) {
+		input = new ANTLRInputStream(file);
+		lexer = new ValuescriptLexer(input);
+		tokens = new CommonTokenStream(lexer);
+		parser = new ValuescriptParser(tokens);
+		tree = parser->file();
+	}
+
+	~VSImporter() {
+		delete[] input;
+		delete[] lexer;
+		delete[] tokens;
+		delete[] parser;
+	}
+};
+
 struct VSVariable {
 	bool isconst = false;
 	string name = "NULL";
@@ -46,26 +75,26 @@ struct VSVariable {
 };
 
 struct VSFunction {
-	set<string> templates;
+	set<string> templates = {};
 	string name = "NULL";
-	vector<VSVariable> parameters;
+	vector<VSVariable> parameters = {};
 	VSType returntype;
 	ValuescriptParser::CodeblockContext* callable = nullptr;
 };
 
 struct VSClass {
-	set<string> templates;
+	set<string> templates = {};
 	string name = "NULL";
 	ValuescriptParser::CodeblockContext* contents = nullptr;
 };
 
 class VSStaticScope {
 private:
-	unordered_map<string, VSStaticScope*> children;
-	unordered_map<string, VSVariable> variableStorage;
-	unordered_map<string, VSVariable> constantStorage;
-	unordered_map<string, VSFunction> functionStorage;
-	unordered_map<string, VSClass> classStorage;
+	unordered_map<string, VSStaticScope*> children = {};
+	unordered_map<string, VSVariable> variableStorage = {};
+	unordered_map<string, VSVariable> constantStorage = {};
+	unordered_map<string, VSFunction> functionStorage = {};
+	unordered_map<string, VSClass> classStorage = {};
 public:
 	string name = "GLOBAL";
 
@@ -76,8 +105,9 @@ public:
 	}
 
 	~VSStaticScope() {
+		if (&children == nullptr) return;
 		for (pair<string, VSStaticScope*> child : children) {
-			delete[] child.second;
+			if (child.second != nullptr) delete[] child.second;
 		}
 		return;
 	}
@@ -93,8 +123,11 @@ public:
 	}
 
 	VSStaticScope* getChildScope(string name) {
+		if (this->name == name) return this;
 		auto scope = children.find(name);
-		if (scope == children.end()) return nullptr; // ERROR
+		if (scope == children.end()) {
+			return nullptr; // ERROR
+		}
 		return (*scope).second;
 	}
 
@@ -140,8 +173,8 @@ public:
 
 class VSLocalScope {
 private:
-	unordered_map<string, VSVariable> variableStorage;
-	unordered_map<string, VSVariable> constantStorage;
+	unordered_map<string, VSVariable> variableStorage = {};
+	unordered_map<string, VSVariable> constantStorage = {};
 	VSStaticScope* staticScope = nullptr;
 	VSLocalScope* parentScope = nullptr;
 
@@ -170,6 +203,7 @@ public:
 
 	VSVariable* getVariable(string name) {
 		VSLocalScope* env = search(name);
+		if (env == nullptr) return nullptr;
 		auto var = env->variableStorage.find(name);
 		auto con = env->constantStorage.find(name);
 		if (var != env->variableStorage.end()) return &(*var).second;
@@ -199,22 +233,30 @@ public:
 class ValuescriptPreVisitor : public ValuescriptParserBaseVisitor {
 public:
 	stack<VSStaticScope*> scoping;
-	vector<pair<string, string>> imports;
+	vector<pair<string, VSImporter*>> imports;
 	VSStaticScope globalScope;
 	ValuescriptPreVisitor() {};
 
 	any visitFile(ValuescriptParser::FileContext* ctx) override {
 		scoping.push(&globalScope);
-		for (auto import : ctx->extra()) imports.push_back(any_cast<pair<string, string>>(visit(import)));
+		for (auto import : ctx->extra()) imports.push_back(any_cast<pair<string, VSImporter*>>(visit(import)));
 		for (auto statement : ctx->statement()) visit(statement);
 		scoping.pop();
 		return defaultResult();
 	}
 
 	any visitExtra(ValuescriptParser::ExtraContext* ctx) override {
-		string import = ctx->IDENTIFIER(0)->getText();
-		string alias = ctx->IDENTIFIER().size() > 1 ? ctx->IDENTIFIER(1)->getText() : import;
-		return pair<string, string>(import, alias);
+		string import = ctx->IDENTIFIER()->getText();
+		string script = "", tempstorage;
+		string name = "../ValuescriptImports/" + import + ".vssf";
+		ifstream file(name);
+		while (getline(file, tempstorage)) {
+			script += tempstorage;
+		}
+		file.close();
+		VSImporter* library = new VSImporter(script);
+		visit(library->tree);
+		return pair<string, VSImporter*>(import, library);
 	}
 
 	any visitVariabledeclaration(ValuescriptParser::VariabledeclarationContext* ctx) override {
@@ -223,6 +265,7 @@ public:
 		var.isconst = ctx->CONSTANT().size();
 		var.name = ctx->IDENTIFIER()->getText();
 		var.type = any_cast<VSType>(visit(ctx->typenameexpression()));
+		var.value = defaultResult();
 		scoping.top()->declareVariable(var);
 		return defaultResult();
 	}
@@ -234,7 +277,9 @@ public:
 		visit(ctx->codeblock());
 		scoping.pop();
 		VSFunction func;
-		func.templates = any_cast<set<string>>(visit(ctx->templatedeclaration()));
+		if (ctx->templatedeclaration() != nullptr) {
+			func.templates = any_cast<set<string>>(visit(ctx->templatedeclaration()));
+		}
 		func.name = name;
 		func.parameters = any_cast<vector<VSVariable>>(visit(ctx->functionparameters()));
 		func.returntype = any_cast<VSType>(visit(ctx->typenameexpression()));
@@ -308,11 +353,10 @@ public:
 class ValuescriptVisitor : public ValuescriptParserBaseVisitor {
 private:
 	ValuescriptPreVisitor* storage = nullptr; // TODO: IMPORTS
-	stack<string> staticName;
+	stack<string> staticName = {};
 	int task = 0;
 public:
-	stack<VSLocalScope*> scoping;
-	ValuescriptVisitor() {};
+	stack<VSLocalScope*> scoping = {};
 	ValuescriptVisitor(ValuescriptPreVisitor* storage) {
 		this->storage = storage;
 	}
@@ -335,9 +379,31 @@ public:
 		return ret; // Child Type
 	}
 
+	any visitStatementprint(ValuescriptParser::StatementprintContext* ctx) override { /// DBGOUT ( expression ) ;
+		any expr = visit(ctx->expression());
+		try
+		{
+			int print = any_cast<int>(expr); // THIS IS TEMPORY, ASSUME INTEGER I HATE STD::ANY SO MUCH OMFG
+			cout << "int: " << print << endl;
+		}
+		catch (bad_any_cast ex) {
+
+		}
+		try
+		{
+			VSVariable* print = any_cast<VSVariable*>(expr); // THIS IS TEMPORY, ASSUME INTEGER I HATE STD::ANY SO MUCH OMFG
+			cout << "Variable: " << any_cast<int>(print->value) << endl;
+		}
+		catch (bad_any_cast ex) {
+
+		}
+		return expr;
+	}
+
 	any visitStatementret(ValuescriptParser::StatementretContext* ctx) override { /// RETURN expression
+		any ret = visit(ctx->expression());
 		task = 1;
-		return visit(ctx->expression()); // Child Type
+		return ret; // Child Type
 	}
 
 	any visitVariabledeclaration(ValuescriptParser::VariabledeclarationContext* ctx) override { /// IDENTIFIER -> typenameexpression = expression
@@ -351,7 +417,16 @@ public:
 			return var.value; // Child Type
 		}
 		VSVariable* var = scoping.top()->getVariable(ctx->IDENTIFIER()->getText());
-		return var->value = visit(ctx->expression()); // Child Type
+		if (!var->value.has_value()) var->value = visit(ctx->expression());
+		return defaultResult();
+	}
+
+	any visitFunctiondeclaration(ValuescriptParser::FunctiondeclarationContext* ctx) override {
+		return defaultResult();
+	}
+
+	any visitClassdeclaration(ValuescriptParser::ClassdeclarationContext* ctx) override {
+		return defaultResult();
 	}
 
 	any visitTemplateexpression(ValuescriptParser::TemplateexpressionContext* ctx) override { /// template -> typenames(s) ;
@@ -466,7 +541,6 @@ public:
 			any temp = visit(curr);
 			if (task == 1) {
 				ret = temp;
-				task = 0;
 				break;
 			}
 		}
@@ -476,7 +550,7 @@ public:
 
 	any visitNotexpr(ValuescriptParser::NotexprContext* ctx) override { /// ! expression
 		any rhs = visit(ctx->expression());
-		if (rhs.type().name() == "VSVariable*") {
+		if (rhs.type() == typeid(VSVariable*)) {
 			rhs = any_cast<VSVariable*>(rhs)->value;
 		}
 		if (bool* test = any_cast<bool>(&rhs)) {
@@ -487,13 +561,13 @@ public:
 	}
 
 	any visitMultexpr(ValuescriptParser::MultexprContext* ctx) override { /// expression multiplicativeoperator expression
-		string op = ctx->multiplicativeoperator()->toString();
+		string op = ctx->multiplicativeoperator()->getText();
 		any lhs = visit(ctx->expression(0));
 		any rhs = visit(ctx->expression(1));
-		if (lhs.type().name() == "VSVariable*") {
+		if (lhs.type() == typeid(VSVariable*)) {
 			lhs = any_cast<VSVariable*>(lhs)->value;
 		}
-		if (rhs.type().name() == "VSVariable*") {
+		if (rhs.type() == typeid(VSVariable*)) {
 			rhs = any_cast<VSVariable*>(rhs)->value;
 		}
 		if (lhs.type() != rhs.type()) return defaultResult(); // Error
@@ -510,45 +584,37 @@ public:
 			if (op == "/") return l / r;
 			return defaultResult(); // Error
 		}
-		if (bool* test = any_cast<bool>(&lhs)) {
-			bool l = *test, r = any_cast<bool>(rhs);
-			if (op == "*") return l * r;
-			if (op == "/") return l / r;
-			if (op == "%") return l % r;
-			return defaultResult(); // Error
-		}
 		return defaultResult(); // Error
 	}
 
 	any visitIncexpr(ValuescriptParser::IncexprContext* ctx) override { /// expression incrementaloperator
-		string op = ctx->incrementaloperator()->toString();
-		any lhs = visit(ctx->expression());
-		if (lhs.type().name() == "VSVariable*") {
-			lhs = any_cast<VSVariable*>(lhs)->value;
-		}
-		if (int* test = any_cast<int>(&lhs)) {
-			int l = *test;
-			if (op == "++") return l++;
-			if (op == "--") return l--;
+		string op = ctx->incrementaloperator()->getText();
+		VSVariable* lhs = any_cast<VSVariable*>(visit(ctx->expression())); // Assume VS Variable
+		if (lhs->isconst) return lhs->value;
+		// Do checks for class types
+		if (lhs->type == VSType("int")) {
+			int l = any_cast<int>(lhs->value);
+			if (op == "++") return lhs->value = ++l;
+			if (op == "--") return lhs->value = --l;
 			return defaultResult(); // Error
 		}
-		if (double* test = any_cast<double>(&lhs)) {
-			double l = *test;
-			if (op == "++") return l++;
-			if (op == "--") return l--;
+		if (lhs->type == VSType("double")) {
+			double l = any_cast<double>(lhs->value);
+			if (op == "++") return lhs->value = ++l;
+			if (op == "--") return lhs->value = --l;
 			return defaultResult(); // Error
 		}
 		return defaultResult(); // Error
 	}
 
 	any visitCompexpr(ValuescriptParser::CompexprContext* ctx) override { /// expression comparisonoperator expression
-		string op = ctx->comparisonoperator()->toString();
+		string op = ctx->comparisonoperator()->getText();
 		any lhs = visit(ctx->expression(0));
 		any rhs = visit(ctx->expression(1));
-		if (lhs.type().name() == "VSVariable*") {
+		if (lhs.type() == typeid(VSVariable*)) {
 			lhs = any_cast<VSVariable*>(lhs)->value;
 		}
-		if (rhs.type().name() == "VSVariable*") {
+		if (rhs.type() == typeid(VSVariable*)) {
 			rhs = any_cast<VSVariable*>(rhs)->value;
 		}
 		if (lhs.type() != rhs.type()) return defaultResult(); // Error
@@ -596,13 +662,13 @@ public:
 	}
 
 	any visitAddexpr(ValuescriptParser::AddexprContext* ctx) override { /// expression additiveoperator expression
-		string op = ctx->additiveoperator()->toString();
+		string op = ctx->additiveoperator()->getText();
 		any lhs = visit(ctx->expression(0));
 		any rhs = visit(ctx->expression(1));
-		if (lhs.type().name() == "VSVariable*") {
+		if (lhs.type() == typeid(VSVariable*)) {
 			lhs = any_cast<VSVariable*>(lhs)->value;
 		}
-		if (rhs.type().name() == "VSVariable*") {
+		if (rhs.type() == typeid(VSVariable*)) {
 			rhs = any_cast<VSVariable*>(rhs)->value;
 		}
 		if (lhs.type() != rhs.type()) return defaultResult(); // Error
@@ -641,22 +707,53 @@ public:
 	}
 
 	any visitAssignexpr(ValuescriptParser::AssignexprContext* ctx) override { /// expression assignmentoperator expression
-		string op = ctx->assignmentoperator()->toString();
+		string op = ctx->assignmentoperator()->getText();
 		VSVariable* lhs = any_cast<VSVariable*>(visit(ctx->expression(0))); // Assume VS Variable
-		any rhs = visit(ctx->expression(1));
-		if (rhs.type().name() == "VSVariable*") {
-			rhs = any_cast<VSVariable*>(rhs)->value;
+		if (lhs->isconst) return lhs->value;
+		any val = visit(ctx->expression(1));
+		VSVariable var;
+		if (val.type() != typeid(VSVariable*)) {
+			var.type = VSType(val.type().name());
+			var.value = val;
+			val = &var;
 		}
+		// Do checks for class types
+		VSVariable* rhs = any_cast<VSVariable*>(val);
+		if (lhs->type != rhs->type) return defaultResult(); // Error
+		if (op == "=") return lhs->value = rhs->value;
+		if (lhs->type == VSType("int")) {
+			int l = any_cast<int>(lhs->value), r = any_cast<int>(rhs->value);
+			if (op == "+=") return lhs->value = l + r;
+			if (op == "-=") return lhs->value = l - r;
+			if (op == "*=") return lhs->value = l * r;
+			if (op == "/=") return lhs->value = l / r;
+			if (op == "%=") return lhs->value = l % r;
+			return defaultResult(); // Error
+		}
+		if (lhs->type == VSType("double")) {
+			double l = any_cast<double>(lhs->value), r = any_cast<double>(rhs->value);
+			if (op == "+=") return lhs->value = l + r;
+			if (op == "-=") return lhs->value = l - r;
+			if (op == "*=") return lhs->value = l * r;
+			if (op == "/=") return lhs->value = l / r;
+			return defaultResult(); // Error
+		}
+		if (lhs->type == VSType("str")) {
+			string l = any_cast<string>(lhs->value), r = any_cast<string>(rhs->value);
+			if (op == "+=") return lhs->value = l + r;
+			return defaultResult(); // Error
+		}
+		return defaultResult(); // Error
 	}
 
 	any visitBinexpr(ValuescriptParser::BinexprContext* ctx) override { /// expression binaryoperator expression
-		string op = ctx->binaryoperator()->toString();
+		string op = ctx->binaryoperator()->getText();
 		any lhs = visit(ctx->expression(0));
 		any rhs = visit(ctx->expression(1));
-		if (lhs.type().name() == "VSVariable*") {
+		if (lhs.type() == typeid(VSVariable*)) {
 			lhs = any_cast<VSVariable*>(lhs)->value;
 		}
-		if (rhs.type().name() == "VSVariable*") {
+		if (rhs.type() == typeid(VSVariable*)) {
 			rhs = any_cast<VSVariable*>(rhs)->value;
 		}
 		if (lhs.type() != rhs.type()) return defaultResult(); // Error
@@ -678,13 +775,13 @@ public:
 	}
 
 	any visitBoolexpr(ValuescriptParser::BoolexprContext* ctx) override { /// expression booleanoperator expression
-		string op = ctx->booleanoperator()->toString();
+		string op = ctx->booleanoperator()->getText();
 		any lhs = visit(ctx->expression(0));
 		any rhs = visit(ctx->expression(1));
-		if (lhs.type().name() == "VSVariable*") {
+		if (lhs.type() == typeid(VSVariable*)) {
 			lhs = any_cast<VSVariable*>(lhs)->value;
 		}
-		if (rhs.type().name() == "VSVariable*") {
+		if (rhs.type() == typeid(VSVariable*)) {
 			rhs = any_cast<VSVariable*>(rhs)->value;
 		}
 		if (lhs.type() != rhs.type() || lhs.type().name() != "bool") return defaultResult(); // Error
@@ -701,12 +798,14 @@ public:
 		vector<ValuescriptParser::ExpressionContext*> params = ctx->expression();
 		staticName.push(callable->name);
 		any ret = defaultResult();
-		for (int i = 1; i < params.size(); i++) {
+		for (int i = 0; i < callable->parameters.size(); i++) {
 			VSVariable var = callable->parameters[i];
-			var.value = visit(params[i]);
+			var.value = visit(params[i + 1]);
+			if (var.value.type() == typeid(VSVariable*)) var.value = any_cast<VSVariable*>(var.value)->value;
 			scoping.top()->declareVariable(var);
 		}
 		ret = visit(callable->callable);
+		task = 0;
 		staticName.pop();
 		scoping.pop();
 		return ret; // Child Type
@@ -722,6 +821,7 @@ public:
 		for (int i = 1; i < params.size(); i++) {
 			VSVariable var = callable->parameters[i];
 			var.value = visit(params[i]);
+			if (var.value.type() == typeid(VSVariable*)) var.value = any_cast<VSVariable*>(var.value)->value;
 			auto it = callable->templates.find(var.type.name);
 			if (it != callable->templates.end()) {
 				var.type = templates[distance(callable->templates.begin(), it)];

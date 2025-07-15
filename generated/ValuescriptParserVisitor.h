@@ -50,6 +50,8 @@ public:
 
     virtual std::any visitClassdeclaration(ValuescriptParser::ClassdeclarationContext *context) = 0;
 
+    virtual std::any visitTemplateexpression(ValuescriptParser::TemplateexpressionContext *context) = 0;
+
     virtual std::any visitTemplatedeclaration(ValuescriptParser::TemplatedeclarationContext *context) = 0;
 
     virtual std::any visitTyinteger(ValuescriptParser::TyintegerContext *context) = 0;
@@ -95,6 +97,8 @@ public:
     virtual std::any visitMultexpr(ValuescriptParser::MultexprContext *context) = 0;
 
     virtual std::any visitIncexpr(ValuescriptParser::IncexprContext *context) = 0;
+
+    virtual std::any visitTyparexpr(ValuescriptParser::TyparexprContext *context) = 0;
 
     virtual std::any visitObjexpr(ValuescriptParser::ObjexprContext *context) = 0;
 

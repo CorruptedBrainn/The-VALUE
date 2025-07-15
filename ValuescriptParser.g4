@@ -34,6 +34,7 @@ variabledeclaration			:	(STATIC | VARIABLE)* IDENTIFIER ARROW_OPERATOR typenamee
 functiondeclaration			:	templatedeclaration? FUNCTION? IDENTIFIER functionparameters ARROW_OPERATOR typenameexpression codeblock ;
 functionparameters			:	OPEN_PARENTHESES variabledeclaration? (COMMA variabledeclaration)* CLOSED_PARENTHESES ;
 classdeclaration			:	templatedeclaration? CLASS? IDENTIFIER codeblock;
+templateexpression			:	TEMPLATE ARROW_OPERATOR typenameexpression (COMMA typenameexpression)* SEMICOLON ;
 templatedeclaration			:	TYPENAMES COLON IDENTIFIER (COMMA IDENTIFIER)* ;
 typenameexpression			:	INTEGER																								# tyinteger
 							|	DOUBLE																								# tydouble
@@ -51,19 +52,20 @@ forstatement				:	FOR OPEN_PARENTHESES variabledeclaration (COMMA variabledeclar
 codeblock					:	OPEN_CURLY_BRACE statement+ CLOSED_CURLY_BRACE
 							|	statement
 							;
-expression					:	primaryexpression																	# primexpr
-							|	expression PERIOD expression														# membexpr
-							|	expression OPEN_PARENTHESES (expression (COMMA expression)*)? CLOSED_PARENTHESES	# parenexpr
-							|	expression OPEN_SQUARE expression CLOSED_SQUARE										# accessexpr
-							|	expression incrementaloperator														# incexpr
-							|	notoperator expression																# notexpr
-							|	expression multiplicativeoperator expression										# multexpr
-							|	expression additiveoperator expression												# addexpr
-							|	expression comparisonoperator expression											# compexpr
-							|	expression booleanoperator expression												# boolexpr
-							|	expression binaryoperator expression												# binexpr
-							|	OPEN_CURLY_BRACE (expression (COMMA expression)*)? CLOSED_CURLY_BRACE				# objexpr
-							|	expression assignmentoperator expression											# assignexpr
+expression					:	primaryexpression																					# primexpr
+							|	expression PERIOD expression																		# membexpr
+							|	expression OPEN_PARENTHESES (expression (COMMA expression)*)? CLOSED_PARENTHESES					# parenexpr
+							|	templateexpression expression OPEN_PARENTHESES expression (COMMA expression)* CLOSED_PARENTHESES	# typarexpr
+							|	expression OPEN_SQUARE expression CLOSED_SQUARE														# accessexpr
+							|	expression incrementaloperator																		# incexpr
+							|	notoperator expression																				# notexpr
+							|	expression multiplicativeoperator expression														# multexpr
+							|	expression additiveoperator expression																# addexpr
+							|	expression comparisonoperator expression															# compexpr
+							|	expression booleanoperator expression																# boolexpr
+							|	expression binaryoperator expression																# binexpr
+							|	OPEN_CURLY_BRACE (expression (COMMA expression)*)? CLOSED_CURLY_BRACE								# objexpr
+							|	expression assignmentoperator expression															# assignexpr
 							;
 assignmentoperator			:	ASSIGNMENT_GENERIC	# asseql
 							|	ASSIGNMENT_ADD		# assadd

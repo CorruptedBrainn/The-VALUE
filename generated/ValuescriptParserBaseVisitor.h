@@ -77,6 +77,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitTemplateexpression(ValuescriptParser::TemplateexpressionContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitTemplatedeclaration(ValuescriptParser::TemplatedeclarationContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -166,6 +170,10 @@ public:
   }
 
   virtual std::any visitIncexpr(ValuescriptParser::IncexprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitTyparexpr(ValuescriptParser::TyparexprContext *ctx) override {
     return visitChildren(ctx);
   }
 

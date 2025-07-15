@@ -60,29 +60,29 @@ void valuescriptparserParserInitialize() {
   auto staticData = std::make_unique<ValuescriptParserStaticData>(
     std::vector<std::string>{
       "file", "extra", "statement", "variabledeclaration", "functiondeclaration", 
-      "functionparameters", "classdeclaration", "templatedeclaration", "typenameexpression", 
-      "ifstatement", "whilestatement", "dostatement", "forstatement", "codeblock", 
-      "expression", "assignmentoperator", "binaryoperator", "booleanoperator", 
-      "comparisonoperator", "additiveoperator", "multiplicativeoperator", 
+      "functionparameters", "classdeclaration", "templateexpression", "templatedeclaration", 
+      "typenameexpression", "ifstatement", "whilestatement", "dostatement", 
+      "forstatement", "codeblock", "expression", "assignmentoperator", "binaryoperator", 
+      "booleanoperator", "comparisonoperator", "additiveoperator", "multiplicativeoperator", 
       "notoperator", "incrementaloperator", "primaryexpression"
     },
     std::vector<std::string>{
       "", "'static'", "'const'", "'var'", "'func'", "'class'", "'return'", 
-      "'typenames'", "'import'", "'as'", "'int'", "'double'", "'bool'", 
-      "'str'", "'void'", "'true'", "'false'", "'if'", "'else'", "'do'", 
-      "'while'", "'for'", "'('", "')'", "'{'", "'}'", "'<'", "'>'", "'['", 
-      "']'", "'.'", "','", "':'", "';'", "'!'", "'->'", "'&'", "'&&'", "'|'", 
-      "'||'", "'^'", "'+'", "'-'", "'*'", "'/'", "'%'", "'++'", "'--'", 
+      "'typenames'", "'template'", "'import'", "'as'", "'int'", "'double'", 
+      "'bool'", "'str'", "'void'", "'true'", "'false'", "'if'", "'else'", 
+      "'do'", "'while'", "'for'", "'('", "')'", "'{'", "'}'", "'<'", "'>'", 
+      "'['", "']'", "'.'", "','", "':'", "';'", "'!'", "'->'", "'&'", "'&&'", 
+      "'|'", "'||'", "'^'", "'+'", "'-'", "'*'", "'/'", "'%'", "'++'", "'--'", 
       "'='", "'+='", "'-='", "'*='", "'/='", "'%='", "'=='", "'!='", "'>='", 
       "'<='"
     },
     std::vector<std::string>{
       "", "STATIC", "CONSTANT", "VARIABLE", "FUNCTION", "CLASS", "RETURN", 
-      "TYPENAMES", "IMPORT", "AS", "INTEGER", "DOUBLE", "BOOLEAN", "STRING", 
-      "VOID", "TRUE", "FALSE", "IF", "ELSE", "DO", "WHILE", "FOR", "OPEN_PARENTHESES", 
-      "CLOSED_PARENTHESES", "OPEN_CURLY_BRACE", "CLOSED_CURLY_BRACE", "OPEN_ANGLE_BRACKET", 
-      "CLOSED_ANGLE_BRACKET", "OPEN_SQUARE", "CLOSED_SQUARE", "PERIOD", 
-      "COMMA", "COLON", "SEMICOLON", "EXCLAMATION_POINT", "ARROW_OPERATOR", 
+      "TYPENAMES", "TEMPLATE", "IMPORT", "AS", "INTEGER", "DOUBLE", "BOOLEAN", 
+      "STRING", "VOID", "TRUE", "FALSE", "IF", "ELSE", "DO", "WHILE", "FOR", 
+      "OPEN_PARENTHESES", "CLOSED_PARENTHESES", "OPEN_CURLY_BRACE", "CLOSED_CURLY_BRACE", 
+      "OPEN_ANGLE_BRACKET", "CLOSED_ANGLE_BRACKET", "OPEN_SQUARE", "CLOSED_SQUARE", 
+      "PERIOD", "COMMA", "COLON", "SEMICOLON", "EXCLAMATION_POINT", "ARROW_OPERATOR", 
       "BITWISE_AND", "BOOLEAN_AND", "BITWISE_OR", "BOOLEAN_OR", "BITWISE_XOR", 
       "ADDITION", "SUBTRACTION", "MULTIPLICATION", "DIVISION", "MODULUS", 
       "INCREMENT", "DECREMENT", "ASSIGNMENT_GENERIC", "ASSIGNMENT_ADD", 
@@ -93,133 +93,143 @@ void valuescriptparserParserInitialize() {
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,66,368,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
+  	4,1,67,395,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
   	7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,
   	14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,
-  	21,2,22,7,22,2,23,7,23,1,0,5,0,50,8,0,10,0,12,0,53,9,0,1,0,4,0,56,8,0,
-  	11,0,12,0,57,1,0,1,0,1,1,1,1,1,1,1,1,3,1,66,8,1,1,1,1,1,1,2,1,2,1,2,1,
-  	2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,3,2,84,8,2,1,2,3,2,87,8,2,1,
-  	3,5,3,90,8,3,10,3,12,3,93,9,3,1,3,1,3,1,3,1,3,5,3,99,8,3,10,3,12,3,102,
-  	9,3,1,3,1,3,1,3,1,3,1,3,1,3,3,3,110,8,3,1,4,3,4,113,8,4,1,4,3,4,116,8,
-  	4,1,4,1,4,1,4,1,4,1,4,1,4,1,5,1,5,3,5,126,8,5,1,5,1,5,5,5,130,8,5,10,
-  	5,12,5,133,9,5,1,5,1,5,1,6,3,6,138,8,6,1,6,3,6,141,8,6,1,6,1,6,1,6,1,
-  	7,1,7,1,7,1,7,1,7,5,7,151,8,7,10,7,12,7,154,9,7,1,8,1,8,1,8,1,8,1,8,1,
-  	8,1,8,1,8,1,8,1,8,5,8,166,8,8,10,8,12,8,169,9,8,1,8,1,8,3,8,173,8,8,1,
-  	9,1,9,1,9,1,9,1,9,1,9,1,9,1,9,3,9,183,8,9,3,9,185,8,9,1,10,1,10,1,10,
-  	1,10,1,10,1,10,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,12,1,12,1,12,1,12,
-  	1,12,5,12,205,8,12,10,12,12,12,208,9,12,1,12,1,12,1,12,1,12,1,12,1,12,
-  	5,12,216,8,12,10,12,12,12,219,9,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,
-  	1,12,1,12,1,12,1,12,3,12,232,8,12,1,13,1,13,4,13,236,8,13,11,13,12,13,
-  	237,1,13,1,13,1,13,3,13,243,8,13,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,
-  	14,1,14,5,14,254,8,14,10,14,12,14,257,9,14,3,14,259,8,14,1,14,3,14,262,
-  	8,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,
-  	1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,
-  	1,14,1,14,1,14,1,14,1,14,5,14,296,8,14,10,14,12,14,299,9,14,3,14,301,
-  	8,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,5,14,311,8,14,10,14,12,14,
-  	314,9,14,1,15,1,15,1,15,1,15,1,15,1,15,3,15,322,8,15,1,16,1,16,1,16,3,
-  	16,327,8,16,1,17,1,17,3,17,331,8,17,1,18,1,18,1,18,1,18,1,18,1,18,3,18,
-  	339,8,18,1,19,1,19,3,19,343,8,19,1,20,1,20,1,20,3,20,348,8,20,1,21,1,
-  	21,1,22,1,22,3,22,354,8,22,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,
-  	23,1,23,3,23,366,8,23,1,23,0,1,28,24,0,2,4,6,8,10,12,14,16,18,20,22,24,
-  	26,28,30,32,34,36,38,40,42,44,46,0,2,2,0,1,1,3,3,1,0,1,3,417,0,51,1,0,
-  	0,0,2,61,1,0,0,0,4,86,1,0,0,0,6,109,1,0,0,0,8,112,1,0,0,0,10,123,1,0,
-  	0,0,12,137,1,0,0,0,14,145,1,0,0,0,16,172,1,0,0,0,18,174,1,0,0,0,20,186,
-  	1,0,0,0,22,192,1,0,0,0,24,231,1,0,0,0,26,242,1,0,0,0,28,261,1,0,0,0,30,
-  	321,1,0,0,0,32,326,1,0,0,0,34,330,1,0,0,0,36,338,1,0,0,0,38,342,1,0,0,
-  	0,40,347,1,0,0,0,42,349,1,0,0,0,44,353,1,0,0,0,46,365,1,0,0,0,48,50,3,
-  	2,1,0,49,48,1,0,0,0,50,53,1,0,0,0,51,49,1,0,0,0,51,52,1,0,0,0,52,55,1,
-  	0,0,0,53,51,1,0,0,0,54,56,3,4,2,0,55,54,1,0,0,0,56,57,1,0,0,0,57,55,1,
-  	0,0,0,57,58,1,0,0,0,58,59,1,0,0,0,59,60,5,0,0,1,60,1,1,0,0,0,61,62,5,
-  	8,0,0,62,65,5,64,0,0,63,64,5,9,0,0,64,66,5,64,0,0,65,63,1,0,0,0,65,66,
-  	1,0,0,0,66,67,1,0,0,0,67,68,5,33,0,0,68,3,1,0,0,0,69,70,3,6,3,0,70,71,
-  	5,33,0,0,71,87,1,0,0,0,72,87,3,8,4,0,73,87,3,12,6,0,74,87,3,18,9,0,75,
-  	87,3,20,10,0,76,87,3,22,11,0,77,87,3,24,12,0,78,79,3,28,14,0,79,80,5,
-  	33,0,0,80,87,1,0,0,0,81,83,5,6,0,0,82,84,3,28,14,0,83,82,1,0,0,0,83,84,
-  	1,0,0,0,84,85,1,0,0,0,85,87,5,33,0,0,86,69,1,0,0,0,86,72,1,0,0,0,86,73,
-  	1,0,0,0,86,74,1,0,0,0,86,75,1,0,0,0,86,76,1,0,0,0,86,77,1,0,0,0,86,78,
-  	1,0,0,0,86,81,1,0,0,0,87,5,1,0,0,0,88,90,7,0,0,0,89,88,1,0,0,0,90,93,
-  	1,0,0,0,91,89,1,0,0,0,91,92,1,0,0,0,92,94,1,0,0,0,93,91,1,0,0,0,94,95,
-  	5,64,0,0,95,96,5,35,0,0,96,110,3,16,8,0,97,99,7,1,0,0,98,97,1,0,0,0,99,
-  	102,1,0,0,0,100,98,1,0,0,0,100,101,1,0,0,0,101,103,1,0,0,0,102,100,1,
-  	0,0,0,103,104,5,64,0,0,104,105,5,35,0,0,105,106,3,16,8,0,106,107,5,48,
-  	0,0,107,108,3,28,14,0,108,110,1,0,0,0,109,91,1,0,0,0,109,100,1,0,0,0,
-  	110,7,1,0,0,0,111,113,3,14,7,0,112,111,1,0,0,0,112,113,1,0,0,0,113,115,
-  	1,0,0,0,114,116,5,4,0,0,115,114,1,0,0,0,115,116,1,0,0,0,116,117,1,0,0,
-  	0,117,118,5,64,0,0,118,119,3,10,5,0,119,120,5,35,0,0,120,121,3,16,8,0,
-  	121,122,3,26,13,0,122,9,1,0,0,0,123,125,5,22,0,0,124,126,3,6,3,0,125,
-  	124,1,0,0,0,125,126,1,0,0,0,126,131,1,0,0,0,127,128,5,31,0,0,128,130,
-  	3,6,3,0,129,127,1,0,0,0,130,133,1,0,0,0,131,129,1,0,0,0,131,132,1,0,0,
-  	0,132,134,1,0,0,0,133,131,1,0,0,0,134,135,5,23,0,0,135,11,1,0,0,0,136,
-  	138,3,14,7,0,137,136,1,0,0,0,137,138,1,0,0,0,138,140,1,0,0,0,139,141,
-  	5,5,0,0,140,139,1,0,0,0,140,141,1,0,0,0,141,142,1,0,0,0,142,143,5,64,
-  	0,0,143,144,3,26,13,0,144,13,1,0,0,0,145,146,5,7,0,0,146,147,5,32,0,0,
-  	147,152,5,64,0,0,148,149,5,31,0,0,149,151,5,64,0,0,150,148,1,0,0,0,151,
-  	154,1,0,0,0,152,150,1,0,0,0,152,153,1,0,0,0,153,15,1,0,0,0,154,152,1,
-  	0,0,0,155,173,5,10,0,0,156,173,5,11,0,0,157,173,5,13,0,0,158,173,5,12,
-  	0,0,159,173,5,64,0,0,160,161,5,64,0,0,161,162,5,26,0,0,162,167,3,16,8,
-  	0,163,164,5,31,0,0,164,166,3,16,8,0,165,163,1,0,0,0,166,169,1,0,0,0,167,
-  	165,1,0,0,0,167,168,1,0,0,0,168,170,1,0,0,0,169,167,1,0,0,0,170,171,5,
-  	27,0,0,171,173,1,0,0,0,172,155,1,0,0,0,172,156,1,0,0,0,172,157,1,0,0,
-  	0,172,158,1,0,0,0,172,159,1,0,0,0,172,160,1,0,0,0,173,17,1,0,0,0,174,
-  	175,5,17,0,0,175,176,5,22,0,0,176,177,3,28,14,0,177,178,5,23,0,0,178,
-  	184,3,26,13,0,179,182,5,18,0,0,180,183,3,26,13,0,181,183,3,18,9,0,182,
-  	180,1,0,0,0,182,181,1,0,0,0,183,185,1,0,0,0,184,179,1,0,0,0,184,185,1,
-  	0,0,0,185,19,1,0,0,0,186,187,5,20,0,0,187,188,5,22,0,0,188,189,3,28,14,
-  	0,189,190,5,23,0,0,190,191,3,26,13,0,191,21,1,0,0,0,192,193,5,19,0,0,
-  	193,194,3,26,13,0,194,195,5,20,0,0,195,196,5,22,0,0,196,197,3,28,14,0,
-  	197,198,5,23,0,0,198,23,1,0,0,0,199,200,5,21,0,0,200,201,5,22,0,0,201,
-  	206,3,6,3,0,202,203,5,31,0,0,203,205,3,6,3,0,204,202,1,0,0,0,205,208,
-  	1,0,0,0,206,204,1,0,0,0,206,207,1,0,0,0,207,209,1,0,0,0,208,206,1,0,0,
-  	0,209,210,5,33,0,0,210,211,3,28,14,0,211,212,5,33,0,0,212,217,3,28,14,
-  	0,213,214,5,31,0,0,214,216,3,28,14,0,215,213,1,0,0,0,216,219,1,0,0,0,
-  	217,215,1,0,0,0,217,218,1,0,0,0,218,220,1,0,0,0,219,217,1,0,0,0,220,221,
-  	5,23,0,0,221,222,3,26,13,0,222,232,1,0,0,0,223,224,5,21,0,0,224,225,5,
-  	22,0,0,225,226,3,6,3,0,226,227,5,32,0,0,227,228,3,28,14,0,228,229,5,23,
-  	0,0,229,230,3,26,13,0,230,232,1,0,0,0,231,199,1,0,0,0,231,223,1,0,0,0,
-  	232,25,1,0,0,0,233,235,5,24,0,0,234,236,3,4,2,0,235,234,1,0,0,0,236,237,
-  	1,0,0,0,237,235,1,0,0,0,237,238,1,0,0,0,238,239,1,0,0,0,239,240,5,25,
-  	0,0,240,243,1,0,0,0,241,243,3,4,2,0,242,233,1,0,0,0,242,241,1,0,0,0,243,
-  	27,1,0,0,0,244,245,6,14,-1,0,245,262,3,46,23,0,246,247,3,42,21,0,247,
-  	248,3,28,14,8,248,262,1,0,0,0,249,258,5,24,0,0,250,255,3,28,14,0,251,
-  	252,5,31,0,0,252,254,3,28,14,0,253,251,1,0,0,0,254,257,1,0,0,0,255,253,
-  	1,0,0,0,255,256,1,0,0,0,256,259,1,0,0,0,257,255,1,0,0,0,258,250,1,0,0,
-  	0,258,259,1,0,0,0,259,260,1,0,0,0,260,262,5,25,0,0,261,244,1,0,0,0,261,
-  	246,1,0,0,0,261,249,1,0,0,0,262,312,1,0,0,0,263,264,10,12,0,0,264,265,
-  	5,30,0,0,265,311,3,28,14,13,266,267,10,7,0,0,267,268,3,40,20,0,268,269,
-  	3,28,14,8,269,311,1,0,0,0,270,271,10,6,0,0,271,272,3,38,19,0,272,273,
-  	3,28,14,7,273,311,1,0,0,0,274,275,10,5,0,0,275,276,3,36,18,0,276,277,
-  	3,28,14,6,277,311,1,0,0,0,278,279,10,4,0,0,279,280,3,34,17,0,280,281,
-  	3,28,14,5,281,311,1,0,0,0,282,283,10,3,0,0,283,284,3,32,16,0,284,285,
-  	3,28,14,4,285,311,1,0,0,0,286,287,10,1,0,0,287,288,3,30,15,0,288,289,
-  	3,28,14,2,289,311,1,0,0,0,290,291,10,11,0,0,291,300,5,22,0,0,292,297,
-  	3,28,14,0,293,294,5,31,0,0,294,296,3,28,14,0,295,293,1,0,0,0,296,299,
-  	1,0,0,0,297,295,1,0,0,0,297,298,1,0,0,0,298,301,1,0,0,0,299,297,1,0,0,
-  	0,300,292,1,0,0,0,300,301,1,0,0,0,301,302,1,0,0,0,302,311,5,23,0,0,303,
-  	304,10,10,0,0,304,305,5,28,0,0,305,306,3,28,14,0,306,307,5,29,0,0,307,
-  	311,1,0,0,0,308,309,10,9,0,0,309,311,3,44,22,0,310,263,1,0,0,0,310,266,
-  	1,0,0,0,310,270,1,0,0,0,310,274,1,0,0,0,310,278,1,0,0,0,310,282,1,0,0,
-  	0,310,286,1,0,0,0,310,290,1,0,0,0,310,303,1,0,0,0,310,308,1,0,0,0,311,
-  	314,1,0,0,0,312,310,1,0,0,0,312,313,1,0,0,0,313,29,1,0,0,0,314,312,1,
-  	0,0,0,315,322,5,48,0,0,316,322,5,49,0,0,317,322,5,50,0,0,318,322,5,51,
-  	0,0,319,322,5,52,0,0,320,322,5,53,0,0,321,315,1,0,0,0,321,316,1,0,0,0,
-  	321,317,1,0,0,0,321,318,1,0,0,0,321,319,1,0,0,0,321,320,1,0,0,0,322,31,
-  	1,0,0,0,323,327,5,36,0,0,324,327,5,38,0,0,325,327,5,40,0,0,326,323,1,
-  	0,0,0,326,324,1,0,0,0,326,325,1,0,0,0,327,33,1,0,0,0,328,331,5,37,0,0,
-  	329,331,5,39,0,0,330,328,1,0,0,0,330,329,1,0,0,0,331,35,1,0,0,0,332,339,
-  	5,54,0,0,333,339,5,55,0,0,334,339,5,56,0,0,335,339,5,57,0,0,336,339,5,
-  	26,0,0,337,339,5,27,0,0,338,332,1,0,0,0,338,333,1,0,0,0,338,334,1,0,0,
-  	0,338,335,1,0,0,0,338,336,1,0,0,0,338,337,1,0,0,0,339,37,1,0,0,0,340,
-  	343,5,41,0,0,341,343,5,42,0,0,342,340,1,0,0,0,342,341,1,0,0,0,343,39,
-  	1,0,0,0,344,348,5,43,0,0,345,348,5,44,0,0,346,348,5,45,0,0,347,344,1,
-  	0,0,0,347,345,1,0,0,0,347,346,1,0,0,0,348,41,1,0,0,0,349,350,5,34,0,0,
-  	350,43,1,0,0,0,351,354,5,46,0,0,352,354,5,47,0,0,353,351,1,0,0,0,353,
-  	352,1,0,0,0,354,45,1,0,0,0,355,366,5,64,0,0,356,366,5,61,0,0,357,366,
-  	5,62,0,0,358,366,5,15,0,0,359,366,5,16,0,0,360,366,5,63,0,0,361,362,5,
-  	22,0,0,362,363,3,28,14,0,363,364,5,23,0,0,364,366,1,0,0,0,365,355,1,0,
-  	0,0,365,356,1,0,0,0,365,357,1,0,0,0,365,358,1,0,0,0,365,359,1,0,0,0,365,
-  	360,1,0,0,0,365,361,1,0,0,0,366,47,1,0,0,0,39,51,57,65,83,86,91,100,109,
-  	112,115,125,131,137,140,152,167,172,182,184,206,217,231,237,242,255,258,
-  	261,297,300,310,312,321,326,330,338,342,347,353,365
+  	21,2,22,7,22,2,23,7,23,2,24,7,24,1,0,5,0,52,8,0,10,0,12,0,55,9,0,1,0,
+  	4,0,58,8,0,11,0,12,0,59,1,0,1,0,1,1,1,1,1,1,1,1,3,1,68,8,1,1,1,1,1,1,
+  	2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,3,2,86,8,2,1,2,
+  	3,2,89,8,2,1,3,5,3,92,8,3,10,3,12,3,95,9,3,1,3,1,3,1,3,1,3,5,3,101,8,
+  	3,10,3,12,3,104,9,3,1,3,1,3,1,3,1,3,1,3,1,3,3,3,112,8,3,1,4,3,4,115,8,
+  	4,1,4,3,4,118,8,4,1,4,1,4,1,4,1,4,1,4,1,4,1,5,1,5,3,5,128,8,5,1,5,1,5,
+  	5,5,132,8,5,10,5,12,5,135,9,5,1,5,1,5,1,6,3,6,140,8,6,1,6,3,6,143,8,6,
+  	1,6,1,6,1,6,1,7,1,7,1,7,1,7,1,7,5,7,153,8,7,10,7,12,7,156,9,7,1,7,1,7,
+  	1,8,1,8,1,8,1,8,1,8,5,8,165,8,8,10,8,12,8,168,9,8,1,9,1,9,1,9,1,9,1,9,
+  	1,9,1,9,1,9,1,9,1,9,5,9,180,8,9,10,9,12,9,183,9,9,1,9,1,9,3,9,187,8,9,
+  	1,10,1,10,1,10,1,10,1,10,1,10,1,10,1,10,3,10,197,8,10,3,10,199,8,10,1,
+  	11,1,11,1,11,1,11,1,11,1,11,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,13,1,
+  	13,1,13,1,13,1,13,5,13,219,8,13,10,13,12,13,222,9,13,1,13,1,13,1,13,1,
+  	13,1,13,1,13,5,13,230,8,13,10,13,12,13,233,9,13,1,13,1,13,1,13,1,13,1,
+  	13,1,13,1,13,1,13,1,13,1,13,1,13,3,13,246,8,13,1,14,1,14,4,14,250,8,14,
+  	11,14,12,14,251,1,14,1,14,1,14,3,14,257,8,14,1,15,1,15,1,15,1,15,1,15,
+  	1,15,1,15,1,15,5,15,267,8,15,10,15,12,15,270,9,15,1,15,1,15,1,15,1,15,
+  	1,15,1,15,1,15,1,15,1,15,5,15,281,8,15,10,15,12,15,284,9,15,3,15,286,
+  	8,15,1,15,3,15,289,8,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,
+  	1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,
+  	1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,5,15,323,8,15,10,15,12,15,
+  	326,9,15,3,15,328,8,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,5,15,338,
+  	8,15,10,15,12,15,341,9,15,1,16,1,16,1,16,1,16,1,16,1,16,3,16,349,8,16,
+  	1,17,1,17,1,17,3,17,354,8,17,1,18,1,18,3,18,358,8,18,1,19,1,19,1,19,1,
+  	19,1,19,1,19,3,19,366,8,19,1,20,1,20,3,20,370,8,20,1,21,1,21,1,21,3,21,
+  	375,8,21,1,22,1,22,1,23,1,23,3,23,381,8,23,1,24,1,24,1,24,1,24,1,24,1,
+  	24,1,24,1,24,1,24,1,24,3,24,393,8,24,1,24,0,1,30,25,0,2,4,6,8,10,12,14,
+  	16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,0,2,2,0,1,1,3,3,1,
+  	0,1,3,446,0,53,1,0,0,0,2,63,1,0,0,0,4,88,1,0,0,0,6,111,1,0,0,0,8,114,
+  	1,0,0,0,10,125,1,0,0,0,12,139,1,0,0,0,14,147,1,0,0,0,16,159,1,0,0,0,18,
+  	186,1,0,0,0,20,188,1,0,0,0,22,200,1,0,0,0,24,206,1,0,0,0,26,245,1,0,0,
+  	0,28,256,1,0,0,0,30,288,1,0,0,0,32,348,1,0,0,0,34,353,1,0,0,0,36,357,
+  	1,0,0,0,38,365,1,0,0,0,40,369,1,0,0,0,42,374,1,0,0,0,44,376,1,0,0,0,46,
+  	380,1,0,0,0,48,392,1,0,0,0,50,52,3,2,1,0,51,50,1,0,0,0,52,55,1,0,0,0,
+  	53,51,1,0,0,0,53,54,1,0,0,0,54,57,1,0,0,0,55,53,1,0,0,0,56,58,3,4,2,0,
+  	57,56,1,0,0,0,58,59,1,0,0,0,59,57,1,0,0,0,59,60,1,0,0,0,60,61,1,0,0,0,
+  	61,62,5,0,0,1,62,1,1,0,0,0,63,64,5,9,0,0,64,67,5,65,0,0,65,66,5,10,0,
+  	0,66,68,5,65,0,0,67,65,1,0,0,0,67,68,1,0,0,0,68,69,1,0,0,0,69,70,5,34,
+  	0,0,70,3,1,0,0,0,71,72,3,6,3,0,72,73,5,34,0,0,73,89,1,0,0,0,74,89,3,8,
+  	4,0,75,89,3,12,6,0,76,89,3,20,10,0,77,89,3,22,11,0,78,89,3,24,12,0,79,
+  	89,3,26,13,0,80,81,3,30,15,0,81,82,5,34,0,0,82,89,1,0,0,0,83,85,5,6,0,
+  	0,84,86,3,30,15,0,85,84,1,0,0,0,85,86,1,0,0,0,86,87,1,0,0,0,87,89,5,34,
+  	0,0,88,71,1,0,0,0,88,74,1,0,0,0,88,75,1,0,0,0,88,76,1,0,0,0,88,77,1,0,
+  	0,0,88,78,1,0,0,0,88,79,1,0,0,0,88,80,1,0,0,0,88,83,1,0,0,0,89,5,1,0,
+  	0,0,90,92,7,0,0,0,91,90,1,0,0,0,92,95,1,0,0,0,93,91,1,0,0,0,93,94,1,0,
+  	0,0,94,96,1,0,0,0,95,93,1,0,0,0,96,97,5,65,0,0,97,98,5,36,0,0,98,112,
+  	3,18,9,0,99,101,7,1,0,0,100,99,1,0,0,0,101,104,1,0,0,0,102,100,1,0,0,
+  	0,102,103,1,0,0,0,103,105,1,0,0,0,104,102,1,0,0,0,105,106,5,65,0,0,106,
+  	107,5,36,0,0,107,108,3,18,9,0,108,109,5,49,0,0,109,110,3,30,15,0,110,
+  	112,1,0,0,0,111,93,1,0,0,0,111,102,1,0,0,0,112,7,1,0,0,0,113,115,3,16,
+  	8,0,114,113,1,0,0,0,114,115,1,0,0,0,115,117,1,0,0,0,116,118,5,4,0,0,117,
+  	116,1,0,0,0,117,118,1,0,0,0,118,119,1,0,0,0,119,120,5,65,0,0,120,121,
+  	3,10,5,0,121,122,5,36,0,0,122,123,3,18,9,0,123,124,3,28,14,0,124,9,1,
+  	0,0,0,125,127,5,23,0,0,126,128,3,6,3,0,127,126,1,0,0,0,127,128,1,0,0,
+  	0,128,133,1,0,0,0,129,130,5,32,0,0,130,132,3,6,3,0,131,129,1,0,0,0,132,
+  	135,1,0,0,0,133,131,1,0,0,0,133,134,1,0,0,0,134,136,1,0,0,0,135,133,1,
+  	0,0,0,136,137,5,24,0,0,137,11,1,0,0,0,138,140,3,16,8,0,139,138,1,0,0,
+  	0,139,140,1,0,0,0,140,142,1,0,0,0,141,143,5,5,0,0,142,141,1,0,0,0,142,
+  	143,1,0,0,0,143,144,1,0,0,0,144,145,5,65,0,0,145,146,3,28,14,0,146,13,
+  	1,0,0,0,147,148,5,8,0,0,148,149,5,36,0,0,149,154,3,18,9,0,150,151,5,32,
+  	0,0,151,153,3,18,9,0,152,150,1,0,0,0,153,156,1,0,0,0,154,152,1,0,0,0,
+  	154,155,1,0,0,0,155,157,1,0,0,0,156,154,1,0,0,0,157,158,5,34,0,0,158,
+  	15,1,0,0,0,159,160,5,7,0,0,160,161,5,33,0,0,161,166,5,65,0,0,162,163,
+  	5,32,0,0,163,165,5,65,0,0,164,162,1,0,0,0,165,168,1,0,0,0,166,164,1,0,
+  	0,0,166,167,1,0,0,0,167,17,1,0,0,0,168,166,1,0,0,0,169,187,5,11,0,0,170,
+  	187,5,12,0,0,171,187,5,14,0,0,172,187,5,13,0,0,173,187,5,65,0,0,174,175,
+  	5,65,0,0,175,176,5,27,0,0,176,181,3,18,9,0,177,178,5,32,0,0,178,180,3,
+  	18,9,0,179,177,1,0,0,0,180,183,1,0,0,0,181,179,1,0,0,0,181,182,1,0,0,
+  	0,182,184,1,0,0,0,183,181,1,0,0,0,184,185,5,28,0,0,185,187,1,0,0,0,186,
+  	169,1,0,0,0,186,170,1,0,0,0,186,171,1,0,0,0,186,172,1,0,0,0,186,173,1,
+  	0,0,0,186,174,1,0,0,0,187,19,1,0,0,0,188,189,5,18,0,0,189,190,5,23,0,
+  	0,190,191,3,30,15,0,191,192,5,24,0,0,192,198,3,28,14,0,193,196,5,19,0,
+  	0,194,197,3,28,14,0,195,197,3,20,10,0,196,194,1,0,0,0,196,195,1,0,0,0,
+  	197,199,1,0,0,0,198,193,1,0,0,0,198,199,1,0,0,0,199,21,1,0,0,0,200,201,
+  	5,21,0,0,201,202,5,23,0,0,202,203,3,30,15,0,203,204,5,24,0,0,204,205,
+  	3,28,14,0,205,23,1,0,0,0,206,207,5,20,0,0,207,208,3,28,14,0,208,209,5,
+  	21,0,0,209,210,5,23,0,0,210,211,3,30,15,0,211,212,5,24,0,0,212,25,1,0,
+  	0,0,213,214,5,22,0,0,214,215,5,23,0,0,215,220,3,6,3,0,216,217,5,32,0,
+  	0,217,219,3,6,3,0,218,216,1,0,0,0,219,222,1,0,0,0,220,218,1,0,0,0,220,
+  	221,1,0,0,0,221,223,1,0,0,0,222,220,1,0,0,0,223,224,5,34,0,0,224,225,
+  	3,30,15,0,225,226,5,34,0,0,226,231,3,30,15,0,227,228,5,32,0,0,228,230,
+  	3,30,15,0,229,227,1,0,0,0,230,233,1,0,0,0,231,229,1,0,0,0,231,232,1,0,
+  	0,0,232,234,1,0,0,0,233,231,1,0,0,0,234,235,5,24,0,0,235,236,3,28,14,
+  	0,236,246,1,0,0,0,237,238,5,22,0,0,238,239,5,23,0,0,239,240,3,6,3,0,240,
+  	241,5,33,0,0,241,242,3,30,15,0,242,243,5,24,0,0,243,244,3,28,14,0,244,
+  	246,1,0,0,0,245,213,1,0,0,0,245,237,1,0,0,0,246,27,1,0,0,0,247,249,5,
+  	25,0,0,248,250,3,4,2,0,249,248,1,0,0,0,250,251,1,0,0,0,251,249,1,0,0,
+  	0,251,252,1,0,0,0,252,253,1,0,0,0,253,254,5,26,0,0,254,257,1,0,0,0,255,
+  	257,3,4,2,0,256,247,1,0,0,0,256,255,1,0,0,0,257,29,1,0,0,0,258,259,6,
+  	15,-1,0,259,289,3,48,24,0,260,261,3,14,7,0,261,262,3,30,15,0,262,263,
+  	5,23,0,0,263,268,3,30,15,0,264,265,5,32,0,0,265,267,3,30,15,0,266,264,
+  	1,0,0,0,267,270,1,0,0,0,268,266,1,0,0,0,268,269,1,0,0,0,269,271,1,0,0,
+  	0,270,268,1,0,0,0,271,272,5,24,0,0,272,289,1,0,0,0,273,274,3,44,22,0,
+  	274,275,3,30,15,8,275,289,1,0,0,0,276,285,5,25,0,0,277,282,3,30,15,0,
+  	278,279,5,32,0,0,279,281,3,30,15,0,280,278,1,0,0,0,281,284,1,0,0,0,282,
+  	280,1,0,0,0,282,283,1,0,0,0,283,286,1,0,0,0,284,282,1,0,0,0,285,277,1,
+  	0,0,0,285,286,1,0,0,0,286,287,1,0,0,0,287,289,5,26,0,0,288,258,1,0,0,
+  	0,288,260,1,0,0,0,288,273,1,0,0,0,288,276,1,0,0,0,289,339,1,0,0,0,290,
+  	291,10,13,0,0,291,292,5,31,0,0,292,338,3,30,15,14,293,294,10,7,0,0,294,
+  	295,3,42,21,0,295,296,3,30,15,8,296,338,1,0,0,0,297,298,10,6,0,0,298,
+  	299,3,40,20,0,299,300,3,30,15,7,300,338,1,0,0,0,301,302,10,5,0,0,302,
+  	303,3,38,19,0,303,304,3,30,15,6,304,338,1,0,0,0,305,306,10,4,0,0,306,
+  	307,3,36,18,0,307,308,3,30,15,5,308,338,1,0,0,0,309,310,10,3,0,0,310,
+  	311,3,34,17,0,311,312,3,30,15,4,312,338,1,0,0,0,313,314,10,1,0,0,314,
+  	315,3,32,16,0,315,316,3,30,15,2,316,338,1,0,0,0,317,318,10,12,0,0,318,
+  	327,5,23,0,0,319,324,3,30,15,0,320,321,5,32,0,0,321,323,3,30,15,0,322,
+  	320,1,0,0,0,323,326,1,0,0,0,324,322,1,0,0,0,324,325,1,0,0,0,325,328,1,
+  	0,0,0,326,324,1,0,0,0,327,319,1,0,0,0,327,328,1,0,0,0,328,329,1,0,0,0,
+  	329,338,5,24,0,0,330,331,10,10,0,0,331,332,5,29,0,0,332,333,3,30,15,0,
+  	333,334,5,30,0,0,334,338,1,0,0,0,335,336,10,9,0,0,336,338,3,46,23,0,337,
+  	290,1,0,0,0,337,293,1,0,0,0,337,297,1,0,0,0,337,301,1,0,0,0,337,305,1,
+  	0,0,0,337,309,1,0,0,0,337,313,1,0,0,0,337,317,1,0,0,0,337,330,1,0,0,0,
+  	337,335,1,0,0,0,338,341,1,0,0,0,339,337,1,0,0,0,339,340,1,0,0,0,340,31,
+  	1,0,0,0,341,339,1,0,0,0,342,349,5,49,0,0,343,349,5,50,0,0,344,349,5,51,
+  	0,0,345,349,5,52,0,0,346,349,5,53,0,0,347,349,5,54,0,0,348,342,1,0,0,
+  	0,348,343,1,0,0,0,348,344,1,0,0,0,348,345,1,0,0,0,348,346,1,0,0,0,348,
+  	347,1,0,0,0,349,33,1,0,0,0,350,354,5,37,0,0,351,354,5,39,0,0,352,354,
+  	5,41,0,0,353,350,1,0,0,0,353,351,1,0,0,0,353,352,1,0,0,0,354,35,1,0,0,
+  	0,355,358,5,38,0,0,356,358,5,40,0,0,357,355,1,0,0,0,357,356,1,0,0,0,358,
+  	37,1,0,0,0,359,366,5,55,0,0,360,366,5,56,0,0,361,366,5,57,0,0,362,366,
+  	5,58,0,0,363,366,5,27,0,0,364,366,5,28,0,0,365,359,1,0,0,0,365,360,1,
+  	0,0,0,365,361,1,0,0,0,365,362,1,0,0,0,365,363,1,0,0,0,365,364,1,0,0,0,
+  	366,39,1,0,0,0,367,370,5,42,0,0,368,370,5,43,0,0,369,367,1,0,0,0,369,
+  	368,1,0,0,0,370,41,1,0,0,0,371,375,5,44,0,0,372,375,5,45,0,0,373,375,
+  	5,46,0,0,374,371,1,0,0,0,374,372,1,0,0,0,374,373,1,0,0,0,375,43,1,0,0,
+  	0,376,377,5,35,0,0,377,45,1,0,0,0,378,381,5,47,0,0,379,381,5,48,0,0,380,
+  	378,1,0,0,0,380,379,1,0,0,0,381,47,1,0,0,0,382,393,5,65,0,0,383,393,5,
+  	62,0,0,384,393,5,63,0,0,385,393,5,16,0,0,386,393,5,17,0,0,387,393,5,64,
+  	0,0,388,389,5,23,0,0,389,390,3,30,15,0,390,391,5,24,0,0,391,393,1,0,0,
+  	0,392,382,1,0,0,0,392,383,1,0,0,0,392,384,1,0,0,0,392,385,1,0,0,0,392,
+  	386,1,0,0,0,392,387,1,0,0,0,392,388,1,0,0,0,393,49,1,0,0,0,41,53,59,67,
+  	85,88,93,102,111,114,117,127,133,139,142,154,166,181,186,196,198,220,
+  	231,245,251,256,268,282,285,288,324,327,337,339,348,353,357,365,369,374,
+  	380,392
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
 
@@ -321,28 +331,30 @@ ValuescriptParser::FileContext* ValuescriptParser::file() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(51);
+    setState(53);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == ValuescriptParser::IMPORT) {
-      setState(48);
+      setState(50);
       extra();
-      setState(53);
+      setState(55);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
-    setState(55); 
+    setState(57); 
     _errHandler->sync(this);
     _la = _input->LA(1);
     do {
-      setState(54);
+      setState(56);
       statement();
-      setState(57); 
+      setState(59); 
       _errHandler->sync(this);
       _la = _input->LA(1);
-    } while (((((_la - 1) & ~ 0x3fULL) == 0) &&
-      ((1ULL << (_la - 1)) & -1152921496004476801) != 0));
-    setState(59);
+    } while ((((_la & ~ 0x3fULL) == 0) &&
+      ((1ULL << _la) & -4611685984017907202) != 0) || _la == ValuescriptParser::STRING_LITERAL
+
+    || _la == ValuescriptParser::IDENTIFIER);
+    setState(61);
     match(ValuescriptParser::EOF);
    
   }
@@ -408,21 +420,21 @@ ValuescriptParser::ExtraContext* ValuescriptParser::extra() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(61);
+    setState(63);
     match(ValuescriptParser::IMPORT);
-    setState(62);
+    setState(64);
     match(ValuescriptParser::IDENTIFIER);
-    setState(65);
+    setState(67);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == ValuescriptParser::AS) {
-      setState(63);
+      setState(65);
       match(ValuescriptParser::AS);
-      setState(64);
+      setState(66);
       match(ValuescriptParser::IDENTIFIER);
     }
-    setState(67);
+    setState(69);
     match(ValuescriptParser::SEMICOLON);
    
   }
@@ -614,15 +626,15 @@ ValuescriptParser::StatementContext* ValuescriptParser::statement() {
     exitRule();
   });
   try {
-    setState(86);
+    setState(88);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx)) {
     case 1: {
       _localctx = _tracker.createInstance<ValuescriptParser::StatementvardeclContext>(_localctx);
       enterOuterAlt(_localctx, 1);
-      setState(69);
+      setState(71);
       variabledeclaration();
-      setState(70);
+      setState(72);
       match(ValuescriptParser::SEMICOLON);
       break;
     }
@@ -630,7 +642,7 @@ ValuescriptParser::StatementContext* ValuescriptParser::statement() {
     case 2: {
       _localctx = _tracker.createInstance<ValuescriptParser::StatementfuncdeclContext>(_localctx);
       enterOuterAlt(_localctx, 2);
-      setState(72);
+      setState(74);
       functiondeclaration();
       break;
     }
@@ -638,7 +650,7 @@ ValuescriptParser::StatementContext* ValuescriptParser::statement() {
     case 3: {
       _localctx = _tracker.createInstance<ValuescriptParser::StatementclassdeclContext>(_localctx);
       enterOuterAlt(_localctx, 3);
-      setState(73);
+      setState(75);
       classdeclaration();
       break;
     }
@@ -646,7 +658,7 @@ ValuescriptParser::StatementContext* ValuescriptParser::statement() {
     case 4: {
       _localctx = _tracker.createInstance<ValuescriptParser::StatementifContext>(_localctx);
       enterOuterAlt(_localctx, 4);
-      setState(74);
+      setState(76);
       ifstatement();
       break;
     }
@@ -654,7 +666,7 @@ ValuescriptParser::StatementContext* ValuescriptParser::statement() {
     case 5: {
       _localctx = _tracker.createInstance<ValuescriptParser::StatementwhileContext>(_localctx);
       enterOuterAlt(_localctx, 5);
-      setState(75);
+      setState(77);
       whilestatement();
       break;
     }
@@ -662,7 +674,7 @@ ValuescriptParser::StatementContext* ValuescriptParser::statement() {
     case 6: {
       _localctx = _tracker.createInstance<ValuescriptParser::StatementdoContext>(_localctx);
       enterOuterAlt(_localctx, 6);
-      setState(76);
+      setState(78);
       dostatement();
       break;
     }
@@ -670,7 +682,7 @@ ValuescriptParser::StatementContext* ValuescriptParser::statement() {
     case 7: {
       _localctx = _tracker.createInstance<ValuescriptParser::StatementforContext>(_localctx);
       enterOuterAlt(_localctx, 7);
-      setState(77);
+      setState(79);
       forstatement();
       break;
     }
@@ -678,9 +690,9 @@ ValuescriptParser::StatementContext* ValuescriptParser::statement() {
     case 8: {
       _localctx = _tracker.createInstance<ValuescriptParser::StatementexprContext>(_localctx);
       enterOuterAlt(_localctx, 8);
-      setState(78);
+      setState(80);
       expression(0);
-      setState(79);
+      setState(81);
       match(ValuescriptParser::SEMICOLON);
       break;
     }
@@ -688,18 +700,18 @@ ValuescriptParser::StatementContext* ValuescriptParser::statement() {
     case 9: {
       _localctx = _tracker.createInstance<ValuescriptParser::StatementretContext>(_localctx);
       enterOuterAlt(_localctx, 9);
-      setState(81);
-      match(ValuescriptParser::RETURN);
       setState(83);
+      match(ValuescriptParser::RETURN);
+      setState(85);
       _errHandler->sync(this);
 
       _la = _input->LA(1);
-      if (((((_la - 15) & ~ 0x3fULL) == 0) &&
-        ((1ULL << (_la - 15)) & 1055531163189891) != 0)) {
-        setState(82);
+      if (((((_la - 8) & ~ 0x3fULL) == 0) &&
+        ((1ULL << (_la - 8)) & 270215977776612097) != 0)) {
+        setState(84);
         expression(0);
       }
-      setState(85);
+      setState(87);
       match(ValuescriptParser::SEMICOLON);
       break;
     }
@@ -794,18 +806,18 @@ ValuescriptParser::VariabledeclarationContext* ValuescriptParser::variabledeclar
     exitRule();
   });
   try {
-    setState(109);
+    setState(111);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(91);
+      setState(93);
       _errHandler->sync(this);
       _la = _input->LA(1);
       while (_la == ValuescriptParser::STATIC
 
       || _la == ValuescriptParser::VARIABLE) {
-        setState(88);
+        setState(90);
         _la = _input->LA(1);
         if (!(_la == ValuescriptParser::STATIC
 
@@ -816,27 +828,27 @@ ValuescriptParser::VariabledeclarationContext* ValuescriptParser::variabledeclar
           _errHandler->reportMatch(this);
           consume();
         }
-        setState(93);
+        setState(95);
         _errHandler->sync(this);
         _la = _input->LA(1);
       }
-      setState(94);
-      match(ValuescriptParser::IDENTIFIER);
-      setState(95);
-      match(ValuescriptParser::ARROW_OPERATOR);
       setState(96);
+      match(ValuescriptParser::IDENTIFIER);
+      setState(97);
+      match(ValuescriptParser::ARROW_OPERATOR);
+      setState(98);
       typenameexpression();
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(100);
+      setState(102);
       _errHandler->sync(this);
       _la = _input->LA(1);
       while ((((_la & ~ 0x3fULL) == 0) &&
         ((1ULL << _la) & 14) != 0)) {
-        setState(97);
+        setState(99);
         _la = _input->LA(1);
         if (!((((_la & ~ 0x3fULL) == 0) &&
           ((1ULL << _la) & 14) != 0))) {
@@ -846,19 +858,19 @@ ValuescriptParser::VariabledeclarationContext* ValuescriptParser::variabledeclar
           _errHandler->reportMatch(this);
           consume();
         }
-        setState(102);
+        setState(104);
         _errHandler->sync(this);
         _la = _input->LA(1);
       }
-      setState(103);
-      match(ValuescriptParser::IDENTIFIER);
-      setState(104);
-      match(ValuescriptParser::ARROW_OPERATOR);
       setState(105);
-      typenameexpression();
+      match(ValuescriptParser::IDENTIFIER);
       setState(106);
-      match(ValuescriptParser::ASSIGNMENT_GENERIC);
+      match(ValuescriptParser::ARROW_OPERATOR);
       setState(107);
+      typenameexpression();
+      setState(108);
+      match(ValuescriptParser::ASSIGNMENT_GENERIC);
+      setState(109);
       expression(0);
       break;
     }
@@ -938,31 +950,31 @@ ValuescriptParser::FunctiondeclarationContext* ValuescriptParser::functiondeclar
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(112);
+    setState(114);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == ValuescriptParser::TYPENAMES) {
-      setState(111);
+      setState(113);
       templatedeclaration();
     }
-    setState(115);
+    setState(117);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == ValuescriptParser::FUNCTION) {
-      setState(114);
+      setState(116);
       match(ValuescriptParser::FUNCTION);
     }
-    setState(117);
-    match(ValuescriptParser::IDENTIFIER);
-    setState(118);
-    functionparameters();
     setState(119);
-    match(ValuescriptParser::ARROW_OPERATOR);
+    match(ValuescriptParser::IDENTIFIER);
     setState(120);
-    typenameexpression();
+    functionparameters();
     setState(121);
+    match(ValuescriptParser::ARROW_OPERATOR);
+    setState(122);
+    typenameexpression();
+    setState(123);
     codeblock();
    
   }
@@ -1032,30 +1044,30 @@ ValuescriptParser::FunctionparametersContext* ValuescriptParser::functionparamet
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(123);
-    match(ValuescriptParser::OPEN_PARENTHESES);
     setState(125);
+    match(ValuescriptParser::OPEN_PARENTHESES);
+    setState(127);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
-    if (((((_la - 1) & ~ 0x3fULL) == 0) &&
-      ((1ULL << (_la - 1)) & -9223372036854775801) != 0)) {
-      setState(124);
+    if ((((_la & ~ 0x3fULL) == 0) &&
+      ((1ULL << _la) & 14) != 0) || _la == ValuescriptParser::IDENTIFIER) {
+      setState(126);
       variabledeclaration();
     }
-    setState(131);
+    setState(133);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == ValuescriptParser::COMMA) {
-      setState(127);
+      setState(129);
       match(ValuescriptParser::COMMA);
-      setState(128);
+      setState(130);
       variabledeclaration();
-      setState(133);
+      setState(135);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
-    setState(134);
+    setState(136);
     match(ValuescriptParser::CLOSED_PARENTHESES);
    
   }
@@ -1117,26 +1129,118 @@ ValuescriptParser::ClassdeclarationContext* ValuescriptParser::classdeclaration(
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(137);
+    setState(139);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == ValuescriptParser::TYPENAMES) {
-      setState(136);
+      setState(138);
       templatedeclaration();
     }
-    setState(140);
+    setState(142);
     _errHandler->sync(this);
 
     _la = _input->LA(1);
     if (_la == ValuescriptParser::CLASS) {
-      setState(139);
+      setState(141);
       match(ValuescriptParser::CLASS);
     }
-    setState(142);
+    setState(144);
     match(ValuescriptParser::IDENTIFIER);
-    setState(143);
+    setState(145);
     codeblock();
+   
+  }
+  catch (RecognitionException &e) {
+    _errHandler->reportError(this, e);
+    _localctx->exception = std::current_exception();
+    _errHandler->recover(this, _localctx->exception);
+  }
+
+  return _localctx;
+}
+
+//----------------- TemplateexpressionContext ------------------------------------------------------------------
+
+ValuescriptParser::TemplateexpressionContext::TemplateexpressionContext(ParserRuleContext *parent, size_t invokingState)
+  : ParserRuleContext(parent, invokingState) {
+}
+
+tree::TerminalNode* ValuescriptParser::TemplateexpressionContext::TEMPLATE() {
+  return getToken(ValuescriptParser::TEMPLATE, 0);
+}
+
+tree::TerminalNode* ValuescriptParser::TemplateexpressionContext::ARROW_OPERATOR() {
+  return getToken(ValuescriptParser::ARROW_OPERATOR, 0);
+}
+
+std::vector<ValuescriptParser::TypenameexpressionContext *> ValuescriptParser::TemplateexpressionContext::typenameexpression() {
+  return getRuleContexts<ValuescriptParser::TypenameexpressionContext>();
+}
+
+ValuescriptParser::TypenameexpressionContext* ValuescriptParser::TemplateexpressionContext::typenameexpression(size_t i) {
+  return getRuleContext<ValuescriptParser::TypenameexpressionContext>(i);
+}
+
+tree::TerminalNode* ValuescriptParser::TemplateexpressionContext::SEMICOLON() {
+  return getToken(ValuescriptParser::SEMICOLON, 0);
+}
+
+std::vector<tree::TerminalNode *> ValuescriptParser::TemplateexpressionContext::COMMA() {
+  return getTokens(ValuescriptParser::COMMA);
+}
+
+tree::TerminalNode* ValuescriptParser::TemplateexpressionContext::COMMA(size_t i) {
+  return getToken(ValuescriptParser::COMMA, i);
+}
+
+
+size_t ValuescriptParser::TemplateexpressionContext::getRuleIndex() const {
+  return ValuescriptParser::RuleTemplateexpression;
+}
+
+
+std::any ValuescriptParser::TemplateexpressionContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitTemplateexpression(this);
+  else
+    return visitor->visitChildren(this);
+}
+
+ValuescriptParser::TemplateexpressionContext* ValuescriptParser::templateexpression() {
+  TemplateexpressionContext *_localctx = _tracker.createInstance<TemplateexpressionContext>(_ctx, getState());
+  enterRule(_localctx, 14, ValuescriptParser::RuleTemplateexpression);
+  size_t _la = 0;
+
+#if __cplusplus > 201703L
+  auto onExit = finally([=, this] {
+#else
+  auto onExit = finally([=] {
+#endif
+    exitRule();
+  });
+  try {
+    enterOuterAlt(_localctx, 1);
+    setState(147);
+    match(ValuescriptParser::TEMPLATE);
+    setState(148);
+    match(ValuescriptParser::ARROW_OPERATOR);
+    setState(149);
+    typenameexpression();
+    setState(154);
+    _errHandler->sync(this);
+    _la = _input->LA(1);
+    while (_la == ValuescriptParser::COMMA) {
+      setState(150);
+      match(ValuescriptParser::COMMA);
+      setState(151);
+      typenameexpression();
+      setState(156);
+      _errHandler->sync(this);
+      _la = _input->LA(1);
+    }
+    setState(157);
+    match(ValuescriptParser::SEMICOLON);
    
   }
   catch (RecognitionException &e) {
@@ -1193,7 +1297,7 @@ std::any ValuescriptParser::TemplatedeclarationContext::accept(tree::ParseTreeVi
 
 ValuescriptParser::TemplatedeclarationContext* ValuescriptParser::templatedeclaration() {
   TemplatedeclarationContext *_localctx = _tracker.createInstance<TemplatedeclarationContext>(_ctx, getState());
-  enterRule(_localctx, 14, ValuescriptParser::RuleTemplatedeclaration);
+  enterRule(_localctx, 16, ValuescriptParser::RuleTemplatedeclaration);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1205,21 +1309,21 @@ ValuescriptParser::TemplatedeclarationContext* ValuescriptParser::templatedeclar
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(145);
+    setState(159);
     match(ValuescriptParser::TYPENAMES);
-    setState(146);
+    setState(160);
     match(ValuescriptParser::COLON);
-    setState(147);
+    setState(161);
     match(ValuescriptParser::IDENTIFIER);
-    setState(152);
+    setState(166);
     _errHandler->sync(this);
     _la = _input->LA(1);
     while (_la == ValuescriptParser::COMMA) {
-      setState(148);
+      setState(162);
       match(ValuescriptParser::COMMA);
-      setState(149);
+      setState(163);
       match(ValuescriptParser::IDENTIFIER);
-      setState(154);
+      setState(168);
       _errHandler->sync(this);
       _la = _input->LA(1);
     }
@@ -1365,7 +1469,7 @@ std::any ValuescriptParser::TyintegerContext::accept(tree::ParseTreeVisitor *vis
 }
 ValuescriptParser::TypenameexpressionContext* ValuescriptParser::typenameexpression() {
   TypenameexpressionContext *_localctx = _tracker.createInstance<TypenameexpressionContext>(_ctx, getState());
-  enterRule(_localctx, 16, ValuescriptParser::RuleTypenameexpression);
+  enterRule(_localctx, 18, ValuescriptParser::RuleTypenameexpression);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1376,13 +1480,13 @@ ValuescriptParser::TypenameexpressionContext* ValuescriptParser::typenameexpress
     exitRule();
   });
   try {
-    setState(172);
+    setState(186);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 16, _ctx)) {
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 17, _ctx)) {
     case 1: {
       _localctx = _tracker.createInstance<ValuescriptParser::TyintegerContext>(_localctx);
       enterOuterAlt(_localctx, 1);
-      setState(155);
+      setState(169);
       match(ValuescriptParser::INTEGER);
       break;
     }
@@ -1390,7 +1494,7 @@ ValuescriptParser::TypenameexpressionContext* ValuescriptParser::typenameexpress
     case 2: {
       _localctx = _tracker.createInstance<ValuescriptParser::TydoubleContext>(_localctx);
       enterOuterAlt(_localctx, 2);
-      setState(156);
+      setState(170);
       match(ValuescriptParser::DOUBLE);
       break;
     }
@@ -1398,7 +1502,7 @@ ValuescriptParser::TypenameexpressionContext* ValuescriptParser::typenameexpress
     case 3: {
       _localctx = _tracker.createInstance<ValuescriptParser::TystringContext>(_localctx);
       enterOuterAlt(_localctx, 3);
-      setState(157);
+      setState(171);
       match(ValuescriptParser::STRING);
       break;
     }
@@ -1406,7 +1510,7 @@ ValuescriptParser::TypenameexpressionContext* ValuescriptParser::typenameexpress
     case 4: {
       _localctx = _tracker.createInstance<ValuescriptParser::TybooleanContext>(_localctx);
       enterOuterAlt(_localctx, 4);
-      setState(158);
+      setState(172);
       match(ValuescriptParser::BOOLEAN);
       break;
     }
@@ -1414,7 +1518,7 @@ ValuescriptParser::TypenameexpressionContext* ValuescriptParser::typenameexpress
     case 5: {
       _localctx = _tracker.createInstance<ValuescriptParser::TyidentContext>(_localctx);
       enterOuterAlt(_localctx, 5);
-      setState(159);
+      setState(173);
       match(ValuescriptParser::IDENTIFIER);
       break;
     }
@@ -1422,25 +1526,25 @@ ValuescriptParser::TypenameexpressionContext* ValuescriptParser::typenameexpress
     case 6: {
       _localctx = _tracker.createInstance<ValuescriptParser::TynestedContext>(_localctx);
       enterOuterAlt(_localctx, 6);
-      setState(160);
+      setState(174);
       match(ValuescriptParser::IDENTIFIER);
-      setState(161);
+      setState(175);
       match(ValuescriptParser::OPEN_ANGLE_BRACKET);
-      setState(162);
+      setState(176);
       typenameexpression();
-      setState(167);
+      setState(181);
       _errHandler->sync(this);
       _la = _input->LA(1);
       while (_la == ValuescriptParser::COMMA) {
-        setState(163);
+        setState(177);
         match(ValuescriptParser::COMMA);
-        setState(164);
+        setState(178);
         typenameexpression();
-        setState(169);
+        setState(183);
         _errHandler->sync(this);
         _la = _input->LA(1);
       }
-      setState(170);
+      setState(184);
       match(ValuescriptParser::CLOSED_ANGLE_BRACKET);
       break;
     }
@@ -1512,7 +1616,7 @@ std::any ValuescriptParser::IfstatementContext::accept(tree::ParseTreeVisitor *v
 
 ValuescriptParser::IfstatementContext* ValuescriptParser::ifstatement() {
   IfstatementContext *_localctx = _tracker.createInstance<IfstatementContext>(_ctx, getState());
-  enterRule(_localctx, 18, ValuescriptParser::RuleIfstatement);
+  enterRule(_localctx, 20, ValuescriptParser::RuleIfstatement);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1523,34 +1627,34 @@ ValuescriptParser::IfstatementContext* ValuescriptParser::ifstatement() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(174);
+    setState(188);
     match(ValuescriptParser::IF);
-    setState(175);
+    setState(189);
     match(ValuescriptParser::OPEN_PARENTHESES);
-    setState(176);
+    setState(190);
     expression(0);
-    setState(177);
+    setState(191);
     match(ValuescriptParser::CLOSED_PARENTHESES);
-    setState(178);
+    setState(192);
     codeblock();
-    setState(184);
+    setState(198);
     _errHandler->sync(this);
 
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 18, _ctx)) {
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 19, _ctx)) {
     case 1: {
-      setState(179);
+      setState(193);
       match(ValuescriptParser::ELSE);
-      setState(182);
+      setState(196);
       _errHandler->sync(this);
-      switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 17, _ctx)) {
+      switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 18, _ctx)) {
       case 1: {
-        setState(180);
+        setState(194);
         codeblock();
         break;
       }
 
       case 2: {
-        setState(181);
+        setState(195);
         ifstatement();
         break;
       }
@@ -1616,7 +1720,7 @@ std::any ValuescriptParser::WhilestatementContext::accept(tree::ParseTreeVisitor
 
 ValuescriptParser::WhilestatementContext* ValuescriptParser::whilestatement() {
   WhilestatementContext *_localctx = _tracker.createInstance<WhilestatementContext>(_ctx, getState());
-  enterRule(_localctx, 20, ValuescriptParser::RuleWhilestatement);
+  enterRule(_localctx, 22, ValuescriptParser::RuleWhilestatement);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1627,15 +1731,15 @@ ValuescriptParser::WhilestatementContext* ValuescriptParser::whilestatement() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(186);
+    setState(200);
     match(ValuescriptParser::WHILE);
-    setState(187);
+    setState(201);
     match(ValuescriptParser::OPEN_PARENTHESES);
-    setState(188);
+    setState(202);
     expression(0);
-    setState(189);
+    setState(203);
     match(ValuescriptParser::CLOSED_PARENTHESES);
-    setState(190);
+    setState(204);
     codeblock();
    
   }
@@ -1693,7 +1797,7 @@ std::any ValuescriptParser::DostatementContext::accept(tree::ParseTreeVisitor *v
 
 ValuescriptParser::DostatementContext* ValuescriptParser::dostatement() {
   DostatementContext *_localctx = _tracker.createInstance<DostatementContext>(_ctx, getState());
-  enterRule(_localctx, 22, ValuescriptParser::RuleDostatement);
+  enterRule(_localctx, 24, ValuescriptParser::RuleDostatement);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -1704,17 +1808,17 @@ ValuescriptParser::DostatementContext* ValuescriptParser::dostatement() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(192);
+    setState(206);
     match(ValuescriptParser::DO);
-    setState(193);
+    setState(207);
     codeblock();
-    setState(194);
+    setState(208);
     match(ValuescriptParser::WHILE);
-    setState(195);
+    setState(209);
     match(ValuescriptParser::OPEN_PARENTHESES);
-    setState(196);
+    setState(210);
     expression(0);
-    setState(197);
+    setState(211);
     match(ValuescriptParser::CLOSED_PARENTHESES);
    
   }
@@ -1842,7 +1946,7 @@ std::any ValuescriptParser::RangeforContext::accept(tree::ParseTreeVisitor *visi
 }
 ValuescriptParser::ForstatementContext* ValuescriptParser::forstatement() {
   ForstatementContext *_localctx = _tracker.createInstance<ForstatementContext>(_ctx, getState());
-  enterRule(_localctx, 24, ValuescriptParser::RuleForstatement);
+  enterRule(_localctx, 26, ValuescriptParser::RuleForstatement);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1853,53 +1957,53 @@ ValuescriptParser::ForstatementContext* ValuescriptParser::forstatement() {
     exitRule();
   });
   try {
-    setState(231);
+    setState(245);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 21, _ctx)) {
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 22, _ctx)) {
     case 1: {
       _localctx = _tracker.createInstance<ValuescriptParser::RangeforContext>(_localctx);
       enterOuterAlt(_localctx, 1);
-      setState(199);
+      setState(213);
       match(ValuescriptParser::FOR);
-      setState(200);
+      setState(214);
       match(ValuescriptParser::OPEN_PARENTHESES);
-      setState(201);
+      setState(215);
       variabledeclaration();
-      setState(206);
-      _errHandler->sync(this);
-      _la = _input->LA(1);
-      while (_la == ValuescriptParser::COMMA) {
-        setState(202);
-        match(ValuescriptParser::COMMA);
-        setState(203);
-        variabledeclaration();
-        setState(208);
-        _errHandler->sync(this);
-        _la = _input->LA(1);
-      }
-      setState(209);
-      match(ValuescriptParser::SEMICOLON);
-      setState(210);
-      expression(0);
-      setState(211);
-      match(ValuescriptParser::SEMICOLON);
-      setState(212);
-      expression(0);
-      setState(217);
-      _errHandler->sync(this);
-      _la = _input->LA(1);
-      while (_la == ValuescriptParser::COMMA) {
-        setState(213);
-        match(ValuescriptParser::COMMA);
-        setState(214);
-        expression(0);
-        setState(219);
-        _errHandler->sync(this);
-        _la = _input->LA(1);
-      }
       setState(220);
+      _errHandler->sync(this);
+      _la = _input->LA(1);
+      while (_la == ValuescriptParser::COMMA) {
+        setState(216);
+        match(ValuescriptParser::COMMA);
+        setState(217);
+        variabledeclaration();
+        setState(222);
+        _errHandler->sync(this);
+        _la = _input->LA(1);
+      }
+      setState(223);
+      match(ValuescriptParser::SEMICOLON);
+      setState(224);
+      expression(0);
+      setState(225);
+      match(ValuescriptParser::SEMICOLON);
+      setState(226);
+      expression(0);
+      setState(231);
+      _errHandler->sync(this);
+      _la = _input->LA(1);
+      while (_la == ValuescriptParser::COMMA) {
+        setState(227);
+        match(ValuescriptParser::COMMA);
+        setState(228);
+        expression(0);
+        setState(233);
+        _errHandler->sync(this);
+        _la = _input->LA(1);
+      }
+      setState(234);
       match(ValuescriptParser::CLOSED_PARENTHESES);
-      setState(221);
+      setState(235);
       codeblock();
       break;
     }
@@ -1907,19 +2011,19 @@ ValuescriptParser::ForstatementContext* ValuescriptParser::forstatement() {
     case 2: {
       _localctx = _tracker.createInstance<ValuescriptParser::ItemforContext>(_localctx);
       enterOuterAlt(_localctx, 2);
-      setState(223);
+      setState(237);
       match(ValuescriptParser::FOR);
-      setState(224);
+      setState(238);
       match(ValuescriptParser::OPEN_PARENTHESES);
-      setState(225);
+      setState(239);
       variabledeclaration();
-      setState(226);
+      setState(240);
       match(ValuescriptParser::COLON);
-      setState(227);
+      setState(241);
       expression(0);
-      setState(228);
+      setState(242);
       match(ValuescriptParser::CLOSED_PARENTHESES);
-      setState(229);
+      setState(243);
       codeblock();
       break;
     }
@@ -1975,7 +2079,7 @@ std::any ValuescriptParser::CodeblockContext::accept(tree::ParseTreeVisitor *vis
 
 ValuescriptParser::CodeblockContext* ValuescriptParser::codeblock() {
   CodeblockContext *_localctx = _tracker.createInstance<CodeblockContext>(_ctx, getState());
-  enterRule(_localctx, 26, ValuescriptParser::RuleCodeblock);
+  enterRule(_localctx, 28, ValuescriptParser::RuleCodeblock);
   size_t _la = 0;
 
 #if __cplusplus > 201703L
@@ -1986,32 +2090,34 @@ ValuescriptParser::CodeblockContext* ValuescriptParser::codeblock() {
     exitRule();
   });
   try {
-    setState(242);
+    setState(256);
     _errHandler->sync(this);
-    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 23, _ctx)) {
+    switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 24, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(233);
+      setState(247);
       match(ValuescriptParser::OPEN_CURLY_BRACE);
-      setState(235); 
+      setState(249); 
       _errHandler->sync(this);
       _la = _input->LA(1);
       do {
-        setState(234);
+        setState(248);
         statement();
-        setState(237); 
+        setState(251); 
         _errHandler->sync(this);
         _la = _input->LA(1);
-      } while (((((_la - 1) & ~ 0x3fULL) == 0) &&
-        ((1ULL << (_la - 1)) & -1152921496004476801) != 0));
-      setState(239);
+      } while ((((_la & ~ 0x3fULL) == 0) &&
+        ((1ULL << _la) & -4611685984017907202) != 0) || _la == ValuescriptParser::STRING_LITERAL
+
+      || _la == ValuescriptParser::IDENTIFIER);
+      setState(253);
       match(ValuescriptParser::CLOSED_CURLY_BRACE);
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(241);
+      setState(255);
       statement();
       break;
     }
@@ -2271,6 +2377,45 @@ std::any ValuescriptParser::IncexprContext::accept(tree::ParseTreeVisitor *visit
   else
     return visitor->visitChildren(this);
 }
+//----------------- TyparexprContext ------------------------------------------------------------------
+
+ValuescriptParser::TemplateexpressionContext* ValuescriptParser::TyparexprContext::templateexpression() {
+  return getRuleContext<ValuescriptParser::TemplateexpressionContext>(0);
+}
+
+std::vector<ValuescriptParser::ExpressionContext *> ValuescriptParser::TyparexprContext::expression() {
+  return getRuleContexts<ValuescriptParser::ExpressionContext>();
+}
+
+ValuescriptParser::ExpressionContext* ValuescriptParser::TyparexprContext::expression(size_t i) {
+  return getRuleContext<ValuescriptParser::ExpressionContext>(i);
+}
+
+tree::TerminalNode* ValuescriptParser::TyparexprContext::OPEN_PARENTHESES() {
+  return getToken(ValuescriptParser::OPEN_PARENTHESES, 0);
+}
+
+tree::TerminalNode* ValuescriptParser::TyparexprContext::CLOSED_PARENTHESES() {
+  return getToken(ValuescriptParser::CLOSED_PARENTHESES, 0);
+}
+
+std::vector<tree::TerminalNode *> ValuescriptParser::TyparexprContext::COMMA() {
+  return getTokens(ValuescriptParser::COMMA);
+}
+
+tree::TerminalNode* ValuescriptParser::TyparexprContext::COMMA(size_t i) {
+  return getToken(ValuescriptParser::COMMA, i);
+}
+
+ValuescriptParser::TyparexprContext::TyparexprContext(ExpressionContext *ctx) { copyFrom(ctx); }
+
+
+std::any ValuescriptParser::TyparexprContext::accept(tree::ParseTreeVisitor *visitor) {
+  if (auto parserVisitor = dynamic_cast<ValuescriptParserVisitor*>(visitor))
+    return parserVisitor->visitTyparexpr(this);
+  else
+    return visitor->visitChildren(this);
+}
 //----------------- ObjexprContext ------------------------------------------------------------------
 
 tree::TerminalNode* ValuescriptParser::ObjexprContext::OPEN_CURLY_BRACE() {
@@ -2367,8 +2512,8 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
   ValuescriptParser::ExpressionContext *_localctx = _tracker.createInstance<ExpressionContext>(_ctx, parentState);
   ValuescriptParser::ExpressionContext *previousContext = _localctx;
   (void)previousContext; // Silence compiler, in case the context is not used by generated code.
-  size_t startState = 28;
-  enterRecursionRule(_localctx, 28, ValuescriptParser::RuleExpression, precedence);
+  size_t startState = 30;
+  enterRecursionRule(_localctx, 30, ValuescriptParser::RuleExpression, precedence);
 
     size_t _la = 0;
 
@@ -2382,7 +2527,7 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(261);
+    setState(288);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case ValuescriptParser::TRUE:
@@ -2396,8 +2541,37 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
         _ctx = _localctx;
         previousContext = _localctx;
 
-        setState(245);
+        setState(259);
         primaryexpression();
+        break;
+      }
+
+      case ValuescriptParser::TEMPLATE: {
+        _localctx = _tracker.createInstance<TyparexprContext>(_localctx);
+        _ctx = _localctx;
+        previousContext = _localctx;
+        setState(260);
+        templateexpression();
+        setState(261);
+        expression(0);
+        setState(262);
+        match(ValuescriptParser::OPEN_PARENTHESES);
+        setState(263);
+        expression(0);
+        setState(268);
+        _errHandler->sync(this);
+        _la = _input->LA(1);
+        while (_la == ValuescriptParser::COMMA) {
+          setState(264);
+          match(ValuescriptParser::COMMA);
+          setState(265);
+          expression(0);
+          setState(270);
+          _errHandler->sync(this);
+          _la = _input->LA(1);
+        }
+        setState(271);
+        match(ValuescriptParser::CLOSED_PARENTHESES);
         break;
       }
 
@@ -2405,9 +2579,9 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
         _localctx = _tracker.createInstance<NotexprContext>(_localctx);
         _ctx = _localctx;
         previousContext = _localctx;
-        setState(246);
+        setState(273);
         notoperator();
-        setState(247);
+        setState(274);
         expression(8);
         break;
       }
@@ -2416,30 +2590,30 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
         _localctx = _tracker.createInstance<ObjexprContext>(_localctx);
         _ctx = _localctx;
         previousContext = _localctx;
-        setState(249);
+        setState(276);
         match(ValuescriptParser::OPEN_CURLY_BRACE);
-        setState(258);
+        setState(285);
         _errHandler->sync(this);
 
         _la = _input->LA(1);
-        if (((((_la - 15) & ~ 0x3fULL) == 0) &&
-          ((1ULL << (_la - 15)) & 1055531163189891) != 0)) {
-          setState(250);
+        if (((((_la - 8) & ~ 0x3fULL) == 0) &&
+          ((1ULL << (_la - 8)) & 270215977776612097) != 0)) {
+          setState(277);
           expression(0);
-          setState(255);
+          setState(282);
           _errHandler->sync(this);
           _la = _input->LA(1);
           while (_la == ValuescriptParser::COMMA) {
-            setState(251);
+            setState(278);
             match(ValuescriptParser::COMMA);
-            setState(252);
+            setState(279);
             expression(0);
-            setState(257);
+            setState(284);
             _errHandler->sync(this);
             _la = _input->LA(1);
           }
         }
-        setState(260);
+        setState(287);
         match(ValuescriptParser::CLOSED_CURLY_BRACE);
         break;
       }
@@ -2448,28 +2622,28 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
       throw NoViableAltException(this);
     }
     _ctx->stop = _input->LT(-1);
-    setState(312);
+    setState(339);
     _errHandler->sync(this);
-    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 30, _ctx);
+    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 32, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
       if (alt == 1) {
         if (!_parseListeners.empty())
           triggerExitRuleEvent();
         previousContext = _localctx;
-        setState(310);
+        setState(337);
         _errHandler->sync(this);
-        switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 29, _ctx)) {
+        switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 31, _ctx)) {
         case 1: {
           auto newContext = _tracker.createInstance<MembexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpression);
-          setState(263);
+          setState(290);
 
-          if (!(precpred(_ctx, 12))) throw FailedPredicateException(this, "precpred(_ctx, 12)");
-          setState(264);
+          if (!(precpred(_ctx, 13))) throw FailedPredicateException(this, "precpred(_ctx, 13)");
+          setState(291);
           match(ValuescriptParser::PERIOD);
-          setState(265);
-          expression(13);
+          setState(292);
+          expression(14);
           break;
         }
 
@@ -2477,12 +2651,12 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
           auto newContext = _tracker.createInstance<MultexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpression);
-          setState(266);
+          setState(293);
 
           if (!(precpred(_ctx, 7))) throw FailedPredicateException(this, "precpred(_ctx, 7)");
-          setState(267);
+          setState(294);
           multiplicativeoperator();
-          setState(268);
+          setState(295);
           expression(8);
           break;
         }
@@ -2491,12 +2665,12 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
           auto newContext = _tracker.createInstance<AddexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpression);
-          setState(270);
+          setState(297);
 
           if (!(precpred(_ctx, 6))) throw FailedPredicateException(this, "precpred(_ctx, 6)");
-          setState(271);
+          setState(298);
           additiveoperator();
-          setState(272);
+          setState(299);
           expression(7);
           break;
         }
@@ -2505,12 +2679,12 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
           auto newContext = _tracker.createInstance<CompexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpression);
-          setState(274);
+          setState(301);
 
           if (!(precpred(_ctx, 5))) throw FailedPredicateException(this, "precpred(_ctx, 5)");
-          setState(275);
+          setState(302);
           comparisonoperator();
-          setState(276);
+          setState(303);
           expression(6);
           break;
         }
@@ -2519,12 +2693,12 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
           auto newContext = _tracker.createInstance<BoolexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpression);
-          setState(278);
+          setState(305);
 
           if (!(precpred(_ctx, 4))) throw FailedPredicateException(this, "precpred(_ctx, 4)");
-          setState(279);
+          setState(306);
           booleanoperator();
-          setState(280);
+          setState(307);
           expression(5);
           break;
         }
@@ -2533,12 +2707,12 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
           auto newContext = _tracker.createInstance<BinexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpression);
-          setState(282);
+          setState(309);
 
           if (!(precpred(_ctx, 3))) throw FailedPredicateException(this, "precpred(_ctx, 3)");
-          setState(283);
+          setState(310);
           binaryoperator();
-          setState(284);
+          setState(311);
           expression(4);
           break;
         }
@@ -2547,12 +2721,12 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
           auto newContext = _tracker.createInstance<AssignexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpression);
-          setState(286);
+          setState(313);
 
           if (!(precpred(_ctx, 1))) throw FailedPredicateException(this, "precpred(_ctx, 1)");
-          setState(287);
+          setState(314);
           assignmentoperator();
-          setState(288);
+          setState(315);
           expression(2);
           break;
         }
@@ -2561,33 +2735,33 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
           auto newContext = _tracker.createInstance<ParenexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpression);
-          setState(290);
+          setState(317);
 
-          if (!(precpred(_ctx, 11))) throw FailedPredicateException(this, "precpred(_ctx, 11)");
-          setState(291);
+          if (!(precpred(_ctx, 12))) throw FailedPredicateException(this, "precpred(_ctx, 12)");
+          setState(318);
           match(ValuescriptParser::OPEN_PARENTHESES);
-          setState(300);
+          setState(327);
           _errHandler->sync(this);
 
           _la = _input->LA(1);
-          if (((((_la - 15) & ~ 0x3fULL) == 0) &&
-            ((1ULL << (_la - 15)) & 1055531163189891) != 0)) {
-            setState(292);
+          if (((((_la - 8) & ~ 0x3fULL) == 0) &&
+            ((1ULL << (_la - 8)) & 270215977776612097) != 0)) {
+            setState(319);
             expression(0);
-            setState(297);
+            setState(324);
             _errHandler->sync(this);
             _la = _input->LA(1);
             while (_la == ValuescriptParser::COMMA) {
-              setState(293);
+              setState(320);
               match(ValuescriptParser::COMMA);
-              setState(294);
+              setState(321);
               expression(0);
-              setState(299);
+              setState(326);
               _errHandler->sync(this);
               _la = _input->LA(1);
             }
           }
-          setState(302);
+          setState(329);
           match(ValuescriptParser::CLOSED_PARENTHESES);
           break;
         }
@@ -2596,14 +2770,14 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
           auto newContext = _tracker.createInstance<AccessexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpression);
-          setState(303);
+          setState(330);
 
           if (!(precpred(_ctx, 10))) throw FailedPredicateException(this, "precpred(_ctx, 10)");
-          setState(304);
+          setState(331);
           match(ValuescriptParser::OPEN_SQUARE);
-          setState(305);
+          setState(332);
           expression(0);
-          setState(306);
+          setState(333);
           match(ValuescriptParser::CLOSED_SQUARE);
           break;
         }
@@ -2612,10 +2786,10 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
           auto newContext = _tracker.createInstance<IncexprContext>(_tracker.createInstance<ExpressionContext>(parentContext, parentState));
           _localctx = newContext;
           pushNewRecursionContext(newContext, startState, RuleExpression);
-          setState(308);
+          setState(335);
 
           if (!(precpred(_ctx, 9))) throw FailedPredicateException(this, "precpred(_ctx, 9)");
-          setState(309);
+          setState(336);
           incrementaloperator();
           break;
         }
@@ -2624,9 +2798,9 @@ ValuescriptParser::ExpressionContext* ValuescriptParser::expression(int preceden
           break;
         } 
       }
-      setState(314);
+      setState(341);
       _errHandler->sync(this);
-      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 30, _ctx);
+      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 32, _ctx);
     }
   }
   catch (RecognitionException &e) {
@@ -2744,7 +2918,7 @@ std::any ValuescriptParser::AsssubContext::accept(tree::ParseTreeVisitor *visito
 }
 ValuescriptParser::AssignmentoperatorContext* ValuescriptParser::assignmentoperator() {
   AssignmentoperatorContext *_localctx = _tracker.createInstance<AssignmentoperatorContext>(_ctx, getState());
-  enterRule(_localctx, 30, ValuescriptParser::RuleAssignmentoperator);
+  enterRule(_localctx, 32, ValuescriptParser::RuleAssignmentoperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2754,13 +2928,13 @@ ValuescriptParser::AssignmentoperatorContext* ValuescriptParser::assignmentopera
     exitRule();
   });
   try {
-    setState(321);
+    setState(348);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case ValuescriptParser::ASSIGNMENT_GENERIC: {
         _localctx = _tracker.createInstance<ValuescriptParser::AsseqlContext>(_localctx);
         enterOuterAlt(_localctx, 1);
-        setState(315);
+        setState(342);
         match(ValuescriptParser::ASSIGNMENT_GENERIC);
         break;
       }
@@ -2768,7 +2942,7 @@ ValuescriptParser::AssignmentoperatorContext* ValuescriptParser::assignmentopera
       case ValuescriptParser::ASSIGNMENT_ADD: {
         _localctx = _tracker.createInstance<ValuescriptParser::AssaddContext>(_localctx);
         enterOuterAlt(_localctx, 2);
-        setState(316);
+        setState(343);
         match(ValuescriptParser::ASSIGNMENT_ADD);
         break;
       }
@@ -2776,7 +2950,7 @@ ValuescriptParser::AssignmentoperatorContext* ValuescriptParser::assignmentopera
       case ValuescriptParser::ASSIGNMENT_SUB: {
         _localctx = _tracker.createInstance<ValuescriptParser::AsssubContext>(_localctx);
         enterOuterAlt(_localctx, 3);
-        setState(317);
+        setState(344);
         match(ValuescriptParser::ASSIGNMENT_SUB);
         break;
       }
@@ -2784,7 +2958,7 @@ ValuescriptParser::AssignmentoperatorContext* ValuescriptParser::assignmentopera
       case ValuescriptParser::ASSIGNMENT_MULTI: {
         _localctx = _tracker.createInstance<ValuescriptParser::AssmulContext>(_localctx);
         enterOuterAlt(_localctx, 4);
-        setState(318);
+        setState(345);
         match(ValuescriptParser::ASSIGNMENT_MULTI);
         break;
       }
@@ -2792,7 +2966,7 @@ ValuescriptParser::AssignmentoperatorContext* ValuescriptParser::assignmentopera
       case ValuescriptParser::ASSIGNMENT_DIV: {
         _localctx = _tracker.createInstance<ValuescriptParser::AssdivContext>(_localctx);
         enterOuterAlt(_localctx, 5);
-        setState(319);
+        setState(346);
         match(ValuescriptParser::ASSIGNMENT_DIV);
         break;
       }
@@ -2800,7 +2974,7 @@ ValuescriptParser::AssignmentoperatorContext* ValuescriptParser::assignmentopera
       case ValuescriptParser::ASSIGNMENT_MOD: {
         _localctx = _tracker.createInstance<ValuescriptParser::AssmodContext>(_localctx);
         enterOuterAlt(_localctx, 6);
-        setState(320);
+        setState(347);
         match(ValuescriptParser::ASSIGNMENT_MOD);
         break;
       }
@@ -2881,7 +3055,7 @@ std::any ValuescriptParser::BitxorContext::accept(tree::ParseTreeVisitor *visito
 }
 ValuescriptParser::BinaryoperatorContext* ValuescriptParser::binaryoperator() {
   BinaryoperatorContext *_localctx = _tracker.createInstance<BinaryoperatorContext>(_ctx, getState());
-  enterRule(_localctx, 32, ValuescriptParser::RuleBinaryoperator);
+  enterRule(_localctx, 34, ValuescriptParser::RuleBinaryoperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2891,13 +3065,13 @@ ValuescriptParser::BinaryoperatorContext* ValuescriptParser::binaryoperator() {
     exitRule();
   });
   try {
-    setState(326);
+    setState(353);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case ValuescriptParser::BITWISE_AND: {
         _localctx = _tracker.createInstance<ValuescriptParser::BitandContext>(_localctx);
         enterOuterAlt(_localctx, 1);
-        setState(323);
+        setState(350);
         match(ValuescriptParser::BITWISE_AND);
         break;
       }
@@ -2905,7 +3079,7 @@ ValuescriptParser::BinaryoperatorContext* ValuescriptParser::binaryoperator() {
       case ValuescriptParser::BITWISE_OR: {
         _localctx = _tracker.createInstance<ValuescriptParser::BitorContext>(_localctx);
         enterOuterAlt(_localctx, 2);
-        setState(324);
+        setState(351);
         match(ValuescriptParser::BITWISE_OR);
         break;
       }
@@ -2913,7 +3087,7 @@ ValuescriptParser::BinaryoperatorContext* ValuescriptParser::binaryoperator() {
       case ValuescriptParser::BITWISE_XOR: {
         _localctx = _tracker.createInstance<ValuescriptParser::BitxorContext>(_localctx);
         enterOuterAlt(_localctx, 3);
-        setState(325);
+        setState(352);
         match(ValuescriptParser::BITWISE_XOR);
         break;
       }
@@ -2979,7 +3153,7 @@ std::any ValuescriptParser::BoolorContext::accept(tree::ParseTreeVisitor *visito
 }
 ValuescriptParser::BooleanoperatorContext* ValuescriptParser::booleanoperator() {
   BooleanoperatorContext *_localctx = _tracker.createInstance<BooleanoperatorContext>(_ctx, getState());
-  enterRule(_localctx, 34, ValuescriptParser::RuleBooleanoperator);
+  enterRule(_localctx, 36, ValuescriptParser::RuleBooleanoperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -2989,13 +3163,13 @@ ValuescriptParser::BooleanoperatorContext* ValuescriptParser::booleanoperator() 
     exitRule();
   });
   try {
-    setState(330);
+    setState(357);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case ValuescriptParser::BOOLEAN_AND: {
         _localctx = _tracker.createInstance<ValuescriptParser::BoolandContext>(_localctx);
         enterOuterAlt(_localctx, 1);
-        setState(328);
+        setState(355);
         match(ValuescriptParser::BOOLEAN_AND);
         break;
       }
@@ -3003,7 +3177,7 @@ ValuescriptParser::BooleanoperatorContext* ValuescriptParser::booleanoperator() 
       case ValuescriptParser::BOOLEAN_OR: {
         _localctx = _tracker.createInstance<ValuescriptParser::BoolorContext>(_localctx);
         enterOuterAlt(_localctx, 2);
-        setState(329);
+        setState(356);
         match(ValuescriptParser::BOOLEAN_OR);
         break;
       }
@@ -3129,7 +3303,7 @@ std::any ValuescriptParser::CompgreContext::accept(tree::ParseTreeVisitor *visit
 }
 ValuescriptParser::ComparisonoperatorContext* ValuescriptParser::comparisonoperator() {
   ComparisonoperatorContext *_localctx = _tracker.createInstance<ComparisonoperatorContext>(_ctx, getState());
-  enterRule(_localctx, 36, ValuescriptParser::RuleComparisonoperator);
+  enterRule(_localctx, 38, ValuescriptParser::RuleComparisonoperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -3139,13 +3313,13 @@ ValuescriptParser::ComparisonoperatorContext* ValuescriptParser::comparisonopera
     exitRule();
   });
   try {
-    setState(338);
+    setState(365);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case ValuescriptParser::EQUALITY: {
         _localctx = _tracker.createInstance<ValuescriptParser::CompeqlContext>(_localctx);
         enterOuterAlt(_localctx, 1);
-        setState(332);
+        setState(359);
         match(ValuescriptParser::EQUALITY);
         break;
       }
@@ -3153,7 +3327,7 @@ ValuescriptParser::ComparisonoperatorContext* ValuescriptParser::comparisonopera
       case ValuescriptParser::NON_EQUALITY: {
         _localctx = _tracker.createInstance<ValuescriptParser::CompnonContext>(_localctx);
         enterOuterAlt(_localctx, 2);
-        setState(333);
+        setState(360);
         match(ValuescriptParser::NON_EQUALITY);
         break;
       }
@@ -3161,7 +3335,7 @@ ValuescriptParser::ComparisonoperatorContext* ValuescriptParser::comparisonopera
       case ValuescriptParser::GREATER_OR_EQUAL: {
         _localctx = _tracker.createInstance<ValuescriptParser::CompgoeContext>(_localctx);
         enterOuterAlt(_localctx, 3);
-        setState(334);
+        setState(361);
         match(ValuescriptParser::GREATER_OR_EQUAL);
         break;
       }
@@ -3169,7 +3343,7 @@ ValuescriptParser::ComparisonoperatorContext* ValuescriptParser::comparisonopera
       case ValuescriptParser::LESS_OR_EQUAL: {
         _localctx = _tracker.createInstance<ValuescriptParser::ComploeContext>(_localctx);
         enterOuterAlt(_localctx, 4);
-        setState(335);
+        setState(362);
         match(ValuescriptParser::LESS_OR_EQUAL);
         break;
       }
@@ -3177,7 +3351,7 @@ ValuescriptParser::ComparisonoperatorContext* ValuescriptParser::comparisonopera
       case ValuescriptParser::OPEN_ANGLE_BRACKET: {
         _localctx = _tracker.createInstance<ValuescriptParser::ComplssContext>(_localctx);
         enterOuterAlt(_localctx, 5);
-        setState(336);
+        setState(363);
         match(ValuescriptParser::OPEN_ANGLE_BRACKET);
         break;
       }
@@ -3185,7 +3359,7 @@ ValuescriptParser::ComparisonoperatorContext* ValuescriptParser::comparisonopera
       case ValuescriptParser::CLOSED_ANGLE_BRACKET: {
         _localctx = _tracker.createInstance<ValuescriptParser::CompgreContext>(_localctx);
         enterOuterAlt(_localctx, 6);
-        setState(337);
+        setState(364);
         match(ValuescriptParser::CLOSED_ANGLE_BRACKET);
         break;
       }
@@ -3251,7 +3425,7 @@ std::any ValuescriptParser::PlusContext::accept(tree::ParseTreeVisitor *visitor)
 }
 ValuescriptParser::AdditiveoperatorContext* ValuescriptParser::additiveoperator() {
   AdditiveoperatorContext *_localctx = _tracker.createInstance<AdditiveoperatorContext>(_ctx, getState());
-  enterRule(_localctx, 38, ValuescriptParser::RuleAdditiveoperator);
+  enterRule(_localctx, 40, ValuescriptParser::RuleAdditiveoperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -3261,13 +3435,13 @@ ValuescriptParser::AdditiveoperatorContext* ValuescriptParser::additiveoperator(
     exitRule();
   });
   try {
-    setState(342);
+    setState(369);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case ValuescriptParser::ADDITION: {
         _localctx = _tracker.createInstance<ValuescriptParser::PlusContext>(_localctx);
         enterOuterAlt(_localctx, 1);
-        setState(340);
+        setState(367);
         match(ValuescriptParser::ADDITION);
         break;
       }
@@ -3275,7 +3449,7 @@ ValuescriptParser::AdditiveoperatorContext* ValuescriptParser::additiveoperator(
       case ValuescriptParser::SUBTRACTION: {
         _localctx = _tracker.createInstance<ValuescriptParser::MinusContext>(_localctx);
         enterOuterAlt(_localctx, 2);
-        setState(341);
+        setState(368);
         match(ValuescriptParser::SUBTRACTION);
         break;
       }
@@ -3356,7 +3530,7 @@ std::any ValuescriptParser::ModuloContext::accept(tree::ParseTreeVisitor *visito
 }
 ValuescriptParser::MultiplicativeoperatorContext* ValuescriptParser::multiplicativeoperator() {
   MultiplicativeoperatorContext *_localctx = _tracker.createInstance<MultiplicativeoperatorContext>(_ctx, getState());
-  enterRule(_localctx, 40, ValuescriptParser::RuleMultiplicativeoperator);
+  enterRule(_localctx, 42, ValuescriptParser::RuleMultiplicativeoperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -3366,13 +3540,13 @@ ValuescriptParser::MultiplicativeoperatorContext* ValuescriptParser::multiplicat
     exitRule();
   });
   try {
-    setState(347);
+    setState(374);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case ValuescriptParser::MULTIPLICATION: {
         _localctx = _tracker.createInstance<ValuescriptParser::TimesContext>(_localctx);
         enterOuterAlt(_localctx, 1);
-        setState(344);
+        setState(371);
         match(ValuescriptParser::MULTIPLICATION);
         break;
       }
@@ -3380,7 +3554,7 @@ ValuescriptParser::MultiplicativeoperatorContext* ValuescriptParser::multiplicat
       case ValuescriptParser::DIVISION: {
         _localctx = _tracker.createInstance<ValuescriptParser::DivideContext>(_localctx);
         enterOuterAlt(_localctx, 2);
-        setState(345);
+        setState(372);
         match(ValuescriptParser::DIVISION);
         break;
       }
@@ -3388,7 +3562,7 @@ ValuescriptParser::MultiplicativeoperatorContext* ValuescriptParser::multiplicat
       case ValuescriptParser::MODULUS: {
         _localctx = _tracker.createInstance<ValuescriptParser::ModuloContext>(_localctx);
         enterOuterAlt(_localctx, 3);
-        setState(346);
+        setState(373);
         match(ValuescriptParser::MODULUS);
         break;
       }
@@ -3432,7 +3606,7 @@ std::any ValuescriptParser::NotoperatorContext::accept(tree::ParseTreeVisitor *v
 
 ValuescriptParser::NotoperatorContext* ValuescriptParser::notoperator() {
   NotoperatorContext *_localctx = _tracker.createInstance<NotoperatorContext>(_ctx, getState());
-  enterRule(_localctx, 42, ValuescriptParser::RuleNotoperator);
+  enterRule(_localctx, 44, ValuescriptParser::RuleNotoperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -3443,7 +3617,7 @@ ValuescriptParser::NotoperatorContext* ValuescriptParser::notoperator() {
   });
   try {
     enterOuterAlt(_localctx, 1);
-    setState(349);
+    setState(376);
     match(ValuescriptParser::EXCLAMATION_POINT);
    
   }
@@ -3503,7 +3677,7 @@ std::any ValuescriptParser::MinusminusContext::accept(tree::ParseTreeVisitor *vi
 }
 ValuescriptParser::IncrementaloperatorContext* ValuescriptParser::incrementaloperator() {
   IncrementaloperatorContext *_localctx = _tracker.createInstance<IncrementaloperatorContext>(_ctx, getState());
-  enterRule(_localctx, 44, ValuescriptParser::RuleIncrementaloperator);
+  enterRule(_localctx, 46, ValuescriptParser::RuleIncrementaloperator);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -3513,13 +3687,13 @@ ValuescriptParser::IncrementaloperatorContext* ValuescriptParser::incrementalope
     exitRule();
   });
   try {
-    setState(353);
+    setState(380);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case ValuescriptParser::INCREMENT: {
         _localctx = _tracker.createInstance<ValuescriptParser::PlusplusContext>(_localctx);
         enterOuterAlt(_localctx, 1);
-        setState(351);
+        setState(378);
         match(ValuescriptParser::INCREMENT);
         break;
       }
@@ -3527,7 +3701,7 @@ ValuescriptParser::IncrementaloperatorContext* ValuescriptParser::incrementalope
       case ValuescriptParser::DECREMENT: {
         _localctx = _tracker.createInstance<ValuescriptParser::MinusminusContext>(_localctx);
         enterOuterAlt(_localctx, 2);
-        setState(352);
+        setState(379);
         match(ValuescriptParser::DECREMENT);
         break;
       }
@@ -3676,7 +3850,7 @@ std::any ValuescriptParser::OrderContext::accept(tree::ParseTreeVisitor *visitor
 }
 ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::primaryexpression() {
   PrimaryexpressionContext *_localctx = _tracker.createInstance<PrimaryexpressionContext>(_ctx, getState());
-  enterRule(_localctx, 46, ValuescriptParser::RulePrimaryexpression);
+  enterRule(_localctx, 48, ValuescriptParser::RulePrimaryexpression);
 
 #if __cplusplus > 201703L
   auto onExit = finally([=, this] {
@@ -3686,13 +3860,13 @@ ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::primaryexpressio
     exitRule();
   });
   try {
-    setState(365);
+    setState(392);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case ValuescriptParser::IDENTIFIER: {
         _localctx = _tracker.createInstance<ValuescriptParser::IdentContext>(_localctx);
         enterOuterAlt(_localctx, 1);
-        setState(355);
+        setState(382);
         match(ValuescriptParser::IDENTIFIER);
         break;
       }
@@ -3700,7 +3874,7 @@ ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::primaryexpressio
       case ValuescriptParser::FLOATING_LITERAL: {
         _localctx = _tracker.createInstance<ValuescriptParser::DecimalContext>(_localctx);
         enterOuterAlt(_localctx, 2);
-        setState(356);
+        setState(383);
         match(ValuescriptParser::FLOATING_LITERAL);
         break;
       }
@@ -3708,7 +3882,7 @@ ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::primaryexpressio
       case ValuescriptParser::INTEGER_LITERAL: {
         _localctx = _tracker.createInstance<ValuescriptParser::NumberContext>(_localctx);
         enterOuterAlt(_localctx, 3);
-        setState(357);
+        setState(384);
         match(ValuescriptParser::INTEGER_LITERAL);
         break;
       }
@@ -3716,7 +3890,7 @@ ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::primaryexpressio
       case ValuescriptParser::TRUE: {
         _localctx = _tracker.createInstance<ValuescriptParser::TrueContext>(_localctx);
         enterOuterAlt(_localctx, 4);
-        setState(358);
+        setState(385);
         match(ValuescriptParser::TRUE);
         break;
       }
@@ -3724,7 +3898,7 @@ ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::primaryexpressio
       case ValuescriptParser::FALSE: {
         _localctx = _tracker.createInstance<ValuescriptParser::FalseContext>(_localctx);
         enterOuterAlt(_localctx, 5);
-        setState(359);
+        setState(386);
         match(ValuescriptParser::FALSE);
         break;
       }
@@ -3732,7 +3906,7 @@ ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::primaryexpressio
       case ValuescriptParser::STRING_LITERAL: {
         _localctx = _tracker.createInstance<ValuescriptParser::StringContext>(_localctx);
         enterOuterAlt(_localctx, 6);
-        setState(360);
+        setState(387);
         match(ValuescriptParser::STRING_LITERAL);
         break;
       }
@@ -3740,11 +3914,11 @@ ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::primaryexpressio
       case ValuescriptParser::OPEN_PARENTHESES: {
         _localctx = _tracker.createInstance<ValuescriptParser::OrderContext>(_localctx);
         enterOuterAlt(_localctx, 7);
-        setState(361);
+        setState(388);
         match(ValuescriptParser::OPEN_PARENTHESES);
-        setState(362);
+        setState(389);
         expression(0);
-        setState(363);
+        setState(390);
         match(ValuescriptParser::CLOSED_PARENTHESES);
         break;
       }
@@ -3765,7 +3939,7 @@ ValuescriptParser::PrimaryexpressionContext* ValuescriptParser::primaryexpressio
 
 bool ValuescriptParser::sempred(RuleContext *context, size_t ruleIndex, size_t predicateIndex) {
   switch (ruleIndex) {
-    case 14: return expressionSempred(antlrcpp::downCast<ExpressionContext *>(context), predicateIndex);
+    case 15: return expressionSempred(antlrcpp::downCast<ExpressionContext *>(context), predicateIndex);
 
   default:
     break;
@@ -3775,14 +3949,14 @@ bool ValuescriptParser::sempred(RuleContext *context, size_t ruleIndex, size_t p
 
 bool ValuescriptParser::expressionSempred(ExpressionContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 0: return precpred(_ctx, 12);
+    case 0: return precpred(_ctx, 13);
     case 1: return precpred(_ctx, 7);
     case 2: return precpred(_ctx, 6);
     case 3: return precpred(_ctx, 5);
     case 4: return precpred(_ctx, 4);
     case 5: return precpred(_ctx, 3);
     case 6: return precpred(_ctx, 1);
-    case 7: return precpred(_ctx, 11);
+    case 7: return precpred(_ctx, 12);
     case 8: return precpred(_ctx, 10);
     case 9: return precpred(_ctx, 9);
 

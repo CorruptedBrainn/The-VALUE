@@ -46,7 +46,7 @@ struct VSVariable {
 };
 
 struct VSFunction {
-	vector<string> templates;
+	set<string> templates;
 	string name = "NULL";
 	vector<VSVariable> parameters;
 	VSType returntype;
@@ -54,7 +54,7 @@ struct VSFunction {
 };
 
 struct VSClass {
-	vector<string> templates;
+	set<string> templates;
 	string name = "NULL";
 	ValuescriptParser::CodeblockContext* contents = nullptr;
 };
@@ -76,7 +76,7 @@ public:
 	}
 
 	~VSStaticScope() {
-		for (auto child : children) {
+		for (pair<string, VSStaticScope*> child : children) {
 			delete[] child.second;
 		}
 		return;
@@ -234,7 +234,7 @@ public:
 		visit(ctx->codeblock());
 		scoping.pop();
 		VSFunction func;
-		func.templates = any_cast<vector<string>>(visit(ctx->templatedeclaration()));
+		func.templates = any_cast<set<string>>(visit(ctx->templatedeclaration()));
 		func.name = name;
 		func.parameters = any_cast<vector<VSVariable>>(visit(ctx->functionparameters()));
 		func.returntype = any_cast<VSType>(visit(ctx->typenameexpression()));
@@ -261,7 +261,7 @@ public:
 		visit(ctx->codeblock());
 		scoping.pop();
 		VSClass cls;
-		cls.templates = any_cast<vector<string>>(visit(ctx->templatedeclaration()));
+		cls.templates = any_cast<set<string>>(visit(ctx->templatedeclaration()));
 		cls.name = name;
 		cls.contents = ctx->codeblock();
 		scoping.top()->declareClass(cls);
@@ -269,8 +269,8 @@ public:
 	}
 
 	any visitTemplatedeclaration(ValuescriptParser::TemplatedeclarationContext* ctx) override {
-		vector<string> ret;
-		for (auto type : ctx->IDENTIFIER()) ret.push_back(type->getText());
+		unordered_set<string> ret;
+		for (auto type : ctx->IDENTIFIER()) ret.insert(type->getText());
 		return ret;
 	}
 
@@ -352,6 +352,13 @@ public:
 		}
 		VSVariable* var = scoping.top()->getVariable(ctx->IDENTIFIER()->getText());
 		return var->value = visit(ctx->expression()); // Child Type
+	}
+
+	any visitTemplateexpression(ValuescriptParser::TemplateexpressionContext* ctx) override { /// template -> typenames(s) ;
+		vector<VSType> ret;
+		vector<ValuescriptParser::TypenameexpressionContext*> tovisit = ctx->typenameexpression();
+		for (auto curr : tovisit) ret.push_back(any_cast<VSType>(visit(curr)));
+		return ret;
 	}
 
 	any visitTemplatedeclaration(ValuescriptParser::TemplatedeclarationContext* ctx) override { /// typenames: IDENTIFIER(s)
@@ -634,7 +641,12 @@ public:
 	}
 
 	any visitAssignexpr(ValuescriptParser::AssignexprContext* ctx) override { /// expression assignmentoperator expression
-		return visitChildren(ctx); // Child Type
+		string op = ctx->assignmentoperator()->toString();
+		VSVariable* lhs = any_cast<VSVariable*>(visit(ctx->expression(0))); // Assume VS Variable
+		any rhs = visit(ctx->expression(1));
+		if (rhs.type().name() == "VSVariable*") {
+			rhs = any_cast<VSVariable*>(rhs)->value;
+		}
 	}
 
 	any visitBinexpr(ValuescriptParser::BinexprContext* ctx) override { /// expression binaryoperator expression
@@ -697,11 +709,33 @@ public:
 		ret = visit(callable->callable);
 		staticName.pop();
 		scoping.pop();
-		return ret;
+		return ret; // Child Type
+	}
+
+	any visitTyparexpr(ValuescriptParser::TyparexprContext* ctx) override { /// Template expression ( expression ) // vs func
+		scoping.push(new VSLocalScope(scoping.top(), storage->globalScope.getChildScope(staticName.top())));
+		VSFunction* callable = any_cast<VSFunction*>(visit(ctx->expression(0))); // Assume VS Func
+		vector<VSType> templates = any_cast<vector<VSType>>(visit(ctx->templateexpression())); // Assume VS Type
+		vector<ValuescriptParser::ExpressionContext*> params = ctx->expression();
+		staticName.push(callable->name);
+		any ret = defaultResult();
+		for (int i = 1; i < params.size(); i++) {
+			VSVariable var = callable->parameters[i];
+			var.value = visit(params[i]);
+			auto it = callable->templates.find(var.type.name);
+			if (it != callable->templates.end()) {
+				var.type = templates[distance(callable->templates.begin(), it)];
+			}
+			scoping.top()->declareVariable(var);
+		}
+		ret = visit(callable->callable);
+		staticName.pop();
+		scoping.pop();
+		return ret; // Child Type
 	}
 
 	any visitAccessexpr(ValuescriptParser::AccessexprContext* ctx) override { /// expression [ expression ] // vs var
-		return visitChildren(ctx); // Valuescript Variable
+		return visitChildren(ctx); // TODO
 	}
 
 	any visitIdent(ValuescriptParser::IdentContext* ctx) override {

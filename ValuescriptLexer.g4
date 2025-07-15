@@ -18,6 +18,7 @@ FUNCTION	:	'func'		;
 CLASS		:	'class'		;
 RETURN		:	'return'	;
 TYPENAMES   :   'typenames' ;
+TEMPLATE    :   'template'  ;
 IMPORT      :   'import'    ;
 AS          :   'as'        ;
 

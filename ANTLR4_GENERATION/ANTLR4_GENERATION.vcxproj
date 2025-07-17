@@ -370,7 +370,7 @@
     <None Include="..\generated\ValuescriptParser.tokens" />
     <None Include="..\ValuescriptLexer.g4" />
     <None Include="..\ValuescriptParser.g4" />
-    <None Include="ClassDiagram.cd" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

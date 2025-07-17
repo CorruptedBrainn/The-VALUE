@@ -49,6 +49,11 @@
       <Project>{24ec5104-7402-4c76-b66b-27adbe062d68}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Cpp Functions\Cpp Functions.vcxproj">
+      <Name>Cpp Functions</Name>
+      <Project>{0a72e9ed-284c-43cd-9018-60c07debf7ab}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

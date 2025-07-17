@@ -1,7 +1,5 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS 1
 
-#include "Python.h"
-
 #include <chrono>
 #include <thread>
 #include <stop_token>
@@ -100,6 +98,11 @@ extern "C" {
 	DLL_FUNCTION
 		ProgramStorage* createStorage() {
 		return new ProgramStorage();
+	}
+	DLL_FUNCTION
+		int deleteStorage(ProgramStorage* obj) {
+		delete[] obj;
+		return 0;
 	}
 	DLL_FUNCTION
 		int addProgram(ProgramStorage* obj, wchar_t* name, wchar_t* file) {

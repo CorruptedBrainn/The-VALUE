@@ -1,4 +1,4 @@
-import copy, random, math, functools
+import copy, random
 
 mainCurrentPage = 0
 
@@ -50,26 +50,23 @@ worldData = {
 		]
 	}
 
-def orientation(pointA, pointB, pointC):
-	dotProduct =	(pointA[0] * (pointB[1] - pointC[1])) + \
-					(pointB[0] * (pointC[1] - pointA[1])) + \
-					(pointC[0] * (pointA[1] - pointB[1]))
-	if dotProduct < 0:
-		return -1
-	elif dotProduct > 0:
-		return 1
-	return 0
-
-def linearDistance(pointA, pointB):
-    return (pointA[0] - pointB[0])**2 + (pointA[1] - pointB[1])**2
-
 def createWorld()->dict:
+	from cpp_wrapper import GamePolygon
+
 	envData = {
 	"Rocks": [
 		]
 	}
 
-	count = random.randint(10, 50)
+	count = random.randint(100, 500)
 	for rock in range(count):
-		envData["Rocks"].append([]) # TEMP
+		x = random.randint(-40000, 40000)
+		y = random.randint(-40000, 40000)
+		r = random.randint(100, 1000)
+		i = min(max(random.gauss(0.75, 0.125), 0), 1)
+		s = min(max(random.gauss(0.75, 0.125), 0), 1)
+		f = min(max(random.gauss(0.75, 0.125), 0), 1)
+		poly = GamePolygon(x, y, r, i, s, f)
+		envData["Rocks"].append(poly.polygon)
+		poly.delete()
 	return envData

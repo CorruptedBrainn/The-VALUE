@@ -6,7 +6,7 @@
     <ProjectHome>
     </ProjectHome>
     <StartupFile>main.py</StartupFile>
-    <SearchPath>..\..\..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages;..\bin\vs-2022\x64\Debug DLL</SearchPath>
+    <SearchPath>..\..\..\..\..\AppData\Local\Programs\Python\Python313\Lib\site-packages</SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>PythonSource</Name>
@@ -31,6 +31,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="cpp_wrapper.py" />
     <Compile Include="game_container.py" />
     <Compile Include="global_storage.py" />
     <Compile Include="home_container.py" />

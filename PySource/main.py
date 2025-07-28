@@ -1,6 +1,14 @@
 import sys
 from functools import partial
 
+from valuescript_wrapper import VSProgramObject
+
+temp = VSProgramObject()
+temp.add("Fib", "static n->int = 1; static decl->int = 0; static ddecl->int = 1; console_out(n); ret->int = decl + ddecl; console_out(ret); ddecl = decl; decl = ret; n++")
+temp.run()
+
+print("---REMINDER:---\nYOU MUST HAVE THE PySide6 MODULE INSTALLED TO RUN THE PROGRAM\nRun:\tpip install pyside6\n---------------")
+
 from PySide6.QtCore import ( # type: ignore
 	Slot,
 	Qt,

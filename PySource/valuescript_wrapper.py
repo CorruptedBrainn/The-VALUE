@@ -1,12 +1,11 @@
 import os, ctypes
 
-pythonpath = str(os.environ.get("PYTHONPATH"))
-splitpaths = pythonpath.split(os.pathsep)
-searchpaths = [path for path in splitpaths if "vs-2022\\x64\\Debug DLL" in path or "vs-2022\\x64\\Release DLL" in path]
+scriptDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+dllDir = os.path.join(scriptDir, "bin\\vs-2022\\x64\\Release DLL")
 
 class VSProgramObject(object):
-    dep = ctypes.CDLL(searchpaths[0] + "\\antlr4-runtime.dll", winmode=0)
-    script = ctypes.CDLL(searchpaths[0] + "\\ANTLR4_GENERATION.dll", winmode=0)
+    dep = ctypes.CDLL(dllDir + "\\antlr4-runtime.dll", winmode=0)
+    script = ctypes.CDLL(dllDir + "\\ANTLR4_GENERATION.dll", winmode=0)
 
     def __init__(self):
         self.obj = self.script.createStorage()

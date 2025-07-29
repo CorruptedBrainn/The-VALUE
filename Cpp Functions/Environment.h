@@ -1,3 +1,7 @@
+/// Author: Nicolas Martens
+/// Name: Environment.h
+/// Description: The header file containing function signatures to be exported to the DLL
+
 #define _CRT_SECURE_NO_WARNINGS 1
 #define _USE_MATH_DEFINES 1
 

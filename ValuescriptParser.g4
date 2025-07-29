@@ -34,7 +34,7 @@ variabledeclaration			:	(STATIC | VARIABLE)* IDENTIFIER ARROW_OPERATOR typenamee
 							;
 functiondeclaration			:	templatedeclaration? FUNCTION? IDENTIFIER functionparameters ARROW_OPERATOR typenameexpression codeblock ;
 functionparameters			:	OPEN_PARENTHESES variabledeclaration? (COMMA variabledeclaration)* CLOSED_PARENTHESES ;
-classdeclaration			:	templatedeclaration? CLASS? IDENTIFIER codeblock;
+classdeclaration			:	templatedeclaration? CLASS? IDENTIFIER codeblock ;
 templateexpression			:	TEMPLATE ARROW_OPERATOR typenameexpression (COMMA typenameexpression)* SEMICOLON? ;
 templatedeclaration			:	TYPENAMES COLON IDENTIFIER (COMMA IDENTIFIER)* ;
 typenameexpression			:	INTEGER																								# tyinteger
@@ -46,7 +46,7 @@ typenameexpression			:	INTEGER																								# tyinteger
 							|	ORD_LIST OPEN_ANGLE_BRACKET typenameexpression CLOSED_ANGLE_BRACKET									# tyset
 							|	ORD_MAP OPEN_ANGLE_BRACKET typenameexpression COMMA typenameexpression CLOSED_ANGLE_BRACKET			# tymap
 							|	HASH_LIST OPEN_ANGLE_BRACKET typenameexpression CLOSED_ANGLE_BRACKET								# tyuset
-							|	HASH_MAP OPEN_ANGLE_BRACKET templateexpression COMMA typenameexpression CLOSED_ANGLE_BRACKET		# tyumap
+							|	HASH_MAP OPEN_ANGLE_BRACKET typenameexpression COMMA typenameexpression CLOSED_ANGLE_BRACKET		# tyumap
 							|	STACK OPEN_ANGLE_BRACKET typenameexpression CLOSED_ANGLE_BRACKET									# tystack
 							|	QUEUE OPEN_ANGLE_BRACKET typenameexpression CLOSED_ANGLE_BRACKET									# tyqueue
 							|	DEQUE OPEN_ANGLE_BRACKET typenameexpression CLOSED_ANGLE_BRACKET									# tydeque

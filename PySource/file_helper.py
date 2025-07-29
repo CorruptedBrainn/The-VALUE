@@ -1,3 +1,9 @@
+"""
+Author: Nicolas Martens
+Name: file_helper.py
+Description: The scripts that allow me to manage anything file related, such as saving game states
+"""
+
 import os
 import json
 import copy
@@ -11,6 +17,7 @@ from PySide6.QtWidgets import ( # type: ignore
 
 import global_storage as gs
 
+# Get the filepaths as strings for ease
 dataFolder = "../Data/"
 settingsFile = dataFolder + "Global.tvsf"
 saveAFolder = dataFolder + "I/"
@@ -26,6 +33,7 @@ saveCData = saveCFolder + "Standard.andf"
 saveCEnv = saveCFolder + "Expanse.tegf"
 saveCUnits = saveCFolder + "Units/"
 
+# When the scripts are run, just ensure that we have the required folders
 def setupWorkspace():
 	if (os.path.exists(dataFolder) == False): os.makedirs(dataFolder)
 
@@ -67,6 +75,7 @@ def setupWorkspace():
 
 	loadSettings()
 
+# When I want to load data from a save
 @Slot(int)
 def updateSaveLoad(saveIndex: int):
 	storeSave()
@@ -82,6 +91,7 @@ def updateSaveLoad(saveIndex: int):
 	loadWorld()
 	return
 
+# When I want to delete some save data
 @Slot(int)
 def deleteSave(saveIndex:int):
 	text = json.dumps(gs.savePlaceholders)
@@ -93,6 +103,7 @@ def deleteSave(saveIndex:int):
 		with open(saveCData, "w") as file: file.write(text)
 	return
 
+# When I want to store some save data
 @Slot()
 def storeSave():
 	saveIndex:int = gs.saveData["Index"]
@@ -105,6 +116,7 @@ def storeSave():
 		with open(saveCData, "w") as file: file.write(text)
 	return
 
+# When I want to load the settings data
 @Slot()
 def loadSettings():
 	with open (settingsFile, "r") as file:
@@ -112,12 +124,14 @@ def loadSettings():
 		gs.settingData = json.loads(text)
 	return
 
+# Closing the settings dialog
 @Slot(int)
 def closeSettings(result:int):
 	if result == 1: applySettings()
 	loadSettings()
 	return
 
+# Reset the settings values
 @Slot(QDialog)
 def resetSettings(obj:QDialog):
 	from widget_helper import showSettings
@@ -126,6 +140,7 @@ def resetSettings(obj:QDialog):
 	showSettings(obj)
 	return
 
+# Apply the settings
 @Slot()
 def applySettings():
 	with open(settingsFile, "w") as file:
@@ -133,6 +148,7 @@ def applySettings():
 		file.write(text)
 	return
 
+# Loading a game
 @Slot()
 def loadWorld():
 	saveIndex:int = gs.saveData["Index"]

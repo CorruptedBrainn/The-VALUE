@@ -1,3 +1,9 @@
+"""
+Author: Nicolas Martens
+Name: widget_helper.py
+Description: The file that contains helper functions to allow me to deal with PySide6 widgets easily
+"""
+
 import copy
 
 from PySide6.QtCore import ( # type: ignore
@@ -14,6 +20,7 @@ import global_storage as gs
 
 widgetPath = "Widgets/"
 
+# Load a widget from the .ui file
 @Slot(str)
 def loadWidget(filepath:str):
     file = QFile(widgetPath + filepath)
@@ -23,6 +30,7 @@ def loadWidget(filepath:str):
     file.close()
     return ret
 
+# Change the current screen being displayed
 @Slot(QStackedLayout, int, int)
 def changeScreen(mainLayout:QStackedLayout, rootIndex = 0, containerIndex = 0):
     mainLayout.setCurrentIndex(rootIndex)
@@ -32,11 +40,13 @@ def changeScreen(mainLayout:QStackedLayout, rootIndex = 0, containerIndex = 0):
     container.setCurrentIndex(containerIndex)
     return
 
+# Show a popup dialog
 @Slot(QDialog)
 def showDialog(dialog:QDialog):
     dialog.show()
     return
 
+# Change the main screen being displayed
 @Slot(QStackedLayout, list, int)
 def changeMainScreen(layout:QStackedLayout, buttonList:list, buttonIdx:int):
     buttonList[0].setText("Journal")
@@ -48,13 +58,15 @@ def changeMainScreen(layout:QStackedLayout, buttonList:list, buttonIdx:int):
         buttonList[buttonIdx].setText("The Expanse")
     changeScreen(layout, gs.mainCurrentPage)
     return
-    
+
+# Show the settings dialog
 @Slot(QDialog)
 def showSettings(settings:QDialog):
     loadSettingValues(settings)
     showDialog(settings)
     return
 
+# Load the values of the current stored settings
 @Slot(QDialog)
 def loadSettingValues(obj):
     deep = copy.deepcopy(gs.settingData)
@@ -84,6 +96,7 @@ def loadSettingValues(obj):
     obj.EnvironmentThemeList.setCurrentItem(arr[0])
     return
 
+# Update the save statistics
 @Slot(QWidget, int)
 def updateMainStats(obj, index:int):
     if (index != 0): return
@@ -103,6 +116,7 @@ def updateMainStats(obj, index:int):
     obj.plasma.setText(str(deep["Resources"]["PL"]) + " Units")
     return
 
+# Update the statistics of a save
 @Slot(QWidget, int)
 def updateSaveStats(obj, saveIndex:int):
     from file_helper import updateSaveLoad

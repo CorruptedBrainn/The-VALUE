@@ -177,7 +177,7 @@ void valuescriptparserParserInitialize() {
   	196,5,37,0,0,196,197,3,18,9,0,197,198,5,42,0,0,198,199,3,18,9,0,199,200,
   	5,38,0,0,200,247,1,0,0,0,201,202,5,20,0,0,202,203,5,37,0,0,203,204,3,
   	18,9,0,204,205,5,38,0,0,205,247,1,0,0,0,206,207,5,21,0,0,207,208,5,37,
-  	0,0,208,209,3,14,7,0,209,210,5,42,0,0,210,211,3,18,9,0,211,212,5,38,0,
+  	0,0,208,209,3,18,9,0,209,210,5,42,0,0,210,211,3,18,9,0,211,212,5,38,0,
   	0,212,247,1,0,0,0,213,214,5,22,0,0,214,215,5,37,0,0,215,216,3,18,9,0,
   	216,217,5,38,0,0,217,247,1,0,0,0,218,219,5,23,0,0,219,220,5,37,0,0,220,
   	221,3,18,9,0,221,222,5,38,0,0,222,247,1,0,0,0,223,224,5,24,0,0,224,225,
@@ -1278,7 +1278,6 @@ ValuescriptParser::TemplateexpressionContext* ValuescriptParser::templateexpress
     exitRule();
   });
   try {
-    size_t alt;
     enterOuterAlt(_localctx, 1);
     setState(150);
     match(ValuescriptParser::TEMPLATE);
@@ -1288,17 +1287,15 @@ ValuescriptParser::TemplateexpressionContext* ValuescriptParser::templateexpress
     typenameexpression();
     setState(157);
     _errHandler->sync(this);
-    alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 14, _ctx);
-    while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
-      if (alt == 1) {
-        setState(153);
-        match(ValuescriptParser::COMMA);
-        setState(154);
-        typenameexpression(); 
-      }
+    _la = _input->LA(1);
+    while (_la == ValuescriptParser::COMMA) {
+      setState(153);
+      match(ValuescriptParser::COMMA);
+      setState(154);
+      typenameexpression();
       setState(159);
       _errHandler->sync(this);
-      alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 14, _ctx);
+      _la = _input->LA(1);
     }
     setState(161);
     _errHandler->sync(this);
@@ -1788,16 +1785,16 @@ tree::TerminalNode* ValuescriptParser::TyumapContext::OPEN_ANGLE_BRACKET() {
   return getToken(ValuescriptParser::OPEN_ANGLE_BRACKET, 0);
 }
 
-ValuescriptParser::TemplateexpressionContext* ValuescriptParser::TyumapContext::templateexpression() {
-  return getRuleContext<ValuescriptParser::TemplateexpressionContext>(0);
+std::vector<ValuescriptParser::TypenameexpressionContext *> ValuescriptParser::TyumapContext::typenameexpression() {
+  return getRuleContexts<ValuescriptParser::TypenameexpressionContext>();
+}
+
+ValuescriptParser::TypenameexpressionContext* ValuescriptParser::TyumapContext::typenameexpression(size_t i) {
+  return getRuleContext<ValuescriptParser::TypenameexpressionContext>(i);
 }
 
 tree::TerminalNode* ValuescriptParser::TyumapContext::COMMA() {
   return getToken(ValuescriptParser::COMMA, 0);
-}
-
-ValuescriptParser::TypenameexpressionContext* ValuescriptParser::TyumapContext::typenameexpression() {
-  return getRuleContext<ValuescriptParser::TypenameexpressionContext>(0);
 }
 
 tree::TerminalNode* ValuescriptParser::TyumapContext::CLOSED_ANGLE_BRACKET() {
@@ -1962,7 +1959,7 @@ ValuescriptParser::TypenameexpressionContext* ValuescriptParser::typenameexpress
       setState(207);
       match(ValuescriptParser::OPEN_ANGLE_BRACKET);
       setState(208);
-      templateexpression();
+      typenameexpression();
       setState(209);
       match(ValuescriptParser::COMMA);
       setState(210);

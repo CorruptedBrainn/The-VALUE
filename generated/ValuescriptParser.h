@@ -532,9 +532,9 @@ public:
 
     antlr4::tree::TerminalNode *HASH_MAP();
     antlr4::tree::TerminalNode *OPEN_ANGLE_BRACKET();
-    TemplateexpressionContext *templateexpression();
+    std::vector<TypenameexpressionContext *> typenameexpression();
+    TypenameexpressionContext* typenameexpression(size_t i);
     antlr4::tree::TerminalNode *COMMA();
-    TypenameexpressionContext *typenameexpression();
     antlr4::tree::TerminalNode *CLOSED_ANGLE_BRACKET();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;

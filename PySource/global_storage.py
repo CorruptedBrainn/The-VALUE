@@ -1,7 +1,15 @@
+"""
+Author: Nicolas Martens
+Name: global_storage.py
+Description: The file that allows me to manage storage across files efficiently
+"""
+
 import copy, random
 
+# The index of the screen we are currently showing
 mainCurrentPage = 0
 
+# Default setting values
 settingDefault = {
 	"GPSet": {
 		"InfoUtils": {
@@ -32,6 +40,7 @@ settingDefault = {
 	}
 settingData = copy.deepcopy(settingDefault)
 
+# Default save data values
 savePlaceholders = {
 	"Name": "New Save",
 	"Difficulty": -1,
@@ -45,19 +54,23 @@ savePlaceholders = {
 
 saveData = copy.deepcopy(savePlaceholders)
 
+# An empty objet for world data
 worldData = {
 	"Rocks": [
 		]
 	}
 
+# For when we want to create a new world
 def createWorld()->dict:
 	from cpp_wrapper import GamePolygon
 
+	# Identical to worldData
 	envData = {
 	"Rocks": [
 		]
 	}
 
+	# Generate each rock focal point and radius, then use C++ to generate it
 	count = random.randint(100, 500)
 	for rock in range(count):
 		x = random.randint(-40000, 40000)

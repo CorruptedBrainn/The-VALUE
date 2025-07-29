@@ -122,27 +122,28 @@ public:
 	/// <summary>
 	/// Execute all the programs in storage in parallel
 	/// </summary>
-	/// <returns>Returns 0 when threads have started</returns>
+	/// <returns>Returns 0 when threads have halted</returns>
 	int executePrograms() {
 		// For all programs, create a new thread
 		for (auto it = scripts.begin(); it != scripts.end(); it++) {
 			threads.emplace_back(jthread(&ValuescriptProgram::execute, &(*it).second, killswitch.get_token()));
 		}
+		// Wait for threads to join
+		for (int i = 0; i < threads.size(); i++) {
+			threads[i].join();
+		}
+		// Clear the thread array
+		threads.clear();
 		return 0;
 	}
 
 	/// <summary>
 	/// Calls for all Valuescript Programs to be halted
 	/// </summary>
-	/// <returns>Returns 0 when threads have halted</returns>
+	/// <returns>Returns 0 when threads have been told to stop</returns>
 	int killPrograms() {
 		// Call for the threads to stop
 		killswitch.request_stop();
-		for (int i = 0; i < threads.size(); i++) {
-			threads[i].join();
-		}
-		// Clear the thread array
-		threads.clear();
 		return 0;
 	}
 };

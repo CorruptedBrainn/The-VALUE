@@ -18,13 +18,16 @@ from PySide6.QtWidgets import ( # type: ignore
     QGridLayout,
     )
 
-from widget_helper import loadWidget, changeScreen, updateSaveStats
-from file_helper import updateSaveLoad, deleteSave
-
-# Quit the application
-@Slot()
-def quitApp():
-    return sys.exit(0)
+from widget_helper import (
+    loadWidget,
+    changeScreen,
+    updateSaveStats,
+    )
+from file_helper import (
+    createSave,
+    updateSaveLoad,
+    deleteSave,
+    )
 
 # The main class for the home page
 class TVHomeContainer(QStackedWidget):
@@ -43,22 +46,21 @@ class TVHomeContainer(QStackedWidget):
 
         # Load our save widgets
         page1Layout:QGridLayout = page1.layout() # type: ignore
-        saveWidgets = []
+        self.saveWidgets = []
         saveButtons = []
         saveDeletes = []
         saveNumbers = []
 
         # Connect save widgets to commands
         for i in range(3):
-            saveWidgets.append(loadWidget("save_slot_widget.ui"))
-            updateSaveStats(saveWidgets[i], i + 1)
-            page1Layout.addWidget(saveWidgets[i], 1, i + 1)
-            saveButtons.append(saveWidgets[i].findChild(QPushButton, "saveLoadButton"))
-            # Add something for new saves
+            self.saveWidgets.append(loadWidget("save_slot_widget.ui"))
+            updateSaveStats(self.saveWidgets[i], i + 1)
+            page1Layout.addWidget(self.saveWidgets[i], 1, i + 1)
+            saveButtons.append(self.saveWidgets[i].findChild(QPushButton, "saveLoadButton"))
             saveButtons[i].clicked.connect(partial(updateSaveLoad, i + 1))
-            saveButtons[i].clicked.connect(partial(changeScreen, parent, 1, 0))
-            saveDeletes.append(saveWidgets[i].findChild(QPushButton, "saveDeleteButton"))
-            saveDeletes[i].clicked.connect(partial(deleteSave, i + 1))
+            saveButtons[i].clicked.connect(partial(createSave, parent))
+            saveDeletes.append(self.saveWidgets[i].findChild(QPushButton, "saveDeleteButton"))
+            saveDeletes[i].clicked.connect(partial(deleteSave, i + 1, self.saveWidgets[i]))
             saveDeletes[i].clicked.connect(partial(changeScreen, parent, 0, 1))
-            saveNumbers.append(saveWidgets[i].findChild(QLabel, "saveNumber"))
+            saveNumbers.append(self.saveWidgets[i].findChild(QLabel, "saveNumber"))
             saveNumbers[i].setText("Save " + str(i + 1))

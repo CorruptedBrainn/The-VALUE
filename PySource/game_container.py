@@ -4,6 +4,8 @@ Name: game_container.py
 Description: This file holds the class that wraps around the main game page
 """
 
+from random import gauss, randint
+import threading
 from functools import partial
 
 from PySide6.QtCore import ( # type: ignore
@@ -29,7 +31,11 @@ from PySide6.QtGui import ( # type: ignore
 	QRadialGradient,
 	)
 
-from widget_helper import loadWidget, changeScreen, changeMainScreen
+from widget_helper import (
+	loadWidget,
+	changeScreen,
+	changeMainScreen,
+	)
 import global_storage as gs
 from valuescript_wrapper import VSProgramObject
 
@@ -37,6 +43,10 @@ from valuescript_wrapper import VSProgramObject
 class TVGameContainer(QStackedWidget):
 	# The object to store my programs in
 	programs = VSProgramObject()
+	gameState = threading.Event()
+	varAccess = threading.Lock()
+	threads = list()
+	gameVariables = dict()
 
 	# Initialising...
 	def __init__(self, parent:QStackedLayout):
@@ -46,6 +56,8 @@ class TVGameContainer(QStackedWidget):
 		page1 = loadWidget("editor.ui")
 		self.addWidget(page0)
 		self.addWidget(page1)
+
+		self.programs.add("eeep", gs.defaultScript)
 
 		# Load the child page structure / heirachy
 		page0Layout:QVBoxLayout = page0.layout()
@@ -60,6 +72,7 @@ class TVGameContainer(QStackedWidget):
 		mainGameLayout.addWidget(theFleetControl)
 		page0Layout.addWidget(mainGameLayout)
 		page0Layout.setStretch(1, 6)
+		mainGameLayout.currentChanged.connect(partial(self.changeState))
 
 		# Load the main button navigation settings
 		ButtonA:QPushButton = page0.findChild(QPushButton, "GenericButton1") # type: ignore
@@ -70,7 +83,7 @@ class TVGameContainer(QStackedWidget):
 		ButtonB.clicked.connect(partial(changeMainScreen, mainGameLayout, buttonList, 1))
 		ButtonC.clicked.connect(partial(changeMainScreen, mainGameLayout, buttonList, 2))
 
-		# From the editor
+		# From the fleet panel
 		editorButton:QPushButton = theFleetControl.findChild(QPushButton, "EditorButton") # type: ignore
 		editorButton.clicked.connect(partial(changeScreen, parent, 1, 1))
 
@@ -109,8 +122,83 @@ class TVGameContainer(QStackedWidget):
 		graphicsView.setScene(world)
 
 	# Parse the text into an Abstract Syntax Tree to be executed
+	# REWRITE THIS
 	@Slot(QTextEdit, QStackedLayout)
 	def parseValuescript(self, codeEditor:QTextEdit, parent:QStackedLayout):
 		ret = self.programs.add("HI", codeEditor.toPlainText())
 		if ret == 0: return changeScreen(parent, 1, 0)
+		return
+
+	def changeState(self, page):
+		if page == 0:
+			self.executeGame()
+		else:
+			self.stopGame()
+		return
+
+	from random import randint
+	def travelTo(self):
+		self.gameState.wait()
+		while self.gameState.is_set():
+			target_x = 0
+			target_y = 0
+			self.varAccess.acquire()
+			for export in self.gameVariables:
+				if "_x_coordinate" in export:
+					loc = self.gameVariables[export]
+					self.gameVariables[export] = randint(int(abs(loc - target_x)/10), loc)
+				elif "_y_coordinate" in export:
+					loc = self.gameVariables[export]
+					self.gameVariables[export] = randint(int(abs(loc - target_y)/10), loc)
+				elif "_x_target" in export:
+					target_x = self.gameVariables[export] + randint(-10, 10)
+					self.gameVariables[export] = target_x
+				elif "_y_target" in export:
+					target_y = self.gameVariables[export] + randint(-10, 10)
+					self.gameVariables[export] = target_y
+			self.varAccess.release()
+		return
+
+	def manageData(self):
+		self.gameState.wait()
+		self.programs.run()
+		while self.gameState.is_set():
+			exported = self.programs.grab()
+			if exported[0] is None: continue
+			self.varAccess.acquire()
+			self.gameVariables.update({exported[0]: exported[1]})
+			self.varAccess.release()
+			self.programs.clean()
+		self.programs.kill()
+		return
+
+	def manageRequests(self):
+		self.gameState.wait()
+		while self.gameState.is_set():
+			request = self.programs.get()
+			if request[0] is None: continue
+			if self.gameVariables.get(request[0]) is not None:
+				self.programs.update(request[0], self.gameVariables.get(request[0]))
+			else:
+				self.programs.put(request[0], request[1])
+		return
+
+	def executeGame(self):
+		dataThread = threading.Thread(target=self.manageData)
+		requestThread = threading.Thread(target=self.manageRequests)
+		travelThread = threading.Thread(target=self.travelTo)
+		self.threads.append(dataThread)
+		self.threads.append(requestThread)
+		self.threads.append(travelThread)
+		dataThread.start()
+		requestThread.start()
+		travelThread.start()
+		self.gameState.set()
+		return
+
+	def stopGame(self):
+		self.gameState.clear()
+		for thread in self.threads:
+			thread.join()
+		self.threads.clear()
 		return

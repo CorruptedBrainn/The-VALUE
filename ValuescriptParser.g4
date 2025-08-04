@@ -18,16 +18,18 @@ options {
 
 file						:	extra* statement+ EOF ;
 extra						:	IMPORT IDENTIFIER SEMICOLON? ;
-statement					:	variabledeclaration SEMICOLON									# statementvardecl
-							|	functiondeclaration												# statementfuncdecl
-							|	classdeclaration												# statementclassdecl
-							|	ifstatement														# statementif
-							|	whilestatement													# statementwhile
-							|	dostatement														# statementdo
-							|	forstatement													# statementfor
-							|	DBGOUT OPEN_PARENTHESES expression CLOSED_PARENTHESES SEMICOLON	# statementprint
-							|	expression SEMICOLON											# statementexpr
-							|	RETURN expression? SEMICOLON									# statementret
+statement					:	variabledeclaration SEMICOLON										# statementvardecl
+							|	functiondeclaration													# statementfuncdecl
+							|	classdeclaration													# statementclassdecl
+							|	ifstatement															# statementif
+							|	whilestatement														# statementwhile
+							|	dostatement															# statementdo
+							|	forstatement														# statementfor
+							|	DBGOUT OPEN_PARENTHESES expression CLOSED_PARENTHESES SEMICOLON		# statementprint
+							|	EXPORTVAR OPEN_PARENTHESES expression CLOSED_PARENTHESES SEMICOLON	# statementexport
+							|	IMPORTVAR OPEN_PARENTHESES expression CLOSED_PARENTHESES SEMICOLON	# statementimport
+							|	expression SEMICOLON												# statementexpr
+							|	RETURN expression? SEMICOLON										# statementret
 							;
 variabledeclaration			:	(STATIC | VARIABLE)* IDENTIFIER ARROW_OPERATOR typenameexpression
 							|	(STATIC | VARIABLE | CONSTANT)* IDENTIFIER ARROW_OPERATOR typenameexpression ASSIGNMENT_GENERIC expression
@@ -64,7 +66,8 @@ codeblock					:	OPEN_CURLY_BRACE statement+ CLOSED_CURLY_BRACE
 							|	statement
 							;
 expression					:	primaryexpression																					# primexpr
-							|	expression PERIOD expression																		# membexpr
+							|	CLASSSCOPE PERIOD IDENTIFIER																		# thisexpr
+							|	expression PERIOD IDENTIFIER																		# membexpr
 							|	expression OPEN_PARENTHESES (expression (COMMA expression)*)? CLOSED_PARENTHESES					# parenexpr
 							|	templateexpression expression OPEN_PARENTHESES expression (COMMA expression)* CLOSED_PARENTHESES	# typarexpr
 							|	expression OPEN_SQUARE expression CLOSED_SQUARE														# accessexpr

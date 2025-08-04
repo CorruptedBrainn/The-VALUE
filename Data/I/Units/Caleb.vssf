@@ -1,0 +1,10 @@
+
+import base_unit
+static counter->int = -1;
+counter++;
+const res->int = fib(counter);
+console_out(res);
+console_out("
+");
+export_var(res);
+return res;

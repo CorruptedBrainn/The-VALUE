@@ -2,11 +2,15 @@
 /// Name: ValuescriptRuntime.cpp
 /// Description: The file that contains the Valuescript source code, and tells the visitor how to behave during execution
 
+#define _CRT_SECURE_NO_WARNINGS 1
+
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <stack>
 #include <fstream>
+#include <queue>
+#include <mutex>
 
 #include "..\generated\ValuescriptLexer.h"
 #include "..\generated\ValuescriptParser.h"
@@ -17,6 +21,74 @@
 using namespace valuescriptantlrgeneration;
 using namespace antlr4;
 using namespace std;
+
+/// <summary>
+/// A structure for me to use within my threaded queue
+/// </summary>
+struct call {
+	const wchar_t* name = nullptr;
+	int value = 0;
+};
+
+/// <summary>
+/// Another structure for me to use within my threaded queue
+/// </summary>
+struct request {
+	const wchar_t* name = nullptr;
+	const wchar_t* var = nullptr;
+};
+
+/// <summary>
+/// An implementation of a regular queue, allowing multiple threads to access it without threading errors
+/// </summary>
+/// <typeparam name="T">The data type to store in the queue</typeparam>
+template <typename T>
+class thread_safe_queue {
+private:
+	// Threaded classes to keep it safe
+	queue<T> pipe;
+	mutex key;
+	condition_variable condition;
+public:
+	/// <summary>
+	/// Push to the queue
+	/// </summary>
+	/// <param name="value">The value to add</param>
+	void push(T value) {
+		unique_lock<mutex> lock(key);
+		pipe.push(value);
+		condition.notify_one();
+		return;
+	}
+
+	/// <summary>
+	/// Pop from the queue
+	/// </summary>
+	/// <returns>The front value</returns>
+	T pop() {
+		unique_lock<mutex> lock(key);
+		condition.wait_for(lock, chrono::seconds(1), [this]() { return !pipe.empty(); });
+		if (!pipe.empty()) {
+			T ret = pipe.front();
+			pipe.pop();
+			return ret;
+		}
+		return T();
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
+	T front() {
+		unique_lock<mutex> lock(key);
+		condition.wait_for(lock, chrono::seconds(1), [this]() { return !pipe.empty(); });
+		if (!pipe.empty()) {
+			return pipe.front();
+		}
+		return T();
+	}
+};
 
 /// <summary>
 /// A structure defining an internal Valuescript Type
@@ -39,7 +111,7 @@ struct VSType {
 	/// Delete the type
 	/// </summary>
 	~VSType() {
-		for (VSType* child : children) delete[] child;
+		for (VSType* child : children) delete child;
 	}
 	/// <summary>
 	/// Add a child type
@@ -102,10 +174,10 @@ public:
 	/// Delete the pointers we have to avoid memory leaks
 	/// </summary>
 	~VSImporter() {
-		delete[] input;
-		delete[] lexer;
-		delete[] tokens;
-		delete[] parser;
+		delete input;
+		delete lexer;
+		delete tokens;
+		delete parser;
 	}
 };
 
@@ -136,6 +208,8 @@ struct VSFunction {
 struct VSClass {
 	set<string> templates = {};
 	string name = "NULL";
+	vector<string> members = {};
+	unordered_map<string, VSVariable> regVars = {};
 	ValuescriptParser::CodeblockContext* contents = nullptr;
 };
 
@@ -150,6 +224,7 @@ private:
 	unordered_map<string, VSVariable> constantStorage = {};
 	unordered_map<string, VSFunction> functionStorage = {};
 	unordered_map<string, VSClass> classStorage = {};
+	VSStaticScope* parentScope = nullptr;
 public:
 	// Scope name
 	string name = "GLOBAL";
@@ -173,7 +248,7 @@ public:
 	~VSStaticScope() {
 		if (&children == nullptr) return;
 		for (pair<string, VSStaticScope*> child : children) {
-			if (child.second != nullptr) delete[] child.second;
+			if (child.second != nullptr) delete child.second;
 		}
 		return;
 	}
@@ -194,6 +269,7 @@ public:
 	void addChildScope(string scope) {
 		if (children.contains(scope)) return; // ERROR
 		children[scope] = new VSStaticScope(scope);
+		children[scope]->parentScope = this;
 		return;
 	}
 
@@ -206,7 +282,8 @@ public:
 		if (this->name == name) return this;
 		auto scope = children.find(name);
 		if (scope == children.end()) {
-			return nullptr; // ERROR
+			if (parentScope == nullptr) return nullptr;
+			return parentScope->getChildScope(name);
 		}
 		return (*scope).second;
 	}
@@ -369,6 +446,14 @@ public:
 		if (parentScope == nullptr) return nullptr; // ERROR
 		return parentScope->getClass(name);
 	}
+
+	VSLocalScope* getParentScope() {
+		return parentScope;
+	}
+
+	VSStaticScope* getStaticScope() {
+		return staticScope;
+	}
 };
 
 /// <summary>
@@ -378,8 +463,9 @@ class ValuescriptPreVisitor : public ValuescriptParserBaseVisitor {
 public:
 	// Global data
 	stack<VSStaticScope*> scoping;
-	vector<pair<string, VSImporter*>> imports;
+	unordered_map<string, VSImporter*> imports;
 	VSStaticScope globalScope;
+	int task = 0;
 	ValuescriptPreVisitor() {};
 
 	/// <summary>
@@ -389,12 +475,21 @@ public:
 	/// <returns>Default Result</returns>
 	any visitFile(ValuescriptParser::FileContext* ctx) override {
 		scoping.push(&globalScope);
-		for (auto import : ctx->extra()) imports.push_back(any_cast<pair<string, VSImporter*>>(visit(import)));
+		for (auto import : ctx->extra()) imports.insert(any_cast<pair<string, VSImporter*>>(visit(import)));
 		for (auto statement : ctx->statement()) visit(statement);
 		scoping.pop();
 		return defaultResult();
 	}
-	
+
+	/// <summary>
+	/// The parse rule used for variable declaration statements, implemented to avoid default aggregation with semicolon
+	/// </summary>
+	/// <param name="ctx">variabledeclaration SEMICOLON</param>
+	/// <returns>The return value of the variable declaration</returns>
+	any visitStatementvardecl(ValuescriptParser::StatementvardeclContext* ctx) override {
+		return visit(ctx->variabledeclaration());
+	}
+ 	
 	/// <summary>
 	/// The parse rule used for imports, will load the import then visit the contents inside
 	/// </summary>
@@ -402,12 +497,9 @@ public:
 	/// <returns>A pair storing the import name and contents</returns>
 	any visitExtra(ValuescriptParser::ExtraContext* ctx) override {
 		string import = ctx->IDENTIFIER()->getText();
-		string script = "", tempstorage;
 		string name = "../ValuescriptImports/" + import + ".vssf";
 		ifstream file(name);
-		while (getline(file, tempstorage)) {
-			script += tempstorage;
-		}
+		string script((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
 		file.close();
 		VSImporter* library = new VSImporter(script);
 		visit(library->tree);
@@ -421,6 +513,7 @@ public:
 	/// <param name="ctx">(STATIC | VARIABLE | CONSTANT)* IDENTIFIER ARROW_OPERATOR typenameexpression ASSIGNMENT_GENERIC expression</param>
 	/// <returns>Default Result</returns>
 	any visitVariabledeclaration(ValuescriptParser::VariabledeclarationContext* ctx) override {
+		if (task == 1) return pair<string, VSType> {ctx->IDENTIFIER()->getText(), any_cast<VSType>(visit(ctx->typenameexpression()))};
 		if (ctx->STATIC().size() == 0) return defaultResult();
 		VSVariable var;
 		var.isconst = ctx->CONSTANT().size();
@@ -437,6 +530,7 @@ public:
 	/// <param name="ctx">templatedeclaration? FUNCTION? IDENTIFIER functionparameters ARROW_OPERATOR typenameexpression codeblock</param>
 	/// <returns>Default Result</returns>
 	any visitFunctiondeclaration(ValuescriptParser::FunctiondeclarationContext* ctx) override {
+		if (task == 1) return ctx->IDENTIFIER()->getText();
 		string name = ctx->IDENTIFIER()->getText();
 		scoping.top()->addChildScope(name);
 		scoping.push(scoping.top()->getChildScope(name));
@@ -476,14 +570,40 @@ public:
 	/// <param name="ctx">templatedeclaration? CLASS? IDENTIFIER codeblock</param>
 	/// <returns>Default Result</returns>
 	any visitClassdeclaration(ValuescriptParser::ClassdeclarationContext* ctx) override {
+		if (task == 1) return ctx->IDENTIFIER()->getText();
 		string name = ctx->IDENTIFIER()->getText();
 		scoping.top()->addChildScope(name);
 		scoping.push(scoping.top()->getChildScope(name));
 		visit(ctx->codeblock());
 		scoping.pop();
 		VSClass cls;
-		cls.templates = any_cast<set<string>>(visit(ctx->templatedeclaration()));
+		if (ctx->templatedeclaration() != nullptr) {
+			cls.templates = any_cast<set<string>>(visit(ctx->templatedeclaration()));
+		}
 		cls.name = name;
+		auto toVisit = ctx->codeblock();
+		task = 1;
+		for (auto curr : toVisit->statement()) {
+			any test = visit(curr);
+			try {
+				cls.members.push_back(any_cast<string>(test));
+			}
+			catch (bad_any_cast ex) {}
+			try {
+				auto p = any_cast<pair<string, VSType>>(test);
+				cls.members.push_back(p.first);
+				VSVariable* var = scoping.top()->getChildScope(name)->getVariable(p.first);
+				if (var == nullptr) {
+					VSVariable add;
+					add.name = p.first;
+					add.type = p.second;
+					add.value = defaultResult();
+					cls.regVars.insert({ p.first, add });
+				}
+			}
+			catch (bad_any_cast ex) {}
+		}
+		task = 0;
 		cls.contents = ctx->codeblock();
 		scoping.top()->declareClass(cls);
 		return defaultResult();
@@ -678,7 +798,13 @@ private:
 	// Some data from parse-time
 	ValuescriptPreVisitor* storage = nullptr;
 	stack<string> staticName = {};
+	stack<string> nestingNames = {};
 	int task = 0;
+	string progName;
+	thread_safe_queue<call>* exportPipeline = nullptr;
+	thread_safe_queue<call>* importPipeline = nullptr;
+	thread_safe_queue<request>* requestPipeline = nullptr;
+	deque<request>* pushed = nullptr;
 public:
 	// The scopes for coding
 	stack<VSLocalScope*> scoping = {};
@@ -687,8 +813,17 @@ public:
 	/// Initialise the class with a pre-visitor as base data
 	/// </summary>
 	/// <param name="storage">The pointer to the pre-visitor</param>
-	ValuescriptVisitor(ValuescriptPreVisitor* storage) {
+	ValuescriptVisitor(ValuescriptPreVisitor* storage, string progName,
+		thread_safe_queue<call>* exportPipeline,
+		thread_safe_queue<call>* importPipeline,
+		thread_safe_queue<request>* requestPipeline,
+		deque<request>* pushed) {
 		this->storage = storage;
+		this->progName = progName;
+		this->exportPipeline = exportPipeline;
+		this->importPipeline = importPipeline;
+		this->requestPipeline = requestPipeline;
+		this->pushed = pushed;
 	}
 
 	/// <summary>
@@ -699,19 +834,39 @@ public:
 	any visitFile(ValuescriptParser::FileContext* ctx) override {
 		staticName.push("GLOBAL");
 		scoping.push(new VSLocalScope(nullptr, &storage->globalScope));
+		vector<ValuescriptParser::ExtraContext*> imports = ctx->extra();
+		for (auto curr : imports) visit(curr);
 		vector<ValuescriptParser::StatementContext*> tovisit = ctx->statement();
 		any ret = defaultResult();
 		for (auto curr : tovisit) {
+			size_t sizeable = staticName.size();
 			any temp = visit(curr);
+			while (staticName.size() > sizeable) staticName.pop();
 			if (task == 1) {
 				task = 0;
 				ret = temp;
 				break;
 			}
 		}
+		delete scoping.top();
 		scoping.pop();
 		staticName.pop();
 		return ret;
+	}
+
+	/// <summary>
+	/// The parse rule used for variable declaration statements, implemented to avoid default aggregation with semicolon
+	/// </summary>
+	/// <param name="ctx">variabledeclaration SEMICOLON</param>
+	/// <returns>The return value of the variable declaration</returns>
+	any visitStatementvardecl(ValuescriptParser::StatementvardeclContext* ctx) override {
+		return visit(ctx->variabledeclaration());
+	}
+
+	any visitExtra(ValuescriptParser::ExtraContext* ctx) override {
+		VSImporter* file = storage->imports[ctx->IDENTIFIER()->getText()];
+		visit(file->tree);
+		return defaultResult();
 	}
 
 	/// <summary>
@@ -750,6 +905,54 @@ public:
 	}
 
 	/// <summary>
+	/// Exports an important variable change to the main thread
+	/// </summary>
+	/// <param name="ctx">EXPORTVAR OPEN_PARENTHESES expression CLOSED_PARENTHESES SEMICOLON</param>
+	/// <returns>Default Result</returns>
+	any visitStatementexport(ValuescriptParser::StatementexportContext* ctx) override {
+		VSVariable* var = any_cast<VSVariable*>(visit(ctx->expression()));
+		string orig = var->name;
+		var->name = this->progName + "_" + orig;
+		size_t len = mbstowcs(nullptr, var->name.c_str(), 0) + 1;
+		wchar_t* buffer = new wchar_t[len];
+		mbstowcs(buffer, var->name.c_str(), len);
+		call change(buffer, any_cast<int>(var->value));
+		exportPipeline->push(change);
+		var->name = orig;
+		return defaultResult();
+	}
+
+	/// <summary>
+	/// Imports an important variable from the main thread
+	/// </summary>
+	/// <param name="ctx">IMPORTVAR OPEN_PARENTHESES expression CLOSED_PARENTHESES SEMICOLON</param>
+	/// <returns>The value of the requested variable</returns>
+	any visitStatementimport(ValuescriptParser::StatementimportContext* ctx) override {
+		VSVariable* var = any_cast<VSVariable*>(visit(ctx->expression()));
+		string orig = var->name;
+		var->name = this->progName + "_" + orig;
+		size_t lenA = mbstowcs(nullptr, var->name.c_str(), 0) + 1;
+		wchar_t* bufferA = new wchar_t[lenA];
+		mbstowcs(bufferA, var->name.c_str(), lenA);
+		size_t lenB = mbstowcs(nullptr, this->progName.c_str(), 0) + 1;
+		wchar_t* bufferB = new wchar_t[lenB];
+		mbstowcs(bufferB, this->progName.c_str(), lenB);
+		request change(bufferA, bufferB);
+		requestPipeline->push(change);
+		var->name = orig;
+		call reply = importPipeline->front();
+		while (reply.name == nullptr || wstring(reply.name) != wstring(change.name)) {
+			reply = importPipeline->front();
+		}
+		importPipeline->pop();
+		var->value = reply.value;
+		delete[] pushed->begin()->name;
+		delete[] pushed->begin()->var;
+		pushed->pop_front();
+		return var->value;
+	}
+
+	/// <summary>
 	/// The parse rule for return statements
 	/// </summary>
 	/// <param name="ctx">RETURN expression? SEMICOLON</param>
@@ -759,6 +962,10 @@ public:
 		if (ctx->expression() != nullptr) {
 			ret = visit(ctx->expression());
 		}
+		try {
+			ret = any_cast<VSVariable*>(ret)->value;
+		}
+		catch (bad_any_cast ex) {}
 		task = 1;
 		return ret; 
 	}
@@ -771,17 +978,39 @@ public:
 	/// <returns>The value of the variable, if assigned</returns>
 	any visitVariabledeclaration(ValuescriptParser::VariabledeclarationContext* ctx) override {
 		if (ctx->STATIC().size() == 0) {
+			if (task == 2 && ctx->expression() != nullptr) {
+				any val = visit(ctx->expression());
+				if (val.type() == typeid(VSVariable*)) val = any_cast<VSVariable*>(val)->value;
+				return pair<string, any> {ctx->IDENTIFIER()->getText(), val};
+			}
 			VSVariable var;
 			var.isconst = ctx->CONSTANT().size();
 			var.name = ctx->IDENTIFIER()->getText();
-			var.type = any_cast<VSType>(visit(ctx->typenameexpression()));
-			var.value = visit(ctx->expression());
+			VSType ty = any_cast<VSType>(visit(ctx->typenameexpression()));
+			var.type = ty;
+			VSClass* cls = scoping.top()->getClass(ty.name);
+			if (cls == nullptr) {
+				var.value = ctx->expression() != nullptr ? visit(ctx->expression()) : defaultResult();
+				if (var.value.type() == typeid(VSVariable*)) var.value = any_cast<VSVariable*>(var.value)->value;
+			}
+			else {
+				var.value = cls->regVars;
+			}
 			scoping.top()->declareVariable(var);
 			return var.value;
 		}
 		VSVariable* var = scoping.top()->getVariable(ctx->IDENTIFIER()->getText());
-		if (!var->value.has_value()) var->value = visit(ctx->expression());
-		return defaultResult();
+		if (!var->value.has_value()) {
+			VSClass* cls = scoping.top()->getClass(var->type.name);
+			if (cls == nullptr) {
+				var->value = visit(ctx->expression());
+				if (var->value.type() == typeid(VSVariable*)) var->value = any_cast<VSVariable*>(var->value)->value;
+			}
+			else {
+				var->value = cls->regVars;
+			}
+		}
+		return var->value;
 	}
 
 	/// <summary>
@@ -794,11 +1023,27 @@ public:
 	}
 
 	/// <summary>
-	/// The parse rule for a class declaration, will ignore the body
+	/// The parse rule for a class declaration, will initialise the class default values
 	/// </summary>
 	/// <param name="ctx">templatedeclaration? CLASS? IDENTIFIER codeblock</param>
 	/// <returns>Default Result</returns>
 	any visitClassdeclaration(ValuescriptParser::ClassdeclarationContext* ctx) override {
+		VSClass* cls = scoping.top()->getClass(ctx->IDENTIFIER()->getText());
+		scoping.push(new VSLocalScope(scoping.top(), scoping.top()->getStaticScope()->getChildScope(cls->name)));
+		int prev = task;
+		task = 2;
+		auto toVisit = cls->contents->statement();
+		for (auto curr : toVisit) {
+			any ret = visit(curr);
+			if (ret.type() == typeid(pair<string, any>)) {
+				pair<string, any> update = any_cast<pair<string, any>>(ret);
+				if (cls->regVars.find(update.first) == cls->regVars.end()) continue;
+				cls->regVars[update.first].value = update.second;
+			}
+		}
+		task = prev;
+		delete scoping.top();
+		scoping.pop();
 		return defaultResult();
 	}
 
@@ -1041,7 +1286,7 @@ public:
 	/// <param name="ctx">FOR OPEN_PARENTHESES variabledeclaration (COMMA variabledeclaration)* SEMICOLON expression SEMICOLON expression (COMMA expression)* CLOSED_PARENTHESES codeblock</param>
 	/// <returns>The return value of the latest execution</returns>
 	any visitRangefor(ValuescriptParser::RangeforContext* ctx) override {
-		scoping.push(new VSLocalScope(scoping.top(), storage->globalScope.getChildScope(staticName.top())));
+		scoping.push(new VSLocalScope(scoping.top(), scoping.top()->getStaticScope()->getChildScope(staticName.top())));
 		any ret = defaultResult();
 		vector<ValuescriptParser::VariabledeclarationContext*> tovisit = ctx->variabledeclaration();
 		for (auto curr : tovisit) visit(curr);
@@ -1058,7 +1303,7 @@ public:
 	any visitItemfor(ValuescriptParser::ItemforContext* ctx) override { /// for ( variabledeclaration : expression ) { codeblock }
 		// Get name and type of variable
 		// Get looping object
-		scoping.push(new VSLocalScope(scoping.top(), storage->globalScope.getChildScope(staticName.top())));
+		scoping.push(new VSLocalScope(scoping.top(), scoping.top()->getStaticScope()->getChildScope(staticName.top())));
 		ValuescriptParser::VariabledeclarationContext* decl = ctx->variabledeclaration();
 		VSVariable* expr = any_cast<VSVariable*>(visit(ctx->expression())); // Assume type VS Variable
 		any ret = defaultResult();
@@ -1086,16 +1331,21 @@ public:
 	/// <param name="ctx">statement</param>
 	/// <returns>The return value of the codeblock as a whole</returns>
 	any visitCodeblock(ValuescriptParser::CodeblockContext* ctx) override {
-		scoping.push(new VSLocalScope(scoping.top(), storage->globalScope.getChildScope(staticName.top())));
+		scoping.push(new VSLocalScope(scoping.top(), scoping.top()->getStaticScope()->getChildScope(staticName.top())));
 		vector<ValuescriptParser::StatementContext*> tovisit = ctx->statement();
 		any ret = defaultResult();
 		for (auto curr : tovisit) {
+			size_t sizeable = staticName.size();
+			size_t nameable = nestingNames.size();
 			any temp = visit(curr);
+			while (staticName.size() > sizeable) staticName.pop();
+			while (nestingNames.size() > nameable) nestingNames.pop();
 			if (task == 1) {
 				ret = temp;
 				break;
 			}
 		}
+		delete scoping.top();
 		scoping.pop();
 		return ret;
 	}
@@ -1259,8 +1509,47 @@ public:
 		return visitChildren(ctx); // Child Type
 	}
 
-	any visitMembexpr(ValuescriptParser::MembexprContext* ctx) override { /// expression . expression // vs class
-		return visitChildren(ctx); // Valuescript Variable / Function / Class
+	any visitThisexpr(ValuescriptParser::ThisexprContext* ctx) override { /// this . identifier // vs class
+		string curr = scoping.top()->getStaticScope()->name;
+		// Find the scope that contains the class containing the string, then navigate to said class and do normal member stuff
+		VSLocalScope* parent = scoping.top()->getParentScope();
+		VSVariable* lhs = parent->getVariable(nestingNames.top());
+		string rhs = ctx->IDENTIFIER()->getText();
+		VSClass* type = parent->getClass(lhs->type.name);
+		if (type == nullptr) return defaultResult(); // Error
+		auto it = find(type->members.begin(), type->members.end(), rhs);
+		if (it == type->members.end()) return defaultResult(); // Error
+		VSStaticScope* classScope = parent->getStaticScope()->getChildScope(type->name);
+		staticName.push(type->name);
+		nestingNames.push(lhs->name);
+		VSVariable* var = classScope->getVariable(rhs);
+		if (var != nullptr) return var;
+		VSFunction* func = classScope->getFunction(rhs);
+		if (func != nullptr) return func;
+		VSClass* cls = classScope->getClass(rhs);
+		if (cls != nullptr) return cls;
+		return &(*any_cast<unordered_map<string, VSVariable>>(&lhs->value))[rhs];
+	}
+
+	any visitMembexpr(ValuescriptParser::MembexprContext* ctx) override { /// expression . identifier // vs class
+		// lhs: the variable
+		// rhs: the name
+		VSVariable* lhs = any_cast<VSVariable*>(visit(ctx->expression()));
+		string rhs = ctx->IDENTIFIER()->getText();
+		VSClass* type = scoping.top()->getClass(lhs->type.name);
+		if (type == nullptr) return defaultResult(); // Error
+		auto it = find(type->members.begin(), type->members.end(), rhs);
+		if (it == type->members.end()) return defaultResult(); // Error
+		VSStaticScope* classScope = scoping.top()->getStaticScope()->getChildScope(type->name);
+		staticName.push(type->name);
+		nestingNames.push(lhs->name);
+		VSVariable* var = classScope->getVariable(rhs);
+		if (var != nullptr) return var;
+		VSFunction* func = classScope->getFunction(rhs);
+		if (func != nullptr) return func;
+		VSClass* cls = classScope->getClass(rhs);
+		if (cls != nullptr) return cls;
+		return &(*any_cast<unordered_map<string, VSVariable>>(&lhs->value))[rhs];
 	}
 
 	any visitAssignexpr(ValuescriptParser::AssignexprContext* ctx) override { /// expression assignmentoperator expression
@@ -1350,9 +1639,9 @@ public:
 	}
 
 	any visitParenexpr(ValuescriptParser::ParenexprContext* ctx) override { /// expression ( expression ) // vs func
-		scoping.push(new VSLocalScope(scoping.top(), storage->globalScope.getChildScope(staticName.top())));
 		VSFunction* callable = any_cast<VSFunction*>(visit(ctx->expression(0))); // Assume VS Func
 		vector<ValuescriptParser::ExpressionContext*> params = ctx->expression();
+		scoping.push(new VSLocalScope(scoping.top(), scoping.top()->getStaticScope()->getChildScope(staticName.top())));
 		staticName.push(callable->name);
 		any ret = defaultResult();
 		for (int i = 0; i < callable->parameters.size(); i++) {
@@ -1369,10 +1658,10 @@ public:
 	}
 
 	any visitTyparexpr(ValuescriptParser::TyparexprContext* ctx) override { /// Template expression ( expression ) // vs func
-		scoping.push(new VSLocalScope(scoping.top(), storage->globalScope.getChildScope(staticName.top())));
 		VSFunction* callable = any_cast<VSFunction*>(visit(ctx->expression(0))); // Assume VS Func
 		vector<VSType> templates = any_cast<vector<VSType>>(visit(ctx->templateexpression())); // Assume VS Type
 		vector<ValuescriptParser::ExpressionContext*> params = ctx->expression();
+		scoping.push(new VSLocalScope(scoping.top(), scoping.top()->getStaticScope()->getChildScope(staticName.top())));
 		staticName.push(callable->name);
 		any ret = defaultResult();
 		for (int i = 1; i < params.size(); i++) {

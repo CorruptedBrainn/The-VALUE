@@ -57,6 +57,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitStatementexport(ValuescriptParser::StatementexportContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitStatementimport(ValuescriptParser::StatementimportContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitStatementexpr(ValuescriptParser::StatementexprContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -206,6 +214,10 @@ public:
   }
 
   virtual std::any visitBinexpr(ValuescriptParser::BinexprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitThisexpr(ValuescriptParser::ThisexprContext *ctx) override {
     return visitChildren(ctx);
   }
 

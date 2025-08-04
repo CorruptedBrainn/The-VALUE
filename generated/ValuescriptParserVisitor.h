@@ -40,6 +40,10 @@ public:
 
     virtual std::any visitStatementprint(ValuescriptParser::StatementprintContext *context) = 0;
 
+    virtual std::any visitStatementexport(ValuescriptParser::StatementexportContext *context) = 0;
+
+    virtual std::any visitStatementimport(ValuescriptParser::StatementimportContext *context) = 0;
+
     virtual std::any visitStatementexpr(ValuescriptParser::StatementexprContext *context) = 0;
 
     virtual std::any visitStatementret(ValuescriptParser::StatementretContext *context) = 0;
@@ -115,6 +119,8 @@ public:
     virtual std::any visitAccessexpr(ValuescriptParser::AccessexprContext *context) = 0;
 
     virtual std::any visitBinexpr(ValuescriptParser::BinexprContext *context) = 0;
+
+    virtual std::any visitThisexpr(ValuescriptParser::ThisexprContext *context) = 0;
 
     virtual std::any visitMultexpr(ValuescriptParser::MultexprContext *context) = 0;
 

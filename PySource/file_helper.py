@@ -9,13 +9,23 @@ import json
 import copy
 
 from PySide6.QtCore import ( # type: ignore
-	Slot
+	Slot,
 	)
 from PySide6.QtWidgets import ( # type: ignore
-	QDialog
+	QDialog,
+	QStackedWidget,
+	QWidget,
 	)
 
+from widget_helper import (
+	changeScreen,
+	loadWidget,
+	showDialog,
+	updateSaveStats,
+	)
 import global_storage as gs
+
+newSaveDialog = 0
 
 # Get the filepaths as strings for ease
 dataFolder = "../Data/"
@@ -46,13 +56,14 @@ def setupWorkspace():
 
 	if (os.path.exists(saveAData) == False):
 		with open(saveAData, "x") as file:
+			gs.savePlaceholders["Index"] = 1
 			text = json.dumps(gs.savePlaceholders)
 			file.write(text)
 
-	if (os.path.exists(saveAEnv) == False):
-		with open(saveAEnv, "x") as file:
-			text = json.dumps(gs.createWorld)
-			file.write(text)
+	#if (os.path.exists(saveAEnv) == False):
+	#	with open(saveAEnv, "x") as file:
+	#		text = json.dumps(gs.createWorld)
+	#		file.write(text)
 
 	if (os.path.exists(saveAUnits) == False): os.makedirs(saveAUnits)
 
@@ -60,8 +71,14 @@ def setupWorkspace():
 
 	if (os.path.exists(saveBData) == False):
 		with open(saveBData, "x") as file:
+			gs.savePlaceholders["Index"] = 2
 			text = json.dumps(gs.savePlaceholders)
 			file.write(text)
+
+	#if (os.path.exists(saveBEnv) == False):
+	#	with open(saveBEnv, "x") as file:
+	#		text = json.dumps(gs.createWorld)
+	#		file.write(text)
 
 	if (os.path.exists(saveBUnits) == False): os.makedirs(saveBUnits)
 
@@ -69,16 +86,36 @@ def setupWorkspace():
 
 	if (os.path.exists(saveCData) == False):
 		with open(saveCData, "x") as file:
+			gs.savePlaceholders["Index"] = 3
 			text = json.dumps(gs.savePlaceholders)
 			file.write(text)
+
+	#if (os.path.exists(saveCEnv) == False):
+	#	with open(saveCEnv, "x") as file:
+	#		text = json.dumps(gs.createWorld)
+	#		file.write(text)
+
 	if (os.path.exists(saveCUnits) == False): os.makedirs(saveCUnits)
 
+	gs.savePlaceholders["Index"] = 0
 	loadSettings()
+
+# When I want to create a unit's file
+@Slot(int, str)
+def createUnit(saveIndex: int, unitName: str):
+	text = gs.defaultScript
+	if (saveIndex == 1):
+		with open(saveAUnits + unitName + ".vssf", "w") as file: file.write(text)
+	elif (saveIndex == 2):
+		with open(saveBUnits + unitName + ".vssf", "w") as file: file.write(text)
+	elif (saveIndex == 3):
+		with open(saveCUnits + unitName + ".vssf", "w") as file: file.write(text)
+	gs.saveData["Units"].update({unitName: {"Class": "N/A"}})
+	return
 
 # When I want to load data from a save
 @Slot(int)
 def updateSaveLoad(saveIndex: int):
-	storeSave()
 	text = dict()
 	if (saveIndex == 1):
 		with open(saveAData, "r") as file: text = file.read()
@@ -88,19 +125,40 @@ def updateSaveLoad(saveIndex: int):
 		with open(saveCData, "r") as file: text = file.read()
 	else: return
 	gs.saveData = json.loads(text)
-	loadWorld()
+	#loadWorld()
 	return
 
+# When I want to create a new save
+@Slot(QStackedWidget)
+def createSave(parent:QStackedWidget):
+	if gs.saveData["Difficulty"] != -1:
+		changeScreen(parent, 1, 0)
+		return
+	global newSaveDialog
+	from dialog_container import TVNewSaveDialog
+	newSaveDialog = TVNewSaveDialog(loadWidget("new_save_dialog.ui"))
+	newSaveDialog.slide = parent
+	showDialog(newSaveDialog)
+
 # When I want to delete some save data
-@Slot(int)
-def deleteSave(saveIndex:int):
+@Slot(int, QWidget)
+def deleteSave(saveIndex:int, saveLoads:QWidget):
+	gs.savePlaceholders["Index"] = saveIndex
 	text = json.dumps(gs.savePlaceholders)
 	if (saveIndex == 1):
 		with open(saveAData, "w") as file: file.write(text)
+		for unit in os.listdir(saveAUnits):
+			os.remove(saveAUnits + unit)
 	elif (saveIndex == 2):
 		with open(saveBData, "w") as file: file.write(text)
+		for unit in os.listdir(saveBUnits):
+			os.remove(saveBUnits + unit)
 	elif (saveIndex == 3):
 		with open(saveCData, "w") as file: file.write(text)
+		for unit in os.listdir(saveCUnits):
+			os.remove(saveCUnits + unit)
+	gs.savePlaceholders["Index"] = 0
+	updateSaveStats(saveLoads, saveIndex)
 	return
 
 # When I want to store some save data

@@ -19,10 +19,17 @@ from PySide6.QtWidgets import ( # type: ignore
     QListWidgetItem,
     QComboBox,
     QSlider,
+    QLineEdit,
     )
 
-from widget_helper import changeScreen
-from file_helper import closeSettings, resetSettings, applySettings
+from widget_helper import changeScreen, updateSaveStats
+from file_helper import (
+    closeSettings,
+    resetSettings,
+    applySettings,
+    storeSave,
+    createUnit,
+    )
 import global_storage as gs
 
 # The class for the settings dialog
@@ -113,4 +120,30 @@ class TVSettingsDialog(QDialog):
     @Slot(str, str, str, QListWidgetItem, QListWidgetItem)
     def singleSelect(self, keyI:str, keyII:str, keyIII:str, current:QListWidgetItem, former:QListWidgetItem):
         gs.settingData[keyI][keyII][keyIII] = current.text()
+        return
+
+# The class for the new save dialog
+class TVNewSaveDialog(QDialog):
+    slide = 0
+    # When we create a new object
+    def __new__(cls, obj:QDialog):
+        # Set some initial data
+        obj.setWindowModality(Qt.WindowModality.ApplicationModal)
+
+        # Set the command to close the dialog
+        obj.finished.connect(partial(cls.updateData, obj))
+
+        return obj
+
+    @Slot(QDialog, int)
+    def updateData(obj:QDialog, result:int):
+        if result == 1:
+            nameEdit:QLineEdit = obj.findChild(QLineEdit, "nameEdit") # type: ignore
+            difficultyBox:QComboBox = obj.findChild(QComboBox, "difficultyBox") # type: ignore
+            gs.saveData["Name"] = nameEdit.text()
+            gs.saveData["Difficulty"] = difficultyBox.currentIndex()
+            storeSave()
+            updateSaveStats(obj.slide.widget(0).saveWidgets[gs.saveData["Index"] - 1], gs.saveData["Index"])
+            changeScreen(obj.slide, 1, 0)
+            createUnit(gs.saveData["Index"], gs.saveData["Name"])
         return

@@ -36,6 +36,7 @@ from file_helper import setupWorkspace, storeSave
 # Another function to quit the application
 @Slot(QApplication)
 def quitApp(app: QApplication):
+	storeSave()
 	return app.exit()
 
 # Check that this is the startpoint for execution

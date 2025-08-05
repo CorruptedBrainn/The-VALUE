@@ -60,10 +60,10 @@ def setupWorkspace():
 			text = json.dumps(gs.savePlaceholders)
 			file.write(text)
 
-	#if (os.path.exists(saveAEnv) == False):
-	#	with open(saveAEnv, "x") as file:
-	#		text = json.dumps(gs.createWorld)
-	#		file.write(text)
+	if (os.path.exists(saveAEnv) == False):
+		with open(saveAEnv, "x") as file:
+			text = json.dumps(gs.worldData)
+			file.write(text)
 
 	if (os.path.exists(saveAUnits) == False): os.makedirs(saveAUnits)
 
@@ -75,10 +75,10 @@ def setupWorkspace():
 			text = json.dumps(gs.savePlaceholders)
 			file.write(text)
 
-	#if (os.path.exists(saveBEnv) == False):
-	#	with open(saveBEnv, "x") as file:
-	#		text = json.dumps(gs.createWorld)
-	#		file.write(text)
+	if (os.path.exists(saveBEnv) == False):
+		with open(saveBEnv, "x") as file:
+			text = json.dumps(gs.worldData)
+			file.write(text)
 
 	if (os.path.exists(saveBUnits) == False): os.makedirs(saveBUnits)
 
@@ -90,10 +90,10 @@ def setupWorkspace():
 			text = json.dumps(gs.savePlaceholders)
 			file.write(text)
 
-	#if (os.path.exists(saveCEnv) == False):
-	#	with open(saveCEnv, "x") as file:
-	#		text = json.dumps(gs.createWorld)
-	#		file.write(text)
+	if (os.path.exists(saveCEnv) == False):
+		with open(saveCEnv, "x") as file:
+			text = json.dumps(gs.worldData)
+			file.write(text)
 
 	if (os.path.exists(saveCUnits) == False): os.makedirs(saveCUnits)
 
@@ -125,7 +125,7 @@ def updateSaveLoad(saveIndex: int):
 		with open(saveCData, "r") as file: text = file.read()
 	else: return
 	gs.saveData = json.loads(text)
-	#loadWorld()
+	loadWorld()
 	return
 
 # When I want to create a new save
@@ -166,12 +166,16 @@ def deleteSave(saveIndex:int, saveLoads:QWidget):
 def storeSave():
 	saveIndex:int = gs.saveData["Index"]
 	text = json.dumps(gs.saveData)
+	env = json.dumps(gs.worldData)
 	if (saveIndex == 1):
 		with open(saveAData, "w") as file: file.write(text)
+		with open(saveAEnv, "w") as file: file.write(env)
 	elif (saveIndex == 2):
 		with open(saveBData, "w") as file: file.write(text)
+		with open(saveBEnv, "w") as file: file.write(env)
 	elif (saveIndex == 3):
 		with open(saveCData, "w") as file: file.write(text)
+		with open(saveCEnv, "w") as file: file.write(env)
 	return
 
 # When I want to load the settings data

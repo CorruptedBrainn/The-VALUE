@@ -4,7 +4,7 @@ Name: game_container.py
 Description: This file holds the class that wraps around the main game page
 """
 
-from random import gauss, randint
+from random import randint
 import threading
 from functools import partial
 
@@ -57,16 +57,16 @@ class TVGameContainer(QStackedWidget):
 		self.addWidget(page0)
 		self.addWidget(page1)
 
-		self.programs.add("eeep", gs.defaultScript)
+		self.programs.add("main", gs.defaultScript)
 
 		# Load the child page structure / heirachy
 		page0Layout:QVBoxLayout = page0.layout()
 		mainGameLayout:QStackedWidget = QStackedWidget()
-		theExpanse:QWidget = loadWidget("the_expanse.ui")
+		self.theExpanse:QWidget = loadWidget("the_expanse.ui")
 		theJournal:QWidget = loadWidget("journal.ui")
 		theTechTree:QWidget = loadWidget("tech_tree.ui")
 		theFleetControl:QWidget = loadWidget("fleet_control.ui")
-		mainGameLayout.addWidget(theExpanse)
+		mainGameLayout.addWidget(self.theExpanse)
 		mainGameLayout.addWidget(theJournal)
 		mainGameLayout.addWidget(theTechTree)
 		mainGameLayout.addWidget(theFleetControl)
@@ -92,35 +92,6 @@ class TVGameContainer(QStackedWidget):
 		mainExpanseButton:QPushButton = page1.findChild(QPushButton, "BackButton") # type: ignore
 		mainExpanseButton.clicked.connect(partial(self.parseValuescript, codeEditor, parent))
 
-		# An empty list of rocks for the background
-		rocks = []
-		
-		# Load some data and load the rocks
-		data = gs.createWorld()
-		world = QGraphicsScene()
-
-		# Create the gradient
-		world.setBackgroundBrush(QColor.fromHsv(0, 0, 255))
-		worldBorder = QPen()
-		worldBorder.setWidth(1000)
-		worldBorderGradient = QRadialGradient(0, 0, 1000)
-		worldBorderGradient.setColorAt(0, QColor.fromHsv(0, 0, 0))
-		worldBorderGradient.setColorAt(1, QColor.fromHsv(0, 0, 255))
-		worldBorderGradient.setSpread(QGradient.Spread.ReflectSpread)
-		worldBorder.setBrush(QBrush(worldBorderGradient))
-		world.addEllipse(-50540, -50540, 101080, 101080, worldBorder, QBrush(QColor.fromHsv(0, 0, 0)))
-
-		# Displaythe generated rocks
-		for rock in data["Rocks"]:
-			polygon = QPolygonF()
-			for point in rock:
-				polygon.append(QPointF(point[0], point[1]))
-			rocks.append(world.addPolygon(polygon, brush = QBrush(QColor.fromHsv(0, 0, 100))))
-
-		# Show the scene
-		graphicsView:QGraphicsView = theExpanse.findChild(QGraphicsView, "graphicsView") # type: ignore
-		graphicsView.setScene(world)
-
 	# Parse the text into an Abstract Syntax Tree to be executed
 	# REWRITE THIS
 	@Slot(QTextEdit, QStackedLayout)
@@ -136,26 +107,33 @@ class TVGameContainer(QStackedWidget):
 			self.stopGame()
 		return
 
-	from random import randint
+	def startState(self, page):
+		if page == 1:
+			self.executeGame()
+		else:
+			self.stopGame()
+		return
+	
+	target_x = 0
+	target_y = 0
+
 	def travelTo(self):
 		self.gameState.wait()
 		while self.gameState.is_set():
-			target_x = 0
-			target_y = 0
 			self.varAccess.acquire()
 			for export in self.gameVariables:
 				if "_x_coordinate" in export:
 					loc = self.gameVariables[export]
-					self.gameVariables[export] = randint(int(abs(loc - target_x)/10), loc)
+					self.gameVariables[export] = randint(int(abs(loc - self.target_x)/10), loc)
 				elif "_y_coordinate" in export:
 					loc = self.gameVariables[export]
-					self.gameVariables[export] = randint(int(abs(loc - target_y)/10), loc)
+					self.gameVariables[export] = randint(int(abs(loc - self.target_y)/10), loc)
 				elif "_x_target" in export:
-					target_x = self.gameVariables[export] + randint(-10, 10)
-					self.gameVariables[export] = target_x
+					self.target_x = self.gameVariables[export] + randint(-10, 10)
+					self.gameVariables[export] = self.target_x
 				elif "_y_target" in export:
-					target_y = self.gameVariables[export] + randint(-10, 10)
-					self.gameVariables[export] = target_y
+					self.target_y = self.gameVariables[export] + randint(-10, 10)
+					self.gameVariables[export] = self.target_y
 			self.varAccess.release()
 		return
 
@@ -184,6 +162,35 @@ class TVGameContainer(QStackedWidget):
 		return
 
 	def executeGame(self):
+		# An empty list of rocks for the background
+		rocks = []
+	
+		# Load some data and load the rocks
+		data = gs.worldData
+		world = QGraphicsScene()
+
+		# Create the gradient
+		world.setBackgroundBrush(QColor.fromHsv(0, 0, 255))
+		worldBorder = QPen()
+		worldBorder.setWidth(1000)
+		worldBorderGradient = QRadialGradient(0, 0, 1000)
+		worldBorderGradient.setColorAt(0, QColor.fromHsv(0, 0, 0))
+		worldBorderGradient.setColorAt(1, QColor.fromHsv(0, 0, 255))
+		worldBorderGradient.setSpread(QGradient.Spread.ReflectSpread)
+		worldBorder.setBrush(QBrush(worldBorderGradient))
+		world.addEllipse(-50540, -50540, 101080, 101080, worldBorder, QBrush(QColor.fromHsv(0, 0, 0)))
+
+		# Displaythe generated rocks
+		for rock in data["Rocks"]:
+			polygon = QPolygonF()
+			for point in rock:
+				polygon.append(QPointF(point[0], point[1]))
+			rocks.append(world.addPolygon(polygon, brush = QBrush(QColor.fromHsv(0, 0, 100))))
+
+		# Show the scene
+		graphicsView:QGraphicsView = self.theExpanse.findChild(QGraphicsView, "graphicsView") # type: ignore
+		graphicsView.setScene(world)
+
 		dataThread = threading.Thread(target=self.manageData)
 		requestThread = threading.Thread(target=self.manageRequests)
 		travelThread = threading.Thread(target=self.travelTo)

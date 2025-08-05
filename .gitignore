@@ -361,3 +361,14 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/ANTLR4_RUNTIME/ANTLR4_RUNTIME.filters
+/ANTLR4_RUNTIME/ANTLR4_RUNTIME.vcxproj
+/ANTLR4_GENERATION/ANTLR4_GENERATION.filters
+/ANTLR4_GENERATION/ANTLR4_GENERATION.vcxproj
+/ANTLR4_GENERATION/cpp.hint
+/Cpp Functions/Cpp Functions.vcxproj
+/Cpp Functions/Cpp Functions.vcxproj.filters
+/Cpp Functions/cpp.hint
+/Data/I/Units/Caleb.vssf
+/PySource/PythonSource.pyproj
+/The VALUE.sln

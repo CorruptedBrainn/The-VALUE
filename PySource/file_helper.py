@@ -1,7 +1,8 @@
 """
-Author: Nicolas Martens
 Name: file_helper.py
+Version: 0.0.3-alpha
 Description: The scripts that allow me to manage anything file related, such as saving game states
+Author: Nicolas Martens
 """
 
 import os

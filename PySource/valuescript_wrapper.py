@@ -1,7 +1,8 @@
 """
-Author: Nicolas Martens
 Name: valuescript_wrapper.py
+Version: 0.0.3-alpha
 Description: This script wraps the Valuescript DLL so I can call functions with ease
+Author: Nicolas Martens
 """
 
 import os, ctypes

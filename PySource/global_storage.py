@@ -1,7 +1,8 @@
 """
-Author: Nicolas Martens
 Name: global_storage.py
+Version: 0.0.3-alpha
 Description: The file that allows me to manage storage across files efficiently
+Author: Nicolas Martens
 """
 
 import copy, random

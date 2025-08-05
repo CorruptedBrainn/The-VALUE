@@ -1,14 +1,12 @@
 """
-Author: Nicolas Martens
 Name: main.py
+Version: 0.0.3-alpha
 Description: Program execution starts and ends here -- this file contains and manages the overall top level application objects
+Author: Nicolas Martens
 """
 
 import sys
 from functools import partial
-
-# Temp reminder to install PySide6
-print("---REMINDER:---\nYOU MUST HAVE THE PySide6 MODULE INSTALLED TO RUN THE PROGRAM\nRun:\tpip install pyside6\n---------------")
 
 from PySide6.QtCore import ( # type: ignore
 	Slot,

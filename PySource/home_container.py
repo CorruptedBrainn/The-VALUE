@@ -1,7 +1,8 @@
 """
-Author: Nicolas Martens
 Name: home_container.py
+Version: 0.0.3-alpha
 Description: The file that allows me to manage the main home page
+Author: Nicolas Martens
 """
 
 import sys

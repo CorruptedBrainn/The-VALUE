@@ -1,7 +1,8 @@
 """
-Author: Nicolas Martens
 Name: dialog_container.py
+Version: 0.0.3-alpha
 Description: This file contains classes that show the dialog popups when I need them
+Author: Nicolas Martens
 """
 
 from functools import partial

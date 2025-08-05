@@ -1,7 +1,8 @@
 """
-Author: Nicolas Martens
 Name: game_container.py
+Version: 0.0.3-alpha
 Description: This file holds the class that wraps around the main game page
+Author: Nicolas Martens
 """
 
 from random import randint

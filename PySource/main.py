@@ -54,6 +54,7 @@ if __name__ == "__main__":
 	mainLayout.addWidget(homeContainer)
 	mainLayout.addWidget(gameContainer)
 	window.centralWidget().setLayout(mainLayout)
+	window.centralWidget().layout().currentChanged.connect(partial(gameContainer.startState))
 
 	# Load and connect buttons
 	actionQuit:QAction = window.findChild(QAction, "actionQuit") # type: ignore

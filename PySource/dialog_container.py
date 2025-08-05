@@ -138,6 +138,7 @@ class TVNewSaveDialog(QDialog):
     @Slot(QDialog, int)
     def updateData(obj:QDialog, result:int):
         if result == 1:
+            gs.createWorld()
             nameEdit:QLineEdit = obj.findChild(QLineEdit, "nameEdit") # type: ignore
             difficultyBox:QComboBox = obj.findChild(QComboBox, "difficultyBox") # type: ignore
             gs.saveData["Name"] = nameEdit.text()

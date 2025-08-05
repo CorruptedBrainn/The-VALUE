@@ -90,6 +90,7 @@ worldData = {
 # For when we want to create a new world
 def createWorld()->dict:
 	from cpp_wrapper import GamePolygon
+	global worldData
 
 	# Identical to worldData
 	envData = {
@@ -109,4 +110,5 @@ def createWorld()->dict:
 		poly = GamePolygon(x, y, r, i, s, f)
 		envData["Rocks"].append(poly.polygon)
 		poly.delete()
+	worldData = envData
 	return envData

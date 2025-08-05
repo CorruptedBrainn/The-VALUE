@@ -8,7 +8,7 @@ import os, ctypes
 
 # Get the directories with some filepath magic
 scriptDir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-dllDir = os.path.join(scriptDir, "bin\\vs-2022\\x64\\Debug DLL")
+dllDir = os.path.join(scriptDir, "bin\\vs-2022\\x64\\Release DLL")
 
 # A variable change structure
 class call(ctypes.Structure):

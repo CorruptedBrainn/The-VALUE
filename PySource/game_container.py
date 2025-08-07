@@ -12,6 +12,9 @@ from functools import partial
 from PySide6.QtCore import ( # type: ignore
 	Slot,
 	QPointF,
+	QThreadPool,
+	QRunnable,
+	QTimer,
 	)
 from PySide6.QtWidgets import ( # type: ignore
 	QStackedWidget,
@@ -22,6 +25,9 @@ from PySide6.QtWidgets import ( # type: ignore
 	QTextEdit,
 	QGraphicsView,
 	QGraphicsScene,
+	QGraphicsPixmapItem,
+	QGraphicsPolygonItem,
+	QGraphicsEllipseItem,
 	)
 from PySide6.QtGui import ( # type: ignore
 	QBrush,
@@ -30,6 +36,7 @@ from PySide6.QtGui import ( # type: ignore
 	QColor,
 	QGradient,
 	QRadialGradient,
+	QPixmap,
 	)
 
 from widget_helper import (
@@ -37,8 +44,42 @@ from widget_helper import (
 	changeScreen,
 	changeMainScreen,
 	)
+from file_helper import (
+	createUnit,
+	)
+import unit_classes
 import global_storage as gs
 from valuescript_wrapper import VSProgramObject
+
+class runtime(QRunnable):
+	def __init__(self, fn):
+		super().__init__()
+		self.fn = fn
+
+	@Slot()
+	def run(self):
+		return self.fn()
+
+class gameScene(QGraphicsScene):
+	def __init__(self):
+		super().__init__()
+		self.timer = QTimer(self)
+		self.timer.timeout.connect(self.collisionChecker)
+		self.timer.start(400)
+
+	@Slot()
+	def collisionChecker(self):
+		items = self.items()
+		for obj in items:
+			if type(obj) == QGraphicsEllipseItem or type(obj) == QGraphicsPolygonItem: continue
+			collisions = obj.collidingItems()
+			for collide in collisions:
+				if type(collide) == QGraphicsEllipseItem: continue
+				print("\n-----COLLISION REPORT-----")
+				print(obj)
+				print("WITH")
+				print(collide)
+				print("--------------------------\n")
 
 # The main game container class
 class TVGameContainer(QStackedWidget):
@@ -114,28 +155,11 @@ class TVGameContainer(QStackedWidget):
 		else:
 			self.stopGame()
 		return
-	
-	target_x = 0
-	target_y = 0
 
-	def travelTo(self):
+	def eventing(self):
 		self.gameState.wait()
 		while self.gameState.is_set():
-			self.varAccess.acquire()
-			for export in self.gameVariables:
-				if "_x_coordinate" in export:
-					loc = self.gameVariables[export]
-					self.gameVariables[export] = randint(int(abs(loc - self.target_x)/10), loc)
-				elif "_y_coordinate" in export:
-					loc = self.gameVariables[export]
-					self.gameVariables[export] = randint(int(abs(loc - self.target_y)/10), loc)
-				elif "_x_target" in export:
-					self.target_x = self.gameVariables[export] + randint(-10, 10)
-					self.gameVariables[export] = self.target_x
-				elif "_y_target" in export:
-					self.target_y = self.gameVariables[export] + randint(-10, 10)
-					self.gameVariables[export] = self.target_y
-			self.varAccess.release()
+			pass
 		return
 
 	def manageData(self):
@@ -163,15 +187,17 @@ class TVGameContainer(QStackedWidget):
 		return
 
 	def executeGame(self):
-		# An empty list of rocks for the background
-		rocks = []
+		# Some empty lists for us
+		self.rocks = []
+		self.units = {}
 	
 		# Load some data and load the rocks
 		data = gs.worldData
-		world = QGraphicsScene()
+		character = gs.saveData
+		self.world = gameScene()
 
 		# Create the gradient
-		world.setBackgroundBrush(QColor.fromHsv(0, 0, 255))
+		self.world.setBackgroundBrush(QColor.fromHsv(0, 0, 255))
 		worldBorder = QPen()
 		worldBorder.setWidth(1000)
 		worldBorderGradient = QRadialGradient(0, 0, 1000)
@@ -179,34 +205,62 @@ class TVGameContainer(QStackedWidget):
 		worldBorderGradient.setColorAt(1, QColor.fromHsv(0, 0, 255))
 		worldBorderGradient.setSpread(QGradient.Spread.ReflectSpread)
 		worldBorder.setBrush(QBrush(worldBorderGradient))
-		world.addEllipse(-50540, -50540, 101080, 101080, worldBorder, QBrush(QColor.fromHsv(0, 0, 0)))
+		self.world.addEllipse(-50540, -50540, 101080, 101080, worldBorder, QBrush(QColor.fromHsv(0, 0, 0)))
 
-		# Displaythe generated rocks
+		# Display the generated rocks
 		for rock in data["Rocks"]:
 			polygon = QPolygonF()
 			for point in rock:
 				polygon.append(QPointF(point[0], point[1]))
-			rocks.append(world.addPolygon(polygon, brush = QBrush(QColor.fromHsv(0, 0, 100))))
+			self.rocks.append(self.world.addPolygon(polygon, brush = QBrush(QColor.fromHsv(0, 0, 100))))
+
+		# Show the units
+		for unit, info in character["Units"].items():
+			pixmap = QPixmap("Images\\" + info["class"])
+			if info["class"] == "base_unit": self.units.update({unit: unit_classes.base_unit(
+				name=unit,
+				pos=QPointF(info["x"], info["y"]),
+				orient=info["orient"],
+				obj=self.world.addPixmap(pixmap)
+				)})
+			elif info["class"] == "enemy_unit": self.units.update({unit: unit_classes.enemy_unit(
+				name=unit,
+				pos=QPointF(info["x"], info["y"]),
+				orient=info["orient"],
+				obj=self.world.addPixmap(pixmap)
+				)})
 
 		# Show the scene
 		graphicsView:QGraphicsView = self.theExpanse.findChild(QGraphicsView, "graphicsView") # type: ignore
-		graphicsView.setScene(world)
+		graphicsView.setScene(self.world)
 
-		dataThread = threading.Thread(target=self.manageData)
-		requestThread = threading.Thread(target=self.manageRequests)
-		travelThread = threading.Thread(target=self.travelTo)
+		self.threadpool = QThreadPool.globalInstance()
+		dataThread = runtime(self.manageData)
+		requestThread = runtime(self.manageRequests)
+		#eventsThread = runtime(self.eventing)
 		self.threads.append(dataThread)
 		self.threads.append(requestThread)
-		self.threads.append(travelThread)
-		dataThread.start()
-		requestThread.start()
-		travelThread.start()
+		#self.threads.append(eventsThread)
+		self.threadpool.start(dataThread)
+		self.threadpool.start(requestThread)
+		#self.threadpool.start(eventsThread)
 		self.gameState.set()
+		x = randint(-1000, 1000)
+		y = randint(-1000, 1000)
+		ori = randint(0, 359)
+		name = "ENEMY_" + str(randint(0, 1000))
+		createUnit(gs.saveData["Index"], name, "enemy_unit", x, y, ori, False)
+		self.units.update({name: unit_classes.enemy_unit(
+			name=name,
+			pos=QPointF(x, y),
+			orient=ori,
+			obj=self.world.addPixmap(QPixmap("Images\\enemy_unit"))
+			)})
+		for data in self.units:
+			self.units[data].moveTo(QPointF(x * randint(-2, 2), y * randint(-2, 2)))
 		return
 
 	def stopGame(self):
 		self.gameState.clear()
-		for thread in self.threads:
-			thread.join()
 		self.threads.clear()
 		return

@@ -63,17 +63,6 @@ static var timer->int = 0;
 if (timer % 5000 == 0) {
 	main.go_to(0, 0);
 }
-if (timer % 1000 == 0) {
-	console_out("-----LOCATION-----\n\tX: ");
-	console_out(main.x_coordinate);
-	console_out("\n\tY: ");
-	console_out(main.y_coordinate);
-	console_out("\n------TARGET------\n\tX: ");
-	console_out(main.x_target);
-	console_out("\n\tY: ");
-	console_out(main.y_target);
-	console_out("\n------------------\n\n");
-}
 if (timer % 500 == 0) {
 	main.update();
 }

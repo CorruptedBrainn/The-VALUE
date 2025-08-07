@@ -144,8 +144,8 @@ class TVNewSaveDialog(QDialog):
             difficultyBox:QComboBox = obj.findChild(QComboBox, "difficultyBox") # type: ignore
             gs.saveData["Name"] = nameEdit.text()
             gs.saveData["Difficulty"] = difficultyBox.currentIndex()
+            createUnit(gs.saveData["Index"], gs.saveData["Name"])
             storeSave()
             updateSaveStats(obj.slide.widget(0).saveWidgets[gs.saveData["Index"] - 1], gs.saveData["Index"])
             changeScreen(obj.slide, 1, 0)
-            createUnit(gs.saveData["Index"], gs.saveData["Name"])
         return

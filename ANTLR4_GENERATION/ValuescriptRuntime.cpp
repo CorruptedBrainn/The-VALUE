@@ -1,6 +1,7 @@
-/// Author: Nicolas Martens
 /// Name: ValuescriptRuntime.cpp
+/// Version: 0.0.3-alpha
 /// Description: The file that contains the Valuescript source code, and tells the visitor how to behave during execution
+/// Author: Nicolas Martens
 
 #define _CRT_SECURE_NO_WARNINGS 1
 

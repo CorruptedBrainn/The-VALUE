@@ -1,3 +1,8 @@
+// Name: _units.vssf
+// Version: 0.0.3-alpha
+// Description: The import module containing in game unit classes
+// Author: Nicolas Martens
+
 import _core
 import _maths
 

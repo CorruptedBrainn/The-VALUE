@@ -1,6 +1,7 @@
-﻿/// Author: Nicolas Martens
-/// Name: main.cpp
+﻿/// Name: main.cpp
+/// Version: 0.0.3-alpha
 /// Description: The start point for anything Valuescript related, and the storage location for the function signatures
+/// Author: Nicolas Martens
 
 #define _CRT_SECURE_NO_WARNINGS 1
 

@@ -1,6 +1,8 @@
-/// Author: Nicolas Martens
 /// Name: Environment.cpp
+/// Version: 0.0.3-alpha
 /// Description: The file containing function definitions for anything environment related
+/// Author: Nicolas Martens
+
 
 #include "Environment.h"
 

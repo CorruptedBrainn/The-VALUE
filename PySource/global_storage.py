@@ -57,16 +57,14 @@ savePlaceholders = {
 
 # The default unit script -- Fibonacci for now
 defaultScript = """
-import base_unit
+import _units
+import _maths
 static var main->base_unit;
-static var timer->int = 0;
-if (timer % 5000 == 0) {
-	main.go_to(0, 0);
+main.update();
+main.travel_to(main.closest_enemy.x_coordinate, main.closest_enemy.y_coordinate);
+if (abs(main.x_target - main.x_coordinate) <= 250.0 && abs(main.y_target - main.y_coordinate) <= 250.0) {
+	main.fire_shot();
 }
-if (timer % 500 == 0) {
-	main.update();
-}
-timer++;
 """
 
 saveData = copy.deepcopy(savePlaceholders)

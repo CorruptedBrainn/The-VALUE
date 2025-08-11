@@ -121,6 +121,18 @@ def createUnit(saveIndex: int, unitName: str, unitClass: str = "base_unit", x: f
 		with open(saveCUnits + unitName + ".vssf", "w") as file: file.write(text)
 	return
 
+# When I want to get a unit's script
+@Slot(int, str)
+def getUnit(saveIndex: int, unitName: str):
+	text = gs.defaultScript
+	if (saveIndex == 1):
+		with open(saveAUnits + unitName + ".vssf", "r") as file: text = file.read()
+	elif (saveIndex == 2):
+		with open(saveBUnits + unitName + ".vssf", "r") as file: text = file.read()
+	elif (saveIndex == 3):
+		with open(saveCUnits + unitName + ".vssf", "r") as file: text = file.read()
+	return text
+
 # When I want to load data from a save
 @Slot(int)
 def updateSaveLoad(saveIndex: int):

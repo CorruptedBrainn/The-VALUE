@@ -26,12 +26,15 @@ I did not write all of the code in this project. Some of it was generated throug
   * game\_container.py
   * home\_container.py
   * main.py
+  * unit\_classes.py
   * valuescript\_wrapper.py
   * widget\_helper.py
 
 * Valuescript Code (ValuescriptImports Folder):
 
-  * N/A
+  * _core.vssf
+  * _maths.vssf
+  * _units.vssf
 
 * Grammar Specification:
 
@@ -84,10 +87,20 @@ There are multiple files in the project as a whole.
   * global\_storage.py has global variables so I can communicate across scripts.
   * home\_container.py has the class that shows and manages the main / startup page.
   * main.py is where application execution begins and ends.
+  * unit\_classes.py manages the in game unit classes. This needs rewriting.
   * valuescript\_wrapper.py contains the class that allows me to call the Valuescript C++ functions from DLLs.
   * widget\_helper.py manages switching widgets easily with functions, allowing me to avoid repeated code.
+  * _core.vssf manages the ticker for the Valuescript files.
+  * _maths.vssf contains a single function -- the absolute value function.
+  * _units.vssf contains classes for the user to use. These classes interface with the C++ side of the program and allow the Valuescript code to talk to the executable.
 
 # Running the Project
+
+## Through the standalone executable
+
+If you don't have the executable file, download it from the GitHub repository. The executable will work on it's own.
+
+The latest version is **0.0.3-alpha**.
 
 ## Installation
 
@@ -116,6 +129,7 @@ If you don't have the source code, download it from the GitHub repository. You s
   * game\_container.py
   * home\_container.py
   * main.py
+  * unit\_classes.py
   * valuescript\_wrapper.py
   * widget\_helper.py
 
@@ -135,7 +149,9 @@ If you don't have the source code, download it from the GitHub repository. You s
 
 * Valuescript Code (ValuescriptImports Folder):
 
-  * N/A
+  * _core.vssf
+  * _maths.vssf
+  * _units.vssf
 
 * Grammar Specification (Optional):
 
@@ -191,9 +207,7 @@ The startpoint for execution is the file **main.py** found in the folder **PySou
 * Valuescript
 
   * I need to implement arrays / lists / data structures in Valuescript.
-  * I need to implement classes and other various functions.
   * I need a way to elegantly deal with Valuescript errors.
-  * I have no method to output all data types to the Valuescript Console.
   * I have no method to merge the console with IDLE.
 
 * Testing
@@ -203,11 +217,6 @@ The startpoint for execution is the file **main.py** found in the folder **PySou
 * Documentation
 
   * I have yet to write a Valuescript Reference.
-  * I am in the process of commenting the code.
-
-* Data Storage
-
-  * I need to revisit my storage system and improve it.
 
 ## Done
 
@@ -219,7 +228,10 @@ The startpoint for execution is the file **main.py** found in the folder **PySou
 * Valuescript
 
   * Basic variables and functions in Valuescript work.
+  * Classes.
+  * Basic interfacing.
 
 * Environment
 
   * The environment has some generation.
+  * Units can move.

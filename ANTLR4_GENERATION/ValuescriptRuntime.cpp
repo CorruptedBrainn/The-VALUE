@@ -26,15 +26,16 @@ using namespace std;
 /// A structure for me to use within my threaded queue
 /// </summary>
 struct call {
-	const wchar_t* name = nullptr;
-	int value = 0;
+	const wchar_t* unit = nullptr;
+	const wchar_t* var = nullptr;
+	double value = 0;
 };
 
 /// <summary>
 /// Another structure for me to use within my threaded queue
 /// </summary>
 struct request {
-	const wchar_t* name = nullptr;
+	const wchar_t* unit = nullptr;
 	const wchar_t* var = nullptr;
 };
 
@@ -911,14 +912,14 @@ public:
 	/// <returns>Default Result</returns>
 	any visitStatementexport(ValuescriptParser::StatementexportContext* ctx) override {
 		VSVariable* var = any_cast<VSVariable*>(visit(ctx->expression()));
-		string orig = var->name;
-		var->name = this->progName + "_" + orig;
-		size_t len = mbstowcs(nullptr, var->name.c_str(), 0) + 1;
-		wchar_t* buffer = new wchar_t[len];
-		mbstowcs(buffer, var->name.c_str(), len);
-		call change(buffer, any_cast<int>(var->value));
+		size_t proglen = mbstowcs(nullptr, progName.c_str(), 0) + 1;
+		size_t varlen = mbstowcs(nullptr, var->name.c_str(), 0) + 1;
+		wchar_t* progbuffer = new wchar_t[proglen];
+		wchar_t* varbuffer = new wchar_t[varlen];
+		mbstowcs(progbuffer, progName.c_str(), proglen);
+		mbstowcs(varbuffer, var->name.c_str(), varlen);
+		call change(progbuffer, varbuffer, any_cast<double>(var->value));
 		exportPipeline->push(change);
-		var->name = orig;
 		return defaultResult();
 	}
 
@@ -929,24 +930,21 @@ public:
 	/// <returns>The value of the requested variable</returns>
 	any visitStatementimport(ValuescriptParser::StatementimportContext* ctx) override {
 		VSVariable* var = any_cast<VSVariable*>(visit(ctx->expression()));
-		string orig = var->name;
-		var->name = this->progName + "_" + orig;
 		size_t lenA = mbstowcs(nullptr, var->name.c_str(), 0) + 1;
 		wchar_t* bufferA = new wchar_t[lenA];
 		mbstowcs(bufferA, var->name.c_str(), lenA);
 		size_t lenB = mbstowcs(nullptr, this->progName.c_str(), 0) + 1;
 		wchar_t* bufferB = new wchar_t[lenB];
 		mbstowcs(bufferB, this->progName.c_str(), lenB);
-		request change(bufferA, bufferB);
+		request change(bufferB, bufferA);
 		requestPipeline->push(change);
-		var->name = orig;
 		call reply = importPipeline->front();
-		while (reply.name == nullptr || wstring(reply.name) != wstring(change.name)) {
+		while (reply.var == nullptr || wstring(reply.var) != wstring(change.var)) {
 			reply = importPipeline->front();
 		}
 		importPipeline->pop();
 		var->value = reply.value;
-		delete[] pushed->begin()->name;
+		delete[] pushed->begin()->unit;
 		delete[] pushed->begin()->var;
 		pushed->pop_front();
 		return var->value;
@@ -978,8 +976,9 @@ public:
 	/// <returns>The value of the variable, if assigned</returns>
 	any visitVariabledeclaration(ValuescriptParser::VariabledeclarationContext* ctx) override {
 		if (ctx->STATIC().size() == 0) {
-			if (task == 2 && ctx->expression() != nullptr) {
-				any val = visit(ctx->expression());
+			if (task == 2) {
+				VSClass* cls = scoping.top()->getClass(any_cast<VSType>(visit(ctx->typenameexpression())).name);
+				any val = ctx->expression() != nullptr ? visit(ctx->expression()) : cls != nullptr ? cls->regVars : defaultResult();
 				if (val.type() == typeid(VSVariable*)) val = any_cast<VSVariable*>(val)->value;
 				return pair<string, any> {ctx->IDENTIFIER()->getText(), val};
 			}
@@ -1017,7 +1016,7 @@ public:
 	/// The parse rule for a function declaration, will ignore the body
 	/// </summary>
 	/// <param name="ctx">templatedeclaration? FUNCTION? IDENTIFIER functionparameters ARROW_OPERATOR typenameexpression codeblock</param>
-	/// <returns>Default Result</returns>
+	/// <returns>The non-static variables in the class</returns>
 	any visitFunctiondeclaration(ValuescriptParser::FunctiondeclarationContext* ctx) override {
 		return defaultResult();
 	}
@@ -1044,7 +1043,7 @@ public:
 		task = prev;
 		delete scoping.top();
 		scoping.pop();
-		return defaultResult();
+		return cls->regVars;
 	}
 
 	/// <summary>
@@ -1296,6 +1295,8 @@ public:
 			ret = visit(ctx->codeblock());
 			for (int i = 1; i < expr.size(); i++) visit(expr[i]);
 		}
+		delete scoping.top();
+		scoping.pop();
 		return ret;
 	}
 
@@ -1310,6 +1311,7 @@ public:
 		VSType declty = any_cast<VSType>(visit(decl->typenameexpression())); // Assume type VSType
 		VSType exprty = expr->type;
 		if (declty != exprty) {
+			delete scoping.top();
 			scoping.pop();
 			return ret; // Emptiness
 		}
@@ -1319,7 +1321,7 @@ public:
 		var.type = declty;
 		var.value = visit(decl->expression());
 		scoping.top()->declareVariable(var);
-		// The fuck???
+		delete scoping.top();
 		scoping.pop();
 		return ret;
 	}
@@ -1630,7 +1632,7 @@ public:
 		if (rhs.type() == typeid(VSVariable*)) {
 			rhs = any_cast<VSVariable*>(rhs)->value;
 		}
-		if (lhs.type() != rhs.type() || lhs.type().name() != "bool") return defaultResult(); // Error
+		if (lhs.type() != rhs.type() || lhs.type() != typeid(bool)) return defaultResult(); // Error
 		bool l = any_cast<bool>(lhs);
 		bool r = any_cast<bool>(rhs);
 		if (op == "&&") return l && r; // Boolean
@@ -1646,13 +1648,18 @@ public:
 		any ret = defaultResult();
 		for (int i = 0; i < callable->parameters.size(); i++) {
 			VSVariable var = callable->parameters[i];
+			size_t sizeable = staticName.size();
+			size_t nameable = nestingNames.size();
 			var.value = visit(params[i + 1]);
+			while (staticName.size() > sizeable) staticName.pop();
+			while (nestingNames.size() > nameable) nestingNames.pop();
 			if (var.value.type() == typeid(VSVariable*)) var.value = any_cast<VSVariable*>(var.value)->value;
 			scoping.top()->declareVariable(var);
 		}
 		ret = visit(callable->callable);
 		task = 0;
 		staticName.pop();
+		delete scoping.top();
 		scoping.pop();
 		return ret; // Child Type
 	}
@@ -1666,7 +1673,11 @@ public:
 		any ret = defaultResult();
 		for (int i = 1; i < params.size(); i++) {
 			VSVariable var = callable->parameters[i];
-			var.value = visit(params[i]);
+			size_t sizeable = staticName.size();
+			size_t nameable = nestingNames.size();
+			var.value = visit(params[i + 1]);
+			while (staticName.size() > sizeable) staticName.pop();
+			while (nestingNames.size() > nameable) nestingNames.pop();
 			if (var.value.type() == typeid(VSVariable*)) var.value = any_cast<VSVariable*>(var.value)->value;
 			auto it = callable->templates.find(var.type.name);
 			if (it != callable->templates.end()) {
@@ -1676,6 +1687,7 @@ public:
 		}
 		ret = visit(callable->callable);
 		staticName.pop();
+		delete scoping.top();
 		scoping.pop();
 		return ret; // Child Type
 	}

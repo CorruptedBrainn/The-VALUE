@@ -13,11 +13,12 @@ dllDir = os.path.join(scriptDir, "bin\\vs-2022\\x64\\Release DLL")
 
 # A variable change structure
 class call(ctypes.Structure):
-    _fields_ = [("name", ctypes.c_wchar_p),
-                ("value", ctypes.c_int)]
+    _fields_ = [("unit", ctypes.c_wchar_p),
+                ("var", ctypes.c_wchar_p),
+                ("value", ctypes.c_double)]
 
 class request(ctypes.Structure):
-    _fields_ = [("name", ctypes.c_wchar_p),
+    _fields_ = [("unit", ctypes.c_wchar_p),
                 ("var", ctypes.c_wchar_p)]
 
 # The class that contains functions for me to use
@@ -53,21 +54,21 @@ class VSProgramObject(object):
     def grab(self):
         w = self.script.readExportPipeline(self.obj)
         x = call.from_address(w)
-        return [x.name, x.value]
+        return [x.unit, x.var, x.value]
 
     def clean(self):
         return self.script.killExportPipeline(self.obj)
 
-    def update(self, name:str, value):
-        return self.script.updateImportPipeline(self.obj, name, value)
+    def update(self, unit:str, name:str, value):
+        return self.script.updateImportPipeline(self.obj, unit, name, int(value))
 
     def get(self):
         w = self.script.readRequestPipeline(self.obj)
         x = request.from_address(w)
-        return [x.name, x.var]
+        return [x.unit, x.var]
 
-    def put(self, name:str, var:str):
-        return self.script.addRequestPipeline(self.obj, name, var)
+    def put(self, unit:str, var:str):
+        return self.script.addRequestPipeline(self.obj, unit, var)
 
     # Call for the programs to all stop running
     def kill(self):

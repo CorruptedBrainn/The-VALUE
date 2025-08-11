@@ -1,1 +1,1 @@
-{"Name": "oops", "Difficulty": 0, "Index": 1, "Resources": {"PL": 0, "SM": 0, "PM": 0}, "Units": {"oops": {"class": "base_unit", "x": 0.0, "y": 0.0, "orient": 0.0}, "ENEMY_86": {"class": "enemy_unit", "x": 365, "y": 935, "orient": 277}, "ENEMY_237": {"class": "enemy_unit", "x": -550, "y": -831, "orient": 167}}}
+{"Name": "New Save", "Difficulty": -1, "Index": 1, "Resources": {"PL": 0, "SM": 0, "PM": 0}, "Units": {}}

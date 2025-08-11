@@ -1,7 +1,8 @@
 """
-Author: Nicolas Martens
 Name: widget_helper.py
+Version: 0.0.3-alpha
 Description: The file that contains helper functions to allow me to deal with PySide6 widgets easily
+Author: Nicolas Martens
 """
 
 import copy

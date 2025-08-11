@@ -1,7 +1,8 @@
 """
-Author: Nicolas Martens
 Name: file_helper.py
+Version: 0.0.3-alpha
 Description: The scripts that allow me to manage anything file related, such as saving game states
+Author: Nicolas Martens
 """
 
 import os
@@ -102,7 +103,15 @@ def setupWorkspace():
 
 # When I want to create a unit's file
 @Slot(int, str)
-def createUnit(saveIndex: int, unitName: str):
+def createUnit(saveIndex: int, unitName: str, unitClass: str = "base_unit", x: float = 0.0, y: float = 0.0, orient: float = 0.0, script: bool = True):
+	object = {unitName: {
+		"class": unitClass,
+		"x": x,
+		"y": y,
+		"orient": orient
+		}}
+	gs.saveData["Units"].update(object)
+	if not script: return
 	text = gs.defaultScript
 	if (saveIndex == 1):
 		with open(saveAUnits + unitName + ".vssf", "w") as file: file.write(text)
@@ -110,8 +119,19 @@ def createUnit(saveIndex: int, unitName: str):
 		with open(saveBUnits + unitName + ".vssf", "w") as file: file.write(text)
 	elif (saveIndex == 3):
 		with open(saveCUnits + unitName + ".vssf", "w") as file: file.write(text)
-	gs.saveData["Units"].update({unitName: {"Class": "N/A"}})
 	return
+
+# When I want to get a unit's script
+@Slot(int, str)
+def getUnit(saveIndex: int, unitName: str):
+	text = gs.defaultScript
+	if (saveIndex == 1):
+		with open(saveAUnits + unitName + ".vssf", "r") as file: text = file.read()
+	elif (saveIndex == 2):
+		with open(saveBUnits + unitName + ".vssf", "r") as file: text = file.read()
+	elif (saveIndex == 3):
+		with open(saveCUnits + unitName + ".vssf", "r") as file: text = file.read()
+	return text
 
 # When I want to load data from a save
 @Slot(int)

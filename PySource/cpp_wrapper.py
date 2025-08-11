@@ -1,7 +1,8 @@
 """
-Author: Nicolas Martens
 Name: cpp_wrapper.py
+Version: 0.0.3-alpha
 Description: This file contains the classes that allow me to call functions within my C++ DLLs easier
+Author: Nicolas Martens
 """
 
 from math import ceil

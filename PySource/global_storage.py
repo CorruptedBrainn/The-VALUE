@@ -1,7 +1,8 @@
 """
-Author: Nicolas Martens
 Name: global_storage.py
+Version: 0.0.3-alpha
 Description: The file that allows me to manage storage across files efficiently
+Author: Nicolas Martens
 """
 
 import copy, random
@@ -56,27 +57,14 @@ savePlaceholders = {
 
 # The default unit script -- Fibonacci for now
 defaultScript = """
-import base_unit
+import _units
+import _maths
 static var main->base_unit;
-static var timer->int = 0;
-if (timer % 5000 == 0) {
-	main.go_to(0, 0);
+main.update();
+main.travel_to(main.closest_enemy.x_coordinate, main.closest_enemy.y_coordinate);
+if (abs(main.x_target - main.x_coordinate) <= 250.0 && abs(main.y_target - main.y_coordinate) <= 250.0) {
+	main.fire_shot();
 }
-if (timer % 1000 == 0) {
-	console_out("-----LOCATION-----\n\tX: ");
-	console_out(main.x_coordinate);
-	console_out("\n\tY: ");
-	console_out(main.y_coordinate);
-	console_out("\n------TARGET------\n\tX: ");
-	console_out(main.x_target);
-	console_out("\n\tY: ");
-	console_out(main.y_target);
-	console_out("\n------------------\n\n");
-}
-if (timer % 500 == 0) {
-	main.update();
-}
-timer++;
 """
 
 saveData = copy.deepcopy(savePlaceholders)

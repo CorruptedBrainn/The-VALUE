@@ -1,0 +1,9 @@
+
+import _units
+import _maths
+static var main->base_unit;
+main.update();
+main.travel_to(main.closest_enemy.x_coordinate, main.closest_enemy.y_coordinate);
+if (abs(main.x_target - main.x_coordinate) <= 250.0 && abs(main.y_target - main.y_coordinate) <= 250.0) {
+	main.fire_shot();
+}

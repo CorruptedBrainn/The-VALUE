@@ -1,7 +1,8 @@
 """
-Author: Nicolas Martens
 Name: dialog_container.py
+Version: 0.0.3-alpha
 Description: This file contains classes that show the dialog popups when I need them
+Author: Nicolas Martens
 """
 
 from functools import partial
@@ -143,8 +144,8 @@ class TVNewSaveDialog(QDialog):
             difficultyBox:QComboBox = obj.findChild(QComboBox, "difficultyBox") # type: ignore
             gs.saveData["Name"] = nameEdit.text()
             gs.saveData["Difficulty"] = difficultyBox.currentIndex()
+            createUnit(gs.saveData["Index"], gs.saveData["Name"])
             storeSave()
             updateSaveStats(obj.slide.widget(0).saveWidgets[gs.saveData["Index"] - 1], gs.saveData["Index"])
             changeScreen(obj.slide, 1, 0)
-            createUnit(gs.saveData["Index"], gs.saveData["Name"])
         return

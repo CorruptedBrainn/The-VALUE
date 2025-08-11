@@ -1,6 +1,7 @@
-﻿/// Author: Nicolas Martens
-/// Name: main.cpp
+﻿/// Name: main.cpp
+/// Version: 0.0.3-alpha
 /// Description: The start point for anything Valuescript related, and the storage location for the function signatures
+/// Author: Nicolas Martens
 
 #define _CRT_SECURE_NO_WARNINGS 1
 
@@ -37,6 +38,29 @@ string string_conversion(wstring file) {
 	return fileContents;
 }
 
+class ValuescriptErrorListener : public BaseErrorListener {
+public:
+	vector<string> errorList;
+	vector<string> warningList;
+	void syntaxError(Recognizer* recogniser, Token* offendingSymbol, size_t line, size_t charPositionInLine,
+		const string &msg, exception_ptr e) override {
+		Parser* recogniseptr = static_cast<Parser*>(recogniser);
+		vector<string> invocationStack = recogniseptr->getRuleInvocationStack();
+		string ctx = recogniseptr->getRuleContext()->getText();
+		reverse(invocationStack.begin(), invocationStack.end());
+		string message = "---- VALUESCRIPT SYNTAX ERROR ----\n";
+		if (e == nullptr) message = "--- VALUESCRIPT SYNTAX WARNING ---\n";
+		message += "| Line: " + to_string(line) + ":" + to_string(charPositionInLine);
+		message += " at " + offendingSymbol->toString() + ": " + msg + "\n";
+		message += "| Context: " + ctx + "\n";
+		message += "| Rule Stack:";
+		for (string invocation : invocationStack) message += " '" + invocation + "'";
+		message += "\n----------------------------------";
+		if (e == nullptr) warningList.push_back(message);
+		else errorList.push_back(message);
+	}
+};
+
 /// <summary>
 /// The class containing the Abstract Syntax Tree of a Valuescript Program
 /// </summary>
@@ -51,6 +75,7 @@ private:
 	ValuescriptPreVisitor preprocess;
 	ValuescriptVisitor* executionist;
 public:
+	ValuescriptErrorListener* error;
 	/// <summary>
 	/// Create the program and takes the program text, turning it into an Abstract Syntax Tree, then visiting it to deal with static data
 	/// </summary>
@@ -61,10 +86,13 @@ public:
 		thread_safe_queue<call>* importPipeline,
 		thread_safe_queue<request>* requestPipeline,
 		deque<request>* pushed) {
+		error = new ValuescriptErrorListener();
 		input = new ANTLRInputStream(file);
 		lexer = new ValuescriptLexer(input);
 		tokens = new CommonTokenStream(lexer);
 		parser = new ValuescriptParser(tokens);
+		parser->removeErrorListeners();
+		parser->addErrorListener(error);
 		executionist = new ValuescriptVisitor(&preprocess, name, exportPipeline, importPipeline, requestPipeline, pushed);
 		tree = parser->file();
 		preprocess.visit(tree);
@@ -74,6 +102,7 @@ public:
 	/// Delete the pointers we have to avoid memory leaks
 	/// </summary>
 	~ValuescriptProgram() {
+		delete error;
 		delete input;
 		delete lexer;
 		delete tokens;
@@ -118,7 +147,9 @@ public:
 		scripts.emplace(piecewise_construct,
 			forward_as_tuple(name),
 			forward_as_tuple(file, name, &exportPipeline, &importPipeline, &requestPipeline, &pushed));
-		return 0;
+		for (auto x : scripts.at(name).error->errorList) cout << x << endl << endl;
+		for (auto y : scripts.at(name).error->warningList) cout << y << endl << endl;
+		return scripts.at(name).error->errorList.size() + scripts.at(name).error->warningList.size();
 	}
 
 	/// <summary>
@@ -158,7 +189,8 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	int killExportPipeline() {
-		delete[] pulled.begin()->name;
+		delete[] pulled.begin()->var;
+		delete[] pulled.begin()->unit;
 		pulled.pop_front();
 		return 0;
 	}
@@ -229,24 +261,27 @@ extern "C" {
 		return obj->killExportPipeline();
 	}
 	DLL_FUNCTION
-		int updateImportPipeline(ProgramStorage* obj, wchar_t* name, int value) {
+		int updateImportPipeline(ProgramStorage* obj, wchar_t* unit, wchar_t* name, double value) {
 		size_t size = wcstombs(nullptr, name, 0) + 1;
 		wchar_t* varName = new wchar_t[size];
 		for (int i = 0; i < size; i++) varName[i] = name[i];
-		return obj->updateImportPipeline(call(varName, value));
+		size_t unitsize = wcstombs(nullptr, unit, 0) + 1;
+		wchar_t* unitName = new wchar_t[unitsize];
+		for (int i = 0; i < unitsize; i++) unitName[i] = unit[i];
+		return obj->updateImportPipeline(call(unitName, varName, value));
 	}
 	DLL_FUNCTION
 		void* readRequestPipeline(ProgramStorage* obj) {
 		return obj->readRequestPipeline();
 	}
 	DLL_FUNCTION
-		int addRequestPipeline(ProgramStorage* obj, wchar_t* name, wchar_t* var) {
-		size_t nameSize = wcstombs(nullptr, name, 0) + 1;
+		int addRequestPipeline(ProgramStorage* obj, wchar_t* unit, wchar_t* var) {
+		size_t nameSize = wcstombs(nullptr, unit, 0) + 1;
 		wchar_t* fullName = new wchar_t[nameSize];
-		for (int i = 0; i < nameSize; i++) fullName[i] = name[i];
+		for (int i = 0; i < nameSize; i++) fullName[i] = unit[i];
 		size_t varSize = wcstombs(nullptr, var, 0) + 1;
 		wchar_t* varName = new wchar_t[varSize];
-		for (int i = 0; i < varSize; i++) varName[i] = name[i];
+		for (int i = 0; i < varSize; i++) varName[i] = var[i];
 		return obj->addRequestPipeline(request(fullName, varName));
 	}
 	DLL_FUNCTION

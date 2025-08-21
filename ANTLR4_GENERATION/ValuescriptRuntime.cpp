@@ -499,7 +499,7 @@ public:
 	/// <returns>A pair storing the import name and contents</returns>
 	any visitExtra(ValuescriptParser::ExtraContext* ctx) override {
 		string import = ctx->IDENTIFIER()->getText();
-		string name = "../ValuescriptImports/" + import + ".vssf";
+		string name = "_internal/ValuescriptImports/" + import + ".vssf";
 		ifstream file(name);
 		string script((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
 		file.close();

@@ -22,6 +22,10 @@ from PySide6.QtWidgets import ( # type: ignore
 	QLabel,
 	QProgressBar,
 	QGraphicsScene,
+	QGraphicsPixmapItem,
+	)
+from PySide6.QtGui import ( # type: ignore
+	QPixmap,
 	)
 
 from dialog_container import gameHelper
@@ -43,6 +47,7 @@ class TVGameContainer(QStackedWidget):
 	def __init__(self, parent:QStackedLayout):
 		# Get some inherited data and load the two main pages (code editor and expanse)
 		super().__init__()
+		self.parent = parent
 		page0:QWidget = loadWidget("main_game.ui")
 		self.addWidget(page0)
 
@@ -56,8 +61,9 @@ class TVGameContainer(QStackedWidget):
 
 		self.ammoBox:QGraphicsView = page0.findChild(QGraphicsView, "ammoView")
 		self.ammoScene:QGraphicsScene = QGraphicsScene()
-		self.ammoScene.setSceneRect(0, 0, 10, 150)
+		self.ammoScene.setSceneRect(-35, 0, 200, 715)
 		self.ammoBox.setScene(self.ammoScene)
+		self.ammoList = []
 		self.nameDisplay:QLabel = page0.findChild(QLabel, "characterName")
 		self.difficultyDisplay:QLabel = page0.findChild(QLabel, "gameDifficulty")
 		self.killsDisplay:QLabel = page0.findChild(QLabel, "kills")
@@ -68,6 +74,7 @@ class TVGameContainer(QStackedWidget):
 
 		self.questionText:QLabel = self.theExpanse.findChild(QLabel, "questionLabel")
 		self.graphicsView:QGraphicsView = self.theExpanse.findChild(QGraphicsView, "graphicsView")
+		self.world = None
 		self.answerBox:QStackedWidget = self.theExpanse.findChild(QStackedWidget, "answerBox")
 
 		self.answerText:QLineEdit = self.theExpanse.findChild(QLineEdit, "textEdit")
@@ -81,6 +88,7 @@ class TVGameContainer(QStackedWidget):
 		self.buttonConnections = []
 		self.timekeeper:QTimer = QTimer()
 		self.progress:QTimer = QTimer()
+		self.spawner:QTimer = QTimer()
 		self.timekeeper.setSingleShot(True)
 		return
 
@@ -93,9 +101,6 @@ class TVGameContainer(QStackedWidget):
 		self.correctDisplay.setText(str(gs.saveData["Quiz"]["Q-RA"]))
 		self.wrongDisplay.setText(str(gs.saveData["Quiz"]["Q-WA"]))
 		self.accuracyDisplay.setText(str(gs.saveData["Quiz"]["AccP"]) + "%")
-		self.ammoScene.
-		for i in gs.saveData["Ammo"]:
-			self.addAmmo() # help-
 		gameHelper()
 		return
 
@@ -122,6 +127,20 @@ class TVGameContainer(QStackedWidget):
 			self.answerText.setText("")
 		return
 
+	@Slot(str)
+	@Slot(str, int)
+	def addAmmo(self, ammo:str, pos:int):
+		if pos > 100: return
+		obj:QGraphicsPixmapItem = self.ammoScene.addPixmap(QPixmap("Images\\" + ammo + "_ammo"))
+		obj.setRotation(90)
+		obj.setScale(0.4)
+		obj.setPos(55 * (pos % 4), 29 * ((pos - pos % 4) / 4))
+		self.ammoList.append(obj)
+		return
+
 	@Slot()
-	def addAmmo(self):
-		pass
+	def removeAmmo(self)->bool:
+		if len(self.ammoList) == 0: return False
+		self.ammoScene.removeItem(self.ammoList[-1])
+		self.ammoList.pop()
+		return True

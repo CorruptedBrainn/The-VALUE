@@ -30,7 +30,7 @@ from widget_helper import (
 	showSettings,
 	)
 from file_helper import setupWorkspace, storeSave
-from game import toggleGame, pushQuestion, progressUpdate
+from game import toggleGame, pushQuestion, progressUpdate, spawnEnemy
 
 # Another function to quit the application
 @Slot(QApplication)
@@ -57,6 +57,7 @@ if __name__ == "__main__":
 	mainLayout.currentChanged.connect(partial(toggleGame, gameContainer))
 	gameContainer.timekeeper.timeout.connect(partial(pushQuestion, gameContainer))
 	gameContainer.progress.timeout.connect(partial(progressUpdate, gameContainer))
+	gameContainer.spawner.timeout.connect(partial(spawnEnemy, gameContainer))
 
 	# Load and connect buttons
 	actionQuit:QAction = window.findChild(QAction, "actionQuit") # type: ignore

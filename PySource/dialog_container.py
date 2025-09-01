@@ -22,11 +22,13 @@ from PySide6.QtWidgets import ( # type: ignore
 	QSlider,
 	QLineEdit,
 	QMessageBox,
+	QLabel,
 	)
 
 from widget_helper import changeScreen, updateSaveStats
 from file_helper import (
 	closeSettings,
+	deleteSave,
 	resetSettings,
 	applySettings,
 	storeSave,
@@ -148,6 +150,35 @@ class TVNewSaveDialog(QDialog):
 			changeScreen(obj.slide, 1, 0)
 		return
 
+# The class for the game over dialog
+class TVGameOverDialog(QDialog):
+	slide = 0
+	# When we create a new object
+	def __new__(cls, obj:QDialog):
+		from game_container import DIFFICULTYSTRING
+		# Set some initial data
+		obj.setWindowModality(Qt.WindowModality.ApplicationModal)
+
+		# Set the command to close the dialog
+		obj.finished.connect(partial(cls.updateData, obj))
+
+		# Load dialog data
+		obj.findChild(QLabel, "name").setText(gs.saveData["Name"])
+		obj.findChild(QLabel, "difficulty").setText(DIFFICULTYSTRING[gs.saveData["Difficulty"]])
+		obj.findChild(QLabel, "kills").setText(str(gs.saveData["Kills"]))
+		obj.findChild(QLabel, "score").setText(str(gs.saveData["Score"]))
+		obj.findChild(QLabel, "ans").setText(str(gs.saveData["Quiz"]["QAns"]))
+		obj.findChild(QLabel, "ratio").setText(str(gs.saveData["Quiz"]["Q-RA"]) + ":" + str(gs.saveData["Quiz"]["Q-WA"]))
+		obj.findChild(QLabel, "acc").setText(str(gs.saveData["Quiz"]["AccP"]) + "%")
+
+		return obj
+
+	@Slot(QDialog, int)
+	def updateData(obj:QDialog, result:int):
+		changeScreen(obj.slide, 0, 0)
+		deleteSave(gs.saveData["Index"], obj.slide.widget(0).saveWidgets[gs.saveData["Index"] - 1])
+		return
+
 @Slot(int)
 def homeHelper(redundancy:int = 0):
 	if gs.progressData["Home"]:
@@ -211,7 +242,7 @@ def quizHelper(redundancy:int = 0):
 	msgbox.setWindowTitle("The VALUE - Tutorial | The Quiz")
 	msgbox.setText("Answering Math Questions")
 	msgbox.setInformativeText("At the top of the screen is a randomly generated question.\n" +
-						   "Type your answer below, or press the corresponding button to answer the question.\n" +
+						   "Type your answer below, or press the corresponding button to answer the question. When typing multiple answers, separate them by commas, in any order.\n" +
 						   "All answers are integers. (whole numbers)")
 	msgbox.setDetailedText("Questions are randomly generated and can be about concepts such as arithmetic, geometry, or algebra.\n" +
 						"When you answer a question, you'll get a random type of ammo added to the queue. Your unit will use this automatically.")

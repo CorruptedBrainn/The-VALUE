@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,10,2">
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="3,20,4">
    <item>
     <widget class="QFrame" name="frame">
      <property name="frameShape">
@@ -27,7 +27,7 @@
        <widget class="QLabel" name="questionLabel">
         <property name="font">
          <font>
-          <pointsize>18</pointsize>
+          <pointsize>17</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -63,6 +63,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string/>
          </property>
@@ -75,6 +81,12 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <bold>true</bold>
+          </font>
          </property>
          <property name="text">
           <string/>
@@ -89,6 +101,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string/>
          </property>
@@ -101,6 +119,12 @@
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+           <bold>true</bold>
+          </font>
          </property>
          <property name="text">
           <string/>

@@ -19,12 +19,12 @@ from PySide6.QtUiTools import ( # type: ignore
 
 import global_storage as gs
 
-widgetPath = "Widgets/"
+WIDGETPATH = "Widgets/"
 
 # Load a widget from the .ui file
 @Slot(str)
 def loadWidget(filepath:str):
-    file = QFile(widgetPath + filepath)
+    file = QFile(WIDGETPATH + filepath)
     loader = QUiLoader()
     file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
     ret:QWidget = loader.load(file)
@@ -45,19 +45,6 @@ def changeScreen(mainLayout:QStackedLayout, rootIndex = 0, containerIndex = 0):
 @Slot(QDialog)
 def showDialog(dialog:QDialog):
     dialog.show()
-    return
-
-# Change the main screen being displayed
-@Slot(QStackedLayout, list, int)
-def changeMainScreen(layout:QStackedLayout, buttonList:list, buttonIdx:int):
-    buttonList[0].setText("Journal")
-    buttonList[1].setText("Technology Tree")
-    buttonList[2].setText("Fleet Control")
-    if (gs.mainCurrentPage == buttonIdx + 1): gs.mainCurrentPage = 0
-    else: gs.mainCurrentPage = buttonIdx + 1
-    if (gs.mainCurrentPage != 0):
-        buttonList[buttonIdx].setText("The Expanse")
-    changeScreen(layout, gs.mainCurrentPage)
     return
 
 # Show the settings dialog
@@ -111,10 +98,11 @@ def updateMainStats(obj, index:int):
 
     obj.characterName.setText(deep["Name"])
     obj.gameDifficulty.setText(gameDifficulty)
+    obj.lastPlayed.setText(deep["Last"])
 
-    obj.scrapMetals.setText(str(deep["Resources"]["SM"]) + " Units")
-    obj.preciousMetals.setText(str(deep["Resources"]["PM"]) + " Units")
-    obj.plasma.setText(str(deep["Resources"]["PL"]) + " Units")
+    obj.kills.setText(str(deep["Kills"]))
+    obj.score.setText(str(deep["Score"]))
+    obj.accuracy.setText(str(deep["Quiz"]["AccP"]) + "%")
     return
 
 # Update the statistics of a save

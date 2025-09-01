@@ -23,13 +23,14 @@ from PySide6.QtGui import ( # type: ignore
 
 from home_container import TVHomeContainer
 from game_container import TVGameContainer
-from dialog_container import TVSettingsDialog
+from dialog_container import TVSettingsDialog, homeHelper
 from widget_helper import (
 	loadWidget,
 	changeScreen,
 	showSettings,
 	)
 from file_helper import setupWorkspace, storeSave
+from game import toggleGame, pushQuestion, progressUpdate
 
 # Another function to quit the application
 @Slot(QApplication)
@@ -52,7 +53,10 @@ if __name__ == "__main__":
 	mainLayout.addWidget(homeContainer)
 	mainLayout.addWidget(gameContainer)
 	window.centralWidget().setLayout(mainLayout)
-	window.centralWidget().layout().currentChanged.connect(partial(gameContainer.startState))
+	mainLayout.currentChanged.connect(partial(gameContainer.updateData))
+	mainLayout.currentChanged.connect(partial(toggleGame, gameContainer))
+	gameContainer.timekeeper.timeout.connect(partial(pushQuestion, gameContainer))
+	gameContainer.progress.timeout.connect(partial(progressUpdate, gameContainer))
 
 	# Load and connect buttons
 	actionQuit:QAction = window.findChild(QAction, "actionQuit") # type: ignore
@@ -70,6 +74,7 @@ if __name__ == "__main__":
 	# Show the window
 	window.setWindowState(Qt.WindowState.WindowFullScreen)
 	window.show()
+	homeHelper()
 
 	# Start the application loop
 	sys.exit(app.exec())

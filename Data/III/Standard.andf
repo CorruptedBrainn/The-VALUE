@@ -1,1 +1,1 @@
-{"Name": "ItDoesn'tCaptureTheDialog", "Difficulty": 0, "Index": 3, "Resources": {"PL": 0, "SM": 0, "PM": 0}, "Units": {"ItDoesn'tCaptureTheDialog": {"class": "base_unit", "x": 0.0, "y": 0.0, "orient": 0.0}}}
+{"Name": "New Save", "Difficulty": -1, "Last": "N/A", "Index": 3, "Quiz": {"QAns": 0, "Q-RA": 0, "Q-WA": 0, "AccP": 0}, "Score": 0.0, "Kills": 0, "Ammo": [], "Units": {}}

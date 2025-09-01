@@ -29,6 +29,7 @@ from file_helper import (
     updateSaveLoad,
     deleteSave,
     )
+from dialog_container import saveHelper
 
 # The main class for the home page
 class TVHomeContainer(QStackedWidget):
@@ -44,6 +45,7 @@ class TVHomeContainer(QStackedWidget):
         # Load start button
         startButton:QPushButton = page0.findChild(QPushButton, "startButton") # type: ignore
         startButton.clicked.connect(partial(changeScreen, parent, 0, 1))
+        self.currentChanged.connect(partial(saveHelper))
 
         # Load our save widgets
         page1Layout:QGridLayout = page1.layout() # type: ignore

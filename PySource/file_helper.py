@@ -29,123 +29,85 @@ import global_storage as gs
 newSaveDialog = 0
 
 # Get the filepaths as strings for ease
-dataFolder = "../Data/"
-settingsFile = dataFolder + "Global.tvsf"
-saveAFolder = dataFolder + "I/"
-saveAData = saveAFolder + "Standard.andf"
-saveAEnv = saveAFolder + "Expanse.tegf"
-saveAUnits = saveAFolder + "Units/"
-saveBFolder = dataFolder + "II/"
-saveBData = saveBFolder + "Standard.andf"
-saveBEnv = saveBFolder + "Expanse.tegf"
-saveBUnits = saveBFolder + "Units/"
-saveCFolder = dataFolder + "III/"
-saveCData = saveCFolder + "Standard.andf"
-saveCEnv = saveCFolder + "Expanse.tegf"
-saveCUnits = saveCFolder + "Units/"
+DATAFOLDER = "../Data/"
+SETTINGSFILE = DATAFOLDER + "Global.tvsf"
+PROGRESSFILE = DATAFOLDER + "Stage.tvhp"
+SAVEAFOLDER = DATAFOLDER + "I/"
+SAVEADATA = SAVEAFOLDER + "Standard.andf"
+SAVEAENV = SAVEAFOLDER + "Expanse.tegf"
+SAVEAUNITS = SAVEAFOLDER + "Units/"
+SAVEBFOLDER = DATAFOLDER + "II/"
+SAVEBDATA = SAVEBFOLDER + "Standard.andf"
+SAVEBENV = SAVEBFOLDER + "Expanse.tegf"
+SAVEBUNITS = SAVEBFOLDER + "Units/"
+SAVECFOLDER = DATAFOLDER + "III/"
+SAVECDATA = SAVECFOLDER + "Standard.andf"
+SAVECENV = SAVECFOLDER + "Expanse.tegf"
+SAVECUNITS = SAVECFOLDER + "Units/"
 
 # When the scripts are run, just ensure that we have the required folders
 def setupWorkspace():
-	if (os.path.exists(dataFolder) == False): os.makedirs(dataFolder)
+	if (os.path.exists(DATAFOLDER) == False): os.makedirs(DATAFOLDER)
 
-	if (os.path.exists(settingsFile) == False):
-		with open(settingsFile, "x") as file:
+	if (os.path.exists(SETTINGSFILE) == False):
+		with open(SETTINGSFILE, "x") as file:
 			text = json.dumps(gs.settingDefault)
 			file.write(text)
 
-	if (os.path.exists(saveAFolder) == False): os.makedirs(saveAFolder)
+	if (os.path.exists(PROGRESSFILE) == False):
+		with open(PROGRESSFILE, "x") as file:
+			text = json.dumps(gs.progressDefaults)
+			file.write(text)
+	else:
+		with open(PROGRESSFILE, "r") as file:
+			text = file.read()
+			gs.progressData = json.loads(text)
 
-	if (os.path.exists(saveAData) == False):
-		with open(saveAData, "x") as file:
+	if (os.path.exists(SAVEAFOLDER) == False): os.makedirs(SAVEAFOLDER)
+
+	if (os.path.exists(SAVEADATA) == False):
+		with open(SAVEADATA, "x") as file:
 			gs.savePlaceholders["Index"] = 1
 			text = json.dumps(gs.savePlaceholders)
 			file.write(text)
 
-	if (os.path.exists(saveAEnv) == False):
-		with open(saveAEnv, "x") as file:
-			text = json.dumps(gs.worldData)
-			file.write(text)
+	if (os.path.exists(SAVEAUNITS) == False): os.makedirs(SAVEAUNITS)
 
-	if (os.path.exists(saveAUnits) == False): os.makedirs(saveAUnits)
+	if (os.path.exists(SAVEBFOLDER) == False): os.makedirs(SAVEBFOLDER)
 
-	if (os.path.exists(saveBFolder) == False): os.makedirs(saveBFolder)
-
-	if (os.path.exists(saveBData) == False):
-		with open(saveBData, "x") as file:
+	if (os.path.exists(SAVEBDATA) == False):
+		with open(SAVEBDATA, "x") as file:
 			gs.savePlaceholders["Index"] = 2
 			text = json.dumps(gs.savePlaceholders)
 			file.write(text)
 
-	if (os.path.exists(saveBEnv) == False):
-		with open(saveBEnv, "x") as file:
-			text = json.dumps(gs.worldData)
-			file.write(text)
+	if (os.path.exists(SAVEBUNITS) == False): os.makedirs(SAVEBUNITS)
 
-	if (os.path.exists(saveBUnits) == False): os.makedirs(saveBUnits)
+	if (os.path.exists(SAVECFOLDER) == False): os.makedirs(SAVECFOLDER)
 
-	if (os.path.exists(saveCFolder) == False): os.makedirs(saveCFolder)
-
-	if (os.path.exists(saveCData) == False):
-		with open(saveCData, "x") as file:
+	if (os.path.exists(SAVECDATA) == False):
+		with open(SAVECDATA, "x") as file:
 			gs.savePlaceholders["Index"] = 3
 			text = json.dumps(gs.savePlaceholders)
 			file.write(text)
 
-	if (os.path.exists(saveCEnv) == False):
-		with open(saveCEnv, "x") as file:
-			text = json.dumps(gs.worldData)
-			file.write(text)
-
-	if (os.path.exists(saveCUnits) == False): os.makedirs(saveCUnits)
+	if (os.path.exists(SAVECUNITS) == False): os.makedirs(SAVECUNITS)
 
 	gs.savePlaceholders["Index"] = 0
 	loadSettings()
-
-# When I want to create a unit's file
-@Slot(int, str)
-def createUnit(saveIndex: int, unitName: str, unitClass: str = "base_unit", x: float = 0.0, y: float = 0.0, orient: float = 0.0, script: bool = True):
-	object = {unitName: {
-		"class": unitClass,
-		"x": x,
-		"y": y,
-		"orient": orient
-		}}
-	gs.saveData["Units"].update(object)
-	if not script: return
-	text = gs.defaultScript
-	if (saveIndex == 1):
-		with open(saveAUnits + unitName + ".vssf", "w") as file: file.write(text)
-	elif (saveIndex == 2):
-		with open(saveBUnits + unitName + ".vssf", "w") as file: file.write(text)
-	elif (saveIndex == 3):
-		with open(saveCUnits + unitName + ".vssf", "w") as file: file.write(text)
-	return
-
-# When I want to get a unit's script
-@Slot(int, str)
-def getUnit(saveIndex: int, unitName: str):
-	text = gs.defaultScript
-	if (saveIndex == 1):
-		with open(saveAUnits + unitName + ".vssf", "r") as file: text = file.read()
-	elif (saveIndex == 2):
-		with open(saveBUnits + unitName + ".vssf", "r") as file: text = file.read()
-	elif (saveIndex == 3):
-		with open(saveCUnits + unitName + ".vssf", "r") as file: text = file.read()
-	return text
 
 # When I want to load data from a save
 @Slot(int)
 def updateSaveLoad(saveIndex: int):
 	text = dict()
 	if (saveIndex == 1):
-		with open(saveAData, "r") as file: text = file.read()
+		with open(SAVEADATA, "r") as file: text = file.read()
 	elif (saveIndex == 2):
-		with open(saveBData, "r") as file: text = file.read()
+		with open(SAVEBDATA, "r") as file: text = file.read()
 	elif (saveIndex == 3):
-		with open(saveCData, "r") as file: text = file.read()
+		with open(SAVECDATA, "r") as file: text = file.read()
 	else: return
 	gs.saveData = json.loads(text)
-	loadWorld()
 	return
 
 # When I want to create a new save
@@ -166,17 +128,17 @@ def deleteSave(saveIndex:int, saveLoads:QWidget):
 	gs.savePlaceholders["Index"] = saveIndex
 	text = json.dumps(gs.savePlaceholders)
 	if (saveIndex == 1):
-		with open(saveAData, "w") as file: file.write(text)
-		for unit in os.listdir(saveAUnits):
-			os.remove(saveAUnits + unit)
+		with open(SAVEADATA, "w") as file: file.write(text)
+		for unit in os.listdir(SAVEAUNITS):
+			os.remove(SAVEAUNITS + unit)
 	elif (saveIndex == 2):
-		with open(saveBData, "w") as file: file.write(text)
-		for unit in os.listdir(saveBUnits):
-			os.remove(saveBUnits + unit)
+		with open(SAVEBDATA, "w") as file: file.write(text)
+		for unit in os.listdir(SAVEBUNITS):
+			os.remove(SAVEBUNITS + unit)
 	elif (saveIndex == 3):
-		with open(saveCData, "w") as file: file.write(text)
-		for unit in os.listdir(saveCUnits):
-			os.remove(saveCUnits + unit)
+		with open(SAVECDATA, "w") as file: file.write(text)
+		for unit in os.listdir(SAVECUNITS):
+			os.remove(SAVECUNITS + unit)
 	gs.savePlaceholders["Index"] = 0
 	updateSaveStats(saveLoads, saveIndex)
 	return
@@ -184,24 +146,22 @@ def deleteSave(saveIndex:int, saveLoads:QWidget):
 # When I want to store some save data
 @Slot()
 def storeSave():
+	prog = json.dumps(gs.progressData)
+	with open(PROGRESSFILE, "w") as file: file.write(prog)
 	saveIndex:int = gs.saveData["Index"]
 	text = json.dumps(gs.saveData)
-	env = json.dumps(gs.worldData)
 	if (saveIndex == 1):
-		with open(saveAData, "w") as file: file.write(text)
-		with open(saveAEnv, "w") as file: file.write(env)
+		with open(SAVEADATA, "w") as file: file.write(text)
 	elif (saveIndex == 2):
-		with open(saveBData, "w") as file: file.write(text)
-		with open(saveBEnv, "w") as file: file.write(env)
+		with open(SAVEBDATA, "w") as file: file.write(text)
 	elif (saveIndex == 3):
-		with open(saveCData, "w") as file: file.write(text)
-		with open(saveCEnv, "w") as file: file.write(env)
+		with open(SAVECDATA, "w") as file: file.write(text)
 	return
 
 # When I want to load the settings data
 @Slot()
 def loadSettings():
-	with open (settingsFile, "r") as file:
+	with open (SETTINGSFILE, "r") as file:
 		text = file.read()
 		gs.settingData = json.loads(text)
 	return
@@ -225,22 +185,7 @@ def resetSettings(obj:QDialog):
 # Apply the settings
 @Slot()
 def applySettings():
-	with open(settingsFile, "w") as file:
+	with open(SETTINGSFILE, "w") as file:
 		text = json.dumps(gs.settingData)
 		file.write(text)
-	return
-
-# Loading a game
-@Slot()
-def loadWorld():
-	saveIndex:int = gs.saveData["Index"]
-	world = dict()
-	if (saveIndex == 1):
-		with open(saveAEnv, "r") as file: world = file.read()
-	elif (saveIndex == 2):
-		with open(saveBEnv, "r") as file: world = file.read()
-	elif (saveIndex == 3):
-		with open(saveCEnv, "r") as file: world = file.read()
-	else: return
-	gs.worldData = json.loads(world)
 	return

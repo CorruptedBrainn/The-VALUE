@@ -1,6 +1,12 @@
+"""
+Name: dialog_container.py
+Version: 0.0.3-alpha
+Description: This file contains classes and functions that exist during the game's runtime
+Author: Nicolas Martens
+"""
+
 from datetime import datetime
 from functools import partial
-from copy import deepcopy
 from random import randint, choice
 import math
 
@@ -167,6 +173,9 @@ def pushQuestion(container:TVGameContainer):
 	if gs.saveData["Difficulty"] == q.type: mode = 1
 	elif gs.saveData["Difficulty"] >= q.type + 2: mode = 2
 	container.refreshQuestion(mode, q.question, q.optionTL, q.optionTR, q.optionBL, q.optionBR)
+	container.buttonConnections.append(container.answerText.returnPressed.connect(partial(
+		answered, container, q.answer, ""
+		)))
 	container.buttonConnections.append(container.submitButton.clicked.connect(partial(
 		answered, container, q.answer, ""
 		)))
@@ -200,10 +209,10 @@ def startGame(container:TVGameContainer):
 	container.world = gameScene(container)
 	container.graphicsView.setScene(container.world)
 	container.world.unitUpdater.start()
-	container.world.gun.start(3000 + 1000 * gs.saveData["Difficulty"])
+	container.world.gun.start(2000 + 1000 * gs.saveData["Difficulty"])
 	container.timekeeper.start(5000 - 49 * gs.saveData["Quiz"]["AccP"])
 	container.progress.start()
-	container.spawner.start(8000 - 1000 * gs.saveData["Difficulty"])
+	container.spawner.start(6000 + 500 * gs.saveData["Difficulty"])
 	return
 
 def finishGame(container:TVGameContainer):
@@ -215,6 +224,8 @@ def finishGame(container:TVGameContainer):
 	for ammo in container.ammoScene.items():
 		container.ammoScene.removeItem(ammo)
 	container.ammoList.clear()
+	container.world.units.clear()
+	container.world.unitUpdater.stop()
 	container.graphicsView.setScene(None)
 	container.world = None
 	return

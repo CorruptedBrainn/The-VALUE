@@ -134,20 +134,26 @@ class TVNewSaveDialog(QDialog):
 		obj.setWindowModality(Qt.WindowModality.ApplicationModal)
 
 		# Set the command to close the dialog
-		obj.finished.connect(partial(cls.updateData, obj))
+		buttonbox:QDialogButtonBox = obj.findChild(QDialogButtonBox, "buttonBox")
+		buttonbox.accepted.connect(partial(cls.confirm, obj))
+		buttonbox.rejected.connect(partial(obj.reject))
 
 		return obj
 
-	@Slot(QDialog, int)
-	def updateData(obj:QDialog, result:int):
-		if result == 1:
-			nameEdit:QLineEdit = obj.findChild(QLineEdit, "nameEdit") # type: ignore
-			difficultyBox:QComboBox = obj.findChild(QComboBox, "difficultyBox") # type: ignore
-			gs.saveData["Name"] = nameEdit.text()
-			gs.saveData["Difficulty"] = difficultyBox.currentIndex()
-			storeSave()
-			updateSaveStats(obj.slide.widget(0).saveWidgets[gs.saveData["Index"] - 1], gs.saveData["Index"])
-			changeScreen(obj.slide, 1, 0)
+	@Slot(QDialog)
+	def confirm(obj:QDialog):
+		nameEdit:QLineEdit = obj.findChild(QLineEdit, "nameEdit") # type: ignore
+		if nameEdit.text().isalnum() != True:
+			err:QLabel = obj.findChild(QLabel, "err") # type: ignore
+			err.setText("Character name must be alphanumeric.")
+			return
+		difficultyBox:QComboBox = obj.findChild(QComboBox, "difficultyBox") # type: ignore
+		gs.saveData["Name"] = nameEdit.text()
+		gs.saveData["Difficulty"] = difficultyBox.currentIndex()
+		storeSave()
+		updateSaveStats(obj.slide.widget(0).saveWidgets[gs.saveData["Index"] - 1], gs.saveData["Index"])
+		changeScreen(obj.slide, 1, 0)
+		obj.accept()
 		return
 
 # The class for the game over dialog

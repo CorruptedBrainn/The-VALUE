@@ -1,1 +1,1 @@
-{"Name": "welp", "Difficulty": 1, "Last": "N/A", "Index": 2, "Quiz": {"QAns": 0, "Q-RA": 0, "Q-WA": 0, "AccP": 0}, "Score": 0.0, "Kills": 0, "Ammo": [], "Units": {}}
+{"Name": "GUI", "Difficulty": 0, "Last": "2025-09-01 17:42", "Index": 2, "Quiz": {"QAns": 0, "Q-RA": 0, "Q-WA": 0, "AccP": 0}, "Score": 0.0, "Kills": 0, "Ammo": [], "Units": {"ENEMY_130": {"x": 203.61981244809087, "y": 382.47057089141674, "orient": -28.029959507219644}, "ENEMY_626": {"x": -74.15468530331042, "y": 771.8660696049881, "orient": 5.4876757068296484}}}

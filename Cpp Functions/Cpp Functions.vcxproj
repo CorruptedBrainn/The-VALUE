@@ -139,7 +139,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Environment.h" />
     <ClInclude Include="Generator.h" />
   </ItemGroup>
   <ItemGroup>

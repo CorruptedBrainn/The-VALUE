@@ -31,25 +31,40 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="cpp_wrapper.py" />
-    <Compile Include="game.py" />
-    <Compile Include="game_container.py" />
-    <Compile Include="global_storage.py" />
-    <Compile Include="home_container.py" />
+    <Compile Include="data.py" />
+    <Compile Include="interface.py" />
     <Compile Include="main.py" />
-    <Compile Include="file_helper.py" />
-    <Compile Include="dialog_container.py" />
-    <Compile Include="widget_helper.py" />
+    <Compile Include="Widgets\interface_file.py" />
+    <Compile Include="Widgets\save_slot_file.py" />
+    <Compile Include="Widgets\settings_dialog_file.py" />
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="Global|PythonCore|3.13" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ANTLR4_GENERATION\ANTLR4_GENERATION.vcxproj">
+      <Name>ANTLR4_GENERATION</Name>
+      <Project>{24ec5104-7402-4c76-b66b-27adbe062d68}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Cpp Functions\Cpp Functions.vcxproj">
       <Name>Cpp Functions</Name>
       <Project>{0a72e9ed-284c-43cd-9018-60c07debf7ab}</Project>
       <Private>True</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\" />
+    <Folder Include="Widgets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\base_unit.png" />
+    <Content Include="Images\base_unit_attack.png" />
+    <Content Include="Images\enemy_unit.png" />
+    <Content Include="Widgets\interface.ui" />
+    <Content Include="Widgets\main_pallete.xml" />
+    <Content Include="Widgets\save_slot.ui" />
+    <Content Include="Widgets\settings_dialog.ui" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

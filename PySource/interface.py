@@ -8,222 +8,330 @@ Author: Nicolas Martens
 import sys
 from functools import partial
 
-from PySide6.QtCore import (
+from PySide6.QtCore import ( # type: ignore
 	QFile,
 	QIODeviceBase,
 	Slot,
 	Qt,
+	SignalInstance,
+	Signal,
 	)
-from PySide6.QtWidgets import (
-	QApplication,
+from PySide6.QtWidgets import ( # type: ignore
 	QWidget,
+	QApplication,
 	QMainWindow,
-	QStackedLayout,
-	QStackedWidget,
 	QDialog,
-	QPushButton,
-	QLabel,
-	QListWidget,
 	QDialogButtonBox,
-	QComboBox,
-	QSlider,
-	QVBoxLayout,
-	QTextEdit,
+	QListWidget,
+	QListWidgetItem,
+	QPushButton,
 	)
-from PySide6.QtGui import (
-	QAction,
+from PySide6.QtGui import (# type: ignore
+	QResizeEvent,
+	QMoveEvent,
 	)
-from PySide6.QtUiTools import (
+from PySide6.QtUiTools import ( # type: ignore
 	QUiLoader,
 	)
 
+# C:\Users\User\AppData\Local\Programs\Python\Python313\Scripts\pyside6-uic.exe interface.ui -o interface_file.py
+# C:\Users\User\AppData\Local\Programs\Python\Python313\Scripts\pyside6-uic.exe save_slot.ui -o save_slot_file.py
+# C:\Users\User\AppData\Local\Programs\Python\Python313\Scripts\pyside6-uic.exe settings_dialog.ui -o settings_dialog_file.py
+from Widgets.interface_file import Ui_MainWindow
+from Widgets.save_slot_file import Ui_SaveSlot
+from Widgets.settings_dialog_file import Ui_Settings
+
+from data import DataPackage
+
 WIDGETPATH = "Widgets/"
 
-class TVApplication(QApplication):
-	def __init__(self):
-		super().__init__(sys.argv)
-
-		self.window:QMainWindow = loadWidget("main_window.ui") # type: ignore
-		self.mainLayout = QStackedLayout()
-		self.homeContainer = TVHomescreen(self.mainLayout)
-		self.gameContainer = TVGamePage(self.mainLayout)
-		self.settingsDialog = TVSettings(loadWidget("settings_dialog.ui"))
-		self.mainLayout.addWidget(self.homeContainer)
-		self.mainLayout.addWidget(self.gameContainer)
-		self.window.centralWidget().setLayout(self.mainLayout)
-
-		self.actionQuit:QAction = self.window.findChild(QAction, "actionQuit") # type: ignore
-		#self.actionQuit.triggered.connect(partial(storeSave))
-		self.actionQuit.triggered.connect(partial(self.exit))
-		self.actionMain_Menu:QAction = self.window.findChild(QAction, "actionMain_Menu") # type: ignore
-		#self.actionMain_Menu.triggered.connect(partial(storeSave))
-		self.actionMain_Menu.triggered.connect(partial(self.mainLayout.setCurrentIndex, 0))
-		self.actionMain_Menu.triggered.connect(partial(self.homeContainer.setCurrentIndex, 0))
-		self.actionLoad_Save:QAction = self.window.findChild(QAction, "actionLoad_Save") # type: ignore
-		#self.actionLoad_Save.triggered.connect(partial(storeSave))
-		self.actionLoad_Save.triggered.connect(partial(self.mainLayout.setCurrentIndex, 0))
-		self.actionLoad_Save.triggered.connect(partial(self.homeContainer.setCurrentIndex, 1))
-		self.actionSettings:QAction = self.window.findChild(QAction, "actionOptions") # type: ignore
-		self.actionSettings.triggered.connect(partial(self.settingsDialog.show))
-
-		#self.mainLayout.currentChanged.connect(partial(do something with changing current index so we can update data as needed))
-		self.window.setWindowState(Qt.WindowState.WindowFullScreen)
-		self.window.show()
-
-		return
-
-class TVGamePage(QStackedWidget):
-	def __init__(self, parent:QStackedLayout):
-		super().__init__()
-
-		self.page0 = loadWidget("main_game.ui")
-		self.page1 = loadWidget("editor.ui")
-		self.addWidget(self.page0)
-		self.addWidget(self.page1)
-
-		self.page0Layout:QVBoxLayout = self.page0.layout()
-		self.mainGameLayout:QStackedWidget = QStackedWidget()
-		self.theExpanse:QWidget = loadWidget("the_expanse.ui")
-		self.theJournal:QWidget = loadWidget("journal.ui")
-		self.theTechTree:QWidget = loadWidget("tech_tree.ui")
-		self.theFleetControl:QWidget = loadWidget("fleet_control.ui")
-		self.mainGameLayout.addWidget(self.theExpanse)
-		self.mainGameLayout.addWidget(self.theJournal)
-		self.mainGameLayout.addWidget(self.theTechTree)
-		self.mainGameLayout.addWidget(self.theFleetControl)
-		self.page0Layout.addWidget(self.mainGameLayout)
-		self.page0Layout.setStretch(1, 6)
-		#self.mainGameLayout.currentChanged.connect(partial(self.changeState))
-
-		self.ButtonA:QPushButton = self.page0.findChild(QPushButton, "GenericButton1") # type: ignore
-		self.ButtonB:QPushButton = self.page0.findChild(QPushButton, "GenericButton2") # type: ignore
-		self.ButtonC:QPushButton = self.page0.findChild(QPushButton, "GenericButton3") # type: ignore
-		self.buttonList = [self.ButtonA, self.ButtonB, self.ButtonC]
-		self.ButtonA.clicked.connect(partial(self.changeMainScreen, 0))
-		self.ButtonB.clicked.connect(partial(self.changeMainScreen, 1))
-		self.ButtonC.clicked.connect(partial(self.changeMainScreen, 2))
-
-		self.editorButton:QPushButton = self.theFleetControl.findChild(QPushButton, "EditorButton") # type: ignore
-		self.editorButton.clicked.connect(partial(self.setCurrentIndex, 1))
-
-		self.codeEditor:QTextEdit = self.page1.findChild(QTextEdit, "codeEditor") # type: ignore
-		self.mainExpanseButton:QPushButton = self.page1.findChild(QPushButton, "BackButton") # type: ignore
-		#self.mainExpanseButton.clicked.connect(partial(self.parseValuescript, self.codeEditor, parent))
-
-		return
-
-	@Slot(int)
-	def changeMainScreen(self, idx:int):
-		self.buttonList[0].setText("Journal")
-		self.buttonList[1].setText("Technology Tree")
-		self.buttonList[2].setText("Fleet Control")
-		self.buttonList[idx].setText("The Expanse")
-		self.mainGameLayout.setCurrentIndex(idx)
-		return
-
-class TVHomescreen(QStackedWidget):
-	def __init__(self, parent:QStackedLayout):
-		super().__init__()
-
-		self.page0 = loadWidget("home_page.ui")
-		self.page1 = loadWidget("save_page.ui")
-		self.newDialog = TVNewSave(loadWidget("new_save_dialog.ui"))
-		self.addWidget(self.page0)
-		self.addWidget(self.page1)
-
-		self.startButton:QPushButton = self.page0.findChild(QPushButton, "startButton") # type: ignore
-		self.startButton.clicked.connect(partial(self.setCurrentIndex, 1))
-
-		self.page1Layout:QGridLayout = self.page1.layout() # type: ignore
-		self.saveWidgets = []
-		self.saveButtons = []
-		self.saveDeletes = []
-		self.saveNumbers = []
-
-		for i in range(3):
-			self.saveWidgets.append(loadWidget("save_slot_widget.ui"))
-			#updateSaveStats(self.saveWidgets[i], i + 1)
-			self.page1Layout.addWidget(self.saveWidgets[i], 1, i + 1)
-			self.saveButtons.append(self.saveWidgets[i].findChild(QPushButton, "saveLoadButton"))
-			#self.saveButtons[i].clicked.connect(partial(updateSaveLoad, i + 1))
-			#self.saveButtons[i].clicked.connect(partial(createSave, parent))
-			self.saveDeletes.append(self.saveWidgets[i].findChild(QPushButton, "saveDeleteButton"))
-			#self.saveDeletes[i].clicked.connect(partial(deleteSave, i + 1, self.saveWidgets[i]))
-			#self.saveDeletes[i].clicked.connect(partial(changeScreen, parent, 0, 1))
-			self.saveNumbers.append(self.saveWidgets[i].findChild(QLabel, "saveNumber"))
-			self.saveNumbers[i].setText("Save " + str(i + 1))
-
-		return
-
-class TVSettings(QDialog):
-	def __new__(cls, obj:QDialog) -> QDialog:
-		buttonBox:QDialogButtonBox = obj.findChild(QDialogButtonBox, "buttonBox") # type: ignore
-		stack:QStackedWidget = obj.findChild(QStackedWidget, "stackedWidget") # type: ignore
-		obj.setWindowModality(Qt.WindowModality.ApplicationModal)
-		stack.setCurrentIndex(0)
-
-		gameplayButton:QPushButton = obj.findChild(QPushButton, "gameplayButton") # type: ignore
-		gameplayButton.clicked.connect(partial(stack.setCurrentIndex, 1))
-		audioButton:QPushButton = obj.findChild(QPushButton, "audioButton") # type: ignore
-		audioButton.clicked.connect(partial(stack.setCurrentIndex, 2))
-		graphicsButton:QPushButton = obj.findChild(QPushButton, "graphicsButton") # type: ignore
-		graphicsButton.clicked.connect(partial(stack.setCurrentIndex, 3))
-
-		obj.finished.connect(partial(stack.setCurrentIndex, 0))
-		back1:QPushButton = obj.findChild(QPushButton, "pushButton_4") # type: ignore
-		back2:QPushButton = obj.findChild(QPushButton, "pushButton_5") # type: ignore
-		back3:QPushButton = obj.findChild(QPushButton, "pushButton_6") # type: ignore
-		back1.clicked.connect(partial(stack.setCurrentIndex, 0))
-		back2.clicked.connect(partial(stack.setCurrentIndex, 0))
-		back3.clicked.connect(partial(stack.setCurrentIndex, 0))
-
-		restoreDefaults:QPushButton = buttonBox.button(QDialogButtonBox.StandardButton.RestoreDefaults)
-		apply:QPushButton = buttonBox.button(QDialogButtonBox.StandardButton.Apply)
-		#obj.finished.connect(partial(closeSettings))
-		#restoreDefaults.clicked.connect(partial(resetSettings, obj))
-		#apply.clicked.connect(partial(applySettings))
-
-		return obj
-
-	def __init__(self) -> None:
-		self.debuggingMode:QComboBox = self.findChild(QComboBox, "DebuggingModeComboBox") # type: ignore
-		self.unitData:QComboBox = self.findChild(QComboBox, "UnitDataComboBox") # type: ignore
-		self.foeData:QComboBox = self.findChild(QComboBox, "FoeDataComboBox") # type: ignore
-
-		self.musicSlider:QSlider = self.findChild(QSlider, "MusicSlider") # type: ignore
-		self.effectsSlider:QSlider = self.findChild(QSlider, "EffectsSlider") # type: ignore
-		self.backgroundSlider:QSlider = self.findChild(QSlider, "BackgroundSlider") # type: ignore
-
-		self.gameMusic:QListWidget = self.findChild(QListWidget, "GameMusicList") # type: ignore
-		self.soundEffects:QListWidget = self.findChild(QListWidget, "SoundEffectsList") # type: ignore
-		self.ambientMusic:QListWidget = self.findChild(QListWidget, "AmbientList") # type: ignore
-
-		self.interfaceTheme:QListWidget = self.findChild(QListWidget, "InterfaceThemeList") # type: ignore
-		self.unitTheme:QListWidget = self.findChild(QListWidget, "UnitThemeList") # type: ignore
-		self.environmentTheme:QListWidget = self.findChild(QListWidget, "EnvironmentThemeList") # type: ignore
-
-		return
-
-	@Slot()
-	def show(self) -> None:
-
-
-		super().show()
-		return
-
-class TVNewSave(QDialog):
-	def __new__(cls, obj:QDialog):
-		obj.setWindowModality(Qt.WindowModality.ApplicationModal)
-
-		#obj.finished.connect(partial(cls.updateData, obj))
-
-		return obj
-
 @Slot(str)
-def loadWidget(FILEPATH:str):
+def loadWidget(FILEPATH:str)->QWidget:
 	file = QFile(WIDGETPATH + FILEPATH)
 	loader = QUiLoader()
 	file.open(QIODeviceBase.OpenModeFlag.ReadOnly)
 	ret:QWidget = loader.load(file)
 	file.close()
 	return ret
+
+class TVSettingsDialog(QDialog):
+	def __init__(self, parent):
+		super().__init__(parent.window)
+
+		self.package:DataPackage = parent.package
+
+		self.dialog = Ui_Settings()
+		self.dialog.setupUi(self)
+		
+		self.dialog.gameplayButton.clicked.connect(partial(self.dialog.stackedWidget.setCurrentIndex, 1))
+		self.dialog.audioButton.clicked.connect(partial(self.dialog.stackedWidget.setCurrentIndex, 2))
+		self.dialog.graphicsButton.clicked.connect(partial(self.dialog.stackedWidget.setCurrentIndex, 3))
+
+		self.restore:SignalInstance = self.dialog.buttonBox.button(QDialogButtonBox.StandardButton.RestoreDefaults).clicked
+		self.apply:SignalInstance = self.dialog.buttonBox.button(QDialogButtonBox.StandardButton.Apply).clicked
+
+		self.accepted.connect(partial(self.applySettings))
+		self.rejected.connect(partial(self.rejectSettings))
+		self.restore.connect(partial(self.restoreDefaults))
+		self.apply.connect(partial(self.applySettings))
+
+		self.dialog.pushButton_4.clicked.connect(partial(self.dialog.stackedWidget.setCurrentIndex, 0))
+		self.dialog.pushButton_5.clicked.connect(partial(self.dialog.stackedWidget.setCurrentIndex, 0))
+		self.dialog.pushButton_6.clicked.connect(partial(self.dialog.stackedWidget.setCurrentIndex, 0))
+
+		self.dialog.DebuggingModeComboBox.currentTextChanged.connect(partial(self.assign, self.package.settings.Gameplay["Information"], "Mode"))
+		self.dialog.UnitDataComboBox.currentTextChanged.connect(partial(self.assign, self.package.settings.Gameplay["Information"], "Unit"))
+		self.dialog.FoeDataComboBox.currentTextChanged.connect(partial(self.assign, self.package.settings.Gameplay["Information"], "Foe"))
+
+		self.dialog.MusicSlider.valueChanged.connect(partial(self.assign, self.package.settings.Audio["Volume"], "Master"))
+		self.dialog.EffectsSlider.valueChanged.connect(partial(self.assign, self.package.settings.Audio["Volume"], "SFX"))
+		self.dialog.BackgroundSlider.valueChanged.connect(partial(self.assign, self.package.settings.Audio["Volume"], "Ambiance"))
+
+		self.dialog.GameMusicList.itemSelectionChanged.connect(partial(self.manage, self.package.settings.Audio["Sound"], "Master", self.dialog.GameMusicList))
+		self.dialog.SoundEffectsList.itemSelectionChanged.connect(partial(self.manage, self.package.settings.Audio["Sound"], "SFX", self.dialog.SoundEffectsList))
+		self.dialog.AmbientList.itemSelectionChanged.connect(partial(self.manage, self.package.settings.Audio["Sound"], "Ambiance", self.dialog.AmbientList))
+
+		self.dialog.InterfaceThemeList.currentItemChanged.connect(partial(self.select, self.package.settings.Graphic["Themes"], "GUI"))
+		self.dialog.UnitThemeList.currentItemChanged.connect(partial(self.select, self.package.settings.Graphic["Themes"], "Units"))
+		self.dialog.EnvironmentThemeList.currentItemChanged.connect(partial(self.select, self.package.settings.Graphic["Themes"], "Environment"))
+
+		return
+
+	@Slot(dict, str, str)
+	@Slot(dict, str, int)
+	def assign(self, obj:dict, key:str, val:str|int)->None:
+		obj[key] = val
+		return
+
+	@Slot(dict, str, QListWidget)
+	def manage(self, obj:dict, key:str, widget:QListWidget)->None:
+		arr:list = widget.selectedItems()
+		for i in range(len(arr)):
+			arr[i] = arr[i].text()
+		obj[key] = arr
+		return
+
+	@Slot(dict, str, QListWidgetItem, QListWidgetItem)
+	def select(self, obj:dict, key:str, curr:QListWidgetItem, form:QListWidgetItem)->None:
+		obj[key] = curr.text()
+		return
+
+	@Slot()
+	def show(self)->None:
+		self.updateValues()
+		self.dialog.stackedWidget.setCurrentIndex(0)
+		QDialog.show()
+		return
+
+	@Slot()
+	def updateValues(self)->None:
+		self.dialog.DebuggingModeComboBox.setCurrentText(self.package.settings.Gameplay["Information"]["Mode"])
+		self.dialog.UnitDataComboBox.setCurrentText(self.package.settings.Gameplay["Information"]["Unit"])
+		self.dialog.FoeDataComboBox.setCurrentText(self.package.settings.Gameplay["Information"]["Foe"])
+
+		self.dialog.MusicSlider.setValue(self.package.settings.Audio["Volume"]["Master"])
+		self.dialog.EffectsSlider.setValue(self.package.settings.Audio["Volume"]["SFX"])
+		self.dialog.BackgroundSlider.setValue(self.package.settings.Audio["Volume"]["Ambiance"])
+
+		for i in range(self.dialog.GameMusicList.count()):
+			item = self.dialog.GameMusicList.item(i)
+			item.setSelected(item.text() in self.package.settings.Audio["Sound"]["Master"])
+		for i in range(self.dialog.SoundEffectsList.count()):
+			item = self.dialog.SoundEffectsList.item(i)
+			item.setSelected(item.text() in self.package.settings.Audio["Sound"]["SFX"])
+		for i in range(self.dialog.AmbientList.count()):
+			item = self.dialog.AmbientList.item(i)
+			item.setSelected(item.text() in self.package.settings.Audio["Sound"]["Ambiance"])
+
+		arr:list = self.dialog.InterfaceThemeList.findItems(self.package.settings.Graphic["Themes"]["GUI"], Qt.MatchFlag.MatchExactly)
+		self.dialog.InterfaceThemeList.setCurrentItem(arr[0])
+		arr:list = self.dialog.UnitThemeList.findItems(self.package.settings.Graphic["Themes"]["Units"], Qt.MatchFlag.MatchExactly)
+		self.dialog.UnitThemeList.setCurrentItem(arr[0])
+		arr:list = self.dialog.EnvironmentThemeList.findItems(self.package.settings.Graphic["Themes"]["Environment"], Qt.MatchFlag.MatchExactly)
+		self.dialog.EnvironmentThemeList.setCurrentItem(arr[0])
+
+		return
+
+	@Slot()
+	def rejectSettings(self)->None:
+		self.package.settings.readSettings()
+		self.updateValues()
+		return
+
+	@Slot()
+	def applySettings(self)->None:
+		self.package.settings.storeSettings()
+		self.updateValues()
+		return
+
+	@Slot()
+	def restoreDefaults(self)->None:
+		self.package.settings.resetSettings()
+		self.updateValues()
+		return
+
+class TVSaveSlot(QWidget):
+	selected = Signal(int)
+	CLICKABLESTYLESHEET = """QPushButton {
+		background-color: #33CCCCEE;
+		}
+		QPushButton:hover {
+		background-color: #55CCCCEE;
+		}"""
+	CREATABLESTYLESHEET = """QPushButton {
+		background-color: #77CCCCEE;
+		}
+		QPushButton:hover {
+		background-color: #99CCCCEE;
+		}"""
+
+	def __init__(self, package:DataPackage, idx:int):
+		super().__init__()
+
+		self.package = package
+		self.idx = idx
+
+		self.slot = Ui_SaveSlot()
+		self.slot.setupUi(self)
+		self.clickable = QPushButton(self)
+
+		self.clickable.setSizePolicy(self.sizePolicy())
+		self.clickable.setGeometry(self.geometry())
+		buttonFont = self.clickable.font()
+		buttonFont.setBold(True)
+		buttonFont.setPointSize(54)
+		self.clickable.setFont(buttonFont)
+		self.clickable.clicked.connect(partial(self.selected.emit, self.idx))
+
+		self.updateData()
+		return
+
+	def updateData(self)->None:
+		data = self.package.manager.readSave(self.idx)
+
+		"""
+		TODO:
+		- Update as I go along to make proper formatting
+		"""
+		self.slot.slotNumber.setText(str(self.idx))
+		if data["Data"]["Index"] == 0:
+			self.clickable.setStyleSheet(TVSaveSlot.CREATABLESTYLESHEET)
+			self.clickable.setText("+")
+		else:
+			self.clickable.setStyleSheet(TVSaveSlot.CLICKABLESTYLESHEET)
+			self.clickable.setText("")
+			self.slot.slotName.setText(data["Data"]["Name"])
+			self.slot.slotDifficulty.setText(str(data["Data"]["Difficulty"]))
+			self.slot.slotAge.setText(str(data["Prog"]["Age"]))
+			self.slot.slotLastPlayed.setText(data["Data"]["Last"])
+		return
+
+	def resizeEvent(self, event:QResizeEvent)->None:
+		self.clickable.resize(event.size())
+		return super().resizeEvent(event)
+
+class TVApplication(QApplication):
+	def __init__(self, package:DataPackage):
+		super().__init__(sys.argv)
+
+		self.package = package
+
+		self.window = QMainWindow()
+		self.interface = Ui_MainWindow()
+		self.interface.setupUi(self.window)
+		self.settingsDialog = TVSettingsDialog(self)
+
+		"""
+		TODO:
+		- Automatic Saving
+		- Savedata logic in "about to quit" slot
+		- Comments
+		"""
+		self.interface.actionHome.triggered.connect(partial(self.interface.screenManager.setCurrentIndex, 0))
+		self.interface.actionLoadGame.triggered.connect(partial(self.interface.screenManager.setCurrentIndex, 1))
+		self.interface.actionSaveGame.triggered.connect(partial(self.package.data.storeSave))
+		self.interface.actionOptions.triggered.connect(partial(self.settingsDialog.show))
+		self.interface.actionQuit.triggered.connect(partial(self.quit))
+		
+		self.interface.playGame.clicked.connect(partial(self.interface.screenManager.setCurrentIndex, 1))
+
+		"""
+		TODO:
+		- Add the new save one
+		- Make sure exeptions don't happen from my stupidity (namely the way I manage display data)
+		- Do stuff to re-sort list
+		"""
+		self.saveSlotWidgets:list[TVSaveSlot] = []
+		self.currentSelected = 0
+		for i in range(1, len(self.package.manager.getSavesList()) + 1):
+			self.addSaveSlot(i)
+
+		self.interface.startGameButton.clicked.connect(partial(self.loadSave))
+		self.interface.deleteGameButton.clicked.connect(partial(self.deleteSave))
+
+		"""
+		TODO:
+		- Live game data
+		- Implement game
+		"""
+
+		return
+
+	@Slot(int)
+	def addSaveSlot(self, idx:int)->None:
+		slot = TVSaveSlot(self.package, idx)
+		slot.selected.connect(partial(self.showSaveSlot))
+		self.saveSlotWidgets.append(slot)
+		self.interface.verticalLayout_9.addWidget(slot)
+		return
+
+	@Slot(int)
+	def showSaveSlot(self, idx:int)->None:
+		data = self.package.manager.readSave(idx)
+		self.currentSelected = idx
+
+		"""
+		TODO:
+		- Update formatting as I go along
+		"""
+		self.interface.saveName.setText(data["Data"]["Name"])
+		self.interface.saveNumber.setText("Save " + str(idx))
+		self.interface.characterName.setText(data["Data"]["Name"])
+		self.interface.characterDifficulty.setText(str(data["Data"]["Difficulty"]))
+		self.interface.characterLastPlayed.setText(data["Data"]["Last"])
+		self.interface.characterAge.setText(str(data["Prog"]["Age"]))
+		self.interface.characterAchievements.setText(str(data["Prog"]["Achivements"]))
+		self.interface.characterTechnologies.setText(str(data["Prog"]["Technologies"]))
+		self.interface.characterUnits.setText("N/A")
+		self.interface.characterKills.setText(str(data["Data"]["Kills"]))
+		self.interface.characterScrap.setText(str(data["Cons"]["Scrap"]))
+		self.interface.characterPrecious.setText(str(data["Cons"]["Precious"]))
+		self.interface.characterPlasma.setText(str(data["Cons"]["Plasma"]))
+		
+		return
+
+	@Slot()
+	def loadSave(self)->None:
+		self.package.data.readSave(self.currentSelected)
+		if self.package.data.Data["Index"] == 0:
+			pass # We need to go through the save creation process -> update the current data package then immediately save to files
+		else:
+			self.interface.screenManager.setCurrentIndex(2)
+		return
+
+	@Slot()
+	def deleteSave(self)->None:
+		"""
+		TODO:
+		- Work out save deleting
+		"""
+		#...
+		return
+
+	def start(self):
+		self.window.setWindowState(Qt.WindowState.WindowFullScreen)
+		self.window.show()
+
+		self.interface.screenManager.setCurrentIndex(0)
+
+		return sys.exit(self.exec())

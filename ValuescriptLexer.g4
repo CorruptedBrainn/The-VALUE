@@ -20,9 +20,7 @@ RETURN		:	'return'	    ;
 TYPENAMES   :   'typenames'     ;
 TEMPLATE    :   'template'      ;
 IMPORT      :   'import'        ;
-DBGOUT      :   'console_out'   ;
-EXPORTVAR   :   'export_var'    ;
-IMPORTVAR   :   'import_var'    ;
+NATIVECALL  :   'call_native'   ;
 CLASSSCOPE  :   'this'          ;
 
 INTEGER		:	'int'           ;

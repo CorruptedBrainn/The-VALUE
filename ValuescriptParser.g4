@@ -18,18 +18,16 @@ options {
 
 file						:	extra* statement+ EOF ;
 extra						:	IMPORT IDENTIFIER SEMICOLON? ;
-statement					:	variabledeclaration SEMICOLON										# statementvardecl
-							|	functiondeclaration													# statementfuncdecl
-							|	classdeclaration													# statementclassdecl
-							|	ifstatement															# statementif
-							|	whilestatement														# statementwhile
-							|	dostatement															# statementdo
-							|	forstatement														# statementfor
-							|	DBGOUT OPEN_PARENTHESES expression CLOSED_PARENTHESES SEMICOLON		# statementprint
-							|	EXPORTVAR OPEN_PARENTHESES expression CLOSED_PARENTHESES SEMICOLON	# statementexport
-							|	IMPORTVAR OPEN_PARENTHESES expression CLOSED_PARENTHESES SEMICOLON	# statementimport
-							|	expression SEMICOLON												# statementexpr
-							|	RETURN expression? SEMICOLON										# statementret
+statement					:	variabledeclaration SEMICOLON																	# statementvardecl
+							|	functiondeclaration																				# statementfuncdecl
+							|	classdeclaration																				# statementclassdecl
+							|	ifstatement																						# statementif
+							|	whilestatement																					# statementwhile
+							|	dostatement																						# statementdo
+							|	forstatement																					# statementfor
+							|	NATIVECALL OPEN_PARENTHESES INTEGER_LITERAL COLON expression CLOSED_PARENTHESES SEMICOLON		# statementnative
+							|	expression SEMICOLON																			# statementexpr
+							|	RETURN expression? SEMICOLON																	# statementret
 							;
 variabledeclaration			:	(STATIC | VARIABLE)* IDENTIFIER ARROW_OPERATOR typenameexpression
 							|	(STATIC | VARIABLE | CONSTANT)* IDENTIFIER ARROW_OPERATOR typenameexpression ASSIGNMENT_GENERIC expression
@@ -59,14 +57,13 @@ typenameexpression			:	INTEGER																								# tyinteger
 ifstatement					:	IF OPEN_PARENTHESES expression CLOSED_PARENTHESES codeblock (ELSE (codeblock | ifstatement))? ;
 whilestatement				:	WHILE OPEN_PARENTHESES expression CLOSED_PARENTHESES codeblock ;
 dostatement					:	DO codeblock WHILE OPEN_PARENTHESES expression CLOSED_PARENTHESES ;
-forstatement				:	FOR OPEN_PARENTHESES variabledeclaration (COMMA variabledeclaration)* SEMICOLON expression SEMICOLON expression (COMMA expression)* CLOSED_PARENTHESES codeblock	# rangefor
+forstatement				:	FOR OPEN_PARENTHESES variabledeclaration (COMMA variabledeclaration)* SEMICOLON (expression SEMICOLON)+ CLOSED_PARENTHESES codeblock	# rangefor
 							|	FOR OPEN_PARENTHESES variabledeclaration COLON expression CLOSED_PARENTHESES codeblock																				# itemfor
 							;
 codeblock					:	OPEN_CURLY_BRACE statement+ CLOSED_CURLY_BRACE
 							|	statement
 							;
 expression					:	primaryexpression																					# primexpr
-							|	CLASSSCOPE PERIOD IDENTIFIER																		# thisexpr
 							|	expression PERIOD IDENTIFIER																		# membexpr
 							|	expression OPEN_PARENTHESES (expression (COMMA expression)*)? CLOSED_PARENTHESES					# parenexpr
 							|	templateexpression expression OPEN_PARENTHESES expression (COMMA expression)* CLOSED_PARENTHESES	# typarexpr
@@ -120,4 +117,5 @@ primaryexpression			:	IDENTIFIER										# ident
 							|	FALSE											# false
 							|	STRING_LITERAL									# string
 							|	OPEN_PARENTHESES expression CLOSED_PARENTHESES	# order
+							|	CLASSCOPE										# this
 							;

@@ -20,23 +20,22 @@ class  ValuescriptParser : public antlr4::Parser {
 public:
   enum {
     STATIC = 1, CONSTANT = 2, VARIABLE = 3, FUNCTION = 4, CLASS = 5, RETURN = 6, 
-    TYPENAMES = 7, TEMPLATE = 8, IMPORT = 9, DBGOUT = 10, EXPORTVAR = 11, 
-    IMPORTVAR = 12, CLASSSCOPE = 13, INTEGER = 14, DOUBLE = 15, BOOLEAN = 16, 
-    STRING = 17, VOID = 18, PAIR = 19, ARRAY = 20, ORD_LIST = 21, ORD_MAP = 22, 
-    HASH_LIST = 23, HASH_MAP = 24, STACK = 25, QUEUE = 26, DEQUE = 27, PRIOR_QUE = 28, 
-    TRUE = 29, FALSE = 30, IF = 31, ELSE = 32, DO = 33, WHILE = 34, FOR = 35, 
-    OPEN_PARENTHESES = 36, CLOSED_PARENTHESES = 37, OPEN_CURLY_BRACE = 38, 
-    CLOSED_CURLY_BRACE = 39, OPEN_ANGLE_BRACKET = 40, CLOSED_ANGLE_BRACKET = 41, 
-    OPEN_SQUARE = 42, CLOSED_SQUARE = 43, PERIOD = 44, COMMA = 45, COLON = 46, 
-    SEMICOLON = 47, EXCLAMATION_POINT = 48, ARROW_OPERATOR = 49, BITWISE_AND = 50, 
-    BOOLEAN_AND = 51, BITWISE_OR = 52, BOOLEAN_OR = 53, BITWISE_XOR = 54, 
-    ADDITION = 55, SUBTRACTION = 56, MULTIPLICATION = 57, DIVISION = 58, 
-    MODULUS = 59, INCREMENT = 60, DECREMENT = 61, ASSIGNMENT_GENERIC = 62, 
-    ASSIGNMENT_ADD = 63, ASSIGNMENT_SUB = 64, ASSIGNMENT_MULTI = 65, ASSIGNMENT_DIV = 66, 
-    ASSIGNMENT_MOD = 67, EQUALITY = 68, NON_EQUALITY = 69, GREATER_OR_EQUAL = 70, 
-    LESS_OR_EQUAL = 71, SINGLE_LINE_COMMENT = 72, MULTI_LINE_COMMENT = 73, 
-    WHITESPACE = 74, FLOATING_LITERAL = 75, INTEGER_LITERAL = 76, STRING_LITERAL = 77, 
-    IDENTIFIER = 78, LETTER = 79, ESCAPE = 80
+    TYPENAMES = 7, TEMPLATE = 8, IMPORT = 9, NATIVECALL = 10, CLASSSCOPE = 11, 
+    INTEGER = 12, DOUBLE = 13, BOOLEAN = 14, STRING = 15, VOID = 16, PAIR = 17, 
+    ARRAY = 18, ORD_LIST = 19, ORD_MAP = 20, HASH_LIST = 21, HASH_MAP = 22, 
+    STACK = 23, QUEUE = 24, DEQUE = 25, PRIOR_QUE = 26, TRUE = 27, FALSE = 28, 
+    IF = 29, ELSE = 30, DO = 31, WHILE = 32, FOR = 33, OPEN_PARENTHESES = 34, 
+    CLOSED_PARENTHESES = 35, OPEN_CURLY_BRACE = 36, CLOSED_CURLY_BRACE = 37, 
+    OPEN_ANGLE_BRACKET = 38, CLOSED_ANGLE_BRACKET = 39, OPEN_SQUARE = 40, 
+    CLOSED_SQUARE = 41, PERIOD = 42, COMMA = 43, COLON = 44, SEMICOLON = 45, 
+    EXCLAMATION_POINT = 46, ARROW_OPERATOR = 47, BITWISE_AND = 48, BOOLEAN_AND = 49, 
+    BITWISE_OR = 50, BOOLEAN_OR = 51, BITWISE_XOR = 52, ADDITION = 53, SUBTRACTION = 54, 
+    MULTIPLICATION = 55, DIVISION = 56, MODULUS = 57, INCREMENT = 58, DECREMENT = 59, 
+    ASSIGNMENT_GENERIC = 60, ASSIGNMENT_ADD = 61, ASSIGNMENT_SUB = 62, ASSIGNMENT_MULTI = 63, 
+    ASSIGNMENT_DIV = 64, ASSIGNMENT_MOD = 65, EQUALITY = 66, NON_EQUALITY = 67, 
+    GREATER_OR_EQUAL = 68, LESS_OR_EQUAL = 69, SINGLE_LINE_COMMENT = 70, 
+    MULTI_LINE_COMMENT = 71, WHITESPACE = 72, FLOATING_LITERAL = 73, INTEGER_LITERAL = 74, 
+    STRING_LITERAL = 75, IDENTIFIER = 76, LETTER = 77, ESCAPE = 78, CLASSCOPE = 79
   };
 
   enum {
@@ -156,19 +155,6 @@ public:
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
-  class  StatementexportContext : public StatementContext {
-  public:
-    StatementexportContext(StatementContext *ctx);
-
-    antlr4::tree::TerminalNode *EXPORTVAR();
-    antlr4::tree::TerminalNode *OPEN_PARENTHESES();
-    ExpressionContext *expression();
-    antlr4::tree::TerminalNode *CLOSED_PARENTHESES();
-    antlr4::tree::TerminalNode *SEMICOLON();
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-  };
-
   class  StatementexprContext : public StatementContext {
   public:
     StatementexprContext(StatementContext *ctx);
@@ -218,25 +204,14 @@ public:
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
-  class  StatementprintContext : public StatementContext {
+  class  StatementnativeContext : public StatementContext {
   public:
-    StatementprintContext(StatementContext *ctx);
+    StatementnativeContext(StatementContext *ctx);
 
-    antlr4::tree::TerminalNode *DBGOUT();
+    antlr4::tree::TerminalNode *NATIVECALL();
     antlr4::tree::TerminalNode *OPEN_PARENTHESES();
-    ExpressionContext *expression();
-    antlr4::tree::TerminalNode *CLOSED_PARENTHESES();
-    antlr4::tree::TerminalNode *SEMICOLON();
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-  };
-
-  class  StatementimportContext : public StatementContext {
-  public:
-    StatementimportContext(StatementContext *ctx);
-
-    antlr4::tree::TerminalNode *IMPORTVAR();
-    antlr4::tree::TerminalNode *OPEN_PARENTHESES();
+    antlr4::tree::TerminalNode *INTEGER_LITERAL();
+    antlr4::tree::TerminalNode *COLON();
     ExpressionContext *expression();
     antlr4::tree::TerminalNode *CLOSED_PARENTHESES();
     antlr4::tree::TerminalNode *SEMICOLON();
@@ -671,12 +646,12 @@ public:
     VariabledeclarationContext* variabledeclaration(size_t i);
     std::vector<antlr4::tree::TerminalNode *> SEMICOLON();
     antlr4::tree::TerminalNode* SEMICOLON(size_t i);
-    std::vector<ExpressionContext *> expression();
-    ExpressionContext* expression(size_t i);
     antlr4::tree::TerminalNode *CLOSED_PARENTHESES();
     CodeblockContext *codeblock();
     std::vector<antlr4::tree::TerminalNode *> COMMA();
     antlr4::tree::TerminalNode* COMMA(size_t i);
+    std::vector<ExpressionContext *> expression();
+    ExpressionContext* expression(size_t i);
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
@@ -796,17 +771,6 @@ public:
     std::vector<ExpressionContext *> expression();
     ExpressionContext* expression(size_t i);
     BinaryoperatorContext *binaryoperator();
-
-    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-  };
-
-  class  ThisexprContext : public ExpressionContext {
-  public:
-    ThisexprContext(ExpressionContext *ctx);
-
-    antlr4::tree::TerminalNode *CLASSSCOPE();
-    antlr4::tree::TerminalNode *PERIOD();
-    antlr4::tree::TerminalNode *IDENTIFIER();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
@@ -1274,6 +1238,15 @@ public:
     FalseContext(PrimaryexpressionContext *ctx);
 
     antlr4::tree::TerminalNode *FALSE();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  ThisContext : public PrimaryexpressionContext {
+  public:
+    ThisContext(PrimaryexpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *CLASSCOPE();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };

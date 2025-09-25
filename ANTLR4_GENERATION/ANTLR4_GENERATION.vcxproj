@@ -38,7 +38,7 @@
     <ProjectGuid>{24EC5104-7402-4C76-B66B-27ADBE062D68}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>antlr4cppdemo</RootNamespace>
-    <ProjectName>ANTLR4_GENERATION</ProjectName>
+    <ProjectName>VALUESCRIPT</ProjectName>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -354,8 +354,11 @@
     <ClCompile Include="..\generated\ValuescriptParser.cpp" />
     <ClCompile Include="..\generated\ValuescriptParserBaseVisitor.cpp" />
     <ClCompile Include="..\generated\ValuescriptParserVisitor.cpp" />
-    <ClCompile Include="ValuescriptRuntime.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="errors.cpp" />
+    <ClCompile Include="rules.cpp" />
+    <ClCompile Include="runtime.cpp" />
+    <ClCompile Include="translator.cpp" />
+    <ClCompile Include="warnings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ANTLR4_RUNTIME\ANTLR4_RUNTIME.vcxproj">
@@ -367,6 +370,10 @@
     <ClInclude Include="..\generated\ValuescriptParser.h" />
     <ClInclude Include="..\generated\ValuescriptParserBaseVisitor.h" />
     <ClInclude Include="..\generated\ValuescriptParserVisitor.h" />
+    <ClInclude Include="errors.h" />
+    <ClInclude Include="runtime.h" />
+    <ClInclude Include="translator.h" />
+    <ClInclude Include="warnings.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\generated\ValuescriptLexer.interp" />

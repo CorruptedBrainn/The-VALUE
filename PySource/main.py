@@ -7,9 +7,11 @@ Author: Nicolas Martens
 
 from interface import TVApplication
 from data import DataPackage
+from game import GameObject
 
 # Check that this is the startpoint for execution
 if __name__ == "__main__":
 	package = DataPackage()
 	app = TVApplication(package)
-	app.start()
+	game = GameObject(app)
+	app.start() # RIP Braincells

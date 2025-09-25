@@ -32,8 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="data.py" />
+    <Compile Include="game.py" />
     <Compile Include="interface.py" />
     <Compile Include="main.py" />
+    <Compile Include="native_wrapper.py" />
     <Compile Include="Widgets\interface_file.py" />
     <Compile Include="Widgets\save_slot_file.py" />
     <Compile Include="Widgets\settings_dialog_file.py" />
@@ -43,12 +45,17 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ANTLR4_GENERATION\ANTLR4_GENERATION.vcxproj">
-      <Name>ANTLR4_GENERATION</Name>
+      <Name>VALUESCRIPT</Name>
       <Project>{24ec5104-7402-4c76-b66b-27adbe062d68}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\ANTLR4_RUNTIME\ANTLR4_RUNTIME.vcxproj">
+      <Name>ANTLR4_RUNTIME</Name>
+      <Project>{52618d4b-6ec4-49ad-8b83-52686244e8f3}</Project>
+      <Private>True</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Cpp Functions\Cpp Functions.vcxproj">
-      <Name>Cpp Functions</Name>
+      <Name>EXTERNAL_FUNCTIONS</Name>
       <Project>{0a72e9ed-284c-43cd-9018-60c07debf7ab}</Project>
       <Private>True</Private>
     </ProjectReference>

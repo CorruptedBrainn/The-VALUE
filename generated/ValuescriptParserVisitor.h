@@ -38,11 +38,7 @@ public:
 
     virtual std::any visitStatementfor(ValuescriptParser::StatementforContext *context) = 0;
 
-    virtual std::any visitStatementprint(ValuescriptParser::StatementprintContext *context) = 0;
-
-    virtual std::any visitStatementexport(ValuescriptParser::StatementexportContext *context) = 0;
-
-    virtual std::any visitStatementimport(ValuescriptParser::StatementimportContext *context) = 0;
+    virtual std::any visitStatementnative(ValuescriptParser::StatementnativeContext *context) = 0;
 
     virtual std::any visitStatementexpr(ValuescriptParser::StatementexprContext *context) = 0;
 
@@ -120,8 +116,6 @@ public:
 
     virtual std::any visitBinexpr(ValuescriptParser::BinexprContext *context) = 0;
 
-    virtual std::any visitThisexpr(ValuescriptParser::ThisexprContext *context) = 0;
-
     virtual std::any visitMultexpr(ValuescriptParser::MultexprContext *context) = 0;
 
     virtual std::any visitIncexpr(ValuescriptParser::IncexprContext *context) = 0;
@@ -197,6 +191,8 @@ public:
     virtual std::any visitString(ValuescriptParser::StringContext *context) = 0;
 
     virtual std::any visitOrder(ValuescriptParser::OrderContext *context) = 0;
+
+    virtual std::any visitThis(ValuescriptParser::ThisContext *context) = 0;
 
 
 };

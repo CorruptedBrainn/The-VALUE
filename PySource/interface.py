@@ -5,6 +5,7 @@ Description: This file contains the classes for all the widgets I use
 Author: Nicolas Martens
 """
 
+import signal
 import sys
 from functools import partial
 
@@ -13,8 +14,8 @@ from PySide6.QtCore import ( # type: ignore
 	QIODeviceBase,
 	Slot,
 	Qt,
-	SignalInstance,
 	Signal,
+	SignalInstance,
 	)
 from PySide6.QtWidgets import ( # type: ignore
 	QWidget,
@@ -120,7 +121,7 @@ class TVSettingsDialog(QDialog):
 	def show(self)->None:
 		self.updateValues()
 		self.dialog.stackedWidget.setCurrentIndex(0)
-		QDialog.show()
+		super().show()
 		return
 
 	@Slot()
@@ -231,6 +232,10 @@ class TVSaveSlot(QWidget):
 		return super().resizeEvent(event)
 
 class TVApplication(QApplication):
+	gameLoaded = Signal()
+	gamePaused = Signal()
+	gameStopped = Signal()
+
 	def __init__(self, package:DataPackage):
 		super().__init__(sys.argv)
 
@@ -248,9 +253,12 @@ class TVApplication(QApplication):
 		- Comments
 		"""
 		self.interface.actionHome.triggered.connect(partial(self.interface.screenManager.setCurrentIndex, 0))
+		self.interface.actionHome.triggered.connect(partial(self.gameStopped.emit))
 		self.interface.actionLoadGame.triggered.connect(partial(self.interface.screenManager.setCurrentIndex, 1))
+		self.interface.actionLoadGame.triggered.connect(partial(self.gameStopped.emit))
 		self.interface.actionSaveGame.triggered.connect(partial(self.package.data.storeSave))
 		self.interface.actionOptions.triggered.connect(partial(self.settingsDialog.show))
+		self.interface.actionOptions.triggered.connect(partial(self.gamePaused.emit))
 		self.interface.actionQuit.triggered.connect(partial(self.quit))
 		
 		self.interface.playGame.clicked.connect(partial(self.interface.screenManager.setCurrentIndex, 1))
@@ -293,6 +301,7 @@ class TVApplication(QApplication):
 		"""
 		TODO:
 		- Update formatting as I go along
+		- Logic for buttons if save exists or not
 		"""
 		self.interface.saveName.setText(data["Data"]["Name"])
 		self.interface.saveNumber.setText("Save " + str(idx))
@@ -307,6 +316,8 @@ class TVApplication(QApplication):
 		self.interface.characterScrap.setText(str(data["Cons"]["Scrap"]))
 		self.interface.characterPrecious.setText(str(data["Cons"]["Precious"]))
 		self.interface.characterPlasma.setText(str(data["Cons"]["Plasma"]))
+
+		self.interface.startGameButton.clicked.connect(partial(self.loadGame))
 		
 		return
 
@@ -326,6 +337,15 @@ class TVApplication(QApplication):
 		- Work out save deleting
 		"""
 		#...
+		return
+
+	@Slot()
+	def loadGame(self)->None:
+		"""
+		TODO:
+		- Either create new game then load, or load game
+		"""
+		self.gameLoaded.emit()
 		return
 
 	def start(self):

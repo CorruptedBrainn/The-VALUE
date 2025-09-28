@@ -29,7 +29,22 @@ class ValuescriptCompiler(object):
 	script.scriptCheckStageB.restype = ValuescriptError
 	script.scriptCheckStageC.argtypes = [ctypes.c_int]
 	script.scriptCheckStageC.restype = ctypes.c_int
-	# Work with other functions
+	script.errorCheckStageA.argtypes = [ctypes.c_wchar_p]
+	script.errorCheckStageA.restype = ctypes.c_int
+	script.errorCheckStageB.argtypes = []
+	script.errorCheckStageB.restype = ValuescriptError
+	script.errorCheckStageC.argtypes = [ctypes.c_int]
+	script.errorCheckStageC.restype = ctypes.c_int
+	script.compileProcessStageA.argtypes = []
+	script.compileProcessStageA.restype = ctypes.c_int
+	script.compileProcessStageB.argtypes = [ctypes.c_wchar_p, ctypes.c_wchar_p]
+	script.compileProcessStageB.restype = ctypes.c_int
+	script.compileProcessStageC.argtypes = []
+	script.compileProcessStageC.restype = ctypes.c_int
+	script.runtimeStageA.argtypes = []
+	script.runtimeStageA.restype = ctypes.c_int
+	script.runtimeStageB.argtypes = []
+	script.runtimeStageB.restype = ctypes.c_int
 
 	class ScriptScanIterable:
 		def __init__(self, program:str):
@@ -42,7 +57,7 @@ class ValuescriptCompiler(object):
 
 		def __next__(self):
 			if ValuescriptCompiler.script.scriptCheckStageC(self.count) > 0:
-				self.count -= 1;
+				self.count -= 1
 				return ValuescriptCompiler.script.scriptCheckStageB()
 			else:
 				raise StopIteration
@@ -50,4 +65,25 @@ class ValuescriptCompiler(object):
 		def refresh(self, program:str)->None:
 			self.program = program
 			self.count = ValuescriptCompiler.script.scriptCheckStageA(self.program)
+			return
+
+	class ErrorScanIterable:
+		def __init__(self, program:str):
+			self.program = program
+			self.count = ValuescriptCompiler.script.errorCheckStageA(self.program)
+			return
+
+		def __iter__(self):
+			return self
+
+		def __next__(self):
+			if ValuescriptCompiler.script.errorCheckStageC(self.count) > 0:
+				self.count -= 1
+				return ValuescriptCompiler.script.scriptCheckStageB()
+			else:
+				raise StopIteration
+
+		def refresh(self, program:str)->None:
+			self.program = program
+			self.count = ValuescriptCompiler.script.errorCheckStageA(self.program)
 			return

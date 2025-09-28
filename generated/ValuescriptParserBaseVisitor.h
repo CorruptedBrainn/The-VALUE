@@ -65,6 +65,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitStatementbreak(ValuescriptParser::StatementbreakContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitVariabledeclaration(ValuescriptParser::VariabledeclarationContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -266,6 +270,10 @@ public:
   }
 
   virtual std::any visitBitxor(ValuescriptParser::BitxorContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual std::any visitBitnot(ValuescriptParser::BitnotContext *ctx) override {
     return visitChildren(ctx);
   }
 

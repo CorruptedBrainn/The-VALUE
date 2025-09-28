@@ -17,6 +17,7 @@ VARIABLE	:	'var'		    ;
 FUNCTION	:	'func'		    ;
 CLASS		:	'class'		    ;
 RETURN		:	'return'	    ;
+BREAK       :   'break'         ;
 TYPENAMES   :   'typenames'     ;
 TEMPLATE    :   'template'      ;
 IMPORT      :   'import'        ;

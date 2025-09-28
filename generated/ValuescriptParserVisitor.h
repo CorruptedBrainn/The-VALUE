@@ -44,6 +44,8 @@ public:
 
     virtual std::any visitStatementret(ValuescriptParser::StatementretContext *context) = 0;
 
+    virtual std::any visitStatementbreak(ValuescriptParser::StatementbreakContext *context) = 0;
+
     virtual std::any visitVariabledeclaration(ValuescriptParser::VariabledeclarationContext *context) = 0;
 
     virtual std::any visitFunctiondeclaration(ValuescriptParser::FunctiondeclarationContext *context) = 0;
@@ -145,6 +147,8 @@ public:
     virtual std::any visitBitor(ValuescriptParser::BitorContext *context) = 0;
 
     virtual std::any visitBitxor(ValuescriptParser::BitxorContext *context) = 0;
+
+    virtual std::any visitBitnot(ValuescriptParser::BitnotContext *context) = 0;
 
     virtual std::any visitBooland(ValuescriptParser::BoolandContext *context) = 0;
 

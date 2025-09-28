@@ -20,22 +20,23 @@ class  ValuescriptParser : public antlr4::Parser {
 public:
   enum {
     STATIC = 1, CONSTANT = 2, VARIABLE = 3, FUNCTION = 4, CLASS = 5, RETURN = 6, 
-    TYPENAMES = 7, TEMPLATE = 8, IMPORT = 9, NATIVECALL = 10, CLASSSCOPE = 11, 
-    INTEGER = 12, DOUBLE = 13, BOOLEAN = 14, STRING = 15, VOID = 16, PAIR = 17, 
-    ARRAY = 18, ORD_LIST = 19, ORD_MAP = 20, HASH_LIST = 21, HASH_MAP = 22, 
-    STACK = 23, QUEUE = 24, DEQUE = 25, PRIOR_QUE = 26, TRUE = 27, FALSE = 28, 
-    IF = 29, ELSE = 30, DO = 31, WHILE = 32, FOR = 33, OPEN_PARENTHESES = 34, 
-    CLOSED_PARENTHESES = 35, OPEN_CURLY_BRACE = 36, CLOSED_CURLY_BRACE = 37, 
-    OPEN_ANGLE_BRACKET = 38, CLOSED_ANGLE_BRACKET = 39, OPEN_SQUARE = 40, 
-    CLOSED_SQUARE = 41, PERIOD = 42, COMMA = 43, COLON = 44, SEMICOLON = 45, 
-    EXCLAMATION_POINT = 46, ARROW_OPERATOR = 47, BITWISE_AND = 48, BOOLEAN_AND = 49, 
-    BITWISE_OR = 50, BOOLEAN_OR = 51, BITWISE_XOR = 52, ADDITION = 53, SUBTRACTION = 54, 
-    MULTIPLICATION = 55, DIVISION = 56, MODULUS = 57, INCREMENT = 58, DECREMENT = 59, 
-    ASSIGNMENT_GENERIC = 60, ASSIGNMENT_ADD = 61, ASSIGNMENT_SUB = 62, ASSIGNMENT_MULTI = 63, 
-    ASSIGNMENT_DIV = 64, ASSIGNMENT_MOD = 65, EQUALITY = 66, NON_EQUALITY = 67, 
-    GREATER_OR_EQUAL = 68, LESS_OR_EQUAL = 69, SINGLE_LINE_COMMENT = 70, 
-    MULTI_LINE_COMMENT = 71, WHITESPACE = 72, FLOATING_LITERAL = 73, INTEGER_LITERAL = 74, 
-    STRING_LITERAL = 75, IDENTIFIER = 76, LETTER = 77, ESCAPE = 78, CLASSCOPE = 79
+    BREAK = 7, TYPENAMES = 8, TEMPLATE = 9, IMPORT = 10, NATIVECALL = 11, 
+    CLASSSCOPE = 12, INTEGER = 13, DOUBLE = 14, BOOLEAN = 15, STRING = 16, 
+    VOID = 17, PAIR = 18, ARRAY = 19, ORD_LIST = 20, ORD_MAP = 21, HASH_LIST = 22, 
+    HASH_MAP = 23, STACK = 24, QUEUE = 25, DEQUE = 26, PRIOR_QUE = 27, TRUE = 28, 
+    FALSE = 29, IF = 30, ELSE = 31, DO = 32, WHILE = 33, FOR = 34, OPEN_PARENTHESES = 35, 
+    CLOSED_PARENTHESES = 36, OPEN_CURLY_BRACE = 37, CLOSED_CURLY_BRACE = 38, 
+    OPEN_ANGLE_BRACKET = 39, CLOSED_ANGLE_BRACKET = 40, OPEN_SQUARE = 41, 
+    CLOSED_SQUARE = 42, PERIOD = 43, COMMA = 44, COLON = 45, SEMICOLON = 46, 
+    EXCLAMATION_POINT = 47, ARROW_OPERATOR = 48, BITWISE_AND = 49, BOOLEAN_AND = 50, 
+    BITWISE_OR = 51, BOOLEAN_OR = 52, BITWISE_XOR = 53, BITWISE_NOT = 54, 
+    ADDITION = 55, SUBTRACTION = 56, MULTIPLICATION = 57, DIVISION = 58, 
+    MODULUS = 59, INCREMENT = 60, DECREMENT = 61, ASSIGNMENT_GENERIC = 62, 
+    ASSIGNMENT_ADD = 63, ASSIGNMENT_SUB = 64, ASSIGNMENT_MULTI = 65, ASSIGNMENT_DIV = 66, 
+    ASSIGNMENT_MOD = 67, EQUALITY = 68, NON_EQUALITY = 69, GREATER_OR_EQUAL = 70, 
+    LESS_OR_EQUAL = 71, SINGLE_LINE_COMMENT = 72, MULTI_LINE_COMMENT = 73, 
+    WHITESPACE = 74, FLOATING_LITERAL = 75, INTEGER_LITERAL = 76, STRING_LITERAL = 77, 
+    IDENTIFIER = 78, LETTER = 79, ESCAPE = 80, CLASSCOPE = 81
   };
 
   enum {
@@ -224,6 +225,16 @@ public:
     StatementifContext(StatementContext *ctx);
 
     IfstatementContext *ifstatement();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  StatementbreakContext : public StatementContext {
+  public:
+    StatementbreakContext(StatementContext *ctx);
+
+    antlr4::tree::TerminalNode *BREAK();
+    antlr4::tree::TerminalNode *SEMICOLON();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
@@ -955,6 +966,15 @@ public:
     BitxorContext(BinaryoperatorContext *ctx);
 
     antlr4::tree::TerminalNode *BITWISE_XOR();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  BitnotContext : public BinaryoperatorContext {
+  public:
+    BitnotContext(BinaryoperatorContext *ctx);
+
+    antlr4::tree::TerminalNode *BITWISE_NOT();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };

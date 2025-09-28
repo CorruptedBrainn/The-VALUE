@@ -47,7 +47,7 @@ extern "C" {
 
 	DLL_EXPORT int errorCheckStageA(const wchar_t* script);
 	DLL_EXPORT ValuescriptError errorCheckStageB();
-	DLL_EXPORT int errorCheckStageC();
+	DLL_EXPORT int errorCheckStageC(int expected);
 
 	DLL_EXPORT int compileProcessStageA();
 	DLL_EXPORT int compileProcessStageB(const wchar_t* script, const wchar_t* name);

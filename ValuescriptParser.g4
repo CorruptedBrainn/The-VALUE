@@ -28,6 +28,7 @@ statement					:	variabledeclaration SEMICOLON																	# statementvardecl
 							|	NATIVECALL OPEN_PARENTHESES INTEGER_LITERAL COLON expression CLOSED_PARENTHESES SEMICOLON		# statementnative
 							|	expression SEMICOLON																			# statementexpr
 							|	RETURN expression? SEMICOLON																	# statementret
+							|	BREAK SEMICOLON																					# statementbreak
 							;
 variabledeclaration			:	(STATIC | VARIABLE)* IDENTIFIER ARROW_OPERATOR typenameexpression
 							|	(STATIC | VARIABLE | CONSTANT)* IDENTIFIER ARROW_OPERATOR typenameexpression ASSIGNMENT_GENERIC expression

@@ -124,10 +124,12 @@ ValuescriptError errorCheckStageB()
 	return errorList.front();
 }
 
-int errorCheckStageC()
+int errorCheckStageC(int expected)
 {
-	delete[] errorList.front().message;
-	errorList.pop();
+	if (!errorList.empty() && errorList.size() > expected) {
+		delete[] errorList.front().message;
+		errorList.pop();
+	}
 	return errorList.size();
 }
 

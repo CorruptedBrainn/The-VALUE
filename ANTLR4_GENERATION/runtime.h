@@ -15,7 +15,6 @@ namespace Runtime {
 
 	/// ========== FORWARD DECLARATIONS ==========
 
-	class GenericNamespace;
 	class GenericScope;
 
 	/// ========== TYPENAME LOOKUP ==========
@@ -426,42 +425,44 @@ namespace Runtime {
 
 	/// ========== RUNTIME INFORMATION ==========
 
-	class GenericNamespace {
-	private:
-		std::unordered_map<std::string, std::shared_ptr<ConcreteVariable>> staticVariables;
-		std::unordered_map<std::string, std::shared_ptr<AbstractObject>> members;
-		std::shared_ptr<GenericNamespace> parentNamespace = nullptr;
-	public:
-		GenericNamespace(std::shared_ptr<GenericNamespace> parent) :
-			parentNamespace{ parent }
-		{ }
-		~GenericNamespace() {}
-
-		std::unordered_map<std::string, std::shared_ptr<ConcreteVariable>> getStatics() const { return staticVariables; }
-		bool hasStatic(std::string var) const { return staticVariables.contains(var); }
-		void createStatic(std::shared_ptr<ConcreteVariable> var) { staticVariables.insert({ var->getName(), var }); }
-	};
-
 	class GenericScope {
 	private:
-		std::unordered_map<std::string, std::shared_ptr<ConcreteVariable>> variables;
-		std::shared_ptr<GenericNamespace> parentNamespace = nullptr;
-		std::shared_ptr<AbstractLiteral> ret = nullptr;
-		bool broken = false;
+		std::unordered_map<std::string, std::shared_ptr<AbstractObject>> members;
+		std::shared_ptr<GenericScope> parent;
 	public:
-		GenericScope(std::shared_ptr<GenericNamespace> parent) :
-			parentNamespace{ parent }
-		{
-			for (std::pair<std::string, std::shared_ptr<ConcreteVariable>> var : parent->getStatics()) variables[var.first] = var.second;
-		}
+		GenericScope(std::shared_ptr<GenericScope> P = nullptr) :
+			parent{ P }
+		{ }
 		~GenericScope() {}
 
-		void createVar(std::shared_ptr<ConcreteVariable> var);
+		void addMember(std::string name, std::shared_ptr<AbstractObject> val) { members.insert({ name, val }); }
+		std::shared_ptr<AbstractObject> findMember(std::string name) const;
+		bool contains(std::string name) const { return members.contains(name); }
+		std::shared_ptr<GenericScope> getParent() const { return parent; }
+	};
 
-		std::shared_ptr<AbstractLiteral> getRet() const { return ret; }
-		std::shared_ptr<AbstractLiteral> setRet(std::shared_ptr<AbstractLiteral> val) { return ret = val; }
+	class BlockScope {
+	private:
+		std::unordered_map<std::string, std::shared_ptr<AbstractObject>> variables;
+		std::shared_ptr<BlockScope> parent;
+		std::shared_ptr<GenericScope> generic;
+		bool broken = false;
+		std::shared_ptr<AbstractLiteral> ret = nullptr;
+	public:
+		BlockScope(std::shared_ptr<BlockScope> P = nullptr, std::shared_ptr<GenericScope> G = nullptr) :
+			parent{ P },
+			generic{ G }
+		{ }
+		~BlockScope() {}
 
+		void addVariable(std::string name, std::shared_ptr<AbstractObject> val) { variables.insert({ name, val }); }
+		std::shared_ptr<AbstractObject> findMember(std::string name) const;
+		bool contains(std::string name) const { return variables.contains(name); }
+		std::shared_ptr<BlockScope> getParent() const { return parent; }
+		std::shared_ptr<GenericScope> getGeneric() const { return generic; }
+		void setBroken(bool val) { broken = val; }
 		bool getBroken() const { return broken; }
-		bool setBroken(bool val) { return broken = val; }
+		void setRet(std::shared_ptr<AbstractLiteral> val) { ret = val; }
+		std::shared_ptr<AbstractLiteral> getRet() const { return ret; }
 	};
 }

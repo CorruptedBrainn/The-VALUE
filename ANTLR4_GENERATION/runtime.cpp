@@ -616,10 +616,25 @@ namespace Runtime {
 
 	/// ========== GENERIC SCOPE ==========
 
-	void GenericScope::createVar(std::shared_ptr<ConcreteVariable> var)
+	std::shared_ptr<AbstractObject> GenericScope::findMember(std::string name) const
 	{
-		variables.insert({ var->getName(), var });
-		if (var->getStatic()) parentNamespace->createStatic(var);
+		std::unordered_map<std::string, std::shared_ptr<AbstractObject>>::const_iterator ret = members.find(name);
+		if (ret == members.end()) {
+			if (parent == nullptr) return nullptr;
+			return parent->findMember(name);
+		}
+		return ret->second;
 	}
 
+	/// ========== BLOCK SCOPE ==========
+
+	std::shared_ptr<AbstractObject> BlockScope::findMember(std::string name) const
+	{
+		std::unordered_map<std::string, std::shared_ptr<AbstractObject>>::const_iterator ret = variables.find(name);
+		if (ret == variables.end()) {
+			if (parent == nullptr) return generic->findMember(name);
+			return parent->findMember(name);
+		}
+		return ret->second;
+	}
 }

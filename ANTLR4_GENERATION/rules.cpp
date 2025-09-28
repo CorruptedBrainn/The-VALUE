@@ -11,29 +11,28 @@ using namespace antlr4;
 class  ValuescriptRuntimeRules : public ValuescriptParserBaseVisitor {
 private:
 	Runtime::BaseCreator* factory = nullptr;
-	std::shared_ptr<Runtime::GenericNamespace> globalNamespace = nullptr;
-	std::stack<std::shared_ptr<Runtime::GenericNamespace>> currentNamespace;
-	std::shared_ptr<Runtime::GenericScope> globalScope = nullptr;
-	std::stack<std::shared_ptr<Runtime::GenericScope>> currentScope;
+	std::shared_ptr<Runtime::GenericScope> globalGeneric, currentGeneric;
+	std::shared_ptr<Runtime::BlockScope> globalBlock;
+	std::stack<std::shared_ptr<Runtime::BlockScope>> callStack;
 public:
-	ValuescriptRuntimeRules(std::shared_ptr<Runtime::GenericNamespace> global) :
-		globalNamespace{ global }
-	{
-		currentNamespace.push(global);
-	}
+	ValuescriptRuntimeRules(std::shared_ptr<Runtime::GenericScope> global) :
+		globalGeneric{ global },
+		currentGeneric{ global }
+	{ }
+	~ValuescriptRuntimeRules() {}
 
 	std::any visitFile(ValuescriptParser::FileContext* ctx) override {
-		globalScope = std::make_shared<Runtime::GenericScope>(globalNamespace);
-		currentScope.push(globalScope);
+		globalBlock = std::make_shared<Runtime::BlockScope>(nullptr, globalGeneric);
+		callStack.push(globalBlock);
 		std::vector<ValuescriptParser::StatementContext*> toVisit = ctx->statement();
 		for (ValuescriptParser::StatementContext* curr : toVisit) {
 			visit(curr);
-			if (currentScope.top()->getRet() != nullptr) {
-				currentScope.pop();
-				globalScope = nullptr;
+			if (callStack.top()->getRet() != nullptr) {
 				break;
 			}
 		}
+		callStack.pop();
+		globalBlock = nullptr;
 		return defaultResult();
 	}
 
@@ -86,17 +85,17 @@ public:
 			factory = new Runtime::VoidCreator;
 			std::shared_ptr<Runtime::AbstractLiteral> ret = std::static_pointer_cast<Runtime::AbstractLiteral>(factory->createObject());
 			delete factory;
-			currentScope.top()->setRet(ret);
+			callStack.top()->setRet(ret);
 		}
 		else {
 			std::shared_ptr<Runtime::AbstractLiteral> ret = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression()));
-			currentScope.top()->setRet(ret);
+			callStack.top()->setRet(ret);
 		}
 		return defaultResult();
 	}
 
 	std::any visitStatementbreak(ValuescriptParser::StatementbreakContext* ctx) override {
-		currentScope.top()->setBroken(true);
+		callStack.top()->setBroken(true);
 		return defaultResult();
 	}
 
@@ -109,8 +108,11 @@ public:
 		factory = new Runtime::VariableCreator;
 		std::shared_ptr<Runtime::ConcreteVariable> var = std::static_pointer_cast<Runtime::ConcreteVariable>(factory->createObject({val, name, isConst, isStatic}));
 		delete factory;
-		if (!isStatic || !currentNamespace.top()->hasStatic(name)) {
-			currentScope.top()->createVar(var);
+		if (!isStatic) {
+			callStack.top()->addVariable(name, var);
+		}
+		else if (!callStack.top()->getGeneric()->contains(name)) {
+			callStack.top()->getGeneric()->addMember(name, var);
 		}
 		return defaultResult();
 	}
@@ -238,6 +240,8 @@ public:
 	}
 
 	std::any visitCodeblock(ValuescriptParser::CodeblockContext* ctx) override {
+		globalScope = std::make_shared<Runtime::GenericScope>(globalNamespace);
+		currentScope.push(globalScope);
 		std::vector<ValuescriptParser::StatementContext*> toVisit = ctx->statement();
 		for (ValuescriptParser::StatementContext* curr : toVisit) {
 			visit(curr);
@@ -245,6 +249,8 @@ public:
 				break;
 			}
 		}
+		currentScope.pop();
+		globalScope = nullptr;
 		return defaultResult();
 	}
 

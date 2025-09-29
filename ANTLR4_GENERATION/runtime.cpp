@@ -2,6 +2,14 @@
 
 namespace Runtime {
 
+	/// ========== ABSTRACT OBJECT ==========
+
+	std::ostream& operator<<(std::ostream& os, const AbstractObject& obj)
+	{
+		obj.print(os);
+		return os;
+	}
+
 	/// ========== CONCRETE INTEGER ==========
 
 	std::shared_ptr<AbstractObject> ConcreteInteger::operator+(std::shared_ptr<AbstractLiteral> rhs) const
@@ -637,4 +645,5 @@ namespace Runtime {
 		}
 		return ret->second;
 	}
+
 }

@@ -140,6 +140,15 @@ int compileProcessStageA()
 
 int compileProcessStageB(const wchar_t* script, const wchar_t* name)
 {
+	string program = convert::wchartostr(script);
+	ValuescriptWarningListener listener(warningList);
+	ANTLRInputStream input(program);
+	ValuescriptLexer lexer(&input);
+	CommonTokenStream tokens(&lexer);
+	ValuescriptParser parser(&tokens);
+	tree::ParseTree* tree = parser.file();
+	ValuescriptRuntimeRules temp(std::make_shared<Runtime::GenericScope>());
+	temp.visit(tree);
 	return 0;
 }
 

@@ -148,8 +148,6 @@ public:
 
     virtual std::any visitBitxor(ValuescriptParser::BitxorContext *context) = 0;
 
-    virtual std::any visitBitnot(ValuescriptParser::BitnotContext *context) = 0;
-
     virtual std::any visitBooland(ValuescriptParser::BoolandContext *context) = 0;
 
     virtual std::any visitBoolor(ValuescriptParser::BoolorContext *context) = 0;

@@ -12,8 +12,10 @@
 #include <queue>
 #include <thread>
 
+#include "runtime.h"
 #include "warnings.h"
-#include "errors.h"
+#include "custom_errors.h"
+#include "rules.cpp"
 
 #include "antlr4-runtime.h"
 #include "..\generated\ValuescriptLexer.h"

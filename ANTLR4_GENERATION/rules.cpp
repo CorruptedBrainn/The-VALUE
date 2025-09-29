@@ -1,3 +1,5 @@
+#pragma once
+
 #include "runtime.h"
 
 #include "ValuescriptParserBaseVisitor.h"
@@ -27,7 +29,7 @@ public:
 		std::vector<ValuescriptParser::StatementContext*> toVisit = ctx->statement();
 		for (ValuescriptParser::StatementContext* curr : toVisit) {
 			visit(curr);
-			if (callStack.top()->getRet() != nullptr) {
+			if (callStack.top()->getGeneric()->getRet() != nullptr) {
 				break;
 			}
 		}
@@ -71,7 +73,12 @@ public:
 
 	std::any visitStatementnative(ValuescriptParser::StatementnativeContext* ctx) override {
 		int key = std::stoi(ctx->INTEGER_LITERAL()->getText());
-		// visit expression, then have list of commands to perform :P
+		std::any expr = visit(ctx->expression());
+		switch (key) {
+		case 1: {
+			std::cout << "Runtime Output: " << *std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(expr).get() << "\n\n";
+		}
+		}
 		return defaultResult();
 	}
 
@@ -85,11 +92,12 @@ public:
 			factory = new Runtime::VoidCreator;
 			std::shared_ptr<Runtime::AbstractLiteral> ret = std::static_pointer_cast<Runtime::AbstractLiteral>(factory->createObject());
 			delete factory;
-			callStack.top()->setRet(ret);
+			callStack.top()->getGeneric()->setRet(ret);
 		}
 		else {
-			std::shared_ptr<Runtime::AbstractLiteral> ret = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression()));
-			callStack.top()->setRet(ret);
+			std::shared_ptr<Runtime::AbstractObject> oret = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
+			std::shared_ptr<Runtime::AbstractLiteral> ret = std::static_pointer_cast<Runtime::AbstractLiteral>(oret);
+			callStack.top()->getGeneric()->setRet(ret);
 		}
 		return defaultResult();
 	}
@@ -101,7 +109,10 @@ public:
 
 	std::any visitVariabledeclaration(ValuescriptParser::VariabledeclarationContext* ctx) override {
 		std::shared_ptr<Runtime::AbstractLiteral> val = nullptr;
-		if (ctx->expression() != nullptr) val = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression()));
+		if (ctx->expression() != nullptr) {
+			std::shared_ptr<Runtime::AbstractObject> oval = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
+			val = std::static_pointer_cast<Runtime::AbstractLiteral>(val);
+		}
 		std::string name = ctx->IDENTIFIER()->getText();
 		bool isConst = !ctx->CONSTANT().empty();
 		bool isStatic = !ctx->STATIC().empty();
@@ -202,7 +213,8 @@ public:
 	}
 
 	std::any visitIfstatement(ValuescriptParser::IfstatementContext* ctx) override {
-		std::shared_ptr<Runtime::AbstractLiteral> cond = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression()));
+		std::shared_ptr<Runtime::AbstractObject> ocond = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
+		std::shared_ptr<Runtime::AbstractLiteral> cond = std::static_pointer_cast<Runtime::AbstractLiteral>(ocond);
 		if (std::any_cast<bool>(cond->getValue())) {
 			visit(ctx->codeblock()[0]);
 		}
@@ -212,22 +224,26 @@ public:
 	}
 
 	std::any visitWhilestatement(ValuescriptParser::WhilestatementContext* ctx) override {
-		std::shared_ptr<Runtime::AbstractLiteral> cond = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression()));
-		while (std::any_cast<bool>(cond->getValue()) && !currentScope.top()->getBroken() && !currentScope.top()->getRet()) {
+		std::shared_ptr<Runtime::AbstractObject> ocond = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
+		std::shared_ptr<Runtime::AbstractLiteral> cond = std::static_pointer_cast<Runtime::AbstractLiteral>(ocond);
+		while (std::any_cast<bool>(cond->getValue()) && !callStack.top()->getBroken() && !callStack.top()->getGeneric()->getRet()) {
 			visit(ctx->codeblock());
-			cond = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression()));
+			ocond = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
+			cond = std::static_pointer_cast<Runtime::AbstractLiteral>(ocond);
 		}
-		currentScope.top()->setBroken(false);
+		callStack.top()->setBroken(false);
 		return defaultResult();
 	}
 
 	std::any visitDostatement(ValuescriptParser::DostatementContext* ctx) override {
+		std::shared_ptr<Runtime::AbstractObject> ocond;
 		std::shared_ptr<Runtime::AbstractLiteral> cond;
 		do {
 			visit(ctx->codeblock());
-			cond = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression()));
-		} while (std::any_cast<bool>(cond->getValue()) && !currentScope.top()->getBroken() && !currentScope.top()->getRet());
-		currentScope.top()->setBroken(false);
+			ocond = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
+			cond = std::static_pointer_cast<Runtime::AbstractLiteral>(ocond);
+		} while (std::any_cast<bool>(cond->getValue()) && !callStack.top()->getBroken() && !callStack.top()->getGeneric()->getRet());
+		callStack.top()->setBroken(false);
 		return defaultResult();
 	}
 
@@ -240,28 +256,33 @@ public:
 	}
 
 	std::any visitCodeblock(ValuescriptParser::CodeblockContext* ctx) override {
-		globalScope = std::make_shared<Runtime::GenericScope>(globalNamespace);
-		currentScope.push(globalScope);
+		std::shared_ptr<Runtime::BlockScope> parent = nullptr;
+		if (callStack.top()->getGeneric() == currentGeneric) parent = callStack.top();
+		callStack.push(std::make_shared<Runtime::BlockScope>(parent, currentGeneric));
 		std::vector<ValuescriptParser::StatementContext*> toVisit = ctx->statement();
 		for (ValuescriptParser::StatementContext* curr : toVisit) {
 			visit(curr);
-			if (currentScope.top()->getRet() || currentScope.top()->getBroken()) {
+			if (callStack.top()->getBroken()) {
+				if (parent != nullptr) callStack.top()->getParent()->setBroken(true);
 				break;
 			}
+			if (callStack.top()->getGeneric()->getRet()) break;
 		}
-		currentScope.pop();
-		globalScope = nullptr;
+		callStack.pop();
 		return defaultResult();
 	}
 
 	std::any visitNotexpr(ValuescriptParser::NotexprContext* ctx) override {
-		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression()));
+		std::shared_ptr<Runtime::AbstractObject> orhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
+		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::static_pointer_cast<Runtime::AbstractLiteral>(orhs);
 		return !(*rhs.get());
 	}
 
 	std::any visitCompexpr(ValuescriptParser::CompexprContext* ctx) override {
-		std::shared_ptr<Runtime::AbstractLiteral> lhs = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression(0)));
-		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression(1)));
+		std::shared_ptr<Runtime::AbstractObject> olhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(0)));
+		std::shared_ptr<Runtime::AbstractObject> orhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(1)));
+		std::shared_ptr<Runtime::AbstractLiteral> lhs = std::static_pointer_cast<Runtime::AbstractLiteral>(olhs);
+		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::static_pointer_cast<Runtime::AbstractLiteral>(orhs);
 		std::string op = ctx->comparisonoperator()->getText();
 		if (op == "==") return (*lhs.get()) == rhs;
 		if (op == "!=") return (*lhs.get()) != rhs;
@@ -273,8 +294,10 @@ public:
 	}
 
 	std::any visitAddexpr(ValuescriptParser::AddexprContext* ctx) override {
-		std::shared_ptr<Runtime::AbstractLiteral> lhs = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression(0)));
-		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression(1)));
+		std::shared_ptr<Runtime::AbstractObject> olhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(0)));
+		std::shared_ptr<Runtime::AbstractObject> orhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(1)));
+		std::shared_ptr<Runtime::AbstractLiteral> lhs = std::static_pointer_cast<Runtime::AbstractLiteral>(olhs);
+		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::static_pointer_cast<Runtime::AbstractLiteral>(orhs);
 		std::string op = ctx->additiveoperator()->getText();
 		if (op == "+") return (*lhs.get()) + rhs;
 		if (op == "-") return (*lhs.get()) - rhs;
@@ -287,7 +310,8 @@ public:
 
 	std::any visitAssignexpr(ValuescriptParser::AssignexprContext* ctx) override {
 		std::shared_ptr<Runtime::ConcreteVariable> lhs = std::any_cast<std::shared_ptr<Runtime::ConcreteVariable>>(visit(ctx->expression(0)));
-		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression(1)));
+		std::shared_ptr<Runtime::AbstractObject> orhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(1)));
+		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::static_pointer_cast<Runtime::AbstractLiteral>(orhs);
 		std::string op = ctx->assignmentoperator()->getText();
 		if (op == "=") return lhs->setValue(rhs);
 		if (op == "+=") return lhs->setValue((*lhs.get()) + rhs);
@@ -299,8 +323,10 @@ public:
 	}
 
 	std::any visitBoolexpr(ValuescriptParser::BoolexprContext* ctx) override {
-		std::shared_ptr<Runtime::AbstractLiteral> lhs = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression(0)));
-		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression(1)));
+		std::shared_ptr<Runtime::AbstractObject> olhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(0)));
+		std::shared_ptr<Runtime::AbstractObject> orhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(1)));
+		std::shared_ptr<Runtime::AbstractLiteral> lhs = std::static_pointer_cast<Runtime::AbstractLiteral>(olhs);
+		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::static_pointer_cast<Runtime::AbstractLiteral>(orhs);
 		std::string op = ctx->booleanoperator()->getText();
 		if (op == "&&") return (*lhs.get()) && rhs;
 		if (op == "||") return (*lhs.get()) || rhs;
@@ -312,8 +338,10 @@ public:
 	}
 
 	std::any visitBinexpr(ValuescriptParser::BinexprContext* ctx) override {
-		std::shared_ptr<Runtime::AbstractLiteral> lhs = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression(0)));
-		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression(1)));
+		std::shared_ptr<Runtime::AbstractObject> olhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(0)));
+		std::shared_ptr<Runtime::AbstractObject> orhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(1)));
+		std::shared_ptr<Runtime::AbstractLiteral> lhs = std::static_pointer_cast<Runtime::AbstractLiteral>(olhs);
+		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::static_pointer_cast<Runtime::AbstractLiteral>(orhs);
 		std::string op = ctx->binaryoperator()->getText();
 		if (op == "&") return (*lhs.get()) & rhs;
 		if (op == "|") return (*lhs.get()) | rhs;
@@ -322,8 +350,10 @@ public:
 	}
 
 	std::any visitMultexpr(ValuescriptParser::MultexprContext* ctx) override {
-		std::shared_ptr<Runtime::AbstractLiteral> lhs = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression(0)));
-		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(visit(ctx->expression(1)));
+		std::shared_ptr<Runtime::AbstractObject> olhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(0)));
+		std::shared_ptr<Runtime::AbstractObject> orhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(1)));
+		std::shared_ptr<Runtime::AbstractLiteral> lhs = std::static_pointer_cast<Runtime::AbstractLiteral>(olhs);
+		std::shared_ptr<Runtime::AbstractLiteral> rhs = std::static_pointer_cast<Runtime::AbstractLiteral>(orhs);
 		std::string op = ctx->multiplicativeoperator()->getText();
 		if (op == "*") return (*lhs.get()) * rhs;
 		if (op == "/") return (*lhs.get()) / rhs;
@@ -359,7 +389,7 @@ public:
 
 	std::any visitIdent(ValuescriptParser::IdentContext* ctx) override {
 		std::string ident = ctx->IDENTIFIER()->getText();
-
+		return callStack.top()->findMember(ident);
 	}
 
 	std::any visitDecimal(ValuescriptParser::DecimalContext* ctx) override {
@@ -371,7 +401,7 @@ public:
 
 	std::any visitNumber(ValuescriptParser::NumberContext* ctx) override {
 		factory = new Runtime::IntegerCreator;
-		std::shared_ptr<Runtime::AbstractObject> ret = factory->createObject({ std::stoi(ctx->INTEGER_LITERAL()->getText()) });
+		std::shared_ptr<Runtime::AbstractObject> ret = factory->createObject({ std::stol(ctx->INTEGER_LITERAL()->getText()) });
 		delete factory;
 		return ret;
 	}
@@ -391,8 +421,11 @@ public:
 	}
 
 	std::any visitString(ValuescriptParser::StringContext* ctx) override {
+		std::string str = ctx->STRING_LITERAL()->getText();
+		str.erase(str.begin());
+		str.erase(str.end() - 1);
 		factory = new Runtime::StringCreator;
-		std::shared_ptr<Runtime::AbstractObject> ret = factory->createObject({ ctx->STRING_LITERAL()->getText() });
+		std::shared_ptr<Runtime::AbstractObject> ret = factory->createObject({ str });
 		delete factory;
 		return ret;
 	}

@@ -273,10 +273,6 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual std::any visitBitnot(ValuescriptParser::BitnotContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
   virtual std::any visitBooland(ValuescriptParser::BoolandContext *ctx) override {
     return visitChildren(ctx);
   }

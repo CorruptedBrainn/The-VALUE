@@ -87,3 +87,30 @@ class ValuescriptCompiler(object):
 			self.program = program
 			self.count = ValuescriptCompiler.script.errorCheckStageA(self.program)
 			return
+
+	class ScriptCompilerClass:
+		def __init__(self):
+			self.count = 0
+			self.program = {}
+			ValuescriptCompiler.script.compileProcessStageA()
+			return
+
+		def addScript(self, program:str, name:str)->None:
+			self.count += 1
+			self.program.update({name: program})
+			ValuescriptCompiler.script.compileProcessStageB(program, name)
+			return
+
+		def compile(self)->None:
+			ValuescriptCompiler.script.compileProcessStageC()
+			return
+
+	class ScriptRuntimeClass:
+		def __init__(self):
+			ValuescriptCompiler.script.runtimeStageA()
+			return
+		
+		def kill(self):
+			ValuescriptCompiler.script.runtimeStageB()
+			del self
+			return

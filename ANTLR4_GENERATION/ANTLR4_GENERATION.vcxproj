@@ -354,7 +354,7 @@
     <ClCompile Include="..\generated\ValuescriptParser.cpp" />
     <ClCompile Include="..\generated\ValuescriptParserBaseVisitor.cpp" />
     <ClCompile Include="..\generated\ValuescriptParserVisitor.cpp" />
-    <ClCompile Include="errors.cpp" />
+    <ClCompile Include="custom_errors.cpp" />
     <ClCompile Include="rules.cpp" />
     <ClCompile Include="runtime.cpp" />
     <ClCompile Include="translator.cpp" />
@@ -370,7 +370,7 @@
     <ClInclude Include="..\generated\ValuescriptParser.h" />
     <ClInclude Include="..\generated\ValuescriptParserBaseVisitor.h" />
     <ClInclude Include="..\generated\ValuescriptParserVisitor.h" />
-    <ClInclude Include="errors.h" />
+    <ClInclude Include="custom_errors.h" />
     <ClInclude Include="runtime.h" />
     <ClInclude Include="translator.h" />
     <ClInclude Include="warnings.h" />

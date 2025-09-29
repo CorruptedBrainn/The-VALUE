@@ -10,16 +10,19 @@
 #include <typeindex>
 #include <typeinfo>
 #include <memory>
+#include <iostream>
 
 namespace Runtime {
 
 	/// ========== FORWARD DECLARATIONS ==========
 
+	class AbstractObject;
 	class GenericScope;
+	std::ostream& operator<<(std::ostream& os, const AbstractObject& obj);
 
 	/// ========== TYPENAME LOOKUP ==========
 
-	std::unordered_map<std::type_index, std::string> TYPE_NAMES;
+	static std::unordered_map<std::type_index, std::string> TYPE_NAMES;
 	
 	/// ========== ABSTRACT OBJECT ==========
 
@@ -36,6 +39,7 @@ namespace Runtime {
 
 		virtual std::string getType() const { return TYPE_NAMES.at(type); }
 		virtual std::any getValue() const { return value; }
+		virtual void print(std::ostream& os) const = 0;
 	};
 
 	class AbstractLiteral : public AbstractObject {
@@ -45,29 +49,29 @@ namespace Runtime {
 		{ }
 		virtual ~AbstractLiteral() {}
 
-		virtual std::shared_ptr<AbstractObject> operator[](std::shared_ptr<AbstractLiteral> rhs) const = 0;
+		virtual std::shared_ptr<AbstractObject> operator[](std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
 
-		virtual std::shared_ptr<AbstractObject> operator+(std::shared_ptr<AbstractLiteral> rhs) const = 0;
-		virtual std::shared_ptr<AbstractObject> operator-(std::shared_ptr<AbstractLiteral> rhs) const = 0;
-		virtual std::shared_ptr<AbstractObject> operator*(std::shared_ptr<AbstractLiteral> rhs) const = 0;
-		virtual std::shared_ptr<AbstractObject> operator/(std::shared_ptr<AbstractLiteral> rhs) const = 0;
-		virtual std::shared_ptr<AbstractObject> operator%(std::shared_ptr<AbstractLiteral> rhs) const = 0;
+		virtual std::shared_ptr<AbstractObject> operator+(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+		virtual std::shared_ptr<AbstractObject> operator-(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+		virtual std::shared_ptr<AbstractObject> operator*(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+		virtual std::shared_ptr<AbstractObject> operator/(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+		virtual std::shared_ptr<AbstractObject> operator%(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
 
-		virtual std::shared_ptr<AbstractObject> operator&(std::shared_ptr<AbstractLiteral> rhs) const = 0;
-		virtual std::shared_ptr<AbstractObject> operator|(std::shared_ptr<AbstractLiteral> rhs) const = 0;
-		virtual std::shared_ptr<AbstractObject> operator^(std::shared_ptr<AbstractLiteral> rhs) const = 0;
+		virtual std::shared_ptr<AbstractObject> operator&(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+		virtual std::shared_ptr<AbstractObject> operator|(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+		virtual std::shared_ptr<AbstractObject> operator^(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
 
-		virtual std::shared_ptr<AbstractObject> operator!() const = 0;
+		virtual std::shared_ptr<AbstractObject> operator!() const { return nullptr; }
 
-		virtual std::shared_ptr<AbstractObject> operator&&(std::shared_ptr<AbstractLiteral> rhs) const = 0;
-		virtual std::shared_ptr<AbstractObject> operator||(std::shared_ptr<AbstractLiteral> rhs) const = 0;
+		virtual std::shared_ptr<AbstractObject> operator&&(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+		virtual std::shared_ptr<AbstractObject> operator||(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
 
-		virtual std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const = 0;
-		virtual std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const = 0;
-		virtual std::shared_ptr<AbstractObject> operator<=(std::shared_ptr<AbstractLiteral> rhs) const = 0;
-		virtual std::shared_ptr<AbstractObject> operator>=(std::shared_ptr<AbstractLiteral> rhs) const = 0;
-		virtual std::shared_ptr<AbstractObject> operator<(std::shared_ptr<AbstractLiteral> rhs) const = 0;
-		virtual std::shared_ptr<AbstractObject> operator>(std::shared_ptr<AbstractLiteral> rhs) const = 0;
+		virtual std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+		virtual std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+		virtual std::shared_ptr<AbstractObject> operator<=(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+		virtual std::shared_ptr<AbstractObject> operator>=(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+		virtual std::shared_ptr<AbstractObject> operator<(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+		virtual std::shared_ptr<AbstractObject> operator>(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
 	};
 
 	/// ========== CONCRETE OBJECTS ==========
@@ -82,29 +86,7 @@ namespace Runtime {
 		}
 		~ConcreteVoid() {}
 
-		std::shared_ptr<AbstractObject> operator[](std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator+(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator-(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator*(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator/(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator%(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator&(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator|(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator^(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator!() const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator&&(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator||(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator<=(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator>=(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator<(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator>(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
+		void print(std::ostream& os) const override { os << "void"; }
 	};
 
 	class ConcreteInteger : public AbstractLiteral {
@@ -117,7 +99,7 @@ namespace Runtime {
 		}
 		~ConcreteInteger() {}
 
-		std::shared_ptr<AbstractObject> operator[](std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
+		void print(std::ostream& os) const override { os << std::any_cast<long>(this->getValue()); }
 
 		std::shared_ptr<AbstractObject> operator+(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator-(std::shared_ptr<AbstractLiteral> rhs) const override;
@@ -130,9 +112,6 @@ namespace Runtime {
 		std::shared_ptr<AbstractObject> operator^(std::shared_ptr<AbstractLiteral> rhs) const override;
 
 		std::shared_ptr<AbstractObject> operator!() const override;
-
-		std::shared_ptr<AbstractObject> operator&&(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator||(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
 
 		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
@@ -152,22 +131,12 @@ namespace Runtime {
 		}
 		~ConcreteDouble() {}
 
-		std::shared_ptr<AbstractObject> operator[](std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
+		void print(std::ostream& os) const override { os << std::any_cast<double>(this->getValue()); }
 
 		std::shared_ptr<AbstractObject> operator+(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator-(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator*(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator/(std::shared_ptr<AbstractLiteral> rhs) const override;
-		std::shared_ptr<AbstractObject> operator%(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator&(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator|(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator^(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator!() const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator&&(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator||(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
 
 		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
@@ -187,29 +156,14 @@ namespace Runtime {
 		}
 		~ConcreteString() {}
 
+		void print(std::ostream& os) const override { os << std::any_cast<std::string>(this->getValue()); }
+
 		std::shared_ptr<AbstractObject> operator[](std::shared_ptr<AbstractLiteral> rhs) const override;
 
 		std::shared_ptr<AbstractObject> operator+(std::shared_ptr<AbstractLiteral> rhs) const override;
-		std::shared_ptr<AbstractObject> operator-(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator*(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator/(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator%(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator&(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator|(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator^(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator!() const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator&&(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator||(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
 
 		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
-		std::shared_ptr<AbstractObject> operator<=(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator>=(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator<(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator>(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
 	};
 	
 	class ConcreteBoolean : public AbstractLiteral {
@@ -222,13 +176,7 @@ namespace Runtime {
 		}
 		~ConcreteBoolean() {}
 
-		std::shared_ptr<AbstractObject> operator[](std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator+(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator-(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator*(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator/(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator%(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
+		void print(std::ostream& os) const override { os << std::any_cast<bool>(this->getValue()); }
 
 		std::shared_ptr<AbstractObject> operator&(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator|(std::shared_ptr<AbstractLiteral> rhs) const override;
@@ -241,10 +189,6 @@ namespace Runtime {
 
 		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
-		std::shared_ptr<AbstractObject> operator<=(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator>=(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator<(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator>(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
 	};
 
 	class ConcretePair : public AbstractLiteral {
@@ -257,32 +201,13 @@ namespace Runtime {
 		}
 		~ConcretePair() {}
 
+		void print(std::ostream& os) const override { os << *this->getFirst().get() << ", " << *this->getSecond().get(); }
+
 		std::shared_ptr<AbstractObject> getFirst() const;
 		std::shared_ptr<AbstractObject> getSecond() const;
 
-		std::shared_ptr<AbstractObject> operator[](std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator+(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator-(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator*(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator/(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator%(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator&(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator|(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator^(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator!() const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator&&(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator||(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
 		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
-		std::shared_ptr<AbstractObject> operator<=(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator>=(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator<(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator>(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
 	};
 
 	class ConcreteArray : public AbstractLiteral {
@@ -295,29 +220,14 @@ namespace Runtime {
 		}
 		~ConcreteArray() {}
 
+		void print(std::ostream& os) const override { os << "PLACEHOLDER FOR ARRAY"; }
+
 		std::shared_ptr<AbstractObject> operator[](std::shared_ptr<AbstractLiteral> rhs) const override;
 
 		std::shared_ptr<AbstractObject> operator+(std::shared_ptr<AbstractLiteral> rhs) const override;
-		std::shared_ptr<AbstractObject> operator-(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator*(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator/(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator%(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator&(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator|(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator^(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator!() const override { return nullptr; }
-
-		std::shared_ptr<AbstractObject> operator&&(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator||(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
 
 		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
-		std::shared_ptr<AbstractObject> operator<=(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator>=(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator<(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
-		std::shared_ptr<AbstractObject> operator>(std::shared_ptr<AbstractLiteral> rhs) const override { return nullptr; }
 	};
 
 	class ConcreteVariable : public AbstractLiteral {
@@ -333,6 +243,8 @@ namespace Runtime {
 			isStatic{ S }
 		{ }
 		~ConcreteVariable() {}
+
+		void print(std::ostream& os) const override { os << *std::any_cast<std::shared_ptr<AbstractObject>>(this->getValue()).get(); }
 
 		std::any setValue(std::any val) { return value = val; }
 		std::string getName() const { return name; }
@@ -429,6 +341,7 @@ namespace Runtime {
 	private:
 		std::unordered_map<std::string, std::shared_ptr<AbstractObject>> members;
 		std::shared_ptr<GenericScope> parent;
+		std::shared_ptr<AbstractLiteral> ret = nullptr;
 	public:
 		GenericScope(std::shared_ptr<GenericScope> P = nullptr) :
 			parent{ P }
@@ -439,6 +352,8 @@ namespace Runtime {
 		std::shared_ptr<AbstractObject> findMember(std::string name) const;
 		bool contains(std::string name) const { return members.contains(name); }
 		std::shared_ptr<GenericScope> getParent() const { return parent; }
+		void setRet(std::shared_ptr<AbstractLiteral> val) { ret = val; }
+		std::shared_ptr<AbstractLiteral> getRet() const { return ret; }
 	};
 
 	class BlockScope {
@@ -447,7 +362,6 @@ namespace Runtime {
 		std::shared_ptr<BlockScope> parent;
 		std::shared_ptr<GenericScope> generic;
 		bool broken = false;
-		std::shared_ptr<AbstractLiteral> ret = nullptr;
 	public:
 		BlockScope(std::shared_ptr<BlockScope> P = nullptr, std::shared_ptr<GenericScope> G = nullptr) :
 			parent{ P },
@@ -462,7 +376,6 @@ namespace Runtime {
 		std::shared_ptr<GenericScope> getGeneric() const { return generic; }
 		void setBroken(bool val) { broken = val; }
 		bool getBroken() const { return broken; }
-		void setRet(std::shared_ptr<AbstractLiteral> val) { ret = val; }
-		std::shared_ptr<AbstractLiteral> getRet() const { return ret; }
 	};
+
 }

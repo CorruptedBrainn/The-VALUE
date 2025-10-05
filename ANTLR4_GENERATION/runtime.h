@@ -244,7 +244,7 @@ namespace Runtime {
 		{ }
 		~ConcreteVariable() {}
 
-		void print(std::ostream& os) const override { os << *std::any_cast<std::shared_ptr<AbstractObject>>(this->getValue()).get(); }
+		void print(std::ostream& os) const override { os << *std::any_cast<std::shared_ptr<AbstractLiteral>>(this->getValue()).get(); }
 
 		std::any setValue(std::any val) { return value = val; }
 		std::string getName() const { return name; }

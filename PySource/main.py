@@ -24,6 +24,7 @@ while (x < 10) {
 	x++;
 }
 return;
+var x->array
 """
 
 from native_wrapper import ValuescriptCompiler

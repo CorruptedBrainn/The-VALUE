@@ -102,6 +102,13 @@ std::any ValuescriptRuntimeRules::visitVariabledeclaration(ValuescriptParser::Va
 	if (ctx->expression() != nullptr) {
 		std::shared_ptr<Runtime::AbstractObject> oval = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
 		val = std::static_pointer_cast<Runtime::AbstractLiteral>(oval);
+		std::any atype = visit(ctx->typenameexpression());
+		if (atype.has_value()) {
+			std::string type = std::any_cast<std::string>(atype);
+			if (type == "array") factory = new Runtime::ArrayCreator;
+			val = std::static_pointer_cast<Runtime::AbstractLiteral>(factory->createObject({ val }));
+			delete factory;
+		}
 	}
 	std::string name = ctx->IDENTIFIER()->getText();
 	bool isConst = !ctx->CONSTANT().empty();
@@ -170,7 +177,7 @@ std::any ValuescriptRuntimeRules::visitTypair(ValuescriptParser::TypairContext* 
 
 std::any ValuescriptRuntimeRules::visitTyarray(ValuescriptParser::TyarrayContext* ctx)
 {
-	return defaultResult();
+	return (std::string)"array";
 }
 
 std::any ValuescriptRuntimeRules::visitTyset(ValuescriptParser::TysetContext* ctx)
@@ -263,7 +270,7 @@ std::any ValuescriptRuntimeRules::visitDostatement(ValuescriptParser::Dostatemen
 
 std::any ValuescriptRuntimeRules::visitRangefor(ValuescriptParser::RangeforContext* ctx)
 {
-	return visitChildren(ctx);
+	// ee
 }
 
 std::any ValuescriptRuntimeRules::visitItemfor(ValuescriptParser::ItemforContext* ctx)
@@ -359,7 +366,11 @@ std::any ValuescriptRuntimeRules::visitBoolexpr(ValuescriptParser::BoolexprConte
 
 std::any ValuescriptRuntimeRules::visitAccessexpr(ValuescriptParser::AccessexprContext* ctx)
 {
-	return visitChildren(ctx);
+	std::shared_ptr<Runtime::AbstractObject> olhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(0)));
+	std::shared_ptr<Runtime::AbstractObject> orhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(1)));
+	std::shared_ptr<Runtime::AbstractLiteral> lhs = std::static_pointer_cast<Runtime::AbstractLiteral>(olhs);
+	std::shared_ptr<Runtime::AbstractLiteral> rhs = std::static_pointer_cast<Runtime::AbstractLiteral>(orhs);
+	return (*lhs.get())[rhs];
 }
 
 std::any ValuescriptRuntimeRules::visitBinexpr(ValuescriptParser::BinexprContext* ctx)
@@ -407,7 +418,16 @@ std::any ValuescriptRuntimeRules::visitTyparexpr(ValuescriptParser::TyparexprCon
 
 std::any ValuescriptRuntimeRules::visitObjexpr(ValuescriptParser::ObjexprContext* ctx)
 {
-	return visitChildren(ctx);
+	std::vector<std::shared_ptr<Runtime::AbstractLiteral>> arr;
+	std::vector<ValuescriptParser::ExpressionContext*> toVisit = ctx->expression();
+	for (ValuescriptParser::ExpressionContext* curr : toVisit) {
+		std::shared_ptr<Runtime::AbstractObject> oval = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(curr));
+		arr.push_back(std::static_pointer_cast<Runtime::AbstractLiteral>(oval));
+	}
+	factory = new Runtime::ContainerCreator;
+	std::shared_ptr<Runtime::AbstractObject> ret = factory->createObject({ arr });
+	delete factory;
+	return ret;
 }
 
 std::any ValuescriptRuntimeRules::visitPrimexpr(ValuescriptParser::PrimexprContext* ctx)

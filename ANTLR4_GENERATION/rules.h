@@ -73,7 +73,7 @@ public:
 	std::any visitIfstatement(ValuescriptParser::IfstatementContext* ctx) override;
 	std::any visitWhilestatement(ValuescriptParser::WhilestatementContext* ctx) override;
 	std::any visitDostatement(ValuescriptParser::DostatementContext* ctx) override;
-	virtual std::any visitRangefor(ValuescriptParser::RangeforContext* ctx) override;
+	std::any visitRangefor(ValuescriptParser::RangeforContext* ctx) override;
 	virtual std::any visitItemfor(ValuescriptParser::ItemforContext* ctx) override;
 	std::any visitCodeblock(ValuescriptParser::CodeblockContext* ctx) override;
 	std::any visitNotexpr(ValuescriptParser::NotexprContext* ctx) override;
@@ -82,12 +82,12 @@ public:
 	virtual std::any visitMembexpr(ValuescriptParser::MembexprContext* ctx) override;
 	std::any visitAssignexpr(ValuescriptParser::AssignexprContext* ctx) override;
 	std::any visitBoolexpr(ValuescriptParser::BoolexprContext* ctx) override;
-	virtual std::any visitAccessexpr(ValuescriptParser::AccessexprContext* ctx) override;
+	std::any visitAccessexpr(ValuescriptParser::AccessexprContext* ctx) override;
 	std::any visitBinexpr(ValuescriptParser::BinexprContext* ctx) override;
 	std::any visitMultexpr(ValuescriptParser::MultexprContext* ctx) override;
 	std::any visitIncexpr(ValuescriptParser::IncexprContext* ctx) override;
 	virtual std::any visitTyparexpr(ValuescriptParser::TyparexprContext* ctx) override;
-	virtual std::any visitObjexpr(ValuescriptParser::ObjexprContext* ctx) override;
+	std::any visitObjexpr(ValuescriptParser::ObjexprContext* ctx) override;
 	std::any visitPrimexpr(ValuescriptParser::PrimexprContext* ctx) override;
 	virtual std::any visitParenexpr(ValuescriptParser::ParenexprContext* ctx) override;
 	std::any visitIdent(ValuescriptParser::IdentContext* ctx) override;

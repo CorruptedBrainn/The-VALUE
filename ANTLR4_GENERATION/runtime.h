@@ -39,6 +39,7 @@ namespace Runtime {
 
 		virtual std::string getType() const { return TYPE_NAMES.at(type); }
 		virtual std::any getValue() const { return value; }
+		virtual std::any getUnderlying() const { return value; }
 		virtual void print(std::ostream& os) const = 0;
 	};
 
@@ -72,6 +73,29 @@ namespace Runtime {
 		virtual std::shared_ptr<AbstractObject> operator>=(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
 		virtual std::shared_ptr<AbstractObject> operator<(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
 		virtual std::shared_ptr<AbstractObject> operator>(std::shared_ptr<AbstractLiteral> rhs) const { return nullptr; }
+	};
+
+	class AbstractContainer : public AbstractLiteral {
+	public:
+		AbstractContainer(std::vector<std::shared_ptr<AbstractLiteral>> V) :
+			AbstractLiteral(std::type_index(typeid(V)), V)
+		{ }
+		~AbstractContainer() {}
+
+		void print(std::ostream& os) const override {
+			os << "{ ";
+			for (std::shared_ptr<AbstractLiteral> val : std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(this->getValue())) {
+				os << *val << " ";
+			}
+			os << "}";
+		}
+
+		std::shared_ptr<AbstractObject> operator[](std::shared_ptr<AbstractLiteral> rhs) const override;
+
+		std::shared_ptr<AbstractObject> operator+(std::shared_ptr<AbstractLiteral> rhs) const override;
+
+		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
 	};
 
 	/// ========== CONCRETE OBJECTS ==========
@@ -156,7 +180,7 @@ namespace Runtime {
 		}
 		~ConcreteString() {}
 
-		void print(std::ostream& os) const override { os << std::any_cast<std::string>(this->getValue()); }
+		void print(std::ostream& os) const override { os << "\"" << std::any_cast<std::string>(this->getValue()) << "\""; }
 
 		std::shared_ptr<AbstractObject> operator[](std::shared_ptr<AbstractLiteral> rhs) const override;
 
@@ -212,7 +236,7 @@ namespace Runtime {
 
 	class ConcreteArray : public AbstractLiteral {
 	public:
-		ConcreteArray(std::vector<std::shared_ptr<AbstractLiteral>> V) :
+		ConcreteArray(std::shared_ptr<AbstractLiteral> V) :
 			AbstractLiteral(std::type_index(typeid(V)), V)
 		{
 			std::string tyname = "array";
@@ -220,7 +244,9 @@ namespace Runtime {
 		}
 		~ConcreteArray() {}
 
-		void print(std::ostream& os) const override { os << "PLACEHOLDER FOR ARRAY"; }
+		void print(std::ostream& os) const override { os << *std::any_cast<std::shared_ptr<AbstractLiteral>>(this->getValue()).get(); }
+
+		std::any getUnderlying() const override { return std::any_cast<std::shared_ptr<AbstractLiteral>>(value)->getValue(); }
 
 		std::shared_ptr<AbstractObject> operator[](std::shared_ptr<AbstractLiteral> rhs) const override;
 
@@ -247,6 +273,7 @@ namespace Runtime {
 		void print(std::ostream& os) const override { os << *std::any_cast<std::shared_ptr<AbstractLiteral>>(this->getValue()).get(); }
 
 		std::any setValue(std::any val) { return value = val; }
+		std::any getUnderlying() const override { return std::any_cast<std::shared_ptr<AbstractLiteral>>(value)->getValue(); }
 		std::string getName() const { return name; }
 		bool getConst() const { return isConst; }
 		bool getStatic() const { return isStatic; }
@@ -321,6 +348,11 @@ namespace Runtime {
 	};
 
 	class PairCreator : public BaseCreator {
+	public:
+		std::shared_ptr<AbstractObject> createObject(std::vector<std::any> args) override;
+	};
+
+	class ContainerCreator : public BaseCreator {
 	public:
 		std::shared_ptr<AbstractObject> createObject(std::vector<std::any> args) override;
 	};

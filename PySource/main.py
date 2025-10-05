@@ -23,8 +23,11 @@ while (x < 10) {
 	call_native(1: x);
 	x++;
 }
-return;
-var x->array
+var y->array<int> = {1, 2, 1 + 2};
+call_native(1: y);
+call_native(1: {4, 5, 10 - 4});
+call_native(1: y + {4, 5, 10 - 4});
+call_native(1: y[x % 3]);
 """
 
 from native_wrapper import ValuescriptCompiler

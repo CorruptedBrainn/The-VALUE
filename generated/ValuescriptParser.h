@@ -35,7 +35,7 @@ public:
     ASSIGNMENT_DIV = 65, ASSIGNMENT_MOD = 66, EQUALITY = 67, NON_EQUALITY = 68, 
     GREATER_OR_EQUAL = 69, LESS_OR_EQUAL = 70, SINGLE_LINE_COMMENT = 71, 
     MULTI_LINE_COMMENT = 72, WHITESPACE = 73, FLOATING_LITERAL = 74, INTEGER_LITERAL = 75, 
-    STRING_LITERAL = 76, IDENTIFIER = 77, LETTER = 78, ESCAPE = 79, CLASSCOPE = 80
+    STRING_LITERAL = 76, IDENTIFIER = 77, LETTER = 78, ESCAPE = 79
   };
 
   enum {
@@ -172,6 +172,7 @@ public:
     antlr4::tree::TerminalNode *RETURN();
     antlr4::tree::TerminalNode *SEMICOLON();
     ExpressionContext *expression();
+    StatementContext *statement();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
@@ -465,6 +466,15 @@ public:
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
+  class  TyvoidContext : public TypenameexpressionContext {
+  public:
+    TyvoidContext(TypenameexpressionContext *ctx);
+
+    antlr4::tree::TerminalNode *VOID();
+
+    virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
   class  TymapContext : public TypenameexpressionContext {
   public:
     TymapContext(TypenameexpressionContext *ctx);
@@ -654,12 +664,12 @@ public:
     antlr4::tree::TerminalNode *OPEN_PARENTHESES();
     std::vector<VariabledeclarationContext *> variabledeclaration();
     VariabledeclarationContext* variabledeclaration(size_t i);
-    std::vector<antlr4::tree::TerminalNode *> SEMICOLON();
-    antlr4::tree::TerminalNode* SEMICOLON(size_t i);
     antlr4::tree::TerminalNode *CLOSED_PARENTHESES();
     CodeblockContext *codeblock();
     std::vector<antlr4::tree::TerminalNode *> COMMA();
     antlr4::tree::TerminalNode* COMMA(size_t i);
+    std::vector<antlr4::tree::TerminalNode *> SEMICOLON();
+    antlr4::tree::TerminalNode* SEMICOLON(size_t i);
     std::vector<ExpressionContext *> expression();
     ExpressionContext* expression(size_t i);
 
@@ -1256,7 +1266,7 @@ public:
   public:
     ThisContext(PrimaryexpressionContext *ctx);
 
-    antlr4::tree::TerminalNode *CLASSCOPE();
+    antlr4::tree::TerminalNode *CLASSSCOPE();
 
     virtual std::any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };

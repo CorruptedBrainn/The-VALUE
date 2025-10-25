@@ -1,0 +1,25 @@
+call_native(3: "Array");
+
+func append(var val->void)->void {
+	call_native(5: this);
+	call_native(6: val);
+	return;
+}
+
+func clear()->void {
+	call_native(5: this);
+	call_native(7: 0);
+	return;
+}
+
+func empty()->bool {
+	call_native(5: this);
+	return call_native(8: 0);
+}
+
+func size()->int {
+	call_native(5: this);
+	return call_native(9: 0);
+}
+
+call_native(4: "Array");

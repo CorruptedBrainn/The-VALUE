@@ -5,7 +5,6 @@ Description: This file contains the classes for all the widgets I use
 Author: Nicolas Martens
 """
 
-import signal
 import sys
 from functools import partial
 

@@ -36,6 +36,53 @@ namespace convert {
 	wchar_t* wstrtowchar(std::wstring input);
 }
 
+class ValuescriptProgram {
+private:
+	std::string name, raw;
+	ANTLRInputStream* input;
+	ValuescriptLexer* lexer;
+	CommonTokenStream* tokens;
+	ValuescriptParser* parser;
+	tree::ParseTree* tree;
+	std::shared_ptr<Runtime::GenericScope> generic;
+	ValuescriptRuntimeRules executionist;
+public:
+	ValuescriptProgram(std::string N, std::string R) :
+		name{ N },
+		raw{ R },
+		input{ new ANTLRInputStream(R) },
+		lexer{ new ValuescriptLexer(input) },
+		tokens{ new CommonTokenStream(lexer) },
+		parser{ new ValuescriptParser(tokens) },
+		tree{ parser->file() },
+		generic(std::make_shared<Runtime::GenericScope>("GLOBAL_NAMESPACE")),
+		executionist(generic)
+	{ }
+	~ValuescriptProgram() {
+		delete input;
+		delete lexer;
+		delete tokens;
+		delete parser;
+	}
+
+	int executeOnce();
+	int execute(std::stop_token killswitch);
+};
+
+class ProgramStorage {
+private:
+	std::unordered_map<std::string, ValuescriptProgram> programs = {};
+	std::vector<std::jthread> threads = {};
+	std::stop_source killswitch;
+public:
+	ProgramStorage() {}
+	~ProgramStorage() {}
+
+	int addProgram(std::string N, std::string R);
+	int executePrograms();
+	int killPrograms();
+};
+
 extern "C" {
 	struct DLL_EXPORT ValuescriptError {
 		const wchar_t* message;
@@ -53,10 +100,11 @@ extern "C" {
 
 	DLL_EXPORT int compileProcessStageA();
 	DLL_EXPORT int compileProcessStageB(const wchar_t* script, const wchar_t* name);
-	DLL_EXPORT int compileProcessStageC();
 
 	DLL_EXPORT int runtimeStageA();
 	DLL_EXPORT int runtimeStageB();
+
+	DLL_EXPORT int runOnce(const wchar_t* script, const wchar_t* name);
 }
 
 /// The stages:
@@ -81,7 +129,6 @@ extern "C" {
 /// Stage: Compile and Process (for all scripts)
 /// A: Create the storage
 /// B: For each script, compile it and put it in the storage container
-/// C: register the classes and functions for all scripts
 
 /// Stage: Runtime (for all scripts)
 /// A: Create the threads and execute, will have some way to communicate to python

@@ -58,6 +58,8 @@ public:
 
     virtual std::any visitTemplatedeclaration(ValuescriptParser::TemplatedeclarationContext *context) = 0;
 
+    virtual std::any visitTyvoid(ValuescriptParser::TyvoidContext *context) = 0;
+
     virtual std::any visitTyinteger(ValuescriptParser::TyintegerContext *context) = 0;
 
     virtual std::any visitTydouble(ValuescriptParser::TydoubleContext *context) = 0;

@@ -93,6 +93,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual std::any visitTyvoid(ValuescriptParser::TyvoidContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual std::any visitTyinteger(ValuescriptParser::TyintegerContext *ctx) override {
     return visitChildren(ctx);
   }

@@ -1,18 +1,47 @@
 #include "rules.h"
 
+std::any ValuescriptRuntimeRules::visit(tree::ParseTree* tree)
+{
+	//std::cout << "Enter: " << tree->getText() << "\n\n";
+	std::any ret = tree->accept(this);
+	//std::cout << "Exit: " << tree->getText() << "\n\n";
+	return ret;
+}
+
 std::any ValuescriptRuntimeRules::visitFile(ValuescriptParser::FileContext* ctx)
 {
-	globalBlock = std::make_shared<Runtime::BlockScope>(nullptr, globalGeneric);
+	globalBlock = std::make_shared<Runtime::BlockScope>("GLOBAL_BLOCK", nullptr, globalGeneric);
 	callStack.push(globalBlock);
+	std::vector<ValuescriptParser::ExtraContext*> addedImports = ctx->extra();
+	for (ValuescriptParser::ExtraContext* curr : addedImports) {
+		visit(curr);
+	}
 	std::vector<ValuescriptParser::StatementContext*> toVisit = ctx->statement();
 	for (ValuescriptParser::StatementContext* curr : toVisit) {
 		visit(curr);
 		if (callStack.top()->getGeneric()->getRet() != nullptr) {
+			callStack.top()->getGeneric()->setRet(nullptr);
 			break;
 		}
 	}
 	callStack.pop();
 	globalBlock = nullptr;
+	return defaultResult();
+}
+
+std::any ValuescriptRuntimeRules::visitExtra(ValuescriptParser::ExtraContext* ctx)
+{
+	std::string import = ctx->IDENTIFIER()->getText();
+	if (imports.contains(import)) return defaultResult();
+	std::string name = "../ValuescriptImports/" + import + ".vsef";
+	std::ifstream file(name);
+	std::string script((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+	file.close();
+	imports.emplace(std::make_pair(import, std::make_unique<ExtraImport>(script)));
+	std::unordered_map<std::string, std::unique_ptr<ExtraImport>>::iterator library = imports.find(import);
+	for (ValuescriptParser::StatementContext* curr : library->second->tree->statement()) {
+		visit(curr);
+	}
 	return defaultResult();
 }
 
@@ -24,11 +53,13 @@ std::any ValuescriptRuntimeRules::visitStatementvardecl(ValuescriptParser::State
 
 std::any ValuescriptRuntimeRules::visitStatementfuncdecl(ValuescriptParser::StatementfuncdeclContext* ctx)
 {
+	visit(ctx->functiondeclaration());
 	return defaultResult();
 }
 
 std::any ValuescriptRuntimeRules::visitStatementclassdecl(ValuescriptParser::StatementclassdeclContext* ctx)
 {
+	visit(ctx->classdeclaration());
 	return defaultResult();
 }
 
@@ -59,10 +90,57 @@ std::any ValuescriptRuntimeRules::visitStatementfor(ValuescriptParser::Statement
 std::any ValuescriptRuntimeRules::visitStatementnative(ValuescriptParser::StatementnativeContext* ctx)
 {
 	int key = std::stoi(ctx->INTEGER_LITERAL()->getText());
-	std::any expr = visit(ctx->expression());
+	std::shared_ptr<Runtime::AbstractObject> expr = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
 	switch (key) {
-	case 1: {
-		std::cout << "Runtime Output: " << *std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(expr).get() << "\n\n";
+	case 1: { // Printing Pure Value
+		std::cout << "Runtime Output: " << *expr.get() << "\n\n";
+		break;
+	}
+	case 2: { // Breakpoint
+		std::cout << " -- Runtime Breakpoint -- \n\n";
+		break;
+	}
+	case 3: { // Enter Base Member
+		importing = std::any_cast<std::string>(expr->getValue());
+		break;
+	}
+	case 4: { // Exit Base Member
+		importing = "";
+		break;
+	}
+	case 5: { // Get Base Object
+		importObject = expr;
+		break;
+	}
+	case 6: { // Array Append
+		if (importObject->getType().name == "Variable") {
+			importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(importObject->getValue());
+		}
+		std::shared_ptr<Runtime::ConcreteArray> obj = std::static_pointer_cast<Runtime::ConcreteArray>(importObject);
+		obj->array_append_single(std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(expr->copy()->getValue()));
+		break;
+	}
+	case 7: { // Array Clear
+		if (importObject->getType().name == "Variable") {
+			importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(importObject->getValue());
+		}
+		std::shared_ptr<Runtime::ConcreteArray> obj = std::static_pointer_cast<Runtime::ConcreteArray>(importObject);
+		obj->array_clear_elements();
+		break;
+	}
+	case 8: { // Array Empty
+		if (importObject->getType().name == "Variable") {
+			importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(importObject->getValue());
+		}
+		std::shared_ptr<Runtime::ConcreteArray> obj = std::static_pointer_cast<Runtime::ConcreteArray>(importObject);
+		return obj->array_check_empty();
+	}
+	case 9: { // Array Size
+		if (importObject->getType().name == "Variable") {
+			importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(importObject->getValue());
+		}
+		std::shared_ptr<Runtime::ConcreteArray> obj = std::static_pointer_cast<Runtime::ConcreteArray>(importObject);
+		return obj->array_check_size();
 	}
 	}
 	return defaultResult();
@@ -84,7 +162,7 @@ std::any ValuescriptRuntimeRules::visitStatementret(ValuescriptParser::Statement
 	}
 	else {
 		std::shared_ptr<Runtime::AbstractObject> oret = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
-		std::shared_ptr<Runtime::AbstractLiteral> ret = std::static_pointer_cast<Runtime::AbstractLiteral>(oret);
+		std::shared_ptr<Runtime::AbstractLiteral> ret = std::static_pointer_cast<Runtime::AbstractLiteral>(oret->copy());
 		callStack.top()->getGeneric()->setRet(ret);
 	}
 	return defaultResult();
@@ -99,22 +177,42 @@ std::any ValuescriptRuntimeRules::visitStatementbreak(ValuescriptParser::Stateme
 std::any ValuescriptRuntimeRules::visitVariabledeclaration(ValuescriptParser::VariabledeclarationContext* ctx)
 {
 	std::shared_ptr<Runtime::AbstractLiteral> val = nullptr;
+	Runtime::TypeInformation ty = std::any_cast<Runtime::TypeInformation>(visit(ctx->typenameexpression()));
+	std::shared_ptr<Runtime::AbstractObject> ocls = callStack.top()->getGeneric()->findMember(ty.name);
 	if (ctx->expression() != nullptr) {
 		std::shared_ptr<Runtime::AbstractObject> oval = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
-		val = std::static_pointer_cast<Runtime::AbstractLiteral>(oval);
-		std::any atype = visit(ctx->typenameexpression());
-		if (atype.has_value()) {
-			std::string type = std::any_cast<std::string>(atype);
-			if (type == "array") factory = new Runtime::ArrayCreator;
-			val = std::static_pointer_cast<Runtime::AbstractLiteral>(factory->createObject({ val }));
-			delete factory;
+		if (oval->getType().name == "Variable") {
+			oval = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(oval->getValue())->copy();
 		}
+		val = std::static_pointer_cast<Runtime::AbstractLiteral>(oval);
+		if (val->getType().name == "Object") {
+			if (ocls != nullptr) {
+				std::shared_ptr<Runtime::ConcreteClass> cls = std::static_pointer_cast<Runtime::ConcreteClass>(ocls);
+				val->getType() = ty;
+				val->getMembers() = cls->getScope()->getMembers();
+			}
+			else {
+				if (ty.name == "Pair") factory = new Runtime::PairCreator;
+				else if (ty.name == "Array") factory = new Runtime::ArrayCreator;
+				else if (ty.name == "Set") factory = new Runtime::SetCreator;
+				val = std::static_pointer_cast<Runtime::AbstractLiteral>(factory->createObject({ val, ty }));
+				delete factory;
+			}
+		}
+	}
+	else if (ocls != nullptr) {
+		std::shared_ptr<Runtime::ConcreteClass> cls = std::static_pointer_cast<Runtime::ConcreteClass>(ocls);
+		factory = new Runtime::VoidCreator;
+		std::shared_ptr<Runtime::AbstractLiteral> ret = std::static_pointer_cast<Runtime::AbstractLiteral>(factory->createObject());
+		delete factory;
+		val = std::make_shared<Runtime::AbstractContainer>(ty, ret);
+		val->getMembers() = cls->getScope()->getMembers();
 	}
 	std::string name = ctx->IDENTIFIER()->getText();
 	bool isConst = !ctx->CONSTANT().empty();
 	bool isStatic = !ctx->STATIC().empty();
 	factory = new Runtime::VariableCreator;
-	std::shared_ptr<Runtime::ConcreteVariable> var = std::static_pointer_cast<Runtime::ConcreteVariable>(factory->createObject({ val, name, isConst, isStatic }));
+	std::shared_ptr<Runtime::ConcreteVariable> var = std::static_pointer_cast<Runtime::ConcreteVariable>(factory->createObject({ val, ty, name, isConst, isStatic }));
 	delete factory;
 	if (!isStatic) {
 		callStack.top()->addVariable(name, var);
@@ -127,16 +225,61 @@ std::any ValuescriptRuntimeRules::visitVariabledeclaration(ValuescriptParser::Va
 
 std::any ValuescriptRuntimeRules::visitFunctiondeclaration(ValuescriptParser::FunctiondeclarationContext* ctx)
 {
+	ValuescriptParser::CodeblockContext* block = ctx->codeblock();
+	Runtime::TypeInformation ty = std::any_cast<Runtime::TypeInformation>(visit(ctx->typenameexpression()));
+	std::string name = ctx->IDENTIFIER()->getText();
+	if (currentGeneric->contains(name)) return defaultResult();
+	std::unordered_set<std::string> templates = {};
+	std::shared_ptr<Runtime::GenericScope> scope = std::make_shared<Runtime::GenericScope>(name, callStack.top()->getGeneric());
+	currentGeneric = scope;
+	std::vector<std::shared_ptr<Runtime::ConcreteVariable>> params = std::any_cast<std::vector<std::shared_ptr<Runtime::ConcreteVariable>>>(visit(ctx->functionparameters()));
+	currentGeneric = currentGeneric->getParent();
+	factory = new Runtime::FunctionCreator;
+	if (importing == "") {
+		callStack.top()->getGeneric()->addMember(name, factory->createObject({ block, ty, name, templates, params, scope }));
+	}
+	else if (importing == "Array") {
+		Runtime::ConcreteArray::addRegistration(name, factory->createObject({ block, ty, name, templates, params, scope }));
+	}
+	delete factory;
 	return defaultResult();
 }
 
 std::any ValuescriptRuntimeRules::visitFunctionparameters(ValuescriptParser::FunctionparametersContext* ctx)
 {
-	return defaultResult();
+	std::vector<ValuescriptParser::VariabledeclarationContext*> toVisit = ctx->variabledeclaration();
+	std::vector<std::shared_ptr<Runtime::ConcreteVariable>> ret;
+	for (ValuescriptParser::VariabledeclarationContext* curr : toVisit) {
+		std::shared_ptr<Runtime::AbstractLiteral> val = nullptr;
+		Runtime::TypeInformation ty = std::any_cast<Runtime::TypeInformation>(visit(curr->typenameexpression()));
+		std::string name = curr->IDENTIFIER()->getText();
+		bool isConst = !curr->CONSTANT().empty();
+		bool isStatic = false;
+		factory = new Runtime::VariableCreator;
+		std::shared_ptr<Runtime::ConcreteVariable> var = std::static_pointer_cast<Runtime::ConcreteVariable>(factory->createObject({ val, ty, name, isConst, isStatic }));
+		delete factory;
+		if (!currentGeneric->contains(name)) {
+			currentGeneric->addMember(name, var);
+			ret.push_back(var);
+		}
+	}
+	return ret;
 }
 
 std::any ValuescriptRuntimeRules::visitClassdeclaration(ValuescriptParser::ClassdeclarationContext* ctx)
 {
+	ValuescriptParser::CodeblockContext* block = ctx->codeblock();
+	std::string name = ctx->IDENTIFIER()->getText();
+	if (currentGeneric->contains(name)) return defaultResult();
+	std::unordered_set<std::string> templates = {};
+	std::shared_ptr<Runtime::GenericScope> scope = std::make_shared<Runtime::GenericScope>(name, callStack.top()->getGeneric());
+	currentGeneric = scope;
+	visit(block);
+	currentGeneric->setRet(nullptr);
+	currentGeneric = currentGeneric->getParent();
+	factory = new Runtime::ClassCreator;
+	callStack.top()->getGeneric()->addMember(name, factory->createObject({ block, name, templates, scope }));
+	delete factory;
 	return defaultResult();
 }
 
@@ -150,39 +293,59 @@ std::any ValuescriptRuntimeRules::visitTemplatedeclaration(ValuescriptParser::Te
 	return defaultResult();
 }
 
+std::any ValuescriptRuntimeRules::visitTyvoid(ValuescriptParser::TyvoidContext* ctx)
+{
+	Runtime::TypeInformation ty = { "Void", {} };
+	return ty;
+}
+
 std::any ValuescriptRuntimeRules::visitTyinteger(ValuescriptParser::TyintegerContext* ctx)
 {
-	return defaultResult();
+	Runtime::TypeInformation ty = { "Integer", {} };
+	return ty;
 }
 
 std::any ValuescriptRuntimeRules::visitTydouble(ValuescriptParser::TydoubleContext* ctx)
 {
-	return defaultResult();
+	Runtime::TypeInformation ty = { "Double", {} };
+	return ty;
 }
 
 std::any ValuescriptRuntimeRules::visitTystring(ValuescriptParser::TystringContext* ctx)
 {
-	return defaultResult();
+	Runtime::TypeInformation ty = { "String", {} };
+	return ty;
 }
 
 std::any ValuescriptRuntimeRules::visitTyboolean(ValuescriptParser::TybooleanContext* ctx)
 {
-	return defaultResult();
+	Runtime::TypeInformation ty = { "Boolean", {} };
+	return ty;
 }
 
 std::any ValuescriptRuntimeRules::visitTypair(ValuescriptParser::TypairContext* ctx)
 {
-	return defaultResult();
+	Runtime::TypeInformation ty = { "Pair", {
+		std::any_cast<Runtime::TypeInformation>(visit(ctx->typenameexpression(0))),
+		std::any_cast<Runtime::TypeInformation>(visit(ctx->typenameexpression(1)))
+	} };
+	return ty;
 }
 
 std::any ValuescriptRuntimeRules::visitTyarray(ValuescriptParser::TyarrayContext* ctx)
 {
-	return (std::string)"array";
+	Runtime::TypeInformation ty = { "Array", {
+		std::any_cast<Runtime::TypeInformation>(visit(ctx->typenameexpression()))
+	} };
+	return ty;
 }
 
 std::any ValuescriptRuntimeRules::visitTyset(ValuescriptParser::TysetContext* ctx)
 {
-	return defaultResult();
+	Runtime::TypeInformation ty = { "Set", {
+		std::any_cast<Runtime::TypeInformation>(visit(ctx->typenameexpression()))
+	} };
+	return ty;
 }
 
 std::any ValuescriptRuntimeRules::visitTymap(ValuescriptParser::TymapContext* ctx)
@@ -222,7 +385,8 @@ std::any ValuescriptRuntimeRules::visitTyprior(ValuescriptParser::TypriorContext
 
 std::any ValuescriptRuntimeRules::visitTyident(ValuescriptParser::TyidentContext* ctx)
 {
-	return defaultResult();
+	Runtime::TypeInformation ty = { ctx->IDENTIFIER()->getText(), {}};
+	return ty;
 }
 
 std::any ValuescriptRuntimeRules::visitTynested(ValuescriptParser::TynestedContext* ctx)
@@ -270,19 +434,51 @@ std::any ValuescriptRuntimeRules::visitDostatement(ValuescriptParser::Dostatemen
 
 std::any ValuescriptRuntimeRules::visitRangefor(ValuescriptParser::RangeforContext* ctx)
 {
-	// ee
+	std::shared_ptr<Runtime::BlockScope> parent = nullptr;
+	if (callStack.top()->getGeneric() == currentGeneric) parent = callStack.top();
+	callStack.push(std::make_shared<Runtime::BlockScope>("RANGE_FOR_LOOP", parent, currentGeneric));
+	std::vector<ValuescriptParser::VariabledeclarationContext*> toVisit = ctx->variabledeclaration();
+	std::vector<ValuescriptParser::ExpressionContext*> expr = ctx->expression();
+	for (ValuescriptParser::VariabledeclarationContext* curr : toVisit) {
+		visit(curr);
+	}
+	std::shared_ptr<Runtime::AbstractObject> ocond = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(expr[0]));
+	std::shared_ptr<Runtime::AbstractLiteral> cond = std::static_pointer_cast<Runtime::AbstractLiteral>(ocond);
+	while (std::any_cast<bool>(cond->getValue()) && !callStack.top()->getBroken() && !callStack.top()->getGeneric()->getRet()) {
+		visit(ctx->codeblock());
+		for (size_t i = 1; i < expr.size(); i++) visit(expr[i]);
+		ocond = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(expr[0]));
+		cond = std::static_pointer_cast<Runtime::AbstractLiteral>(ocond);
+	}
+	callStack.pop();
+	return defaultResult();
 }
 
 std::any ValuescriptRuntimeRules::visitItemfor(ValuescriptParser::ItemforContext* ctx)
 {
-	return visitChildren(ctx);
+	std::shared_ptr<Runtime::BlockScope> parent = nullptr;
+	if (callStack.top()->getGeneric() == currentGeneric) parent = callStack.top();
+	callStack.push(std::make_shared<Runtime::BlockScope>("ITEM_FOR_LOOP", parent, currentGeneric));
+	visit(ctx->variabledeclaration());
+	std::shared_ptr<Runtime::AbstractObject> ovar = callStack.top()->getFirstVar();
+	std::shared_ptr<Runtime::AbstractObject> ocont = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
+	std::shared_ptr<Runtime::ConcreteVariable> var = std::static_pointer_cast<Runtime::ConcreteVariable>(ovar);
+	std::shared_ptr<Runtime::AbstractLiteral> cont = std::static_pointer_cast<Runtime::AbstractLiteral>(ocont);
+	for (std::shared_ptr<Runtime::AbstractLiteral> val : std::any_cast<std::vector<std::shared_ptr<Runtime::AbstractLiteral>>>(cont->getUnderlying())) {
+		var->setValue(val);
+		visit(ctx->codeblock());
+		if (callStack.top()->getBroken() || callStack.top()->getGeneric()->getRet()) break;
+	}
+	callStack.pop();
+	return defaultResult();
 }
 
 std::any ValuescriptRuntimeRules::visitCodeblock(ValuescriptParser::CodeblockContext* ctx)
 {
+	size_t objects = objectStack.size();
 	std::shared_ptr<Runtime::BlockScope> parent = nullptr;
 	if (callStack.top()->getGeneric() == currentGeneric) parent = callStack.top();
-	callStack.push(std::make_shared<Runtime::BlockScope>(parent, currentGeneric));
+	callStack.push(std::make_shared<Runtime::BlockScope>("CODEBLOCK_SCOPE", parent, currentGeneric));
 	std::vector<ValuescriptParser::StatementContext*> toVisit = ctx->statement();
 	for (ValuescriptParser::StatementContext* curr : toVisit) {
 		visit(curr);
@@ -293,6 +489,7 @@ std::any ValuescriptRuntimeRules::visitCodeblock(ValuescriptParser::CodeblockCon
 		if (callStack.top()->getGeneric()->getRet()) break;
 	}
 	callStack.pop();
+	while (objectStack.size() > objects) objectStack.pop();
 	return defaultResult();
 }
 
@@ -333,22 +530,30 @@ std::any ValuescriptRuntimeRules::visitAddexpr(ValuescriptParser::AddexprContext
 
 std::any ValuescriptRuntimeRules::visitMembexpr(ValuescriptParser::MembexprContext* ctx)
 {
-	return visitChildren(ctx);
+	std::shared_ptr<Runtime::AbstractObject> olhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
+	std::shared_ptr<Runtime::AbstractLiteral> lhs = std::static_pointer_cast<Runtime::AbstractLiteral>(olhs);
+	std::string rhs = ctx->IDENTIFIER()->getText();
+	std::unordered_map<std::string, std::shared_ptr<Runtime::AbstractObject>>::iterator ret = lhs->getMembers().find(rhs);
+	if (ret != lhs->getMembers().end()) {
+		objectStack.push(lhs);
+		return (*ret).second;
+	}
+	return nullptr;
 }
 
 std::any ValuescriptRuntimeRules::visitAssignexpr(ValuescriptParser::AssignexprContext* ctx)
 {
 	std::shared_ptr<Runtime::AbstractObject> olhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(0)));
-	std::shared_ptr<Runtime::ConcreteVariable> lhs = std::static_pointer_cast<Runtime::ConcreteVariable>(olhs);
+	std::shared_ptr<Runtime::AbstractLiteral> lhs = std::static_pointer_cast<Runtime::AbstractLiteral>(olhs);
 	std::shared_ptr<Runtime::AbstractObject> orhs = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(1)));
 	std::shared_ptr<Runtime::AbstractLiteral> rhs = std::static_pointer_cast<Runtime::AbstractLiteral>(orhs);
 	std::string op = ctx->assignmentoperator()->getText();
-	if (op == "=") return lhs->setValue(rhs);
-	if (op == "+=") return lhs->setValue(std::static_pointer_cast<Runtime::AbstractLiteral>((*lhs.get()) + rhs));
-	if (op == "-=") return lhs->setValue(std::static_pointer_cast<Runtime::AbstractLiteral>((*lhs.get()) - rhs));
-	if (op == "*=") return lhs->setValue(std::static_pointer_cast<Runtime::AbstractLiteral>((*lhs.get()) * rhs));
-	if (op == "/=") return lhs->setValue(std::static_pointer_cast<Runtime::AbstractLiteral>((*lhs.get()) / rhs));
-	if (op == "%=") return lhs->setValue(std::static_pointer_cast<Runtime::AbstractLiteral>((*lhs.get()) % rhs));
+	if (op == "=") return lhs->setValue(rhs->copy());
+	if (op == "+=") return lhs->setValue((*lhs.get()) + rhs);
+	if (op == "-=") return lhs->setValue((*lhs.get()) - rhs);
+	if (op == "*=") return lhs->setValue((*lhs.get()) * rhs);
+	if (op == "/=") return lhs->setValue((*lhs.get()) / rhs);
+	if (op == "%=") return lhs->setValue((*lhs.get()) % rhs);
 	return nullptr;
 }
 
@@ -424,8 +629,10 @@ std::any ValuescriptRuntimeRules::visitObjexpr(ValuescriptParser::ObjexprContext
 		std::shared_ptr<Runtime::AbstractObject> oval = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(curr));
 		arr.push_back(std::static_pointer_cast<Runtime::AbstractLiteral>(oval));
 	}
+	Runtime::TypeInformation ty = { "Object", {} };
+	for (int i = 0; i < std::min(arr.size(), (size_t)2); i++) ty.children.push_back(arr[i]->getType());
 	factory = new Runtime::ContainerCreator;
-	std::shared_ptr<Runtime::AbstractObject> ret = factory->createObject({ arr });
+	std::shared_ptr<Runtime::AbstractObject> ret = factory->createObject({ arr, ty });
 	delete factory;
 	return ret;
 }
@@ -437,7 +644,34 @@ std::any ValuescriptRuntimeRules::visitPrimexpr(ValuescriptParser::PrimexprConte
 
 std::any ValuescriptRuntimeRules::visitParenexpr(ValuescriptParser::ParenexprContext* ctx)
 {
-	return visitChildren(ctx);
+	std::shared_ptr<Runtime::AbstractObject> ofunc = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(0)));
+	std::shared_ptr<Runtime::ConcreteFunction> func = std::static_pointer_cast<Runtime::ConcreteFunction>(ofunc);
+	std::vector<std::shared_ptr<Runtime::AbstractLiteral>> params(ctx->expression().size() - 1), former(params.size());
+	for (int i = 0; i < params.size(); i++) {
+		former[i] = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(func->getParam()[i]->getValue());
+	}
+	for (int i = 1; i < ctx->expression().size(); i++) {
+		std::shared_ptr<Runtime::AbstractObject> oarg = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression(i)));
+		if (oarg->getType().name == "Variable") {
+			oarg = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(oarg->getValue())->copy();
+		}
+		params[i - 1] = std::static_pointer_cast<Runtime::AbstractLiteral>(oarg);
+	}
+	for (int i = 0; i < params.size(); i++) {
+		func->setParam(params[i], i);
+	}
+	std::shared_ptr<Runtime::GenericScope> store = currentGeneric;
+	currentGeneric = func->getScope();
+	ValuescriptParser::CodeblockContext* val = std::any_cast<ValuescriptParser::CodeblockContext*>(func->getValue());
+	visit(val);
+	std::shared_ptr<Runtime::AbstractObject> ret = currentGeneric->getRet();
+	currentGeneric->setRet(nullptr);
+	currentGeneric = callStack.top()->getGeneric();
+	for (int j = 0; j < params.size(); j++) {
+		if (former[j] == nullptr) continue;
+		func->setParam(former[j], j);
+	}
+	return ret;
 }
 
 std::any ValuescriptRuntimeRules::visitIdent(ValuescriptParser::IdentContext* ctx)
@@ -496,5 +730,5 @@ std::any ValuescriptRuntimeRules::visitOrder(ValuescriptParser::OrderContext* ct
 
 std::any ValuescriptRuntimeRules::visitThis(ValuescriptParser::ThisContext* ctx)
 {
-	return visitChildren(ctx);
+	return objectStack.top();
 }

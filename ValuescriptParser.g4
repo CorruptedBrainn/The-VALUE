@@ -25,9 +25,9 @@ statement					:	variabledeclaration SEMICOLON																	# statementvardecl
 							|	whilestatement																					# statementwhile
 							|	dostatement																						# statementdo
 							|	forstatement																					# statementfor
-							|	NATIVECALL OPEN_PARENTHESES INTEGER_LITERAL COLON expression CLOSED_PARENTHESES SEMICOLON		# statementnative
+							|	NATIVECALL OPEN_PARENTHESES INTEGER_LITERAL COLON expression CLOSED_PARENTHESES SEMICOLON?		# statementnative
 							|	expression SEMICOLON																			# statementexpr
-							|	RETURN expression? SEMICOLON																	# statementret
+							|	RETURN (expression | statement)? SEMICOLON																	# statementret
 							|	BREAK SEMICOLON																					# statementbreak
 							;
 variabledeclaration			:	(STATIC | VARIABLE)* IDENTIFIER ARROW_OPERATOR typenameexpression
@@ -38,7 +38,8 @@ functionparameters			:	OPEN_PARENTHESES variabledeclaration? (COMMA variabledecl
 classdeclaration			:	templatedeclaration? CLASS? IDENTIFIER codeblock ;
 templateexpression			:	TEMPLATE ARROW_OPERATOR typenameexpression (COMMA typenameexpression)* SEMICOLON? ;
 templatedeclaration			:	TYPENAMES COLON IDENTIFIER (COMMA IDENTIFIER)* ;
-typenameexpression			:	INTEGER																								# tyinteger
+typenameexpression			:	VOID																								# tyvoid
+							|	INTEGER																								# tyinteger
 							|	DOUBLE																								# tydouble
 							|	STRING																								# tystring
 							|	BOOLEAN																								# tyboolean
@@ -58,7 +59,7 @@ typenameexpression			:	INTEGER																								# tyinteger
 ifstatement					:	IF OPEN_PARENTHESES expression CLOSED_PARENTHESES codeblock (ELSE (codeblock | ifstatement))? ;
 whilestatement				:	WHILE OPEN_PARENTHESES expression CLOSED_PARENTHESES codeblock ;
 dostatement					:	DO codeblock WHILE OPEN_PARENTHESES expression CLOSED_PARENTHESES ;
-forstatement				:	FOR OPEN_PARENTHESES variabledeclaration (COMMA variabledeclaration)* SEMICOLON (expression SEMICOLON)+ CLOSED_PARENTHESES codeblock	# rangefor
+forstatement				:	FOR OPEN_PARENTHESES variabledeclaration (COMMA variabledeclaration)* (SEMICOLON expression)+ CLOSED_PARENTHESES codeblock	# rangefor
 							|	FOR OPEN_PARENTHESES variabledeclaration COLON expression CLOSED_PARENTHESES codeblock																				# itemfor
 							;
 codeblock					:	OPEN_CURLY_BRACE statement+ CLOSED_CURLY_BRACE
@@ -118,5 +119,5 @@ primaryexpression			:	IDENTIFIER										# ident
 							|	FALSE											# false
 							|	STRING_LITERAL									# string
 							|	OPEN_PARENTHESES expression CLOSED_PARENTHESES	# order
-							|	CLASSCOPE										# this
+							|	CLASSSCOPE										# this
 							;

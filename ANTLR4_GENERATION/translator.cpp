@@ -5,6 +5,7 @@ using namespace antlr4;
 using namespace std;
 
 queue<ValuescriptError> warningList, errorList;
+ProgramStorage* storage = nullptr;
 
 string convert::chartostr(const char* input) {
 	string buffer(input);
@@ -135,34 +136,73 @@ int errorCheckStageC(int expected)
 
 int compileProcessStageA()
 {
+	storage = new ProgramStorage();
 	return 0;
 }
 
 int compileProcessStageB(const wchar_t* script, const wchar_t* name)
 {
-	string program = convert::wchartostr(script);
-	ValuescriptWarningListener listener(warningList);
-	ANTLRInputStream input(program);
-	ValuescriptLexer lexer(&input);
-	CommonTokenStream tokens(&lexer);
-	ValuescriptParser parser(&tokens);
-	tree::ParseTree* tree = parser.file();
-	ValuescriptRuntimeRules temp(std::make_shared<Runtime::GenericScope>());
-	temp.visit(tree);
-	return 0;
-}
-
-int compileProcessStageC()
-{
+	storage->addProgram(convert::wchartostr(script), convert::wchartostr(name));
 	return 0;
 }
 
 int runtimeStageA()
 {
+	storage->executePrograms();
 	return 0;
 }
 
 int runtimeStageB()
 {
+	storage->killPrograms();
+	delete storage;
+	return 0;
+}
+
+int runOnce(const wchar_t* script, const wchar_t* name)
+{
+	ValuescriptProgram prog(convert::wchartostr(name), convert::wchartostr(script));
+	prog.executeOnce();
+	return 0;
+}
+
+int ValuescriptProgram::executeOnce()
+{
+	executionist.visit(tree);
+	return 0;
+}
+
+int ValuescriptProgram::execute(std::stop_token killswitch)
+{
+	while (!killswitch.stop_requested()) {
+		executionist.visit(tree);
+	}
+	return 0;
+}
+
+int ProgramStorage::addProgram(std::string R, std::string N)
+{
+	programs.emplace(piecewise_construct,
+		forward_as_tuple(N),
+		forward_as_tuple(N, R));
+	return 0;
+}
+
+int ProgramStorage::executePrograms()
+{
+	killswitch = stop_source();
+	for (auto it = programs.begin(); it != programs.end(); it++) {
+		threads.emplace_back(jthread(&ValuescriptProgram::execute, &(*it).second, killswitch.get_token()));
+	}
+	return 0;
+}
+
+int ProgramStorage::killPrograms()
+{
+	killswitch.request_stop();
+	for (int i = 0; i < threads.size(); i++) {
+		threads[i].join();
+	}
+	threads.clear();
 	return 0;
 }

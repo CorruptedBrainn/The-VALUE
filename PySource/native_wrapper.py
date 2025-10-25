@@ -39,12 +39,12 @@ class ValuescriptCompiler(object):
 	script.compileProcessStageA.restype = ctypes.c_int
 	script.compileProcessStageB.argtypes = [ctypes.c_wchar_p, ctypes.c_wchar_p]
 	script.compileProcessStageB.restype = ctypes.c_int
-	script.compileProcessStageC.argtypes = []
-	script.compileProcessStageC.restype = ctypes.c_int
 	script.runtimeStageA.argtypes = []
 	script.runtimeStageA.restype = ctypes.c_int
 	script.runtimeStageB.argtypes = []
 	script.runtimeStageB.restype = ctypes.c_int
+	script.runOnce.argtypes = [ctypes.c_wchar_p, ctypes.c_wchar_p]
+	script.runOnce.restype = ctypes.c_int
 
 	class ScriptScanIterable:
 		def __init__(self, program:str):
@@ -101,16 +101,17 @@ class ValuescriptCompiler(object):
 			ValuescriptCompiler.script.compileProcessStageB(program, name)
 			return
 
-		def compile(self)->None:
-			ValuescriptCompiler.script.compileProcessStageC()
-			return
-
 	class ScriptRuntimeClass:
 		def __init__(self):
 			ValuescriptCompiler.script.runtimeStageA()
 			return
 		
-		def kill(self):
+		def kill(self, compiler)->None:
 			ValuescriptCompiler.script.runtimeStageB()
+			del compiler
 			del self
 			return
+
+	def RunScriptOnce(program:str, name:str)->None:
+		ValuescriptCompiler.script.runOnce(program, name)
+		return

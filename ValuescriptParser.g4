@@ -25,7 +25,7 @@ statement					:	variabledeclaration SEMICOLON																	# statementvardecl
 							|	whilestatement																					# statementwhile
 							|	dostatement																						# statementdo
 							|	forstatement																					# statementfor
-							|	NATIVECALL OPEN_PARENTHESES INTEGER_LITERAL COLON expression CLOSED_PARENTHESES SEMICOLON?		# statementnative
+							|	NATIVECALL OPEN_PARENTHESES INTEGER_LITERAL COMMA INTEGER_LITERAL COLON expression CLOSED_PARENTHESES SEMICOLON?		# statementnative
 							|	expression SEMICOLON																			# statementexpr
 							|	RETURN (expression | statement)? SEMICOLON																	# statementret
 							|	BREAK SEMICOLON																					# statementbreak

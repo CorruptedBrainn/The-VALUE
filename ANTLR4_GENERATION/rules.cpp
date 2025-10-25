@@ -1,10 +1,228 @@
 #include "rules.h"
 
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::console_output_raw(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	std::cout << "Runtime Output: " << *expr.get() << "\n";
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::console_output_normal(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	return std::shared_ptr<Runtime::AbstractObject>();
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::console_output_pretty(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	return std::shared_ptr<Runtime::AbstractObject>();
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::valuescript_breakpoint(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	std::cout << "\n -- Runtime Breakpoint --\n\n";
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::enter_base_file(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	obj->importing = std::any_cast<std::string>(expr->getValue());
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::get_base_object(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	obj->importObject = expr;
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::exit_base_file(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	obj->importing = "";
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::pair_first(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcretePair> lhs = std::static_pointer_cast<Runtime::ConcretePair>(obj->importObject);
+	return lhs->pair_get_first();
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::pair_second(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcretePair> lhs = std::static_pointer_cast<Runtime::ConcretePair>(obj->importObject);
+	return lhs->pair_get_second();
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::array_append(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteArray> lhs = std::static_pointer_cast<Runtime::ConcreteArray>(obj->importObject);
+	lhs->array_append_single(std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(expr->copy()->getValue()));
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::array_insert(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteArray> lhs = std::static_pointer_cast<Runtime::ConcreteArray>(obj->importObject);
+	std::vector<std::shared_ptr<Runtime::AbstractLiteral>> rhs = std::any_cast<std::vector<std::shared_ptr<Runtime::AbstractLiteral>>>(expr->getValue());
+	lhs->array_insert_single(rhs[0], std::any_cast<long>(rhs[1]->getUnderlying()));
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::array_pop(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteArray> lhs = std::static_pointer_cast<Runtime::ConcreteArray>(obj->importObject);
+	lhs->array_pop_single();
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::array_remove(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteArray> lhs = std::static_pointer_cast<Runtime::ConcreteArray>(obj->importObject);
+	lhs->array_remove_single(std::any_cast<long>(expr->getUnderlying()));
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::array_clear(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteArray> lhs = std::static_pointer_cast<Runtime::ConcreteArray>(obj->importObject);
+	lhs->array_clear_elements();
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::array_empty(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteArray> lhs = std::static_pointer_cast<Runtime::ConcreteArray>(obj->importObject);
+	return lhs->array_check_empty();
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::array_size(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteArray> lhs = std::static_pointer_cast<Runtime::ConcreteArray>(obj->importObject);
+	return lhs->array_check_size();
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::ordered_list_insert(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteSet> lhs = std::static_pointer_cast<Runtime::ConcreteSet>(obj->importObject);
+	lhs->ordered_list_insert_single(std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(expr->copy()->getValue()));
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::ordered_list_remove(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteSet> lhs = std::static_pointer_cast<Runtime::ConcreteSet>(obj->importObject);
+	lhs->ordered_list_remove_single(std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(expr->copy()->getValue()));
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::ordered_list_clear(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteSet> lhs = std::static_pointer_cast<Runtime::ConcreteSet>(obj->importObject);
+	lhs->ordered_list_clear_elements();
+	return nullptr;
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::ordered_list_empty(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteSet> lhs = std::static_pointer_cast<Runtime::ConcreteSet>(obj->importObject);
+	return lhs->ordered_list_check_empty();
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::ordered_list_size(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteSet> lhs = std::static_pointer_cast<Runtime::ConcreteSet>(obj->importObject);
+	return lhs->ordered_list_check_size();
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::ordered_list_count(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteSet> lhs = std::static_pointer_cast<Runtime::ConcreteSet>(obj->importObject);
+	return lhs->ordered_list_count_single(std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(expr->copy()->getValue()));
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::ordered_list_contains(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteSet> lhs = std::static_pointer_cast<Runtime::ConcreteSet>(obj->importObject);
+	return lhs->ordered_list_contains_single(std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(expr->copy()->getValue()));
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::ordered_list_find(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteSet> lhs = std::static_pointer_cast<Runtime::ConcreteSet>(obj->importObject);
+	return lhs->ordered_list_find_element(std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(expr->copy()->getValue()));
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::ordered_list_find_greater_or_equal(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteSet> lhs = std::static_pointer_cast<Runtime::ConcreteSet>(obj->importObject);
+	return lhs->ordered_list_lower_bound(std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(expr->copy()->getValue()));
+}
+
+std::shared_ptr<Runtime::AbstractObject> ValuescriptRuntimeRules::ordered_list_find_greater(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr)
+{
+	if (obj->importObject->getType().name == "Variable") {
+		obj->importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(obj->importObject->getValue());
+	}
+	std::shared_ptr<Runtime::ConcreteSet> lhs = std::static_pointer_cast<Runtime::ConcreteSet>(obj->importObject);
+	return lhs->ordered_list_upper_bound(std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(expr->copy()->getValue()));
+}
+
 std::any ValuescriptRuntimeRules::visit(tree::ParseTree* tree)
 {
-	//std::cout << "Enter: " << tree->getText() << "\n\n";
 	std::any ret = tree->accept(this);
-	//std::cout << "Exit: " << tree->getText() << "\n\n";
 	return ret;
 }
 
@@ -89,61 +307,11 @@ std::any ValuescriptRuntimeRules::visitStatementfor(ValuescriptParser::Statement
 
 std::any ValuescriptRuntimeRules::visitStatementnative(ValuescriptParser::StatementnativeContext* ctx)
 {
-	int key = std::stoi(ctx->INTEGER_LITERAL()->getText());
+	int keyA = std::stoi(ctx->INTEGER_LITERAL(0)->getText());
+	int keyB = std::stoi(ctx->INTEGER_LITERAL(1)->getText());
 	std::shared_ptr<Runtime::AbstractObject> expr = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
-	switch (key) {
-	case 1: { // Printing Pure Value
-		std::cout << "Runtime Output: " << *expr.get() << "\n\n";
-		break;
-	}
-	case 2: { // Breakpoint
-		std::cout << " -- Runtime Breakpoint -- \n\n";
-		break;
-	}
-	case 3: { // Enter Base Member
-		importing = std::any_cast<std::string>(expr->getValue());
-		break;
-	}
-	case 4: { // Exit Base Member
-		importing = "";
-		break;
-	}
-	case 5: { // Get Base Object
-		importObject = expr;
-		break;
-	}
-	case 6: { // Array Append
-		if (importObject->getType().name == "Variable") {
-			importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(importObject->getValue());
-		}
-		std::shared_ptr<Runtime::ConcreteArray> obj = std::static_pointer_cast<Runtime::ConcreteArray>(importObject);
-		obj->array_append_single(std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(expr->copy()->getValue()));
-		break;
-	}
-	case 7: { // Array Clear
-		if (importObject->getType().name == "Variable") {
-			importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(importObject->getValue());
-		}
-		std::shared_ptr<Runtime::ConcreteArray> obj = std::static_pointer_cast<Runtime::ConcreteArray>(importObject);
-		obj->array_clear_elements();
-		break;
-	}
-	case 8: { // Array Empty
-		if (importObject->getType().name == "Variable") {
-			importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(importObject->getValue());
-		}
-		std::shared_ptr<Runtime::ConcreteArray> obj = std::static_pointer_cast<Runtime::ConcreteArray>(importObject);
-		return obj->array_check_empty();
-	}
-	case 9: { // Array Size
-		if (importObject->getType().name == "Variable") {
-			importObject = std::any_cast<std::shared_ptr<Runtime::AbstractLiteral>>(importObject->getValue());
-		}
-		std::shared_ptr<Runtime::ConcreteArray> obj = std::static_pointer_cast<Runtime::ConcreteArray>(importObject);
-		return obj->array_check_size();
-	}
-	}
-	return defaultResult();
+	std::shared_ptr<Runtime::AbstractObject> ret = nativeFunctions.at(keyA).at(keyB)(this, expr);
+	return ret == nullptr ? defaultResult() : ret;
 }
 
 std::any ValuescriptRuntimeRules::visitStatementexpr(ValuescriptParser::StatementexprContext* ctx)
@@ -238,8 +406,14 @@ std::any ValuescriptRuntimeRules::visitFunctiondeclaration(ValuescriptParser::Fu
 	if (importing == "") {
 		callStack.top()->getGeneric()->addMember(name, factory->createObject({ block, ty, name, templates, params, scope }));
 	}
+	else if (importing == "Pair") {
+		Runtime::ConcretePair::addRegistration(name, factory->createObject({ block, ty, name, templates, params, scope }));
+	}
 	else if (importing == "Array") {
 		Runtime::ConcreteArray::addRegistration(name, factory->createObject({ block, ty, name, templates, params, scope }));
+	}
+	else if (importing == "Ordered_List") {
+		Runtime::ConcreteSet::addRegistration(name, factory->createObject({ block, ty, name, templates, params, scope }));
 	}
 	delete factory;
 	return defaultResult();

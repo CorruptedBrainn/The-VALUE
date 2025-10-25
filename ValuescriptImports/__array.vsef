@@ -1,25 +1,43 @@
-call_native(3: "Array");
+call_native(3, 1: "Array");
 
 func append(var val->void)->void {
-	call_native(5: this);
-	call_native(6: val);
+	call_native(3, 2: this);
+	call_native(5, 1: val);
+	return;
+}
+
+func insert(var val->void, var pos->int)->void {
+	call_native(3, 2: this);
+	call_native(5, 2: {val, pos});
+	return;
+}
+
+func pop()->void {
+	call_native(3, 2: this);
+	call_native(5, 3: 0);
+	return;
+}
+
+func remove(var pos->int)->void {
+	call_native(3, 2: this);
+	call_native(5, 4: pos);
 	return;
 }
 
 func clear()->void {
-	call_native(5: this);
-	call_native(7: 0);
+	call_native(3, 2: this);
+	call_native(5, 5: 0);
 	return;
 }
 
 func empty()->bool {
-	call_native(5: this);
-	return call_native(8: 0);
+	call_native(3, 2: this);
+	return call_native(5, 6: 0);
 }
 
 func size()->int {
-	call_native(5: this);
-	return call_native(9: 0);
+	call_native(3, 2: this);
+	return call_native(5, 7: 0);
 }
 
-call_native(4: "Array");
+call_native(3, 3: "Array");

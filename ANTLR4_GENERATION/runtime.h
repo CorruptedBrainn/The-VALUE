@@ -246,26 +246,29 @@ namespace Runtime {
 
 	class ConcretePair : public AbstractLiteral {
 	private:
+		inline static std::unordered_map<std::string, std::shared_ptr<AbstractObject>> registration;
 		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> _V;
 	public:
 		ConcretePair(std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> V, TypeInformation T) :
 			AbstractLiteral(T, V),
 			_V{ V }
 		{
-			members = {
-				
-			};
+			members = registration;
 		}
 		~ConcretePair() {}
 
 		void print(std::ostream& os) const override { os << *this->getFirst().get() << ", " << *this->getSecond().get(); }
 		std::shared_ptr<AbstractObject> copy() const override { return std::make_shared<ConcretePair>(std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(value), type); }
+		static void addRegistration(std::string name, std::shared_ptr<AbstractObject> val) { registration.insert({ name, val }); }
 
 		std::shared_ptr<AbstractObject> getFirst() const;
 		std::shared_ptr<AbstractObject> getSecond() const;
 
 		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
+
+		std::shared_ptr<AbstractObject> pair_get_first();
+		std::shared_ptr<AbstractObject> pair_get_second();
 	};
 
 	class ConcreteArray : public AbstractLiteral {
@@ -293,6 +296,9 @@ namespace Runtime {
 		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
 
 		void array_append_single(std::shared_ptr<AbstractLiteral> rhs);
+		void array_insert_single(std::shared_ptr<AbstractLiteral> rhs, long pos);
+		void array_pop_single();
+		void array_remove_single(long pos);
 		void array_clear_elements();
 		std::shared_ptr<AbstractObject> array_check_empty();
 		std::shared_ptr<AbstractObject> array_check_size();
@@ -300,23 +306,34 @@ namespace Runtime {
 
 	class ConcreteSet : public AbstractLiteral {
 	private:
-		std::set<std::shared_ptr<AbstractLiteral>, ObjectComp> _V;
+		inline static std::unordered_map<std::string, std::shared_ptr<AbstractObject>> registration;
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> _V;
 	public:
-		ConcreteSet(std::set<std::shared_ptr<AbstractLiteral>, ObjectComp> V, TypeInformation T) :
+		ConcreteSet(std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> V, TypeInformation T) :
 			AbstractLiteral(T, V),
 			_V{ V }
 		{ 
-			members = {
-
-			};
+			members = registration;
 		}
 		~ConcreteSet() {}
 
 		void print(std::ostream& os) const override;
-		std::shared_ptr<AbstractObject> copy() const override { return std::make_shared<ConcreteSet>(std::any_cast<std::set<std::shared_ptr<AbstractLiteral>, ObjectComp>>(value), type); }
+		std::shared_ptr<AbstractObject> copy() const override { return std::make_shared<ConcreteSet>(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(value), type); }
+		static void addRegistration(std::string name, std::shared_ptr<AbstractObject> val) { registration.insert({ name, val }); }
 
 		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
+
+		void ordered_list_insert_single(std::shared_ptr<AbstractLiteral> rhs);
+		void ordered_list_remove_single(std::shared_ptr<AbstractLiteral> rhs);
+		void ordered_list_clear_elements();
+		std::shared_ptr<AbstractObject> ordered_list_check_empty();
+		std::shared_ptr<AbstractObject> ordered_list_check_size();
+		std::shared_ptr<AbstractObject> ordered_list_count_single(std::shared_ptr<AbstractLiteral> rhs);
+		std::shared_ptr<AbstractObject> ordered_list_contains_single(std::shared_ptr<AbstractLiteral> rhs);
+		std::shared_ptr<AbstractObject> ordered_list_find_element(std::shared_ptr<AbstractLiteral> rhs);
+		std::shared_ptr<AbstractObject> ordered_list_lower_bound(std::shared_ptr<AbstractLiteral> rhs);
+		std::shared_ptr<AbstractObject> ordered_list_upper_bound(std::shared_ptr<AbstractLiteral> rhs);
 	};
 
 	class ConcreteVariable : public AbstractLiteral {

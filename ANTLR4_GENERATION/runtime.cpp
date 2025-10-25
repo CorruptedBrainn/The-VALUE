@@ -491,6 +491,18 @@ namespace Runtime {
 		return ret;
 	}
 
+	std::shared_ptr<AbstractObject> ConcretePair::pair_get_first()
+	{
+		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> val = std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(this->getValue());
+		return val.first;
+	}
+
+	std::shared_ptr<AbstractObject> ConcretePair::pair_get_second()
+	{
+		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> val = std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(this->getValue());
+		return val.second;
+	}
+
 	/// ========== CONCRETE ARRAY ==========
 
 	void ConcreteArray::print(std::ostream& os) const
@@ -558,6 +570,31 @@ namespace Runtime {
 		return;
 	}
 
+	void ConcreteArray::array_insert_single(std::shared_ptr<AbstractLiteral> rhs, long pos)
+	{
+		std::vector<std::shared_ptr<AbstractLiteral>>& alhs = std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>&>(this->getReference());
+		if (rhs->getType().name == "Variable") rhs = std::any_cast<std::shared_ptr<AbstractLiteral>>(rhs->getValue());
+		alhs.insert(alhs.begin() + pos, rhs);
+		_V.insert(_V.begin() + pos, rhs);
+		return;
+	}
+
+	void ConcreteArray::array_pop_single()
+	{
+		std::vector<std::shared_ptr<AbstractLiteral>>& alhs = std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>&>(this->getReference());
+		alhs.pop_back();
+		_V.pop_back();
+		return;
+	}
+
+	void ConcreteArray::array_remove_single(long pos)
+	{
+		std::vector<std::shared_ptr<AbstractLiteral>>& alhs = std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>&>(this->getReference());
+		alhs.erase(alhs.begin() + pos);
+		_V.erase(_V.begin() + pos);
+		return;
+	}
+
 	void ConcreteArray::array_clear_elements()
 	{
 		std::vector<std::shared_ptr<AbstractLiteral>>& alhs = std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>&>(this->getReference());
@@ -588,7 +625,7 @@ namespace Runtime {
 
 	void ConcreteSet::print(std::ostream& os) const
 	{
-		std::set<std::shared_ptr<AbstractLiteral>, ObjectComp> vec(std::any_cast<std::set<std::shared_ptr<AbstractLiteral>, ObjectComp>>(this->getValue()));
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> vec(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(this->getValue()));
 		if (vec.empty()) os << "{ }";
 		else {
 			os << "{ " << **vec.begin();
@@ -602,8 +639,8 @@ namespace Runtime {
 
 	std::shared_ptr<AbstractObject> ConcreteSet::operator==(std::shared_ptr<AbstractLiteral> rhs) const
 	{
-		std::set<std::shared_ptr<AbstractLiteral>, ObjectComp> slhs(std::any_cast<std::set<std::shared_ptr<AbstractLiteral>, ObjectComp>>(this->getValue()));
-		std::set<std::shared_ptr<AbstractLiteral>, ObjectComp> srhs(std::any_cast<std::set<std::shared_ptr<AbstractLiteral>, ObjectComp>>(rhs->getUnderlying()));
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> slhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(this->getValue()));
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> srhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(rhs->getUnderlying()));
 		BaseCreator* factory(new BooleanCreator());
 		std::shared_ptr<AbstractObject> ret(factory->createObject({ slhs == srhs }));
 		delete factory;
@@ -612,12 +649,97 @@ namespace Runtime {
 
 	std::shared_ptr<AbstractObject> ConcreteSet::operator!=(std::shared_ptr<AbstractLiteral> rhs) const
 	{
-		std::set<std::shared_ptr<AbstractLiteral>, ObjectComp> slhs(std::any_cast<std::set<std::shared_ptr<AbstractLiteral>, ObjectComp>>(this->getValue()));
-		std::set<std::shared_ptr<AbstractLiteral>, ObjectComp> srhs(std::any_cast<std::set<std::shared_ptr<AbstractLiteral>, ObjectComp>>(rhs->getUnderlying()));
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> slhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(this->getValue()));
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> srhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(rhs->getUnderlying()));
 		BaseCreator* factory(new BooleanCreator());
 		std::shared_ptr<AbstractObject> ret(factory->createObject({ slhs != srhs }));
 		delete factory;
 		return ret;
+	}
+
+	void ConcreteSet::ordered_list_insert_single(std::shared_ptr<AbstractLiteral> rhs)
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>& slhs = std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>&>(this->getReference());
+		if (rhs->getType().name == "Variable") rhs = std::any_cast<std::shared_ptr<AbstractLiteral>>(rhs->getValue());
+		slhs.insert(rhs);
+		_V.insert(rhs);
+		return;
+	}
+
+	void ConcreteSet::ordered_list_remove_single(std::shared_ptr<AbstractLiteral> rhs)
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>& slhs = std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>&>(this->getReference());
+		if (rhs->getType().name == "Variable") rhs = std::any_cast<std::shared_ptr<AbstractLiteral>>(rhs->getValue());
+		slhs.erase(slhs.find(rhs));
+		_V.erase(_V.find(rhs));
+		return;
+	}
+
+	void ConcreteSet::ordered_list_clear_elements()
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>& slhs = std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>&>(this->getReference());
+		slhs.clear();
+		_V.clear();
+		return;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteSet::ordered_list_check_empty()
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>& slhs = std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>&>(this->getReference());
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ slhs.empty() }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteSet::ordered_list_check_size()
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>& slhs = std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>&>(this->getReference());
+		BaseCreator* factory(new IntegerCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ (long) slhs.size() }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteSet::ordered_list_count_single(std::shared_ptr<AbstractLiteral> rhs)
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>& slhs = std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>&>(this->getReference());
+		if (rhs->getType().name == "Variable") rhs = std::any_cast<std::shared_ptr<AbstractLiteral>>(rhs->getValue());
+		BaseCreator* factory(new IntegerCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ (long) slhs.count(rhs) }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteSet::ordered_list_contains_single(std::shared_ptr<AbstractLiteral> rhs)
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>& slhs = std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>&>(this->getReference());
+		if (rhs->getType().name == "Variable") rhs = std::any_cast<std::shared_ptr<AbstractLiteral>>(rhs->getValue());
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ slhs.contains(rhs) }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteSet::ordered_list_find_element(std::shared_ptr<AbstractLiteral> rhs)
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>& slhs = std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>&>(this->getReference());
+		if (rhs->getType().name == "Variable") rhs = std::any_cast<std::shared_ptr<AbstractLiteral>>(rhs->getValue());
+		return *slhs.find(rhs);
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteSet::ordered_list_lower_bound(std::shared_ptr<AbstractLiteral> rhs)
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>& slhs = std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>&>(this->getReference());
+		if (rhs->getType().name == "Variable") rhs = std::any_cast<std::shared_ptr<AbstractLiteral>>(rhs->getValue());
+		return *slhs.lower_bound(rhs);
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteSet::ordered_list_upper_bound(std::shared_ptr<AbstractLiteral> rhs)
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>& slhs = std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>&>(this->getReference());
+		if (rhs->getType().name == "Variable") rhs = std::any_cast<std::shared_ptr<AbstractLiteral>>(rhs->getValue());
+		return *slhs.upper_bound(rhs);
 	}
 
 	/// ========== CONCRETE VARIABLE ==========
@@ -799,7 +921,7 @@ namespace Runtime {
 	{
 		std::shared_ptr<AbstractLiteral> lcont = std::any_cast<std::shared_ptr<AbstractLiteral>>(args[0]);
 		std::vector<std::shared_ptr<AbstractLiteral>> vec = std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(std::static_pointer_cast<AbstractContainer>(lcont)->getValue());
-		std::set<std::shared_ptr<AbstractLiteral>, ObjectComp> val(vec.begin(), vec.end());
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> val(vec.begin(), vec.end());
 		TypeInformation ty(std::any_cast<TypeInformation>(args[1]));
 		return std::make_shared<ConcreteSet>(val, ty);
 	}
@@ -860,73 +982,3 @@ namespace Runtime {
 	}
 
 }
-
-#if 0
-namespace {
-	template<class T, class func = std::plus<T>>
-	class SegmentTree {
-	private:
-		std::vector<std::vector<T>> vec;
-		int N_x = 0, N_y = 0;
-		const func& op;
-	public:
-		SegmentTree(std::vector<std::vector<T>>& vec, const func& op = std::plus<T>()) :
-			vec{ vec },
-			op{ op }
-		{
-			N_x = vec.size() - 1;
-			if (!vec.empty()) N_y = vec[0].size() - 1;
-		}
-		SegmentTree(int x, int y, T val, const func& op = std::plus<T>()) :
-			vec(x * 2, std::vector<T>(y * 2, val)),
-			op{ op }
-		{
-			N_x = x - 1;
-			N_y = y - 1;
-		}
-		~SegmentTree() {}
-
-		T update(int pos_x, int pos_y, T val) {
-			return update(0, pos_x, pos_y, 0, N_x, val);
-		}
-
-		T update(int idx_x, int& pos_x, int& pos_y, int l, int r, T& val) {
-			if (l == r) return update(0, pos_y, 0, N_y, val, vec[idx_x]);
-			int m = (l + r) / 2;
-			if (pos_x <= m) return op(update(0, pos_y, 0, N_y, val, vec[idx_x]), update(idx_x + 1, pos_x, pos_y, l, m, val));
-			else return op(update(0, pos_y, 0, N_y, val, vec[idx_x]), update(idx_x + 2 * (m - l + 1), pos_x, pos_y, m + 1, r, val));
-		}
-
-		T update(int idx_y, int& pos_y, int l, int r, T& val, std::vector<T>& vec) {
-			if (l == r) return vec[idx_y] = op(vec[idx_y], val);
-			int m = (l + r) / 2;
-			if (pos_y <= m) return vec[idx_y] = op(update(idx_y + 1, pos_y, l, m, val, vec), vec[idx_y + 2 * (m - l + 1)]);
-			else return vec[idx_y] = op(vec[idx_y + 1], update(idx_y + 2 * (m - l + 1), pos_y, m + 1, r, val, vec));
-		}
-
-		T query(int pos_xl, int pos_yl, int l) {
-			int pos_xr = pos_xl + l - 1;
-			int pos_yr = pos_yl + l - 1;
-			return query(0, pos_xl, pos_xr, pos_yl, pos_yr, 0, N_x);
-		}
-
-		T query(int pos_xl, int pos_xr, int pos_yl, int pos_yr) {
-			return query(0, pos_xl, pos_xr, pos_yl, pos_yr, 0, N_x);
-		}
-
-		T query(int idx_x, int& pos_xl, int& pos_xr, int& pos_yl, int& pos_yr, int l, int r) {
-			if (pos_xl <= l && r <= pos_xr) return query(0, pos_yl, pos_yr, 0, N_y, vec[idx_x]);
-			if (r < pos_xl || pos_xr < l) return 0;
-			int m = (l + r) / 2;
-			return op(query(idx_x + 1, pos_xl, pos_xr, pos_yl, pos_yr, l, m), query(idx_x + 2 * (m - l + 1), pos_xl, pos_xr, pos_yl, pos_yr, m + 1, r));
-		}
-
-		T query(int idx_y, int& pos_yl, int& pos_yr, int l, int r, std::vector<T>& vec) {
-			if (pos_yl <= l && r <= pos_yr) return vec[idx_y];
-			if (r < pos_yl || pos_yr < l) return 0;
-			int m = (l + r) / 2;
-			return op(query(idx_y + 1, pos_yl, pos_yr, l, m, vec), query(idx_y + 2 * (m - l + 1), pos_yl, pos_yr, m + 1, r, vec));
-		}
-	};
-}
-#endif

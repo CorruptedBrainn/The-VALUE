@@ -1,0 +1,13 @@
+call_native(3, 1: "Pair");
+
+func first()->void {
+	call_native(3, 2: this);
+	return call_native(4, 1: 0);
+}
+
+func second()->void {
+	call_native(3, 2: this);
+	return call_native(4, 2: 0);
+}
+
+call_native(3, 3: "Pair");

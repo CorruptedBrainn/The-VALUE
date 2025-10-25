@@ -48,6 +48,39 @@ private:
 			delete parser;
 		}
 	};
+
+	/// ========== PRINTING FUNCTIONS ==========
+	static std::shared_ptr<Runtime::AbstractObject> console_output_raw(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> console_output_normal(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> console_output_pretty(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	/// ========== DEBUGGING FUNCTIONS ==========
+	static std::shared_ptr<Runtime::AbstractObject> valuescript_breakpoint(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	/// ========== LIBRARY FUNCTIONS ==========
+	static std::shared_ptr<Runtime::AbstractObject> enter_base_file(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> get_base_object(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> exit_base_file(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	/// ========== PAIR FUNCTIONS ==========
+	static std::shared_ptr<Runtime::AbstractObject> pair_first(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> pair_second(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	/// ========== ARRAY FUNCTIONS ==========
+	static std::shared_ptr<Runtime::AbstractObject> array_append(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> array_insert(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> array_pop(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> array_remove(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> array_clear(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> array_empty(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> array_size(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	/// ========== ORDERED LIST FUNCTIONS ==========
+	static std::shared_ptr<Runtime::AbstractObject> ordered_list_insert(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> ordered_list_remove(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> ordered_list_clear(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> ordered_list_empty(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> ordered_list_size(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> ordered_list_count(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> ordered_list_contains(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> ordered_list_find(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> ordered_list_find_greater_or_equal(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
+	static std::shared_ptr<Runtime::AbstractObject> ordered_list_find_greater(ValuescriptRuntimeRules* obj, std::shared_ptr<Runtime::AbstractObject> expr);
 	Runtime::BaseCreator* factory = nullptr;
 	std::shared_ptr<Runtime::GenericScope> globalGeneric, currentGeneric;
 	std::shared_ptr<Runtime::BlockScope> globalBlock = nullptr;
@@ -56,6 +89,46 @@ private:
 	std::unordered_map<std::string, std::unique_ptr<ExtraImport>> imports;
 	std::string importing = "";
 	std::shared_ptr<Runtime::AbstractObject> importObject = nullptr;
+	inline static const std::unordered_map<int, std::unordered_map<int, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>>> nativeFunctions = {
+		{1, {
+			{1, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(console_output_raw)},
+			{2, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(console_output_normal)},
+			{3, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(console_output_pretty)}
+		}},
+		{2, {
+			{1, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(valuescript_breakpoint)}
+		}},
+		{3, {
+			{1, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(enter_base_file)},
+			{2, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(get_base_object)},
+			{3, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(exit_base_file)}
+		}},
+		{4, {
+			{1, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(pair_first)},
+			{3, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(pair_second)}
+		}},
+		{5, {
+			{1, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(array_append)},
+			{2, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(array_insert)},
+			{3, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(array_pop)},
+			{4, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(array_remove)},
+			{5, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(array_clear)},
+			{6, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(array_empty)},
+			{7, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(array_size)}
+		}},
+		{5, {
+			{1, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_insert)},
+			{2, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_remove)},
+			{3, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_clear)},
+			{4, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_empty)},
+			{5, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_size)},
+			{6, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_count)},
+			{7, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_contains)},
+			{8, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_find)},
+			{9, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_find_greater_or_equal)},
+			{10, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_find_greater)}
+		}}
+	};
 public:
 	ValuescriptRuntimeRules(std::shared_ptr<Runtime::GenericScope> global) :
 		globalGeneric{ global },
@@ -128,5 +201,5 @@ public:
 	std::any visitFalse(ValuescriptParser::FalseContext* ctx) override;
 	std::any visitString(ValuescriptParser::StringContext* ctx) override;
 	std::any visitOrder(ValuescriptParser::OrderContext* ctx) override;
-	virtual std::any visitThis(ValuescriptParser::ThisContext* ctx) override;
+	std::any visitThis(ValuescriptParser::ThisContext* ctx) override;
 };

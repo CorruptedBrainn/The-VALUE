@@ -1,0 +1,56 @@
+call_native(3, 1: "Ordered_List");
+
+func insert(var val->void)->void {
+	call_native(3, 2: this);
+	call_native(6, 1: val);
+	return;
+}
+
+func remove(var val->void)->void {
+	call_native(3, 2: this);
+	call_native(6, 2: val);
+	return;
+}
+
+func clear()->void {
+	call_native(3, 2: this);
+	call_native(6, 3: 0);
+	return;
+}
+
+func empty()->bool {
+	call_native(3, 2: this);
+	return call_native(6, 4: 0);
+}
+
+func size()->int {
+	call_native(3, 2: this);
+	return call_native(6, 5: 0);
+}
+
+func count(var val->void)->int {
+	call_native(3, 2: this);
+	return call_native(6, 6: val);
+}
+
+func contains(var val->void)->bool {
+	call_native(3, 2: this);
+	return call_native(6, 7: val);
+}
+
+func find(var val->void)->void {
+	call_native(3, 2: this);
+	return call_native(6, 8: val);
+}
+
+func find_greater_or_equal(var val->void)->void {
+	call_native(3, 2: this);
+	return call_native(6, 9: val);
+}
+
+func find_strictly_greater(var val->void)->void {
+	call_native(3, 2: this);
+	return call_native(6, 10: val);
+}
+
+call_native(3, 3: "Ordered_List");

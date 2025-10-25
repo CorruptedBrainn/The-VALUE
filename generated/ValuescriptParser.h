@@ -211,7 +211,9 @@ public:
 
     antlr4::tree::TerminalNode *NATIVECALL();
     antlr4::tree::TerminalNode *OPEN_PARENTHESES();
-    antlr4::tree::TerminalNode *INTEGER_LITERAL();
+    std::vector<antlr4::tree::TerminalNode *> INTEGER_LITERAL();
+    antlr4::tree::TerminalNode* INTEGER_LITERAL(size_t i);
+    antlr4::tree::TerminalNode *COMMA();
     antlr4::tree::TerminalNode *COLON();
     ExpressionContext *expression();
     antlr4::tree::TerminalNode *CLOSED_PARENTHESES();

@@ -91,12 +91,12 @@ if __name__ == "__main__":
 	app.start() # RIP Braincells
 """
 
-n = 1
+#n = 1
 
 def temp_print(inp: int)->int:
-	global n
-	print(f"Count: {n} - {inp}")
-	n += 1
+	#global n
+	#print(f"Count: {n} - {inp}")
+	#n += 1
 	return inp
 
 class SegmentTree:
@@ -158,13 +158,13 @@ class SegmentTree {
 	static var vec->array<array<int>> = {{}};
 	static var N_x->int = 0;
 	static var N_y->int = 0;
-	static var n->int = 1;
+	//static var n->int = 1;
 
 	func op(var lhs->int, var rhs->int)->int {
-		call_native(1: n);
-		call_native(1: lhs + rhs);
-		call_native(1: "----------");
-		n++;
+		//call_native(1: n);
+		//call_native(1: lhs + rhs);
+		//call_native(1: "----------");
+		//n++;
 		return lhs + rhs;
 	}
 
@@ -238,6 +238,12 @@ segTree.update(0, 1, 1);
 score += segTree.query(0, 1, 1);
 segTree.update(1, 1, -1);
 score += segTree.query(0, 0, 2);
+segTree.update(5, 3, 2);
+segTree.update(8, 6, 4);
+segTree.update(2, 1, 1);
+score += segTree.query(5, 5, 4);
+segTree.update(8, 6, -2);
+score += segTree.query(2, 1, 6);
 call_native(1: score);
 return;"""
 
@@ -250,6 +256,12 @@ segTree.update(0, 1, 1)
 score += segTree.query(0, 1, 1)
 segTree.update(1, 1, -1)
 score += segTree.query(0, 0, 2)
+segTree.update(5, 3, 2)
+segTree.update(8, 6, 4)
+segTree.update(2, 1, 1)
+score += segTree.query(5, 5, 4)
+segTree.update(8, 6, -2)
+score += segTree.query(2, 1, 6)
 print(score)
 
 from native_wrapper import ValuescriptCompiler

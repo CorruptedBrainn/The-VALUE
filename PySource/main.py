@@ -91,8 +91,12 @@ if __name__ == "__main__":
 	app.start() # RIP Braincells
 """
 
+n = 1
+
 def temp_print(inp: int)->int:
-	#print(inp)
+	global n
+	print(f"Count: {n} - {inp}")
+	n += 1
 	return inp
 
 class SegmentTree:
@@ -154,9 +158,13 @@ class SegmentTree {
 	static var vec->array<array<int>> = {{}};
 	static var N_x->int = 0;
 	static var N_y->int = 0;
+	static var n->int = 1;
 
 	func op(var lhs->int, var rhs->int)->int {
-		//call_native(1: lhs + rhs);
+		call_native(1: n);
+		call_native(1: lhs + rhs);
+		call_native(1: "----------");
+		n++;
 		return lhs + rhs;
 	}
 
@@ -236,24 +244,11 @@ return;"""
 # TESTING STUFF
 segTree = SegmentTree.construct(10, 10, 0)
 score = 0
-print(segTree.vec)
-print()
 segTree.update(0, 0, 1)
-print(segTree.vec)
-print()
 segTree.update(1, 1, 1)
-print(segTree.vec)
-print()
 segTree.update(0, 1, 1)
-print(segTree.vec)
-print()
 score += segTree.query(0, 1, 1)
-print(segTree.vec)
-print()
-print(score)
 segTree.update(1, 1, -1)
-print(segTree.vec)
-print()
 score += segTree.query(0, 0, 2)
 print(score)
 

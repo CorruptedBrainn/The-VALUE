@@ -105,7 +105,7 @@ private:
 		}},
 		{4, {
 			{1, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(pair_first)},
-			{3, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(pair_second)}
+			{2, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(pair_second)}
 		}},
 		{5, {
 			{1, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(array_append)},
@@ -116,7 +116,7 @@ private:
 			{6, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(array_empty)},
 			{7, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(array_size)}
 		}},
-		{5, {
+		{6, {
 			{1, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_insert)},
 			{2, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_remove)},
 			{3, std::function<std::shared_ptr<Runtime::AbstractObject>(ValuescriptRuntimeRules*, std::shared_ptr<Runtime::AbstractObject>)>(ordered_list_clear)},

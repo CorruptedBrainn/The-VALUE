@@ -66,6 +66,7 @@ namespace Runtime {
 		{ }
 		virtual ~AbstractLiteral() {}
 
+		virtual const std::vector<std::shared_ptr<AbstractLiteral>> getVectorRepresentation() { return {}; }
 		virtual std::unordered_map<std::string, std::shared_ptr<AbstractObject>>& getMembers() { return members; }
 		std::shared_ptr<AbstractObject> copy() const override = 0;
 
@@ -103,6 +104,7 @@ namespace Runtime {
 		{ }
 		~AbstractContainer() {}
 
+		const std::vector<std::shared_ptr<AbstractLiteral>> getVectorRepresentation() override;
 		void print(std::ostream& os) const override;
 		std::shared_ptr<AbstractObject> copy() const override { return std::make_shared<AbstractContainer>(type, value); }
 	};
@@ -257,6 +259,7 @@ namespace Runtime {
 		}
 		~ConcretePair() {}
 
+		const std::vector<std::shared_ptr<AbstractLiteral>> getVectorRepresentation() override;
 		void print(std::ostream& os) const override { os << *this->getFirst().get() << ", " << *this->getSecond().get(); }
 		std::shared_ptr<AbstractObject> copy() const override { return std::make_shared<ConcretePair>(std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(value), type); }
 		static void addRegistration(std::string name, std::shared_ptr<AbstractObject> val) { registration.insert({ name, val }); }
@@ -266,6 +269,10 @@ namespace Runtime {
 
 		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator<=(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator>=(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator<(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator>(std::shared_ptr<AbstractLiteral> rhs) const override;
 
 		std::shared_ptr<AbstractObject> pair_get_first();
 		std::shared_ptr<AbstractObject> pair_get_second();
@@ -284,6 +291,7 @@ namespace Runtime {
 		}
 		~ConcreteArray() {}
 
+		const std::vector<std::shared_ptr<AbstractLiteral>> getVectorRepresentation() override;
 		void print(std::ostream& os) const override;
 		std::shared_ptr<AbstractObject> copy() const override { return std::make_shared<ConcreteArray>(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(value), type); }
 		static void addRegistration(std::string name, std::shared_ptr<AbstractObject> val) { registration.insert({ name, val }); }
@@ -294,6 +302,10 @@ namespace Runtime {
 
 		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator<=(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator>=(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator<(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator>(std::shared_ptr<AbstractLiteral> rhs) const override;
 
 		void array_append_single(std::shared_ptr<AbstractLiteral> rhs);
 		void array_insert_single(std::shared_ptr<AbstractLiteral> rhs, long pos);
@@ -317,12 +329,17 @@ namespace Runtime {
 		}
 		~ConcreteSet() {}
 
+		const std::vector<std::shared_ptr<AbstractLiteral>> getVectorRepresentation() override;
 		void print(std::ostream& os) const override;
 		std::shared_ptr<AbstractObject> copy() const override { return std::make_shared<ConcreteSet>(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(value), type); }
 		static void addRegistration(std::string name, std::shared_ptr<AbstractObject> val) { registration.insert({ name, val }); }
 
 		std::shared_ptr<AbstractObject> operator==(std::shared_ptr<AbstractLiteral> rhs) const override;
 		std::shared_ptr<AbstractObject> operator!=(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator<=(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator>=(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator<(std::shared_ptr<AbstractLiteral> rhs) const override;
+		std::shared_ptr<AbstractObject> operator>(std::shared_ptr<AbstractLiteral> rhs) const override;
 
 		void ordered_list_insert_single(std::shared_ptr<AbstractLiteral> rhs);
 		void ordered_list_remove_single(std::shared_ptr<AbstractLiteral> rhs);
@@ -353,6 +370,7 @@ namespace Runtime {
 		{ }
 		~ConcreteVariable() {}
 
+		const std::vector<std::shared_ptr<AbstractLiteral>> getVectorRepresentation() override;
 		std::unordered_map<std::string, std::shared_ptr<AbstractObject>>& getMembers() override { return std::any_cast<std::shared_ptr<AbstractLiteral>>(value)->getMembers(); }
 		void print(std::ostream& os) const override { os << *std::any_cast<std::shared_ptr<AbstractLiteral>>(this->getValue()).get(); }
 		std::shared_ptr<AbstractObject> copy() const override { return std::make_shared<ConcreteVariable>(std::static_pointer_cast<AbstractLiteral>(std::any_cast<std::shared_ptr<AbstractLiteral>>(value)->copy()), type, name, isConst, isStatic); }

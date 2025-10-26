@@ -20,6 +20,13 @@ namespace Runtime {
 
 	/// ========== ABSTRACT CONTAINER ==========
 
+	const std::vector<std::shared_ptr<AbstractLiteral>> AbstractContainer::getVectorRepresentation()
+	{
+		std::vector<std::shared_ptr<AbstractLiteral>> val(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(this->getValue()));
+		const std::vector<std::shared_ptr<AbstractLiteral>> vec(val.begin(), val.end());
+		return vec;
+	}
+
 	void AbstractContainer::print(std::ostream& os) const
 	{
 		std::vector<std::shared_ptr<AbstractLiteral>> vec(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(this->getValue()));
@@ -459,6 +466,13 @@ namespace Runtime {
 
 	/// ========== CONCRETE PAIR ==========
 
+	const std::vector<std::shared_ptr<AbstractLiteral>> ConcretePair::getVectorRepresentation()
+	{
+		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> val(std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(this->getValue()));
+		const std::vector<std::shared_ptr<AbstractLiteral>> vec{ val.first, val.second };
+		return vec;
+	}
+
 	std::shared_ptr<AbstractObject> ConcretePair::getFirst() const
 	{
 		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> val = std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(this->getValue());
@@ -491,6 +505,46 @@ namespace Runtime {
 		return ret;
 	}
 
+	std::shared_ptr<AbstractObject> ConcretePair::operator<=(std::shared_ptr<AbstractLiteral> rhs) const
+	{
+		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> plhs(std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(this->getValue()));
+		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> prhs(std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(rhs->getUnderlying()));
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ plhs <= prhs }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcretePair::operator>=(std::shared_ptr<AbstractLiteral> rhs) const
+	{
+		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> plhs(std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(this->getValue()));
+		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> prhs(std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(rhs->getUnderlying()));
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ plhs >= prhs }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcretePair::operator<(std::shared_ptr<AbstractLiteral> rhs) const
+	{
+		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> plhs(std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(this->getValue()));
+		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> prhs(std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(rhs->getUnderlying()));
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ plhs < prhs }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcretePair::operator>(std::shared_ptr<AbstractLiteral> rhs) const
+	{
+		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> plhs(std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(this->getValue()));
+		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> prhs(std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(rhs->getUnderlying()));
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ plhs > prhs }));
+		delete factory;
+		return ret;
+	}
+
 	std::shared_ptr<AbstractObject> ConcretePair::pair_get_first()
 	{
 		std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>> val = std::any_cast<std::pair<std::shared_ptr<AbstractLiteral>, std::shared_ptr<AbstractLiteral>>>(this->getValue());
@@ -504,6 +558,13 @@ namespace Runtime {
 	}
 
 	/// ========== CONCRETE ARRAY ==========
+
+	const std::vector<std::shared_ptr<AbstractLiteral>> ConcreteArray::getVectorRepresentation()
+	{
+		std::vector<std::shared_ptr<AbstractLiteral>> val(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(this->getValue()));
+		const std::vector<std::shared_ptr<AbstractLiteral>> vec(val.begin(), val.end());
+		return vec;
+	}
 
 	void ConcreteArray::print(std::ostream& os) const
 	{
@@ -557,6 +618,46 @@ namespace Runtime {
 		std::vector<std::shared_ptr<AbstractLiteral>> arhs(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(rhs->getUnderlying()));
 		BaseCreator* factory(new BooleanCreator());
 		std::shared_ptr<AbstractObject> ret(factory->createObject({ alhs != arhs }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteArray::operator<=(std::shared_ptr<AbstractLiteral> rhs) const
+	{
+		std::vector<std::shared_ptr<AbstractLiteral>> alhs(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(this->getValue()));
+		std::vector<std::shared_ptr<AbstractLiteral>> arhs(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(rhs->getUnderlying()));
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ alhs <= arhs }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteArray::operator>=(std::shared_ptr<AbstractLiteral> rhs) const
+	{
+		std::vector<std::shared_ptr<AbstractLiteral>> alhs(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(this->getValue()));
+		std::vector<std::shared_ptr<AbstractLiteral>> arhs(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(rhs->getUnderlying()));
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ alhs >= arhs }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteArray::operator<(std::shared_ptr<AbstractLiteral> rhs) const
+	{
+		std::vector<std::shared_ptr<AbstractLiteral>> alhs(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(this->getValue()));
+		std::vector<std::shared_ptr<AbstractLiteral>> arhs(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(rhs->getUnderlying()));
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ alhs < arhs }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteArray::operator>(std::shared_ptr<AbstractLiteral> rhs) const
+	{
+		std::vector<std::shared_ptr<AbstractLiteral>> alhs(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(this->getValue()));
+		std::vector<std::shared_ptr<AbstractLiteral>> arhs(std::any_cast<std::vector<std::shared_ptr<AbstractLiteral>>>(rhs->getUnderlying()));
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ alhs > arhs }));
 		delete factory;
 		return ret;
 	}
@@ -623,6 +724,13 @@ namespace Runtime {
 
 	/// ========== CONCRETE SET ==========
 
+	const std::vector<std::shared_ptr<AbstractLiteral>> ConcreteSet::getVectorRepresentation()
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> val(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(this->getValue()));
+		const std::vector<std::shared_ptr<AbstractLiteral>> vec(val.begin(), val.end());
+		return vec;
+	}
+
 	void ConcreteSet::print(std::ostream& os) const
 	{
 		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> vec(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(this->getValue()));
@@ -653,6 +761,46 @@ namespace Runtime {
 		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> srhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(rhs->getUnderlying()));
 		BaseCreator* factory(new BooleanCreator());
 		std::shared_ptr<AbstractObject> ret(factory->createObject({ slhs != srhs }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteSet::operator<=(std::shared_ptr<AbstractLiteral> rhs) const
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> slhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(this->getValue()));
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> srhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(rhs->getUnderlying()));
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ slhs <= srhs }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteSet::operator>=(std::shared_ptr<AbstractLiteral> rhs) const
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> slhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(this->getValue()));
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> srhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(rhs->getUnderlying()));
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ slhs >= srhs }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteSet::operator<(std::shared_ptr<AbstractLiteral> rhs) const
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> slhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(this->getValue()));
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> srhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(rhs->getUnderlying()));
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ slhs < srhs }));
+		delete factory;
+		return ret;
+	}
+
+	std::shared_ptr<AbstractObject> ConcreteSet::operator>(std::shared_ptr<AbstractLiteral> rhs) const
+	{
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> slhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(this->getValue()));
+		std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp> srhs(std::any_cast<std::multiset<std::shared_ptr<AbstractLiteral>, ObjectComp>>(rhs->getUnderlying()));
+		BaseCreator* factory(new BooleanCreator());
+		std::shared_ptr<AbstractObject> ret(factory->createObject({ slhs > srhs }));
 		delete factory;
 		return ret;
 	}
@@ -743,6 +891,12 @@ namespace Runtime {
 	}
 
 	/// ========== CONCRETE VARIABLE ==========
+
+	const std::vector<std::shared_ptr<AbstractLiteral>> ConcreteVariable::getVectorRepresentation()
+	{
+		std::shared_ptr<AbstractLiteral> lhs(std::any_cast<std::shared_ptr<AbstractLiteral>>(this->getValue()));
+		return lhs->getVectorRepresentation();
+	}
 
 	std::any ConcreteVariable::setValue(std::shared_ptr<AbstractObject> val)
 	{

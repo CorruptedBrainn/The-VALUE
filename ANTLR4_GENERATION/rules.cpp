@@ -322,15 +322,20 @@ std::any ValuescriptRuntimeRules::visitStatementexpr(ValuescriptParser::Statemen
 
 std::any ValuescriptRuntimeRules::visitStatementret(ValuescriptParser::StatementretContext* ctx)
 {
-	if (ctx->expression() == nullptr) {
-		factory = new Runtime::VoidCreator;
-		std::shared_ptr<Runtime::AbstractLiteral> ret = std::static_pointer_cast<Runtime::AbstractLiteral>(factory->createObject());
-		delete factory;
+	if (ctx->expression() != nullptr) {
+		std::shared_ptr<Runtime::AbstractObject> oret = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
+		std::shared_ptr<Runtime::AbstractLiteral> ret = std::static_pointer_cast<Runtime::AbstractLiteral>(oret->copy());
+		callStack.top()->getGeneric()->setRet(ret);
+	}
+	else if (ctx->statement() != nullptr) {
+		std::shared_ptr<Runtime::AbstractObject> oret = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->statement()));
+		std::shared_ptr<Runtime::AbstractLiteral> ret = std::static_pointer_cast<Runtime::AbstractLiteral>(oret->copy());
 		callStack.top()->getGeneric()->setRet(ret);
 	}
 	else {
-		std::shared_ptr<Runtime::AbstractObject> oret = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
-		std::shared_ptr<Runtime::AbstractLiteral> ret = std::static_pointer_cast<Runtime::AbstractLiteral>(oret->copy());
+		factory = new Runtime::VoidCreator;
+		std::shared_ptr<Runtime::AbstractLiteral> ret = std::static_pointer_cast<Runtime::AbstractLiteral>(factory->createObject());
+		delete factory;
 		callStack.top()->getGeneric()->setRet(ret);
 	}
 	return defaultResult();
@@ -340,6 +345,31 @@ std::any ValuescriptRuntimeRules::visitStatementbreak(ValuescriptParser::Stateme
 {
 	callStack.top()->setBroken(true);
 	return defaultResult();
+}
+
+std::shared_ptr<Runtime::AbstractLiteral> recurseTypeChanging(Runtime::TypeInformation& ty, std::shared_ptr<Runtime::AbstractLiteral> val) {
+	if (!ty.children.empty()) {
+		std::vector<std::shared_ptr<Runtime::AbstractLiteral>>& vec = std::any_cast<std::vector<std::shared_ptr<Runtime::AbstractLiteral>>&>(val->getReference());
+		size_t latest = 0;
+		for (size_t i = 0; i < ty.children.size(); i++) {
+			if (!ty.children[i].children.empty()) {
+				vec[i] = recurseTypeChanging(ty.children[i], vec[i]);
+				latest = i;
+			}
+		}
+		for (size_t i = ty.children.size(); i < vec.size(); i++) {
+			if (vec[i]->getType().name == "Object") {
+				vec[i] = recurseTypeChanging(ty.children[latest], vec[i]);
+			}
+		}
+	}
+	Runtime::BaseCreator* factory = nullptr;
+	if (ty.name == "Pair") factory = new Runtime::PairCreator;
+	else if (ty.name == "Array") factory = new Runtime::ArrayCreator;
+	else if (ty.name == "Set") factory = new Runtime::SetCreator;
+	val = std::static_pointer_cast<Runtime::AbstractLiteral>(factory->createObject({ val, ty }));
+	delete factory;
+	return val;
 }
 
 std::any ValuescriptRuntimeRules::visitVariabledeclaration(ValuescriptParser::VariabledeclarationContext* ctx)
@@ -360,11 +390,7 @@ std::any ValuescriptRuntimeRules::visitVariabledeclaration(ValuescriptParser::Va
 				val->getMembers() = cls->getScope()->getMembers();
 			}
 			else {
-				if (ty.name == "Pair") factory = new Runtime::PairCreator;
-				else if (ty.name == "Array") factory = new Runtime::ArrayCreator;
-				else if (ty.name == "Set") factory = new Runtime::SetCreator;
-				val = std::static_pointer_cast<Runtime::AbstractLiteral>(factory->createObject({ val, ty }));
-				delete factory;
+				val = recurseTypeChanging(ty, val);
 			}
 		}
 	}
@@ -638,7 +664,7 @@ std::any ValuescriptRuntimeRules::visitItemfor(ValuescriptParser::ItemforContext
 	std::shared_ptr<Runtime::AbstractObject> ocont = std::any_cast<std::shared_ptr<Runtime::AbstractObject>>(visit(ctx->expression()));
 	std::shared_ptr<Runtime::ConcreteVariable> var = std::static_pointer_cast<Runtime::ConcreteVariable>(ovar);
 	std::shared_ptr<Runtime::AbstractLiteral> cont = std::static_pointer_cast<Runtime::AbstractLiteral>(ocont);
-	for (std::shared_ptr<Runtime::AbstractLiteral> val : std::any_cast<std::vector<std::shared_ptr<Runtime::AbstractLiteral>>>(cont->getUnderlying())) {
+	for (const std::shared_ptr<Runtime::AbstractLiteral> val : cont->getVectorRepresentation()) {
 		var->setValue(val);
 		visit(ctx->codeblock());
 		if (callStack.top()->getBroken() || callStack.top()->getGeneric()->getRet()) break;
